@@ -1,0 +1,325 @@
+/ Start: Main
+#main
+  =render 'admin/menus/header'
+  =render 'admin/menus/sidebar'
+  / Start: Content-Wrapper
+  %section#content_wrapper
+    =render 'admin/menus/fast_access'
+    =render 'admin/menus/breadcrumbs'
+    / Begin: Content
+    %section#content.table-layout.animated.fadeIn
+      / begin: .tray-center
+      .tray.tray-center
+        / dashboard tiles
+        .row
+          .col-sm-4.col-xl-3
+            .panel.panel-tile.text-center.br-a.br-grey
+              .panel-body
+                %h1.fs30.mt5.mbn 1,426
+                %h6.text-system NEW ORDERS
+              .panel-footer.br-t.p12
+                %span.fs11
+                  %i.fa.fa-arrow-up.pr5
+                  3% INCREASE
+                  %b 1W AGO
+          .col-sm-4.col-xl-3
+            .panel.panel-tile.text-center.br-a.br-grey
+              .panel-body
+                %h1.fs30.mt5.mbn 63,262
+                %h6.text-success TOTAL SALES GROSS
+              .panel-footer.br-t.p12
+                %span.fs11
+                  %i.fa.fa-arrow-up.pr5
+                  2.7% INCREASE
+                  %b 1W AGO
+          .col-sm-4.col-xl-3
+            .panel.panel-tile.text-center.br-a.br-grey
+              .panel-body
+                %h1.fs30.mt5.mbn 248
+                %h6.text-warning PENDING SHIPMENTS
+              .panel-footer.br-t.p12
+                %span.fs11
+                  %i.fa.fa-arrow-up.pr5.text-success
+                  1% INCREASE
+                  %b 1W AGO
+          .col-sm-3.col-xl-3.visible-xl
+            .panel.panel-tile.text-center.br-a.br-grey
+              .panel-body
+                %h1.fs30.mt5.mbn 6,718
+                %h6.text-danger UNIQUE VISITS
+              .panel-footer.br-t.p12
+                %span.fs11
+                  %i.fa.fa-arrow-down.pr5.text-danger
+                  6% DECREASE
+                  %b 1W AGO
+        / dashboard metric chart
+        .panel
+          .panel-heading
+            %span.panel-title Revenue
+          .panel-body.pn
+            #ecommerce_chart1{:style => "height: 300px;"}
+        / recent activity table
+        .panel
+          .panel-heading
+            %span.panel-title.hidden-xs Recent Activity
+            %ul.nav.panel-tabs.panel-tabs-merge
+              %li.active
+                %a{"data-toggle" => "tab", :href => "#tab1_1"} Top Sellers
+              %li
+                %a{"data-toggle" => "tab", :href => "#tab1_2"} Most Viewed
+              %li
+                %a.hidden-xs{"data-toggle" => "tab", :href => "#tab1_3"} New Customers
+          .panel-body.pn
+            .table-responsive
+              %table.table.admin-form.theme-warning.tc-checkbox-1.fs13
+                %thead
+                  %tr.bg-light
+                    %th Image
+                    %th Product Title
+                    %th SKU
+                    %th Price
+                    %th Stock
+                    %th.text-right Status
+                %tbody
+                  %tr
+                    %td.w100
+                      %img.img-responsive.mw20.ib.mr10{:src => "assets/img/stock/products/thumb_1.jpg", :title => "user"}
+                    %td Apple Ipod 4G - Silver
+                    %td #21362
+                    %td $215
+                    %td 1,400
+                    %td.text-right
+                      .btn-group.text-right
+                        %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+                          Active
+                          %span.caret.ml5
+                        %ul.dropdown-menu{:role => "menu"}
+                          %li
+                            %a{:href => "#"} Edit
+                          %li
+                            %a{:href => "#"} Delete
+                          %li
+                            %a{:href => "#"} Archive
+                          %li.divider
+                          %li
+                            %a{:href => "#"} Complete
+                          %li.active
+                            %a{:href => "#"} Pending
+                          %li
+                            %a{:href => "#"} Canceled
+                  %tr
+                    %td.w100
+                      %img.img-responsive.mw20.ib.mr10{:src => "assets/img/stock/products/thumb_2.jpg", :title => "user"}
+                    %td Apple Smart Watch - 1G
+                    %td #15262
+                    %td $455
+                    %td 2,100
+                    %td.text-right
+                      .btn-group.text-right
+                        %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+                          Active
+                          %span.caret.ml5
+                        %ul.dropdown-menu{:role => "menu"}
+                          %li
+                            %a{:href => "#"} Edit
+                          %li
+                            %a{:href => "#"} Delete
+                          %li
+                            %a{:href => "#"} Archive
+                          %li.divider
+                          %li
+                            %a{:href => "#"} Complete
+                          %li.active
+                            %a{:href => "#"} Pending
+                          %li
+                            %a{:href => "#"} Canceled
+                  %tr
+                    %td.w100
+                      %img.img-responsive.mw20.ib.mr10{:src => "assets/img/stock/products/thumb_6.jpg", :title => "user"}
+                    %td Apple Macbook 4th Gen - Silver
+                    %td #66362
+                    %td $1699
+                    %td 6,100
+                    %td.text-right
+                      .btn-group.text-right
+                        %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+                          Active
+                          %span.caret.ml5
+                        %ul.dropdown-menu{:role => "menu"}
+                          %li
+                            %a{:href => "#"} Edit
+                          %li
+                            %a{:href => "#"} Delete
+                          %li
+                            %a{:href => "#"} Archive
+                          %li.divider
+                          %li
+                            %a{:href => "#"} Complete
+                          %li.active
+                            %a{:href => "#"} Pending
+                          %li
+                            %a{:href => "#"} Canceled
+                  %tr
+                    %td.w100
+                      %img.img-responsive.mw20.ib.mr10{:src => "assets/img/stock/products/thumb_7.jpg", :title => "user"}
+                    %td Apple Iphone 16GB - Silver
+                    %td #51362
+                    %td $1299
+                    %td 5,200
+                    %td.text-right
+                      .btn-group.text-right
+                        %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+                          Active
+                          %span.caret.ml5
+                        %ul.dropdown-menu{:role => "menu"}
+                          %li
+                            %a{:href => "#"} Edit
+                          %li
+                            %a{:href => "#"} Delete
+                          %li
+                            %a{:href => "#"} Archive
+                          %li.divider
+                          %li
+                            %a{:href => "#"} Complete
+                          %li.active
+                            %a{:href => "#"} Pending
+                          %li
+                            %a{:href => "#"} Canceled
+        / info traffic panels
+        .row
+          .col-md-6
+            .panel
+              .panel-heading
+                %span.panel-title Top Geographic Sources
+              .panel-body.pn
+                %table.table.mbn.tc-med-1.tc-bold-last
+                  %thead
+                    %tr.hidden
+                      %th #
+                      %th First Name
+                  %tbody
+                    %tr
+                      %td
+                        %span.flag-xs.flag-us.mr5.va-b>
+                        United States
+                      %td 28%
+                    %tr
+                      %td
+                        %span.flag-xs.flag-de.mr5.va-b>
+                        Germany
+                      %td 25%
+                    %tr
+                      %td
+                        %span.flag-xs.flag-fr.mr5.va-b>
+                        France
+                      %td 21%
+                    %tr
+                      %td
+                        %span.flag-xs.flag-tr.mr5.va-b>
+                        Spain
+                      %td 18%
+                    %tr
+                      %td
+                        %span.flag-xs.flag-es.mr5.va-b>
+                        Turkey
+                      %td 10%
+          .col-md-6
+            / Search List
+            .panel
+              .panel-heading
+                %span.panel-title Top Referals
+              .panel-body.pn
+                %table.table.mbn.tc-med-1.tc-bold-last
+                  %thead
+                    %tr.hidden
+                      %th #
+                      %th First Name
+                  %tbody
+                    %tr
+                      %td
+                        %span.favicons.google.va-t.mr10>
+                        http://madeupurl.com/pictures/doors
+                      %td 28%
+                    %tr
+                      %td
+                        %span.favicons.google.va-t.mr10>
+                        http://secondulr.com/article/14
+                      %td 25%
+                    %tr
+                      %td
+                        %span.favicons.yahoo.va-t.mr10>
+                        http://urlthird.com/infogram/ten
+                      %td 21%
+                    %tr
+                      %td
+                        %span.favicons.google.va-t.mr10>
+                        http://fourthlink.com/boats/glass
+                      %td 18%
+                    %tr
+                      %td
+                        %span.favicons.bing.va-t.mr10>
+                        http://lastlink.com/thebest/ever
+                      %td 10%
+      / end: .tray-center
+      / If required, this timeline can be activated and implemented
+      /=render 'admin/menus/timeline_right'
+    / End: Content
+  / Start: Right Sidebar
+  %aside#sidebar_right.nano.affix
+    / Start: Sidebar Right Content
+    .sidebar-right-content.nano-content
+      .tab-block.sidebar-block.br-n
+        %ul.nav.nav-tabs.tabs-border.nav-justified.hidden
+          %li.active
+            %a{"data-toggle" => "tab", :href => "#sidebar-right-tab1"} Tab 1
+          %li
+            %a{"data-toggle" => "tab", :href => "#sidebar-right-tab2"} Tab 2
+          %li
+            %a{"data-toggle" => "tab", :href => "#sidebar-right-tab3"} Tab 3
+        .tab-content.br-n
+          #sidebar-right-tab1.tab-pane.active
+            %h5.title-divider.text-muted.mb20
+              Server Statistics
+              %span.pull-right
+                2013
+                %i.fa.fa-caret-down.ml5
+            .progress.mh5
+              .progress-bar.progress-bar-primary{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "45", :role => "progressbar", :style => "width: 44%"}
+                %span.fs11 DB Request
+            .progress.mh5
+              .progress-bar.progress-bar-info{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "45", :role => "progressbar", :style => "width: 84%"}
+                %span.fs11.text-left Server Load
+            .progress.mh5
+              .progress-bar.progress-bar-warning{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "45", :role => "progressbar", :style => "width: 61%"}
+                %span.fs11.text-left Server Connections
+            %h5.title-divider.text-muted.mt30.mb10 Traffic Margins
+            .row
+              .col-xs-5
+                %h3.text-primary.mn.pl5 132
+              .col-xs-7.text-right
+                %h3.text-success-dark.mn
+                  %i.fa.fa-caret-up
+                  13.2%
+            %h5.title-divider.text-muted.mt25.mb10 Database Request
+            .row
+              .col-xs-5
+                %h3.text-primary.mn.pl5 212
+              .col-xs-7.text-right
+                %h3.text-success-dark.mn
+                  %i.fa.fa-caret-up
+                  25.6%
+            %h5.title-divider.text-muted.mt25.mb10 Server Response
+            .row
+              .col-xs-5
+                %h3.text-primary.mn.pl5 82.5
+              .col-xs-7.text-right
+                %h3.text-danger.mn
+                  %i.fa.fa-caret-down
+                  17.9%
+            %h5.title-divider.text-muted.mt40.mb20
+              Server Statistics
+              %span.pull-right.text-primary.fw600 USA
+          #sidebar-right-tab2.tab-pane
+          #sidebar-right-tab3.tab-pane
+        / end: .tab-content
+  / End: Right Sidebar

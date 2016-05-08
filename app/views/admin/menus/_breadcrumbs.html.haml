@@ -1,0 +1,25 @@
+/ Start: Topbar
+%header#topbar.ph10
+  .topbar-left
+    %ul.nav.nav-list.nav-list-topbar.pull-left
+      %li.active
+        %a{:href => "ecommerce_dashboard.html"} Dashboard
+      %li
+        %a{:href => "ecommerce_products.html"} Products
+      %li
+        %a{:href => "ecommerce_orders.html"} Orders
+      %li
+        %a{:href => "ecommerce_customers.html"} Customers
+      %li
+        %a{:href => "ecommerce_settings.html"} Settings
+  .topbar-right.hidden-xs.hidden-sm
+    %a.btn.btn-default.btn-sm.fw600.ml10{:href => "ecommerce_orders.html"}
+      %span.fa.fa-plus.pr5
+      New Order
+    %a.btn.btn-default.btn-sm.fw600.ml10{:href => "ecommerce_products.html"}
+      %span.fa.fa-plus.pr5
+      Add Product
+    %a.btn.btn-default.btn-sm.fw600.ml10{:href => "ecommerce_customers.html"}
+      %span.fa.fa-user.pr5
+      Add Customer
+/ End: Topbar

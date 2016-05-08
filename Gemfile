@@ -28,11 +28,19 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Unicorn as the app server
 # gem 'unicorn'
+gem 'puma'
+
+# Use HAML for a nice html markup
+gem "haml-rails"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'puma'
+# Lets install some native icon support
+gem "font-awesome-rails"
+gem 'bootstrap-glyphicons'
+
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
