@@ -1,0 +1,27 @@
+/ Start: Topbar
+%header#topbar.ph10
+  .topbar-left
+    %ul.nav.nav-list.nav-list-topbar.pull-left
+      %li.active
+        %a{:href => "ecommerce_dashboard.html"} Dashboard
+      %li
+        =link_to 'Рецепты', admin_recipes_path
+      %li
+        =link_to 'Меню', admin_menus_path
+      %li
+        %a{:href => "ecommerce_customers.html"} Customers
+      %li
+        %a{:href => "ecommerce_settings.html"} Settings
+      %li
+        =link_to 'Категории', admin_categories_path
+  .topbar-right.hidden-xs.hidden-sm
+    =link_to new_admin_menu_path, class: "btn btn-default btn-sm fw600 ml10" do
+      %span.fa.fa-plus.pr5
+      Новое меню
+    =link_to new_admin_recipe_path, class: 'btn btn-default btn-sm fw600 ml10' do
+      %span.fa.fa-plus.pr5
+      Новый рецепт
+    %a.btn.btn-default.btn-sm.fw600.ml10{:href => "ecommerce_customers.html"}
+      %span.fa.fa-user.pr5
+      Add Customer
+/ End: Topbar

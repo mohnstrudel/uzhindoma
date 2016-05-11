@@ -11,10 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160507173017) do
+ActiveRecord::Schema.define(version: 20160511071425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "menurecipes", force: :cascade do |t|
+    t.integer  "menu_id"
+    t.integer  "recipe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "menurecipes", ["menu_id"], name: "index_menurecipes_on_menu_id", using: :btree
+  add_index "menurecipes", ["recipe_id"], name: "index_menurecipes_on_recipe_id", using: :btree
+
+  create_table "menus", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "price"
+    t.datetime "daterange"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "menus", ["category_id"], name: "index_menus_on_category_id", using: :btree
+
+  create_table "pictures", force: :cascade do |t|
+    t.string   "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "recipe_id"
+  end
+
+  add_index "pictures", ["recipe_id"], name: "index_pictures_on_recipe_id", using: :btree
 
   create_table "recipes", force: :cascade do |t|
     t.string   "name"
@@ -26,4 +61,8 @@ ActiveRecord::Schema.define(version: 20160507173017) do
     t.datetime "updated_at",    null: false
   end
 
+  add_foreign_key "menurecipes", "menus"
+  add_foreign_key "menurecipes", "recipes"
+  add_foreign_key "menus", "categories"
+  add_foreign_key "pictures", "recipes"
 end

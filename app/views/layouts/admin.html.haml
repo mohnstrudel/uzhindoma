@@ -4,8 +4,20 @@
 %head
   %title Uzhindoma
   = stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track' => true
-  = javascript_include_tag 'admin', 'data-turbolinks-track' => true
   = csrf_meta_tags
 
 %body.ecommerce-page
-  =yield
+  / Start: Main
+  #main
+    =render 'admin/navigation/header'
+    =render 'admin/navigation/sidebar'
+    / Start: Content-Wrapper
+    %section#content_wrapper
+      =render 'admin/navigation/fast_access'
+      =render 'admin/navigation/breadcrumbs'
+      / Begin: Content
+      %section#content.table-layout.animated.fadeIn
+        / begin: .tray-center
+        =yield
+
+= javascript_include_tag 'admin', 'data-turbolinks-track' => true

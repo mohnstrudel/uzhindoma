@@ -1,0 +1,30 @@
+=form_for [:admin, @category] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Добавить новую категорию
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание категории
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name2"}
+                =f.text_field :name, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Название категории'
+                %label.field-icon{:for => "name2"}
+                  %i.fa.fa-tag
+          / end section
+        / end section row section
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+              %label.field.option.mt10
+                %input{:checked => "", :name => "info", :type => "checkbox"}
+                  %span.checkbox>
+                  Save Customer
+                  %em.small-text.text-muted - A Random Unique ID will be generated
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section
