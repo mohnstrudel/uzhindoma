@@ -1,4 +1,7 @@
 class Menu < ActiveRecord::Base
+
+  mount_uploader :hotpic, PictureUploader
+  
   has_many :pictures, dependent: :destroy
   accepts_nested_attributes_for :pictures, allow_destroy: true
 

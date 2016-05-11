@@ -35,7 +35,7 @@ class Admin::MenusController < AdminController
 	private
 
 	def menu_params
-		params.require(:menu).permit(:category_id, :price, :start, :finish,
+		params.require(:menu).permit(:category_id, :price, :daterange, :hotpic, :remove_hotpic,
 			{ recipe_ids: [] })
 	end
 
