@@ -11,16 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160514075647) do
+ActiveRecord::Schema.define(version: 20160514183533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer  "menu_id"
+    t.integer  "cart_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "order_id"
+  end
+
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+  add_index "line_items", ["menu_id"], name: "index_line_items_on_menu_id", using: :btree
+  add_index "line_items", ["order_id"], name: "index_line_items_on_order_id", using: :btree
 
   create_table "menurecipes", force: :cascade do |t|
     t.integer  "menu_id"
@@ -42,6 +59,24 @@ ActiveRecord::Schema.define(version: 20160514075647) do
   end
 
   add_index "menus", ["category_id"], name: "index_menus_on_category_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "name"
+    t.text     "address"
+    t.string   "email"
+    t.string   "pay_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "phone"
+    t.integer  "category_id"
+    t.integer  "menu_id"
+    t.integer  "menu_amount"
+    t.integer  "person_amount"
+    t.boolean  "change"
+  end
+
+  add_index "orders", ["category_id"], name: "index_orders_on_category_id", using: :btree
+  add_index "orders", ["menu_id"], name: "index_orders_on_menu_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "image"
@@ -84,8 +119,13 @@ ActiveRecord::Schema.define(version: 20160514075647) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "line_items", "carts"
+  add_foreign_key "line_items", "menus"
+  add_foreign_key "line_items", "orders"
   add_foreign_key "menurecipes", "menus"
   add_foreign_key "menurecipes", "recipes"
   add_foreign_key "menus", "categories"
+  add_foreign_key "orders", "categories"
+  add_foreign_key "orders", "menus"
   add_foreign_key "pictures", "recipes"
 end

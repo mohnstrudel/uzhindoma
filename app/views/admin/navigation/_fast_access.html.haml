@@ -2,27 +2,27 @@
 #topbar-dropmenu.alt.topbar-menu-open{style: "display: block;"}
   .topbar-menu.row
     .col-xs-4.col-sm-2
-      %a.metro-tile.bg-primary.light{:href => "#"}
+      =link_to admin_recipes_path, class: "metro-tile bg-primary light" do
         %span.glyphicon.glyphicon-inbox.text-muted
-        %span.metro-title Messages
+        %span.metro-title Рецепты
     .col-xs-4.col-sm-2
-      %a.metro-tile.bg-info.light{:href => "#"}
-        %span.glyphicon.glyphicon-user.text-muted
-        %span.metro-title Users
-    .col-xs-4.col-sm-2
-      %a.metro-tile.bg-success.light{:href => "#"}
+      =link_to admin_menus_path, class: "metro-tile bg-success light" do
         %span.glyphicon.glyphicon-headphones.text-muted
-        %span.metro-title Support
+        %span.metro-title Наборы
     .col-xs-4.col-sm-2
-      %a.metro-tile.bg-system.light{:href => "#"}
+      =link_to admin_users_path, class: "metro-tile bg-info light" do
+        %span.glyphicon.glyphicon-user.text-muted
+        %span.metro-title Пользователи
+    .col-xs-4.col-sm-2
+      =link_to admin_orders_path, class: "metro-tile bg-system light" do
         %span.glyphicon.glyphicon-facetime-video.text-muted
-        %span.metro-title Videos
+        %span.metro-title Заказы
     .col-xs-4.col-sm-2
-      %a.metro-tile.bg-warning.light{:href => "#"}
+      =link_to admin_categories_path, class: "metro-tile bg-warning light" do
         %span.fa.fa-gears.text-muted
-        %span.metro-title Settings
-    .col-xs-4.col-sm-2
-      %a.metro-tile.bg-alert.light{:href => "#"}
-        %span.glyphicon.glyphicon-picture.text-muted
-        %span.metro-title Pictures
-/ End: Topbar-Dropdown
+        %span.metro-title Категории наборов
+    / .col-xs-4.col-sm-2
+    /   %a.metro-tile.bg-alert.light{:href => "#"}
+    /     %span.glyphicon.glyphicon-picture.text-muted
+    /     %span.metro-title Pictures
+    / End: Topbar-Dropdown

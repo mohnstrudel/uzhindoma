@@ -1,0 +1,109 @@
+=form_for [:admin, @order] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Добавить новый заказ
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Параметры клиента
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-6.pl15
+            .section.mb10
+              %label.control-label.mb15 Выбрать существующего пользователя
+              =select_tag "order_users", content_tag(:option, "Выбрать пользователя...", value: "")+options_from_collection_for_select(User.all, "id", "name"), { class: 'select2-single form-control select-info', id: 'order_users'}
+          .col-md-6.pl15
+            .section.row.mb10
+              %label.control-label.mb15 Или создать нового
+              %label.field.prepend-icon{:for => "name"} 
+                =f.text_field :name, id: "name", class: "form-control pull-right", placeholder: 'Имя заказчика'
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-user
+            .section.row.mb10
+              %label.field.prepend-icon{:for => "phone"} 
+                =f.text_field :phone, id: "phone", class: "form-control pull-right", placeholder: 'Телефон заказчика'
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-phone
+            .section.row.mb10
+              %label.field.prepend-icon{:for => "email"} 
+                =f.text_field :email, id: "emai", class: "form-control pull-right", placeholder: 'Эл. почта заказчика'
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-envelope
+            .section.row.mb10
+              %label.field.prepend-icon{:for => "address"} 
+                =f.text_area :address, id: "address", class: "form-control pull-right", placeholder: 'Адрес заказчика', style: "height: 120px";
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-home
+
+          
+        
+  .panel
+    .panel-heading
+      %span.panel-title Опции заказа
+      .widget-menu.pull-right
+        %code.mr10.bg-light.dark.p3.ph5 необходимо отметить
+    .panel-body
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-6.pl15
+            %label.control-label.mb15 Выбрать набор (какая неделя)
+            .section.mb10
+              %label.field.prepend-field
+                =f.collection_select(:menu_id, Menu.all, :id, :daterange, {include_blank: false, :include_hidden => false, :selected => @order.menu_id}, { class: 'select2-single form-control select-info'})
+          .col-md-6.pl15
+            %label.control-label.mb15 Выбрать категорию набора
+            .section.mb10
+              %label.field.prepend-field
+                =f.collection_select(:category_id, Category.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @order.category_id}, { class: 'select2-single form-control select-info'})
+        %hr.short.alt                
+        .section.row.mbn
+          .col-md-4
+            %label.control-label.mb15 Кол-во ужинов
+            .col-sm-12.pl15
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample3{:name => "menuAmount", :type => "radio"}
+                    %label{:for => "radioExample3"} Все пять!
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample4{:name => "menuAmount", :type => "radio"}
+                    %label{:for => "radioExample4"} Четыре
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample5{:name => "menuAmount", :type => "radio"}
+                    %label{:for => "radioExample5"} Только три(
+          / end section
+          .col-md-4
+            %label.control-label.mb15 Кол-во персон
+            .col-sm-12.pl15
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample6{:name => "personsAmount", :type => "radio"}
+                    %label{:for => "radioExample6"} Две
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample7{:name => "personsAmount", :type => "radio"}
+                    %label{:for => "radioExample7"} Четыре
+          .col-md-4
+            %label.control-label.mb15 Поменять?
+            .col-sm-12.pl15
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample8{:name => "changeProduct", :type => "radio"}
+                    %label{:for => "radioExample8"} Да, поменяйте
+              .bs-component
+                .radio-custom.radio-primary.mb5
+                  %input#radioExample9{:name => "changeProduct", :type => "radio"}
+                    %label{:for => "radioExample9"} Нет, оставьте как есть
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+              %label.field.option.mt10
+                %input{:checked => "", :name => "info", :type => "checkbox"}
+                  %span.checkbox>
+                  Save Customer
+                  %em.small-text.text-muted - A Random Unique ID will be generated
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section

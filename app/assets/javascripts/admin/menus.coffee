@@ -12,7 +12,7 @@ jQuery(document).ready ->
   Demo.init()
   # Init Select2 - Basic Single
   $('.select2-single').select2
-    placeholder: 'Выбрать категорию набора'
+    placeholder: 'Выберите значение...'
   
   # Init Select2 - Basic Multiple
   $('.select2-multiple').select2

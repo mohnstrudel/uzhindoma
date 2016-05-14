@@ -1,12 +1,20 @@
 class Admin::UsersController < AdminController
 
-	before_action :find_user, only: [:edit, :update]
+	before_action :find_user, only: [:edit, :update, :show]
 	def index
 		@users = User.all
 	end
 
 	def new
 		@user = User.new
+	end
+
+	def show
+		puts @user
+		respond_to do |format|
+			format.json { render json: @user.to_json }
+		end
+
 	end
 
 	def create
