@@ -32,7 +32,7 @@
           .col-md-8.pl15
             .section.row
               %label.field.prepend-field
-                =select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name), { class: 'select2-single form-control select-info'}
+                =f.collection_select(:category_id, Category.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @menu.category_id}, { class: 'select2-single form-control select-info'})
                   
             .section.row
               %label.field.prepend-icon{:for => "daterangepicker1"} 

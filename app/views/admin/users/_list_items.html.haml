@@ -36,15 +36,15 @@
         %thead
           %tr.bg-light
             %th.text-center Select
-            %th Фото
-            %th Категория
-            %th Цена
-            %th Наименование
-            %th Начало
-            %th Конец
+            %th Изображение
+            %th Имя
+            %th Эл.почта
+            %th Телефон
+            %th Адрес
+            %th Дата создания
             %th.text-right Статус
         %tbody
-          -@menus.each do |menu|
+          -@users.each do |user|
             %tr
               %td.text-center
                 %label.option.block.mn
@@ -53,16 +53,15 @@
               %td.w100
                 %img.img-responsive.mw40.ib.mr10{:src => "assets/img/stock/products/thumb_1.jpg", :title => "user"}
               %td
-                =menu.category.name
+                =link_to user.name, edit_admin_user_path(user) 
               %td
-                =menu.price
+                =user.email
               %td
-                =link_to "Меню недели #{menu.date[0]} до #{menu.date[1]}", edit_admin_menu_path(menu) 
-              
+                =user.phone
               %td
-                =menu.date[0]
+                =user.address
               %td
-                =menu.date[1]
+                =user.created_at
               %td.text-right
                 .btn-group.text-right
                   %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
@@ -70,8 +69,8 @@
                     %span.caret.ml5
                   %ul.dropdown-menu{:role => "menu"}
                     %li
-                      =link_to 'Редактировать', edit_admin_menu_path(menu)
+                      =link_to 'Редактировать', edit_admin_user_path(user)
                     %li.divider
                     %li
-                      =link_to 'Удалить', admin_menu_path(menu.id), method: :delete, data: {confirm: 'Действительно удалить?'}
+                      =link_to 'Удалить', admin_user_path(user.id), method: :delete, data: {confirm: 'Действительно удалить?'}
           

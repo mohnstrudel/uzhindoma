@@ -1,0 +1,68 @@
+=render 'admin/navigation/flash'
+
+=form_for [:admin, @user] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Добавить нового пользователя
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание пользователя
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-4
+            .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+              .fileupload-preview.thumbnail.mb20
+                -if @user.avatar?
+                  =image_tag @user.avatar.mini_thumb.url
+                -else
+                  %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+              .row
+                .col-xs-7.pr5
+                  %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
+                    %label.field-icon{:for => "name2"}
+                .col-xs-5
+                  %span.button.btn-system.btn-file.btn-block
+                    %span.fileupload-new Select
+                    %span.fileupload-exists Change
+                    =f.file_field :avatar, id: 'fileupload'
+                    / %input{:type => "file", name: 'picture'}
+          .col-md-8.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name2"}
+                =f.text_field :name, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Имя пользователя'
+                %label.field-icon{:for => "name2"}
+                  %i.fa.fa-tag
+                  
+            .section.mb10
+              %label.field.prepend-icon
+                =f.text_field :email, id: "comment", class: "event-name gui-input br-light light", placeholder: 'Эл. почта пользователя'
+                %label.field-icon{:for => "comment"}
+                  %i.fa.fa-envelope
+
+            .section.mb10
+              %label.field.prepend-icon
+                =f.text_field :phone, id: "phone", class: "event-name gui-input br-light light", placeholder: 'Телефон пользователя'
+                %label.field-icon{:for => "comment"}
+                  %i.fa.fa-phone
+
+            .section.mb10
+              %label.field.prepend-icon
+                =f.text_area :address, id: "address", class: "gui-textarea br-light bg-light", placeholder: 'Адрес пользователя'
+                %label.field-icon{:for => "comment"}
+                  %i.fa.fa-phone
+
+
+
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+              %label.field.option.mt10
+                %input{:checked => "", :name => "info", :type => "checkbox"}
+                  %span.checkbox>
+                  Save Customer
+                  %em.small-text.text-muted - A Random Unique ID will be generated
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section

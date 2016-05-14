@@ -9,7 +9,7 @@
       %li
         =link_to 'Меню', admin_menus_path
       %li
-        %a{:href => "ecommerce_customers.html"} Customers
+        =link_to 'Пользователи', admin_users_path
       %li
         %a{:href => "ecommerce_settings.html"} Settings
       %li
@@ -21,7 +21,7 @@
     =link_to new_admin_recipe_path, class: 'btn btn-default btn-sm fw600 ml10' do
       %span.fa.fa-plus.pr5
       Новый рецепт
-    %a.btn.btn-default.btn-sm.fw600.ml10{:href => "ecommerce_customers.html"}
+    =link_to new_admin_user_path, class: 'btn btn-default btn-sm fw600 ml10' do
       %span.fa.fa-user.pr5
-      Add Customer
+      Новый пользователь
 / End: Topbar

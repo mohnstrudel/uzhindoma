@@ -11,4 +11,8 @@ class Menu < ActiveRecord::Base
   has_many :recipes, through: :menurecipes
 
   accepts_nested_attributes_for :menurecipes
+
+  def date
+  	daterange.split(" - ")
+  end
 end
