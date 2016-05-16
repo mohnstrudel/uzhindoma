@@ -19,7 +19,7 @@ class Admin::UsersController < AdminController
 
 	def create
 		@user = User.new(user_params)
-		@user.password = ('a'..'z').to_a.shuffle[0,8].join
+		@user.password = User.create_password
 		if @user.save
   			redirect_to admin_users_path
       		flash[:success] = "Успешно создано"

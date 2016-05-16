@@ -11,7 +11,8 @@
           .col-md-6.pl15
             .section.mb10
               %label.control-label.mb15 Выбрать существующего пользователя
-              =select_tag "order_users", content_tag(:option, "Выбрать пользователя...", value: "")+options_from_collection_for_select(User.all, "id", "name"), { class: 'select2-single form-control select-info', id: 'order_users'}
+              =f.collection_select(:user_id, User.all, :id, :name, {include_blank: true, :include_hidden => false, :selected => @order.user_id}, { class: 'select2-single form-control select-info', id: 'order_users'})
+              / =select_tag "order_users", content_tag(:option, "Выбрать пользователя...", value: "")+options_from_collection_for_select(User.all, "id", "name"), { class: 'select2-single form-control select-info', id: 'order_users'}
           .col-md-6.pl15
             .section.row.mb10
               %label.control-label.mb15 Или создать нового
@@ -26,7 +27,7 @@
                   %i.fa.fa-phone
             .section.row.mb10
               %label.field.prepend-icon{:for => "email"} 
-                =f.text_field :email, id: "emai", class: "form-control pull-right", placeholder: 'Эл. почта заказчика'
+                =f.text_field :email, id: "email", class: "form-control pull-right", placeholder: 'Эл. почта заказчика'
                 %label.field-icon{:for => "product-price"}
                   %i.fa.fa-envelope
             .section.row.mb10
@@ -62,39 +63,40 @@
             .col-sm-12.pl15
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample3{:name => "menuAmount", :type => "radio"}
-                    %label{:for => "radioExample3"} Все пять!
+                  =f.radio_button :menu_amount, 5
+                  =f.label :menu_amount, "Все пять!", value: 5
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample4{:name => "menuAmount", :type => "radio"}
-                    %label{:for => "radioExample4"} Четыре
+                  =f.radio_button :menu_amount, 4
+                  =f.label :menu_amount, "Четыре!", value: 4
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample5{:name => "menuAmount", :type => "radio"}
-                    %label{:for => "radioExample5"} Только три(
+                  =f.radio_button :menu_amount, 3
+                  =f.label :menu_amount, "Только три(", value: 3
           / end section
           .col-md-4
             %label.control-label.mb15 Кол-во персон
             .col-sm-12.pl15
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample6{:name => "personsAmount", :type => "radio"}
-                    %label{:for => "radioExample6"} Две
+                  =f.radio_button :person_amount, 2
+                  =f.label :person_amount, "Две", value: 2
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample7{:name => "personsAmount", :type => "radio"}
-                    %label{:for => "radioExample7"} Четыре
+                  =f.radio_button :person_amount, 4
+                  =f.label :person_amount, "Четыре", value: 4
+
           .col-md-4
             %label.control-label.mb15 Поменять?
             .col-sm-12.pl15
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample8{:name => "changeProduct", :type => "radio"}
-                    %label{:for => "radioExample8"} Да, поменяйте
+                  =f.radio_button :change, true
+                  =f.label :change, "Да, поменяйте", value: "true"
               .bs-component
                 .radio-custom.radio-primary.mb5
-                  %input#radioExample9{:name => "changeProduct", :type => "radio"}
-                    %label{:for => "radioExample9"} Нет, оставьте как есть
+                  =f.radio_button :change, false
+                  =f.label :change, "Нет, оставьте как есть", value: "false"
         %hr.short.alt
           .section.row.mbn
             .col-sm-8

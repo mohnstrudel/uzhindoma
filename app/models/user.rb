@@ -6,4 +6,10 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, PictureUploader
 
+  has_many :orders
+
+  def self.create_password
+  	('a'..'z').to_a.shuffle[0,8].join
+  end
+
 end

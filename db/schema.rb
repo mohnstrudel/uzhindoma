@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160514183533) do
+ActiveRecord::Schema.define(version: 20160514184154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,10 +73,12 @@ ActiveRecord::Schema.define(version: 20160514183533) do
     t.integer  "menu_amount"
     t.integer  "person_amount"
     t.boolean  "change"
+    t.integer  "user_id"
   end
 
   add_index "orders", ["category_id"], name: "index_orders_on_category_id", using: :btree
   add_index "orders", ["menu_id"], name: "index_orders_on_menu_id", using: :btree
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "image"
@@ -127,5 +129,6 @@ ActiveRecord::Schema.define(version: 20160514183533) do
   add_foreign_key "menus", "categories"
   add_foreign_key "orders", "categories"
   add_foreign_key "orders", "menus"
+  add_foreign_key "orders", "users"
   add_foreign_key "pictures", "recipes"
 end

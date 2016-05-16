@@ -46,23 +46,23 @@
     %ul.nav.sidebar-menu
       %li.sidebar-label.pt20 Управление
       %li
-        %a{:href => "pages_calendar.html"}
+        =link_to admin_path do
           %span.fa.fa-calendar
           %span.sidebar-title Меню
       %li
-        %a{:href => "../README/index.html"}
+        =link_to admin_recipes_path do
           %span.glyphicon.glyphicon-book
           %span.sidebar-title Рецепты
-      %li.active
-        %a{:href => "dashboard.html"}
+      %li
+        =link_to admin_users_path do
           %span.glyphicon.glyphicon-home
           %span.sidebar-title Клиенты
       %li
-        %a.accordion-toggle{:href => "#"}
+        =link_to admin_orders_path do
           %span.fa.fa-columns
           %span.sidebar-title Заказы
       %li
-        %a.accordion-toggle{:href => "#"}
+        =link_to admin_categories_path do
           %span.glyphicon.glyphicon-fire
           %span.sidebar-title Настройки
       %li

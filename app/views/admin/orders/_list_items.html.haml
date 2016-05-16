@@ -49,14 +49,13 @@
                 %label.option.block.mn
                   %input{:name => "mobileos", :type => "checkbox", :value => "FR"}
                     %span.checkbox.mn
-              %td.w100
-                %img.img-responsive.mw40.ib.mr10{:src => "assets/img/stock/products/thumb_1.jpg", :title => "user"}
+
               %td
-                =link_to order.id, edit_admin_order_path(order) 
+                =link_to order.id.to_s.rjust(6, '0'), edit_admin_order_path(order) 
               %td
                 =order.user
               %td
-                =oder.phone
+                =order.phone
               %td
                 =order.email
               %td
@@ -68,8 +67,8 @@
                     %span.caret.ml5
                   %ul.dropdown-menu{:role => "menu"}
                     %li
-                      =link_to 'Редактировать', edit_admin_recipe_path(recipe)
+                      =link_to 'Редактировать', edit_admin_order_path(order)
                     %li.divider
                     %li
-                      =link_to 'Удалить', admin_recipe_path(recipe.id), method: :delete, data: {confirm: 'Действительно удалить?'}
+                      =link_to 'Удалить', admin_order_path(order.id), method: :delete, data: {confirm: 'Действительно удалить?'}
           
