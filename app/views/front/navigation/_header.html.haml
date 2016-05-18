@@ -1,0 +1,69 @@
+%header.page-head.bg-services
+  / RD Navbar
+  .rd-navbar-wrap.bg-transparent
+    %nav.rd-navbar{"data-layout" => "rd-navbar-fixed", "data-lg-layout" => "rd-navbar-static", "data-md-layout" => "rd-navbar-fullwidth", "data-sm-layout" => "rd-navbar-fullwidth"}
+      / (data-layout='rd-navbar-fixed',data-sm-layout='rd-navbar-fullwidth', data-lg-layout='#{rd_navbar_data_ajuster}' )
+      .rd-navbar-top-panel.bg-primary
+        .rd-navbar-inner
+          %button.rd-navbar-collapse-toggle{"data-rd-navbar-toggle" => ".list-inline", :type => "submit"}
+            %span
+          %a.fa-envelope{:href => "mailto:#"} info@demolink.org
+          %a.fa-mobile-phone.preffix-2{:href => "callto:#"} 1-800-1234-567
+          %ul.list-inline.pull-right
+            %li
+              %a.fa-facebook{:href => "#"}
+            %li
+              %a.fa-twitter{:href => "#"}
+            %li
+              %a.fa-pinterest-p{:href => "#"}
+            %li
+              %a.fa-vimeo{:href => "#"}
+            %li
+              %a.fa-google-plus{:href => "#"}
+            %li
+              %a.fa-rss{:href => "#"}
+            %li.text-left
+              %a.fa-envelope{:href => "mailto:#"} info@demolink.org
+            %li.text-left
+              %a.fa-mobile-phone{:href => "callto:#"} 1-800-1234-567
+      .rd-navbar-inner
+        / RD Navbar Panel
+        .rd-navbar-panel
+          / RD Navbar Toggle
+          %button.rd-navbar-toggle{"data-rd-navbar-toggle" => ".rd-navbar-nav-wrap", :type => "submit"}
+            %span
+          / RD Navbar Brand
+          .rd-navbar-brand
+            %a.brand-name{:href => "index.html"}
+              %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
+                %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.4432)"} Дома
+                %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} УЖИН
+                %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
+        .rd-navbar-nav-wrap
+          / RD Navbar Search
+          .rd-navbar-search
+            %form.rd-navbar-search-form{:action => "search.php", :method => "GET"}
+              %label.rd-navbar-search-form-input
+                %input{:autocomplete => "off", :name => "s", :placeholder => "Search..", :type => "text"}
+              %button.rd-navbar-search-form-submit.fa-shopping-cart{:type => "submit"}
+            %span.rd-navbar-live-search-results
+            %button.rd-navbar-search-toggle{"data-rd-navbar-toggle" => ".rd-navbar-search, .rd-navbar-live-search-results", :type => "submit"}
+          %a.fa-shopping-cart{:href => "shop-cart.html"}
+            %span 10
+          / RD Navbar Nav
+          %ul.rd-navbar-nav
+            %li
+              %a{:href => "./"} Главная
+            %li.active
+              %a{:href => "#"} Вопрос-ответ
+            %li
+              =link_to "Посмотреть меню и заказать", "#"
+            %li
+              =link_to "Быстрый заказ", "#"
+              / RD Navbar Dropdown
+  %section.relative.text-center
+    .container
+      .jumbotron.text-center
+        %h1
+          %small elements design
+          %span.text-bold tabs & accordions

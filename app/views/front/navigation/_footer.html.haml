@@ -1,0 +1,31 @@
+/ Page Footer
+%footer.page-foot.bg-light
+  %section.footer-content
+    .container
+      .rd-navbar-brand
+        %a.brand-name{:href => "index.html"}
+          %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
+            %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.3432)"} Vector
+            %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} GRAND
+            %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
+      %ul.list-inline
+        %li
+          %a.fa-facebook{:href => "#"}
+        %li
+          %a.fa-twitter{:href => "#"}
+        %li
+          %a.fa-pinterest-p{:href => "#"}
+        %li
+          %a.fa-vimeo{:href => "#"}
+        %li
+          %a.fa-google{:href => "#"}
+        %li
+          %a.fa-rss{:href => "#"}
+  %section.copyright
+    .container
+      %p
+        ©
+        %span#copyright-year
+        All Rights Reserved
+        %a{:href => "terms.html"} Terms of Use and Privacy Policy
+  / {%FOOTER_LINK}
