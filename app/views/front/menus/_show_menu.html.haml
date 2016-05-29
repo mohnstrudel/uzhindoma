@@ -1,0 +1,99 @@
+.container
+	.row
+		.col-xs-12.col-lg-12.col-lg-offset-0
+			.row.product-item
+				.col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-0.text-center
+					.owl-carousel
+						-@menu.recipes.each do |recipe|
+							=link_to recipe.pictures.first.image.url, data: {lightbox: "recipe", caption: "Some Title"} do
+								=image_tag recipe.pictures.first.image.url
+					.isotope.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
+						-@menu.recipes.each do |recipe|
+							.thumbnail-gallery.isotope-item.col-xs-12.col-sm-6.col-md-6{"data-filter" => "type-1"}
+								=link_to recipe.pictures.first.image.url, data: {lightbox: "image"} do
+									=image_tag recipe.pictures.first.image.url(:mini_thumb)
+									.caption
+										.caption-wrapper
+											%span.icon.icon-md.icon-white.fa-search-plus
+											%h4.text-white
+												=recipe.name
+											%p.text-white
+												=recipe.description
+				=form_for([:admin, @order]) do |f|
+					.col-xs-12.col-md-6.text-center.uzhin-doma-form
+						%h4 
+							=@menu.category.name
+							набор
+							=@menu.daterange
+						.row
+							%h6 Сколько ужинов?
+							.row
+								.blog-post
+									.tags#dinner_amount
+										%label
+											=f.radio_button :person_amount, 'Three'
+											=link_to "Три", "#", class: "post-tags"
+										%label
+											=radio_button('dinner_amount', 'Four', 'Four')
+											=link_to "Four", "#", class: "post-tags"
+										=link_to "Четыре", "#", class: "post-tags"
+										=link_to "Пять", "#", class: "post-tags"
+						.row
+							%h6 Количество персон
+							.row
+								.blog-post#person_amount
+									.tags
+										=link_to "Две", "#", class: "post-tags"
+										=link_to "Четыре", "#", class: "post-tags"
+						.row
+							%h6 Заменить?
+							.row
+								.blog-post
+									.tags
+										=link_to "Да", "#", class: "post-tags"
+										=link_to "Нет", "#", class: "post-tags"
+						.row
+							%h6 Добавить десерт?
+							.row
+								.blog-post
+									.tags
+										=link_to "Да", "#", class: "post-tags"
+										=link_to "Нет", "#", class: "post-tags"
+											
+						.price-container
+							%span.text-gray Стоимость:
+							%span.h4#uzhin_price
+								=render 'front/menus/show_price'
+						%button.btn.btn-success.btn-sm{:type => "submit"}
+							%span.icon.icon-xs.fa-shopping-cart>
+							=f.submit 'Ордер ИТ'
+							\&nbsp; Заказать набор
+						.blog-post.offset-5
+							.badge
+								%span Поделиться:
+								%ul.list-inline
+									%li
+										%a.fa-facebook{:href => "#"}
+									%li
+										%a.fa-instagram{:href => "#"}
+									%li
+										%a.fa-vk{:href => "#"}
+
+							.row.offset-4
+								.col-xs-12
+									%ul.resp-tabs-list
+										%li.btn.btn-success-mod-1 Блюда данного меню
+									.resp-tabs-container
+										
+										.text-left.fadeIn.animated
+											.table-responsive
+												%table.table.table-hover.text-left
+													%tbody
+														-@menu.recipes.each_with_index do |recipe, index|
+															%tr
+																%td.text-gray
+																	="#{index+1}. #{recipe.name}"
+																%td
+																	="К/Б/Ж - #{recipe.calories}/#{recipe.carbohydrates}/#{recipe.fat}"
+										.text-sm-left.fadeIn.animated
+											%p We are proud to offer you our hi-tech original goods. The products of our store are the real bestsellers and we have a great number of faithful customers. Their testimonials prove that the reputation of our company is simply perfect. We observe the policy of providing only branded commodities. This fact confirms that we sell only high quality goods at a fair price.

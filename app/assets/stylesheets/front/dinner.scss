@@ -1,3 +1,20 @@
 // Place all the styles related to the front/dinner controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.uzhin-doma-form {
+	background-color: #f6f6f6;
+	padding-bottom: 35px;
+	padding-top: 20px;
+}
+
+label > input{ /* HIDE RADIO */
+  display:none;
+}
+label > input + a{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label > input:checked + a{ /* (CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}

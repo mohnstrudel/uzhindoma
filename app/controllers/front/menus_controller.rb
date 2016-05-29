@@ -3,6 +3,10 @@ class Front::MenusController < FrontController
 
 	def show
 		@categories = Category.all
+		respond_to do |format|
+			format.html {}
+			format.js {}
+		end
 	end
 
 	def index

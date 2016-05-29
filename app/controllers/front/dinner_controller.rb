@@ -2,5 +2,13 @@ class Front::DinnerController < FrontController
 	def index
 		@categories = Category.all
 		@current_menus = Menu.current
+		@menu = @current_menus.first
+		@order = Order.new
+	end
+
+	def new
+		print "\n"
+		print params
+		print "\n"
 	end
 end

@@ -1,0 +1,24 @@
+// # Place all the behaviors and hooks related to the matching controller here.
+// # All this logic will automatically be available in application.js.
+// # You can use CoffeeScript in this file: http://coffeescript.org/
+
+
+
+$(document).ready(function(){
+	$('.item').eq(0).addClass('active');
+	// $('.btn').eq(0).addClass('active');
+
+	$('#dinner_amount').on('click', 'a', function(e){
+		e.preventDefault();
+		$('#dinner_amount a').removeClass('btn-success');
+		$(this).addClass('btn-success');
+	});
+
+	$('#person_amount').on('click', 'a', function(e){
+		e.preventDefault();
+		$('#person_amount a').removeClass('btn-success');
+		$(this).addClass('btn-success');
+		var price = $('#uzhin_price').html();
+		console.log(price);
+	});
+});
