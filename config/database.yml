@@ -82,5 +82,5 @@ production:
   <<: *default
   database: uzhindoma_production
   username: uzhindoma
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  password: uzhindomapsql2016
   host: localhost
