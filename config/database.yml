@@ -83,3 +83,4 @@ production:
   database: uzhindoma_production
   username: uzhindoma
   password: uzhindomapsql2016
+  host: localhost
