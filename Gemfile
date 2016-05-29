@@ -47,6 +47,9 @@ gem 'bootstrap-glyphicons'
 gem 'carrierwave'
 gem 'mini_magick'
 
+# Lets store some environment variables
+gem 'figaro'
+
 
 
 group :development, :test do
