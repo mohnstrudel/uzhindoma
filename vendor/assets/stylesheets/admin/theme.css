@@ -20377,7 +20377,7 @@ body.sb-r-o #toggle_sidemenu_r span.glyphicons {
   padding: 17px 20px 10px;
   height: auto;
   width: 100%;
-  background: url("../../../img/patterns/topbar-bg.jpg") repeat -60px top;*/
+  background: url("../../../img/patterns/topbar-bg.jpg") repeat -60px top;
   -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) inset;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) inset;
 }
