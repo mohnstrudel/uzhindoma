@@ -28,46 +28,93 @@
 						.row
 							%h6 Сколько ужинов?
 							.row
-								.blog-post
-									.tags#dinner_amount
-										%label
-											=f.radio_button :person_amount, 'Three'
-											=link_to "Три", "#", class: "post-tags"
-										%label
-											=radio_button('dinner_amount', 'Four', 'Four')
-											=link_to "Four", "#", class: "post-tags"
-										=link_to "Четыре", "#", class: "post-tags"
-										=link_to "Пять", "#", class: "post-tags"
+								.payment-wrap.text-center
+									.col-md-4
+										.payment
+											.radio
+												%label
+													=f.radio_button :menu_amount, 3
+													%span.radio-field
+													%span.h6.text-success Три
+									.col-md-4
+										.payment
+											.radio.inline-block
+												%label
+													=f.radio_button :menu_amount, 4
+													%span.radio-field
+													%span.h6.text-success Четыре
+									.col-md-4
+										.payment
+											.radio.inline-block
+												%label
+													=f.radio_button :menu_amount, 5
+													%span.radio-field
+													%span.h6.text-success Все пять!
+
 						.row
 							%h6 Количество персон
 							.row
-								.blog-post#person_amount
-									.tags
-										=link_to "Две", "#", class: "post-tags"
-										=link_to "Четыре", "#", class: "post-tags"
+								.payment-wrap
+									.col-md-6
+										.payment.text-right
+											.radio
+												%label
+													=f.radio_button :person_amount, 2
+													%span.radio-field
+													%span.h6.text-success Две
+									.col-md-6
+										.payment.text-left
+											.radio.inline-block
+												%label
+													=f.radio_button :person_amount, 4
+													%span.radio-field
+													%span.h6.text-success Четыре
+
 						.row
 							%h6 Заменить?
 							.row
-								.blog-post
-									.tags
-										=link_to "Да", "#", class: "post-tags"
-										=link_to "Нет", "#", class: "post-tags"
+								.payment-wrap.text-center
+									.col-md-6
+										.payment.text-right
+											.radio
+												%label
+													=f.radio_button :change, true
+													%span.radio-field
+													%span.h6.text-success Да
+									.col-md-6
+										.payment.text-left
+											.radio.inline-block
+												%label
+													=f.radio_button :change, false
+													%span.radio-field
+													%span.h6.text-success Нет
 						.row
 							%h6 Добавить десерт?
 							.row
-								.blog-post
-									.tags
-										=link_to "Да", "#", class: "post-tags"
-										=link_to "Нет", "#", class: "post-tags"
+								.payment-wrap.text-center
+									.col-md-6
+										.payment.text-right
+											.radio
+												%label
+													=f.radio_button :add_dessert, true
+													%span.radio-field
+													%span.h6.text-success Да
+									.col-md-6
+										.payment.text-left
+											.radio.inline-block
+												%label
+													=f.radio_button :add_dessert, false
+													%span.radio-field
+													%span.h6.text-success Нет
 											
 						.price-container
 							%span.text-gray Стоимость:
 							%span.h4#uzhin_price
 								=render 'front/menus/show_price'
-						%button.btn.btn-success.btn-sm{:type => "submit"}
-							%span.icon.icon-xs.fa-shopping-cart>
-							=f.submit 'Ордер ИТ'
-							\&nbsp; Заказать набор
+						=button_tag(type: "submit", class: "btn btn-success btn-sm") do
+							%span.icon.icon-xs.fa-shopping-cart
+							Заказать набор
+							
 						.blog-post.offset-5
 							.badge
 								%span Поделиться:

@@ -8,13 +8,15 @@
 	padding-top: 20px;
 }
 
-label > input{ /* HIDE RADIO */
-  display:none;
-}
-label > input + a{ /* IMAGE STYLES */
-  cursor:pointer;
-  border:2px solid transparent;
-}
-label > input:checked + a{ /* (CHECKED) IMAGE STYLES */
-  border:2px solid #f00;
+.over {
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgba(71, 81, 55, 0.619608);
 }

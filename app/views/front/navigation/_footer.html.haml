@@ -1,14 +1,95 @@
-/ Page Footer
-%footer.page-foot.bg-light
+%footer.page-foot.section-inset-4.bg-primary
   %section.footer-content
     .container
-      .rd-navbar-brand
-        %a.brand-name{:href => "index.html"}
-          %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
-            %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.3432)"} Vector
-            %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} GRAND
-            %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
-      %ul.list-inline
+      .row.text-left.clearleft-custom
+        .col-xs-12.col-sm-6.col-lg-3.text-gray
+          .rd-navbar-brand.undefined
+            %a.brand-name{:href => "index.html"}
+              %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
+                %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.3432)"} Vector
+                %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} GRAND
+                %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
+          %p We believe in Simple, Creative & Flexible Design Standards.
+          %address
+            %dl
+              %dt Headquarters:
+              %dd 795 Folsom Ave, Suite 600 San Francisco, CA 94107
+            %dl.dl-horizontal-mod-1
+              %dt Phone
+              %dd
+                %a.text-success{:href => "callto:#"} (91) 8547 632521
+            %dl.dl-horizontal-mod-1
+              %dt Fax
+              %dd
+                %a.text-success{:href => "callto:#"} (91) 11 4752 1433
+            %dl.dl-horizontal-mod-1
+              %dt Email
+              %dd
+                %a.text-success{:href => "mailto:#"} info@canvas.com
+          %ul.well6.offset-5
+            %li
+              %a.text-gray.small{:href => "#"}
+                %span.icon.icon-xs.icon-info-2.fa-facebook.postfix-1>
+                Like us on Facebook
+            %li
+              %a.text-gray.small{:href => "#"}
+                %span.icon.icon-xs.icon-warning.fa-rss.postfix-1>
+                Subscribe to RSS Feeds
+        .col-xs-12.col-sm-6.col-lg-3
+          %h4 blogroll
+          %ul.marked-list.well6
+            %li
+              %a{:href => "#"} Documentation
+            %li
+              %a{:href => "#"} Feedback
+            %li
+              %a{:href => "#"} Plugins
+            %li
+              %a{:href => "#"} Support Forums
+            %li
+              %a{:href => "#"} Themes
+            %li
+              %a{:href => "#"} WordPress Blog
+            %li
+              %a{:href => "#"} WordPress Planet
+        .col-xs-12.col-sm-6.col-lg-3
+          %h4 recent posts
+          .blog-post
+            .blog-post-title
+              %a{:href => "blog-post.html"} Believe in the Business of Your Dreams
+            .blog-post-time
+              %time.small{:datetime => "2016"} December 28, 2016
+          .blog-post
+            .blog-post-title
+              %a{:href => "blog-post.html"} Establishing Your Brand on College Campuses
+            .blog-post-time
+              %time.small{:datetime => "2016"} December 28, 2016
+          .blog-post
+            .blog-post-title
+              %a{:href => "blog-post.html"} Beautiful Rumi Quotes that are Worth Reading
+            .blog-post-time
+              %time.small{:datetime => "2016"} December 28, 2016
+        .col-xs-12.col-sm-6.col-lg-3
+          %h4 newsletter
+          %p.text-gray Enter your email address to receive all news, updates on new arrivals, special offers and other discount information.
+          / RD Mailform
+          %form.rd-mailform.subscribe{:action => "bat/rd-mailform.php", "data-form-type" => "subscribe", "data-result-class" => "rd-mailform-validate", :method => "post"}
+            %input{"data-constraints" => "@NotEmpty @Email", :name => "email", :placeholder => "Your e-mail...", :type => "text"}
+              %button.btn.btn-sm.btn-min-width.btn-success subscribe
+          %p.count.h6.pull-left.offset-2
+            15 473 654
+            %span.text-gray.fw-r Total downloads
+          %p.count.h6.pull-right.offset-2
+            18 654
+            %span.text-gray.fw-r Clients
+  %section.copyright.bg-dark.well5
+    .container
+      %p.pull-sm-left
+        ©
+        %span#copyright-year
+        All Rights Reserved
+        %a{:href => "terms.html"} Terms of Use and Privacy Policy
+      %ul.list-inline.pull-sm-right.offset-3
         %li
           %a.fa-facebook{:href => "#"}
         %li
@@ -21,11 +102,4 @@
           %a.fa-google{:href => "#"}
         %li
           %a.fa-rss{:href => "#"}
-  %section.copyright
-    .container
-      %p
-        ©
-        %span#copyright-year
-        All Rights Reserved
-        %a{:href => "terms.html"} Terms of Use and Privacy Policy
   / {%FOOTER_LINK}

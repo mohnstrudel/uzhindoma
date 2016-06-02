@@ -53,7 +53,7 @@ var userAgent = navigator.userAgent.toLowerCase(),
 /**
  * Initialize All Scripts
  */
-$document.load(function () {
+$document.ready(function () {
 
 
     function getSwiperHeight(object, attr) {
