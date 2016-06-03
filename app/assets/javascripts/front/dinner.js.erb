@@ -4,3 +4,103 @@
 
 
 
+
+$(document).ready(function(){
+	var price = extract_price();
+
+	$('.uzhin_rb_persons').on('click', 'input[name=person_amount]', function(event){
+		recalculate(price);
+		// event.stopImmediatePropagation();
+	});
+
+	$('.uzhin_rb_menus').on('click', 'input[name=menu_amount]', function(event){
+		recalculate(price);
+	});
+
+	$('.uzhin_rb_dessert').on('click', 'input[name=add_dessert]', function(event){
+		recalculate(price);
+	});
+
+	
+});
+
+var recalculate = function (price){
+	var end_price;
+	end_price = update_price(price);
+	end_price = update_menus(end_price);
+	end_price = update_dessert(end_price);
+	
+	display_price(end_price);
+}
+
+var update_dessert = function(price){
+	var dessert_amount = $('input[name=add_dessert]:checked').val();
+	dessert_amount = parseFloat(dessert_amount);
+	console.log(dessert_amount);
+	return price + dessert_amount;
+}
+
+var update_menus = function (price){
+	var subtract;
+	var menus_amount = get_menus();
+	switch (menus_amount) {
+  		case "3":
+    		subtract = 1000;
+    		break;
+  		case "4":
+  			subtract = 500;
+    		break;
+  		case "5":
+    		subtract = 0;
+    		break;
+  		default:
+    		console.log(menus_amount);
+	}
+
+	return price-subtract;
+
+}
+
+var get_menus = function (){
+	var menus_amount = $('input[name=menu_amount]:checked').val();	
+	// console.log(number_price);
+	return menus_amount;
+}
+
+var extract_price = function (){
+	var price = $('#uzhin_price').text();
+	var stripped_price = price.split('.')[0].split(',').join("");
+	var number_price = parseFloat(stripped_price);
+	return number_price;
+}
+
+var get_persons = function (){
+	var person_amount = $('input[name=person_amount]:checked').val();	
+	// console.log(number_price);
+	return person_amount;
+}
+
+var update_price = function(price){
+	var persons = get_persons();
+	var total_price;
+	if(persons == 2){
+		total_price = price;
+	} else {
+		total_price = price*2;
+	}
+	
+	// console.log(total_price);
+	return total_price;
+
+}
+
+var display_price = function(price){
+	$('#uzhin_price').text(format_price(price));
+}
+
+var format_price = function(price){
+	var string_price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	string_price = string_price + ".00 ";
+
+	return string_price; 
+}

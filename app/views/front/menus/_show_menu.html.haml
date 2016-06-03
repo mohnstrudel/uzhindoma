@@ -3,9 +3,9 @@
 		.col-xs-12.col-lg-12.col-lg-offset-0
 			.row.product-item
 				.col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-0.text-center
-					.owl-carousel
+					.owl-carousel{"data-lightbox" => "gallery"}
 						-@menu.recipes.each do |recipe|
-							=link_to recipe.pictures.first.image.url, data: {lightbox: "recipe", caption: "Some Title"} do
+							=link_to recipe.pictures.first.image.url, data: {lightbox: "image", caption: "Some Title"} do
 								=image_tag recipe.pictures.first.image.url
 					.isotope.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 						-@menu.recipes.each do |recipe|
@@ -19,98 +19,102 @@
 												=recipe.name
 											%p.text-white
 												=recipe.description
-				=form_for([:admin, @order]) do |f|
+				=form_tag new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], dinner_amount: params[:dinner_amount], change: params[:change], add_dessert: params[:add_dessert]), method: 'get' do
 					.col-xs-12.col-md-6.text-center.uzhin-doma-form
 						%h4 
+							Набор
 							=@menu.category.name
-							набор
 							=@menu.daterange
+							=hidden_field_tag :menu_id, @menu.id
 						.row
 							%h6 Сколько ужинов?
 							.row
-								.payment-wrap.text-center
+								.payment-wrap.text-center.uzhin_rb_menus
 									.col-md-4
 										.payment
 											.radio
 												%label
-													=f.radio_button :menu_amount, 3
+													=radio_button_tag :menu_amount, 3
 													%span.radio-field
 													%span.h6.text-success Три
 									.col-md-4
 										.payment
 											.radio.inline-block
 												%label
-													=f.radio_button :menu_amount, 4
+													=radio_button_tag :menu_amount, 4
 													%span.radio-field
 													%span.h6.text-success Четыре
 									.col-md-4
 										.payment
 											.radio.inline-block
 												%label
-													=f.radio_button :menu_amount, 5
+													=radio_button_tag :menu_amount, 5, checked: true
 													%span.radio-field
 													%span.h6.text-success Все пять!
 
 						.row
 							%h6 Количество персон
 							.row
-								.payment-wrap
+								.payment-wrap.uzhin_rb_persons
 									.col-md-6
 										.payment.text-right
 											.radio
 												%label
-													=f.radio_button :person_amount, 2
+													=radio_button_tag :person_amount, 2, checked: true
 													%span.radio-field
 													%span.h6.text-success Две
 									.col-md-6
 										.payment.text-left
 											.radio.inline-block
 												%label
-													=f.radio_button :person_amount, 4
+													=radio_button_tag :person_amount, 4
 													%span.radio-field
 													%span.h6.text-success Четыре
 
 						.row
-							%h6 Заменить?
+							%h6
+								="Заменить #{@menu.change_from} на #{@menu.change_to}?"
 							.row
 								.payment-wrap.text-center
 									.col-md-6
 										.payment.text-right
 											.radio
 												%label
-													=f.radio_button :change, true
+													=radio_button_tag :change, true
 													%span.radio-field
 													%span.h6.text-success Да
 									.col-md-6
 										.payment.text-left
 											.radio.inline-block
 												%label
-													=f.radio_button :change, false
+													=radio_button_tag :change, false, checked: true
 													%span.radio-field
 													%span.h6.text-success Нет
 						.row
 							%h6 Добавить десерт?
 							.row
-								.payment-wrap.text-center
+								.payment-wrap.text-center.uzhin_rb_dessert
 									.col-md-6
 										.payment.text-right
 											.radio
 												%label
-													=f.radio_button :add_dessert, true
+													=radio_button_tag :add_dessert, @dessert_price
 													%span.radio-field
 													%span.h6.text-success Да
 									.col-md-6
 										.payment.text-left
 											.radio.inline-block
 												%label
-													=f.radio_button :add_dessert, false
+													=radio_button_tag :add_dessert, 0, checked: true
 													%span.radio-field
 													%span.h6.text-success Нет
 											
 						.price-container
 							%span.text-gray Стоимость:
+							
 							%span.h4#uzhin_price
 								=render 'front/menus/show_price'
+							%i.fa-rub
 						=button_tag(type: "submit", class: "btn btn-success btn-sm") do
 							%span.icon.icon-xs.fa-shopping-cart
 							Заказать набор
@@ -128,8 +132,7 @@
 
 							.row.offset-4
 								.col-xs-12
-									%ul.resp-tabs-list
-										%li.btn.btn-success-mod-1 Блюда данного меню
+									%h4 Блюда данного меню
 									.resp-tabs-container
 										
 										.text-left.fadeIn.animated
@@ -143,4 +146,5 @@
 																%td
 																	="К/Б/Ж - #{recipe.calories}/#{recipe.carbohydrates}/#{recipe.fat}"
 										.text-sm-left.fadeIn.animated
-											%p We are proud to offer you our hi-tech original goods. The products of our store are the real bestsellers and we have a great number of faithful customers. Their testimonials prove that the reputation of our company is simply perfect. We observe the policy of providing only branded commodities. This fact confirms that we sell only high quality goods at a fair price.
+											%p.mt15
+												=@menu.description

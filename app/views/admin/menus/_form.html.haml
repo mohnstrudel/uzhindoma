@@ -51,17 +51,24 @@
 
         / end section row section
         .section.row
-          .col-md-4
-            
-
-          / end section
-          .col-md-4
-            %label.field.prepend-icon{:for => "product-vendor"}
-
-          / end section
-          .col-md-4
-            %label.field.prepend-icon{:for => "product-sku"}
-
+          .col-md-6
+            %label.field.prepend-icon{:for => "change-from"}
+              =f.text_field :change_from, placeholder: "Что можно в наборе поменять? (например 'свинину')", class: "gui-input"
+              %label.field-icon{:for => "change-from"}
+                %i.fa.fa-cutlery
+          .col-md-6
+            %label.field.prepend-icon{:for => "change-to"}
+              =f.text_field :change_to, placeholder: "На что можно поменять? (например на 'курицу')", class: "gui-input"
+              %label.field-icon{:for => "change-to"}
+                %i.fa.fa-cutlery
+        .section.mb10
+          %label.field.prepend-icon
+            =f.text_area :description, id: "comment", class: "gui-textarea br-light bg-light", placeholder: 'Описание меню (необязательное', style: "height: 160px;"
+            %label.field-icon{:for => "comment"}
+              %i.fa.fa-comments
+            %span.input-footer.hidden
+              %strong> Hint:
+              Don't be negative or off topic! just be awesome...
           / end section
         / end section row section
         %hr.short.alt

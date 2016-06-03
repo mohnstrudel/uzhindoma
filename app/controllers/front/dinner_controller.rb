@@ -3,7 +3,10 @@ class Front::DinnerController < FrontController
 		@categories = Category.all
 		@current_menus = Menu.current
 		@menu = @current_menus.first
-		@order = Order.new
+		@order = Order.new(menu_id: @menu.id)
+		@dessert_price = nil
+		@dessert_price ||= @current_menus[2].price
+		
 	end
 
 	def new

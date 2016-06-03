@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   scope module: :front do
     resources :menus
     resources :dinner
+    resources :orders
   end
 
 
