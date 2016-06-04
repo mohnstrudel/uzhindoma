@@ -26,6 +26,29 @@ class Menu < ActiveRecord::Base
     daterange.split(" - ")
   end
 
+  def calculate_price(menu, params)
+    price = menu.price
+    case params[:menu_amount]
+    when "5"
+      subtract = 0
+    when "4"
+      subtract = 500
+    when "3"
+      subtract = 1000
+    end
+    price -= subtract
+
+    case params[:person_amount]
+    when "4"
+      price *= 2
+    end
+
+    price += params[:add_dessert].to_f
+
+    return price
+
+  end
+
   private
 
   def get_date

@@ -10,8 +10,10 @@ class Front::DinnerController < FrontController
 	end
 
 	def new
-		print "\n"
-		print params
-		print "\n"
+		@order = Order.new
+		respond_to do |format|
+			format.json { p "hello" }
+			format.html { p "test" }
+		end
 	end
 end

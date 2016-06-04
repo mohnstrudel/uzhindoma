@@ -1,0 +1,18 @@
+%main.page-content
+  %section.bg-light.section-lg
+    %ol.breadcrumb
+      %li
+        %a{:href => "index.html"} Home
+      %li
+        %a{:href => "#"} Elements
+      %li.active Typography
+  .section
+    .container
+      .row
+        .col-xs-12.col-md-8.col-md-offset-2
+          %section.section-inset-1
+            %h1 Спасибо за ваш заказ!
+            %p.text-sm-left.offset-7
+              ="Уважаемый/ая #{@order.name}. Ваш заказ №#{@order.id} принят и наш менеджер обработает его в кратчайшие сроки. При возникновении вопросов мы свяжемся с вами по указанному в заказе телефону #{@order.phone}." 
+            %p.text-sm-left
+              ="Мы отправили вам письмо с подтверждением заказа на адрес #{@order.email}"
