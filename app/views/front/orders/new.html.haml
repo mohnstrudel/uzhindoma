@@ -51,23 +51,29 @@
                             =link_to @menu.category.name, menu_path(@menu)
                           %td
                             ="#{@menu_price} руб."
+                            / Some hidden fields to set up order values
+                            =f.hidden_field :menu_id, value: @menu.id
 
                         %tr
                           %td Кол-во персон
                           %td
+                            =f.hidden_field :person_amount, value: params[:person_amount].to_i
                             =params[:person_amount]
                         %tr
                           %td Кол-во ужинов
                           %td
+                            =f.hidden_field :menu_amount, value: params[:menu_amount].to_i
                             =params[:menu_amount]
                         %tr
                           %td Добавить дессерт?
                           %td
+                            =f.hidden_field :add_dessert, value: params[:add_dessert]
                             =params[:add_dessert]
                         %tr
                           %td
                             ="Заменить #{@menu.change_from} на #{@menu.change_to}?"
                           %td
+                            =f.hidden_field :change, value: params[:change]
                             =params[:change]
               .row.offset-5
                 .col-xs-12

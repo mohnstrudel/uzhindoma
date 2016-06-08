@@ -1,0 +1,5 @@
+<%= "#{@order.name} оставил/а заказ на нашем сайте." %>
+<p>
+	Заказ включает в себя:
+	<%= "Набор #{Menu.find(@order.menu_id).category.name } на #{@order.person_amount} персон/ы" %>
+</p> 

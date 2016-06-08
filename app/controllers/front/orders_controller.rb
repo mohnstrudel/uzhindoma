@@ -15,6 +15,8 @@ class Front::OrdersController < FrontController
 			respond_to do |format|
 				format.html { redirect_to @order}
 			end
+			OrderNotifier.received(@order).deliver_now
+			OrderNotifier.notifyShop(@order).deliver_now
 		else
 			render "new"
 		end
