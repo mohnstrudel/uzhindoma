@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   scope module: :front do
+    get 'uznat-bolshe', to: 'learn_more#index'
     resources :menus
     resources :dinner
     resources :orders
