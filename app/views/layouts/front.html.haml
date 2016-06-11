@@ -8,8 +8,16 @@
 
 %body
   .page.text-center
-    =render 'front/navigation/header'
-    =yield
+    -if request.fullpath == '/'
+      %header.page-head.undefined
+        =render 'front/navigation/header'
+        =render 'front/navigation/sub_header' 
+    -else
+      %header.page-head.bg-services
+        =render 'front/navigation/header'
+        =render 'front/navigation/sub_header' 
+    %main.page-content
+      =yield
     =render 'front/navigation/footer'
 
 = javascript_include_tag 'front', 'data-turbolinks-track' => true

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  # root 'static_pages#home'
+
 
   devise_for :users, controllers: {
         registrations: 'admin/users/registrations'
@@ -14,7 +16,8 @@ Rails.application.routes.draw do
   end
 
   scope module: :front do
-    get 'uznat-bolshe', to: 'learn_more#index'
+    root 'static_pages#home'
+    get 'uznat-bolshe', to: 'static_pages#learn_more'
     resources :menus
     resources :dinner
     resources :orders

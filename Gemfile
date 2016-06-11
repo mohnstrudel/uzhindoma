@@ -50,6 +50,9 @@ gem 'mini_magick'
 # Lets store some environment variables
 gem 'figaro'
 
+# Grab Instagram pictures
+gem 'instagram'
+
 
 
 group :development, :test do

@@ -1,0 +1,54 @@
+%section.section
+	.container
+		%h2 Давайте знакомиться!
+		%hr
+			%p.h5.fw-l
+				Привет! Меня зовут Лена и я создатель этой компании.
+				%br.visible-lg С нашими ужинами я помогу вам сэкономить время и деньги. Проверено :)
+			.row.clearleft-custom.flow-offset-1.offset-1
+				.media-mod-3
+					.col-xs-12.col-sm-6.col-lg-6
+						.media-left
+							=image_tag "placeholder_images/lena.jpg", width: 400
+							
+					.col-xs-12.col-sm-6.col-lg-6
+						.media-body.text-sm-left
+							%p Теперь я буду заботиться о вашем ужине. Подберу рецепты и качественные продукты. Вы всегда можете обратиться ко мне за кулинарной помощью. Моя мечта, чтобы каждую семью ждал вкусный ужин дома. Давайте готовить вместе!
+%section.section.section-inset-1.bg-primary
+	.container
+		%h2.text-center Меню
+		%hr
+			.row
+				.col-xs-12.col-sm-12.col-md-6.text-center.text-md-left
+					%img{:alt => "", :src => "images/index-1.jpg"}/
+				.col-xs-12.col-sm-12.col-md-6.text-md-left.well1
+					%p We are a studio that aims to make our users experience easier and much more pleasant.
+					%p You probably won't have a better opportunity to make sure of our competence, as well as friendliness towards our customers.
+					.progress-container
+						%p.font-secondary.h6 Social Media Marketing
+						/ Progress Bar
+						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "50"}
+						%p.font-secondary.h6 Design
+						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "90"}
+						%p.font-secondary.h6 Consulting
+						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "80"}
+						%p.font-secondary.h6 Bounce Rate
+						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "20"}
+			%a.btn.btn-white.btn-sm.btn-min-width{:href => "#"} learn more
+%section.section.section-inset-2
+	.container-fluid
+		%h2.text-center Наш инстаграм
+		%hr
+			.row
+				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
+					-@instagram.each do |instagram|
+						.thumbnail-gallery.isotope-item.col-xs-12.col-sm-6.col-md-3{"data-filter" => "type-1"}
+							%a{"data-lightbox" => "image", :href => instagram.images.standard_resolution.url}
+								%img{:alt => "", :src => instagram.images.low_resolution.url}
+									.caption
+										.caption-wrapper
+											%span.icon.icon-md.icon-white.fa-search-plus
+											%h4.text-white
+												=instagram.tags
+											%p.text-white
+												=instagram.caption.text

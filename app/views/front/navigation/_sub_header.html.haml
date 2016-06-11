@@ -1,0 +1,27 @@
+-if request.fullpath == '/'
+	%section
+		.swiper-container.swiper-slider
+			.jumbotron-mod-1.text-center
+				%div
+					%h1
+						%small Готовьте без лишних хлопот
+						%span.text-bold Ужин Дома
+					%p набор продуктов для домашнего ужина
+					.btn-group-variant
+						=link_to 'Хочу набор', dinner_index_path, class: 'btn btn-success btn-sm'
+			.swiper-wrapper
+				.swiper-slide{"data-slide-bg" => "assets/placeholder_images/slider-1.jpg"}
+					.swiper-slide-caption
+				.swiper-slide{"data-slide-bg" => "assets/placeholder_images/slider-2.jpg"}
+					.swiper-slide-caption
+				.swiper-slide{"data-slide-bg" => "assets/placeholder_images/slider-3.jpg"}
+					.swiper-slide-caption
+			/ Swiper Pagination
+			.swiper-pagination
+-else
+	%section.relative.text-center
+	.container
+		.jumbotron.text-center
+			%h1
+				%small elements design
+				%span.text-bold tabsorino & accordions

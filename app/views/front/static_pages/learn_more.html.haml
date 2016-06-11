@@ -130,58 +130,73 @@
 			.row
 				.col-md-6.col-xs-12
 					.row.clearleft-custom.flow-offset-1
-						.col-xs-12.col-sm-6.col-lg-3
-							.thumbnail-2.thumbnail-mod-1
-								=image_tag "placeholder_images/team-1.jpg" do
-									.caption
-										%h6 Mark Johnson
-										%span Technical Director
-										%ul.list-inline
-											%li
-												%a.fa-facebook{:href => "#"}
-											%li
-												%a.fa-twitter{:href => "#"}
-											%li
-												%a.fa-google{:href => "#"}
-						.col-xs-12.col-sm-6.col-lg-3
-							.thumbnail-2.thumbnail-mod-1
-								=image_tag "placeholder_images/team-2.jpg" do
-									.caption
-										%h6 Jessica Priston
-										%span Web Developer
-										%ul.list-inline
-											%li
-												%a.fa-facebook{:href => "#"}
-											%li
-												%a.fa-twitter{:href => "#"}
-											%li
-												%a.fa-google{:href => "#"}
-						.col-xs-12.col-sm-6.col-lg-3
-							.thumbnail-2.thumbnail-mod-1
-								=image_tag "placeholder_images/team-1.jpg" do
-									.caption
-										%h6 Sam Kromstain
-										%span Team Lead
-										%ul.list-inline
-											%li
-												%a.fa-facebook{:href => "#"}
-											%li
-												%a.fa-twitter{:href => "#"}
-											%li
-												%a.fa-google{:href => "#"}
-						.col-xs-12.col-sm-6.col-lg-3
-							.thumbnail-2.thumbnail-mod-1
-								=image_tag "placeholder_images/team-2.jpg" do
-									.caption
-										%h6 Edna Barton
-										%span Assistant
-										%ul.list-inline
-											%li
-												%a.fa-facebook{:href => "#"}
-											%li
-												%a.fa-twitter{:href => "#"}
-											%li
-												%a.fa-google{:href => "#"}
+						.container-fluid
+							.isotope.offset-1.isotope-no-gutter.cobbles-gallery{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
+
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-1_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-1.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-3_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-3.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-5_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-5.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-2"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-7_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-7.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-2"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-2_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-2.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-2"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-6_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-6.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-3"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-4_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-4.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+								.thumbnail-gallery.isotope-item{"data-filter" => "type-3"}
+									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-8_original.jpg"}
+										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-8.jpg"}
+											.caption
+												.caption-wrapper
+													%span.icon.icon-md.icon-white.fa-search-plus
+													%h4.text-white Always a New Beginning
+													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
 				.col-md-6.col-xs-12
 					%section
 						
