@@ -10,14 +10,10 @@
 					.btn-group-variant
 						=link_to 'Хочу набор', dinner_index_path, class: 'btn btn-success btn-sm'
 			.swiper-wrapper
-				.swiper-slide{"data-slide-bg" => "assets/placeholder_images/slider-1.jpg"}
-					.swiper-slide-caption
-				.swiper-slide{"data-slide-bg" => "assets/placeholder_images/slider-2.jpg"}
-					.swiper-slide-caption
-				.swiper-slide{"data-slide-bg" => "assets/placeholder_images/slider-3.jpg"}
+				.swiper-slide{"data-slide-bg" => asset_path("placeholder_images/slider-1.jpg")}
 					.swiper-slide-caption
 			/ Swiper Pagination
-			.swiper-pagination
+			/ .swiper-pagination
 -else
 	%section.relative.text-center
 	.container
