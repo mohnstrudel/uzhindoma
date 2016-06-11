@@ -36,7 +36,7 @@
           %span
         / RD Navbar Brand
         .rd-navbar-brand
-          %a.brand-name{:href => "index.html"}
+          =link_to root_path, class: 'brand-name' do
             %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
               %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.4432)"} Дома
               %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} УЖИН
@@ -55,11 +55,11 @@
         / RD Navbar Nav
         %ul.rd-navbar-nav
           %li
-            =link_to 'Главная', root_path
-          %li.active
-            =link_to 'Узнать больше', uznat_bolshe_path
+            =nav_link 'Главная', root_path
           %li
-            =link_to "Посмотреть меню и заказать", dinner_index_path
+            =nav_link 'Узнать больше', uznat_bolshe_path
           %li
-            =link_to "Быстрый заказ", "#"
+            =nav_link "Посмотреть меню и заказать", dinner_index_path
+          %li
+            =nav_link "Быстрый заказ", "#"
             / RD Navbar Dropdown

@@ -3,12 +3,14 @@
 // You can use CoffeeScript in this file: http://coffeescript.org/
 
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require_tree ../../../vendor/assets/javascripts/front/.
 
 
 //= require_self
 //= require_tree ../../../app/assets/javascripts/front/.
+
 
 //= require turbolinks
 

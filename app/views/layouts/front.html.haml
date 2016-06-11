@@ -3,7 +3,7 @@
 %html
 %head
   %title Uzhindoma - Front
-  = stylesheet_link_tag    'front', media: 'all', 'data-turbolinks-track' => true
+  = stylesheet_link_tag    'front', media: 'all', 'data-turbolinks-track' => false
   = csrf_meta_tags
 
 %body
@@ -20,4 +20,4 @@
       =yield
     =render 'front/navigation/footer'
 
-= javascript_include_tag 'front', 'data-turbolinks-track' => true
+= javascript_include_tag 'front', 'data-turbolinks-track' => false

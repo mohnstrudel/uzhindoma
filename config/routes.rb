@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :categories
     resources :users
     resources :orders
+    resources :settings
   end
+
 
   scope module: :front do
     root 'static_pages#home'
