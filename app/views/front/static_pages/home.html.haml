@@ -14,27 +14,25 @@
 					.col-xs-12.col-sm-6.col-lg-6
 						.media-body.text-sm-left
 							%p Теперь я буду заботиться о вашем ужине. Подберу рецепты и качественные продукты. Вы всегда можете обратиться ко мне за кулинарной помощью. Моя мечта, чтобы каждую семью ждал вкусный ужин дома. Давайте готовить вместе!
+
 %section.section.section-inset-1.bg-primary
 	.container
-		%h2.text-center Меню
+		%h2.text-center Актуальное меню 
 		%hr
-			.row
-				.col-xs-12.col-sm-12.col-md-6.text-center.text-md-left
-					%img{:alt => "", :src => "images/index-1.jpg"}/
-				.col-xs-12.col-sm-12.col-md-6.text-md-left.well1
-					%p We are a studio that aims to make our users experience easier and much more pleasant.
-					%p You probably won't have a better opportunity to make sure of our competence, as well as friendliness towards our customers.
-					.progress-container
-						%p.font-secondary.h6 Social Media Marketing
-						/ Progress Bar
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "50"}
-						%p.font-secondary.h6 Design
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "90"}
-						%p.font-secondary.h6 Consulting
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "80"}
-						%p.font-secondary.h6 Bounce Rate
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "20"}
-			%a.btn.btn-white.btn-sm.btn-min-width{:href => "#"} learn more
+			.responsive-tabs.horizontal-tabs.offset-5
+				%ul.resp-tabs-list
+					-@current_menus.each do |menu|
+						%li.btn.btn-success-mod-1
+							=menu.category.name
+				.resp-tabs-container
+					-@current_menus.each do |menu|
+						.text-sm-left.fadeIn.animated
+							.owl-carousel-home{"data-dots" => "true", "data-loop" => "true"}
+								-menu.recipes.each do |recipe|
+									.owl-item
+										.row.flow-offset-1
+											=image_tag recipe.pictures.first.image.url
+
 %section.section.section-inset-2
 	.container-fluid
 		%h2.text-center Наш инстаграм
