@@ -3,7 +3,7 @@
 // You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-$(".owl-carousel-home").owlCarousel({
+	$(".owl-carousel-home").owlCarousel({
  
       autoPlay: 3000, //Set AutoPlay to 3 seconds
  
@@ -12,4 +12,5 @@ $(".owl-carousel-home").owlCarousel({
       itemsDesktopSmall : [640,1]
 	
  
-  });
+  });	
+
