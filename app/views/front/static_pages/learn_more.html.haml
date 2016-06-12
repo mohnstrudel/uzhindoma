@@ -63,21 +63,7 @@
 		%h2.text-center зоны доставки
 		%hr
 			.row
-				.col-xs-12.col-sm-12.col-md-6.text-center.text-md-left
-					%img{:alt => "", :src => "images/index-1.jpg"}/
-				.col-xs-12.col-sm-12.col-md-6.text-md-left.well1
-					%p We are a studio that aims to make our users experience easier and much more pleasant.
-					%p You probably won't have a better opportunity to make sure of our competence, as well as friendliness towards our customers.
-					.progress-container
-						%p.font-secondary.h6 Social Media Marketing
-						/ Progress Bar
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "50"}
-						%p.font-secondary.h6 Design
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "90"}
-						%p.font-secondary.h6 Consulting
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "80"}
-						%p.font-secondary.h6 Bounce Rate
-						.progress-bar.progress-bar-horizontal.progress-bar-default{"data-counter" => "true", "data-duration" => "1000", "data-easing" => "linear", "data-stroke" => "10", "data-value" => "20"}
+				#map{style: "position: static;"}
 			%a.btn.btn-white.btn-sm.btn-min-width{:href => "#"} learn more
 %section.section.section-inset-1.bg-light
 	.container

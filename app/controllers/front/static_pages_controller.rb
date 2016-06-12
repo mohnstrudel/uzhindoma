@@ -5,6 +5,8 @@ class Front::StaticPagesController < FrontController
   	@instagram = client.user_recent_media
 
   	@current_menus = Menu.current
+
+  	@setting = Setting.first
   end
 
   def learn_more

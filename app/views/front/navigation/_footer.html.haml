@@ -17,22 +17,23 @@
             %dl.dl-horizontal-mod-1
               %dt Whatsapp
               %dd
-                %a.text-success{:href => "callto:#"} 8 (916) 170 43 85
+                %a.text-success{:href => "callto:#"} 
+                  =Setting.first.phone
             %dl.dl-horizontal-mod-1
               %dt Email
               %dd
                 %a.text-success{:href => "mailto:#"} info@uzhindoma.ru
           %ul.well6.offset-5
             %li
-              %a.text-gray.small{:href => "#"}
+              =link_to Setting.first.facebook, class: 'text-gray small' do
                 %span.icon.icon-xs.icon-info-2.fa-facebook.postfix-1>
                 Мы на Facebook
             %li
-              %a.text-gray.small{:href => "#"}
+              =link_to Setting.first.vkontakte, class: 'text-gray small' do
                 %span.icon.icon-xs.icon-info-2.fa-vk.postfix-1>
                 Мы вконтакте
             %li
-              %a.text-gray.small{:href => "#"}
+              =link_to Setting.first.instagram, class: 'text-gray small' do
                 %span.icon.icon-xs.icon-warning.fa-instagram.postfix-1>
                 Мы в инстаграме
 
@@ -81,11 +82,9 @@
         %a{:href => "terms.html"} Пользовательское соглашение
       %ul.list-inline.pull-sm-right.offset-3
         %li
-          %a.fa-facebook{:href => "#"}
+          =link_to '', Setting.first.facebook, class: 'fa-facebook'
         %li
-          %a.fa-twitter{:href => "#"}
+          =link_to '', Setting.first.vkontakte, class: 'fa-vk'
         %li
-          %a.fa-instagram{:href => "#"}
-        %li
-          %a.fa-vk{:href => "#"}
+          =link_to '', Setting.first.instagram, class: 'fa-instagram'
   / {%FOOTER_LINK}
