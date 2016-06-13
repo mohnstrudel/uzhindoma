@@ -19,19 +19,28 @@
 	.container
 		%h2.text-center Актуальное меню 
 		%hr
-			.responsive-tabs.horizontal-tabs.offset-5
-				%ul.resp-tabs-list
-					-@current_menus.each do |menu|
-						%li.btn.btn-success-mod-1
-							=menu.category.name
-				.resp-tabs-container
-					-@current_menus.each do |menu|
-						.text-sm-left.fadeIn.animated
-							.owl-carousel-home{"data-dots" => "true", "data-loop" => "true"}
-								-menu.recipes.each do |recipe|
-									.owl-item
-										.row.flow-offset-1
-											=image_tag recipe.pictures.first.image.url
+			-if @current_menus.empty?
+				.col-xs-12.col-sm-12.col-lg-12
+					.thumbnail.thumbnail-mod-1
+						%span.icon.icon-success.icon-lg.icon-mod-1.fa-cutlery
+						.caption.text_center
+							%h4
+								Извините!
+							%p Что-то пошло не так и меню текущей неделе потерялось на нашей кухне. Мы очень быстро это поправим, обещаем :)
+			-else
+				.responsive-tabs.horizontal-tabs.offset-5
+					%ul.resp-tabs-list
+						-@current_menus.each do |menu|
+							%li.btn.btn-success-mod-1
+								=menu.category.name
+					.resp-tabs-container
+						-@current_menus.each do |menu|
+							.text-sm-left.fadeIn.animated
+								.owl-carousel-home{"data-dots" => "true", "data-loop" => "true"}
+									-menu.recipes.each do |recipe|
+										.owl-item
+											.row.flow-offset-1
+												=image_tag recipe.pictures.first.image.url
 
 %section.section.section-inset-2
 	.container-fluid
