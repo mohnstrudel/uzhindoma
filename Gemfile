@@ -31,6 +31,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Managing users
 gem 'devise'
 
+# Create useful slugs
+gem 'babosa'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'puma'

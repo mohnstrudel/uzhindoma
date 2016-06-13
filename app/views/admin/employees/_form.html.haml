@@ -1,0 +1,60 @@
+=form_for [:admin, @employee] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Добавить нового сотрудника
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Параметры сотрудника
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-4
+            .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+              .fileupload-preview.thumbnail.mb20
+                -if @employee.image?
+                  =image_tag @employee.image.mini_thumb.url
+                -else
+                  %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+              .row
+                .col-xs-12
+                  %span.button.btn-system.btn-file.btn-block
+                    %span.fileupload-new Выбрать
+                    %span.fileupload-exists Поменять
+                    =f.file_field :image, id: 'fileupload', type: :file
+                    / %input{:type => "file", name: 'picture'}
+
+                .col-xs-12.pr5
+                  %label.field.option.mt10
+                    =f.check_box :remove_image
+                    %span.checkbox>
+                    Удалить фото?
+          .col-md-8.pl15
+            .section.row
+              %label.field.prepend-field
+                =f.collection_select(:jobtitle_id, Jobtitle.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @employee.jobtitle_id}, { class: 'select2-single form-control select-info'})
+                  
+            .section.row
+              %label.field.prepend-icon{:for => "daterangepicker1"} 
+                =f.text_field :name, class: "form-control pull-right", placeholder: 'Имя сотрудника'
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-user
+
+            .section.row
+              %label.field.prepend-icon{:for => "product-price"}
+                =f.text_area :description, placeholder: "Свободное описание сотрудника", class: "gui-input"
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-user
+
+
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+              / %label.field.option.mt10
+              /   %input{:checked => "", :name => "info", :type => "checkbox"}
+              /     %span.checkbox>
+              /     Save Customer
+              /     %em.small-text.text-muted - A Random Unique ID will be generated
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section

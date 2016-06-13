@@ -46,9 +46,9 @@
     %ul.nav.sidebar-menu
       %li.sidebar-label.pt20 Управление
       %li
-        =link_to admin_path do
+        =link_to admin_menus_path do
           %span.fa.fa-calendar
-          %span.sidebar-title Меню
+          %span.sidebar-title Наборы
       %li
         =link_to admin_recipes_path do
           %span.glyphicon.glyphicon-book
@@ -66,10 +66,13 @@
           %span.glyphicon.glyphicon-fire
           %span.sidebar-title Настройки
       %li
-        %a.accordion-toggle{:href => "#"}
+        =link_to admin_employees_path do
           %span.glyphicon.glyphicon-check
           %span.sidebar-title Внутренние пользователи
-          %span.caret
+      %li
+        =link_to admin_jobtitles_path do
+          %span.glyphicon.glyphicon-check
+          %span.sidebar-title Настройки внутренних пользователей
           
 
       / %li.sidebar-label.pt25.pb10 User Stats

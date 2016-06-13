@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     resources :users
     resources :orders
     resources :settings
+    resources :employees
+    resources :jobtitles
   end
 
 

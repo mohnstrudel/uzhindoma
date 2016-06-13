@@ -37,6 +37,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    babosa (1.0.2)
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -229,6 +230,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  babosa
   better_errors
   bootstrap-glyphicons
   byebug

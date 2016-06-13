@@ -39,6 +39,18 @@ class PictureUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [640, 480]
   end
 
+  version :portrait_thumb do
+    process :resize_to_fill => [270, 330]
+  end
+
+  version :cobbles_vertical do
+    process :resize_to_fill => [480, 580]
+  end
+
+  version :cobbles_horizontal do
+    process :resize_to_fill => [480, 290]
+  end
+
   # Create different versions of your uploaded files:
   # version :thumb do
   #   process :resize_to_fit => [50, 50]

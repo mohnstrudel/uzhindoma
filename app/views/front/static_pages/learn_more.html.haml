@@ -6,48 +6,30 @@
 		.row
 			.col-md-6
 				.owl-carousel{"data-dots" => "true", "data-items" => "1", "data-loop" => "tue", "data-margin" => "30"}
-					.owl-item
-						.row.text-sm-left
-							.col-xs-12.col-lg-12
-								.media.bg-light.media-mod-2
-									.media-left
-										=image_tag "placeholder_images/team-1.jpg"
-									.media-body
-										%h6.text-success Петр Иванов
-										%span.text-gray Курьер
-										%p Петя заботится о том, что бы ваш заказ был всегда доставлен вовремя!
-										%ul.list-inline
-											%li
-												%a.fa-facebook{:href => "#"}
-											%li
-												%a.fa-twitter{:href => "#"}
-											%li
-												%a.fa-pinterest-p{:href => "#"}
-											%li
-												%a.fa-vimeo{:href => "#"}
-											%li
-												%a.fa-google{:href => "#"}
-					.owl-item
-						.row.text-sm-left
-							.col-xs-12.col-lg-12
-								.media.bg-light.media-mod-2
-									.media-left
-										=image_tag "placeholder_images/team-2.jpg"
-									.media-body
-										%h6.text-success Sam Kromstain
-										%span.text-gray Team Lead
-										%p Sam has been building startups in New York City for several years and now he is working with us.
-										%ul.list-inline
-											%li
-												%a.fa-facebook{:href => "#"}
-											%li
-												%a.fa-twitter{:href => "#"}
-											%li
-												%a.fa-pinterest-p{:href => "#"}
-											%li
-												%a.fa-vimeo{:href => "#"}
-											%li
-												%a.fa-google{:href => "#"}
+					-@carriers.each do |carrier_buddy|
+						.owl-item
+							.row.text-sm-left
+								.col-xs-12.col-lg-12
+									.media.bg-light.media-mod-2
+										.media-left
+											=image_tag carrier_buddy.image.url(:portrait_thumb)
+										.media-body
+											%h6.text-success
+												=carrier_buddy.name
+											%span.text-gray Курьер
+											%p
+												=carrier_buddy.description
+											/ %ul.list-inline
+											/ 	%li
+											/ 		%a.fa-facebook{:href => "#"}
+											/ 	%li
+											/ 		%a.fa-twitter{:href => "#"}
+											/ 	%li
+											/ 		%a.fa-pinterest-p{:href => "#"}
+											/ 	%li
+											/ 		%a.fa-vimeo{:href => "#"}
+											/ 	%li
+											/ 		%a.fa-google{:href => "#"}
 			.col-lg-6
 				%section
 					%h6 Расценки доставки
@@ -119,70 +101,19 @@
 						.container-fluid
 							.isotope.offset-1.isotope-no-gutter.cobbles-gallery{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-1_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-1.jpg"}
+								-@employees.all.each_with_index do |employee, index|
+
+									.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
+										=link_to employee.image.url, data: {lightbox: "image"} do
+											=image_tag employee.grab_cobbles(index)
 											.caption
 												.caption-wrapper
 													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-3_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-3.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-5_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-5.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-2"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-7_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-7.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-2"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-2_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-2.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-2"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-6_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-6.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-3"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-4_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-4.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-3"}
-									%a{"data-lightbox" => "image", :href => "assets/placeholder_images/gallery-8_original.jpg"}
-										%img{:alt => "", :src => "assets/placeholder_images/grid-cobbles-8.jpg"}
-											.caption
-												.caption-wrapper
-													%span.icon.icon-md.icon-white.fa-search-plus
-													%h4.text-white Always a New Beginning
-													%p.text-white You come up with a brilliant idea and put all your time and effort to make it come true.
+													%h4.text-white
+														=employee.name
+													%p.text-white
+														=employee.description
+											
 				.col-md-6.col-xs-12
 					%section
 						
