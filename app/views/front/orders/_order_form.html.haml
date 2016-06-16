@@ -1,0 +1,21 @@
+=form_for Order.new do |f|
+	.col-xs-12.col-md-12.text-center.ud_mt_25
+		.rd-mailform.row.flow-offset-6
+			.row
+				.col-xs-12.select
+					/ RD SelectMenu
+					%label{:for => "select-2"}
+					.rd-select
+						/ =f.select :menu_type, options_for_select([['Стандарт', "Стандарт"], ['Лайф', "Лайф"]]), id: "select-2", class: "rd-mailform-select"
+					%select#select-2.rd-mailform-select{:name => "menu_type"}
+						%option{:value => "Стандарт"} Стандарт
+						%option{:value => "Лайф"} Лайф
+						
+						=f.hidden_field :order_type, value: "fast"
+			.row
+			.row
+				.col-xs-12.col-sm-6
+					=f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@Phone" }
+				.col-xs-12.col-sm-6
+					=f.text_field :name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
+		=f.submit('Заказать набор', class: "btn btn-success btn-sm")

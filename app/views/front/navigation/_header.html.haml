@@ -61,5 +61,7 @@
           %li
             =nav_link "Посмотреть меню и заказать", dinner_index_path
           %li
-            =nav_link "Быстрый заказ", "#"
+            =link_to 'Открыть модалку', "#", data: {target: '#myModal', toggle: 'modal'}
             / RD Navbar Dropdown
+
+

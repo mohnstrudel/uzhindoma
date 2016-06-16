@@ -6868,7 +6868,8 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1050;
+  /*  Edited on 13/06/2016 because else navigation would overlap the modal. Edited from 1050 to 10000*/
+  z-index: 10000;
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }

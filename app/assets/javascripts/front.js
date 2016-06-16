@@ -23,3 +23,16 @@ $(".owl-carousel").owlCarousel({
       itemsDesktopSmall : [979,3]
  
   });
+$(document).ready(function(){
+	$("ul").on("click", "li", function(){
+		console.log($(this)['context'].innerHTML);
+		$.ajax({
+			type: "GET",
+			url: "/dinner",
+			success: function (result){
+				console.log($(result).find("#uzhin_price"));
+			}
+
+		});
+	});	
+});
