@@ -7,7 +7,7 @@
 //
 
 
-
+//= require_tree ../../../vendor/assets/javascripts/admin/plugins/moment/.
 //= require jquery
 //= require jquery_ujs
 //= require_tree ../../../vendor/assets/javascripts/admin/jquery_ui/.
