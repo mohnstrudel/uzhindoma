@@ -14,16 +14,25 @@
                 =f.text_field :name, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Название категории'
                 %label.field-icon{:for => "name2"}
                   %i.fa.fa-tag
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.option.mt10
+                =f.check_box :purchasable
+                %span.checkbox>
+                Можно купить?
+                %em.small-text.text-muted - Отметье, если наборы данной категории можно купить
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.option.mt10
+                =f.check_box :display_vital
+                %span.checkbox>
+                Показывать калории и прочее?
+                %em.small-text.text-muted - Отметье, если для наборов данной категории нужно показывать калории, жиры и прочую информацию
           / end section
         / end section row section
         %hr.short.alt
           .section.row.mbn
             .col-sm-8
-              %label.field.option.mt10
-                %input{:checked => "", :name => "info", :type => "checkbox"}
-                  %span.checkbox>
-                  Save Customer
-                  %em.small-text.text-muted - A Random Unique ID will be generated
             .col-sm-4
               %p.text-right
                 =f.submit "Сохранить", class: "btn btn-primary"

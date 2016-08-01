@@ -41,6 +41,6 @@ class Admin::CategoriesController < AdminController
 	end
 
 	def category_params
-		params.require(:category).permit(:name)
+		params.require(:category).permit(:name, :purchasable, :display_vital)
 	end
 end
