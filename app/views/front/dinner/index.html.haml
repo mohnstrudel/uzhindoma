@@ -19,7 +19,5 @@
 								Извините!
 							%p Что-то пошло не так и меню текущей неделе потерялось на нашей кухне. Мы очень быстро это поправим, обещаем :)
 	-else
-		-@current_menus.each do |cm|
-			=link_to cm.category.name, menu_path(cm.id), remote: true, class: "btn btn-success-mod-1 btn-sm"
-		.section#render_menus
-			=render 'front/menus/show_menu'
+		=render 'front/menus/show_menu'
+			

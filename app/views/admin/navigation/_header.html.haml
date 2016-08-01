@@ -1,7 +1,7 @@
 / Start: Header
 %header.navbar.navbar-fixed-top.navbar-shadow.bg-info
   .navbar-branding
-    %a.navbar-brand{:href => "dashboard.html"}
+    =link_to root_path, class: "navbar-brand" do
       %b> Ужин
       Дома
   %ul.nav.navbar-nav.navbar-left
