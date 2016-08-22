@@ -27,4 +27,12 @@ $(document).ready(function(){
 
 		});
 	});	
+
+	if($(".swiper-slide").length < 2){
+		console.log("only one!");
+    	swiper.stopAutoplay();
+  		$(".swiper-button").css("display", "none");
+	}
 });
+
+

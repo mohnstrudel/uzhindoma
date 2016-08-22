@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     resources :menus
     resources :dinner
     resources :orders
+    
+    get 'bitrix', to: 'bitrix#index'
+    get 'bitrix/new' => 'bitrix#create_new_lead', :as => :new_lead
   end
 
 

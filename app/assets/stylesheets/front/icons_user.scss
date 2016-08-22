@@ -1,0 +1,151 @@
+// Big pile of shitty css just for one freaking icon
+.rd-navbar-user,
+{
+  transition: .3s all ease;
+}
+
+.rd-navbar-user {
+  display: inline-block;
+  font: 400 18px/36px "FontAwesome";
+}
+
+.rd-navbar-user, .rd-navbar-user:before, .rd-navbar-user:after {
+  text-align: center;
+  width: 36px;
+  height: 36px;
+}
+
+.rd-navbar-user:before, .rd-navbar-user:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.rd-navbar-user:before {
+  content: '\f007';
+  -webkit-transform: scale(1) rotate(0deg);
+  transform: scale(1) rotate(0deg);
+}
+
+.rd-navbar:not(.rd-navbar-fixed) .rd-navbar-user:after {
+  content: '\f007';
+  transition: .3s all ease;
+  -webkit-transform: scale(0) rotate(-90deg);
+  transform: scale(0) rotate(-90deg);
+}
+
+.rd-navbar:not(.rd-navbar-fixed) .rd-navbar-user.active:before {
+  -webkit-transform: scale(0) rotate(90deg);
+  transform: scale(0) rotate(90deg);
+}
+
+.rd-navbar:not(.rd-navbar-fixed) .rd-navbar-user.active:after {
+  -webkit-transform: scale(1) rotate(0deg);
+  transform: scale(1) rotate(0deg);
+}
+
+.rd-navbar-fixed .rd-navbar-user, .rd-navbar-fixed .rd-navbar-user:before {
+  width: 48px;
+  line-height: 48px;
+}
+
+.rd-navbar-static .rd-navbar-user, .rd-navbar-fullwidth .rd-navbar-user {
+  position: relative;
+  z-index: 2;
+}
+
+.rd-navbar-static .rd-navbar-user, .rd-navbar-fullwidth .rd-navbar-user {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #157EA5;
+  background-color: transparent;
+  border: none;
+}
+
+.rd-navbar-static .rd-navbar-user:focus, .rd-navbar-fullwidth .rd-navbar-user:focus {
+  outline: 0;
+}
+
+.rd-navbar-static .rd-navbar-user:before, .rd-navbar-static .rd-navbar-user:after, .rd-navbar-fullwidth .rd-navbar-user:before, .rd-navbar-fullwidth .rd-navbar-user:after {
+  width: 100%;
+}
+
+.rd-navbar-static.rd-navbar--is-clone .rd-navbar-user,
+.rd-navbar-fullwidth.rd-navbar--is-clone .rd-navbar-user {
+  color: #9F9F9F;
+}
+
+.rd-navbar-fixed .rd-navbar-search-form, .rd-navbar-fixed .rd-navbar-user {
+  right: 4px;
+}
+
+.rd-navbar-fixed .rd-navbar-user {
+  display: none;
+  position: fixed;
+  top: 4px;
+  right: 56px;
+  font-family: 'Material Icons';
+  width: 48px;
+  height: 48px;
+  z-index: 18;
+  color: #157EA5;
+}
+
+.rd-navbar-fixed .rd-navbar-user.active {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.rd-navbar-fixed .rd-navbar-user {
+  position: fixed;
+  top: 4px;
+  height: 48px;
+  z-index: 1000;
+  background-color: transparent;
+  border: none;
+}
+
+.rd-navbar-fixed .rd-navbar-user:focus {
+  outline: none;
+}
+
+.rd-navbar-sidebar .rd-navbar-user {
+  display: none;
+}
+
+.rd-navbar.static-position:first-child .rd-navbar-user {
+  color: #212121;
+}
+
+.rd-navbar-user {
+  width: 42px;
+  height: 38px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 22px;
+  line-height: 37px;
+  background-color: transparent;
+}
+
+.rd-navbar-user:hover {
+  background-color: #157EA5;
+  color: #fff;
+}
+
+.bg-transparent .rd-navbar-user,
+{
+  color: #fff;
+}
+
+.header-center .rd-navbar-user {
+  color: #157EA5;
+}
+
+.header-center .rd-navbar-user:hover {
+  color: #fff;
+}
+
+// End of big pile of shit css

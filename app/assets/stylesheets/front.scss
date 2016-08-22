@@ -13,3 +13,191 @@
 .ud_mt_25{
 	margin-top: 25px;
 }
+
+.ud_ml_mr_20 {
+  padding-left: 20px;
+  padding-right: 20px;
+
+}
+
+// For embedded videos
+
+.embed-container {
+  // position: relative;
+  // padding-bottom: 56.25%;
+  // padding-top: 30px;
+  // height: 0;
+  // overflow: hidden;
+  // width: 560px;
+  // height: 315px;
+  // margin-bottom: 12px;
+} 
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+  // position: absolute;
+  // top: 0; left: 0;
+  // width: 100%;
+  // height: 100%;
+}
+
+.text-uzhindoma {
+  color: #0d264f;
+}
+// Transparent menu as requested from client
+.bg-transparent-uzhindoma {
+  background:rgba(255,255,255,0.8);
+}
+
+// Big pile of shitty css just for one freaking icon
+.rd-navbar-instagram,
+{
+  transition: .3s all ease;
+}
+
+.rd-navbar-instagram {
+  display: inline-block;
+  font: 400 18px/36px "FontAwesome";
+}
+
+.rd-navbar-instagram, .rd-navbar-instagram:before, .rd-navbar-instagram:after {
+  text-align: center;
+  width: 36px;
+  height: 36px;
+}
+
+.rd-navbar-instagram:before, .rd-navbar-instagram:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.rd-navbar-instagram:before {
+  content: '\f16d';
+  -webkit-transform: scale(1) rotate(0deg);
+  transform: scale(1) rotate(0deg);
+}
+
+.rd-navbar:not(.rd-navbar-fixed) .rd-navbar-instagram:after {
+  content: '\f16d';
+  transition: .3s all ease;
+  -webkit-transform: scale(0) rotate(-90deg);
+  transform: scale(0) rotate(-90deg);
+}
+
+.rd-navbar:not(.rd-navbar-fixed) .rd-navbar-instagram.active:before {
+  -webkit-transform: scale(0) rotate(90deg);
+  transform: scale(0) rotate(90deg);
+}
+
+.rd-navbar:not(.rd-navbar-fixed) .rd-navbar-instagram.active:after {
+  -webkit-transform: scale(1) rotate(0deg);
+  transform: scale(1) rotate(0deg);
+}
+
+.rd-navbar-fixed .rd-navbar-instagram, .rd-navbar-fixed .rd-navbar-instagram:before {
+  width: 48px;
+  line-height: 48px;
+}
+
+.rd-navbar-static .rd-navbar-instagram, .rd-navbar-fullwidth .rd-navbar-instagram {
+  position: relative;
+  z-index: 2;
+}
+
+.rd-navbar-static .rd-navbar-instagram, .rd-navbar-fullwidth .rd-navbar-instagram {
+  position: absolute;
+  right: 140px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #157EA5;
+  background-color: transparent;
+  border: none;
+}
+
+.rd-navbar-static .rd-navbar-instagram:focus, .rd-navbar-fullwidth .rd-navbar-instagram:focus {
+  outline: 0;
+}
+
+.rd-navbar-static .rd-navbar-instagram:before, .rd-navbar-static .rd-navbar-instagram:after, .rd-navbar-fullwidth .rd-navbar-instagram:before, .rd-navbar-fullwidth .rd-navbar-instagram:after {
+  width: 100%;
+}
+
+.rd-navbar-static.rd-navbar--is-clone .rd-navbar-instagram,
+.rd-navbar-fullwidth.rd-navbar--is-clone .rd-navbar-instagram {
+  color: #9F9F9F;
+}
+
+.rd-navbar-fixed .rd-navbar-search-form, .rd-navbar-fixed .rd-navbar-instagram {
+  right: 4px;
+}
+
+.rd-navbar-fixed .rd-navbar-instagram {
+  display: none;
+  position: fixed;
+  top: 4px;
+  right: 56px;
+  font-family: 'Material Icons';
+  width: 48px;
+  height: 48px;
+  z-index: 18;
+  color: #157EA5;
+}
+
+.rd-navbar-fixed .rd-navbar-instagram.active {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.rd-navbar-fixed .rd-navbar-instagram {
+  position: fixed;
+  top: 4px;
+  height: 48px;
+  z-index: 1000;
+  background-color: transparent;
+  border: none;
+}
+
+.rd-navbar-fixed .rd-navbar-instagram:focus {
+  outline: none;
+}
+
+.rd-navbar-sidebar .rd-navbar-instagram {
+  display: none;
+}
+
+.rd-navbar.static-position:first-child .rd-navbar-instagram {
+  color: #212121;
+}
+
+.rd-navbar-instagram {
+  width: 42px;
+  height: 38px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 22px;
+  line-height: 37px;
+  background-color: transparent;
+}
+
+.rd-navbar-instagram:hover {
+  background-color: #157EA5;
+  color: #fff;
+}
+
+.bg-transparent .rd-navbar-instagram,
+{
+  color: #fff;
+}
+
+.header-center .rd-navbar-instagram {
+  color: #157EA5;
+}
+
+.header-center .rd-navbar-instagram:hover {
+  color: #fff;
+}
+
+// End of big pile of shit css

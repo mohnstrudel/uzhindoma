@@ -58,6 +58,9 @@ gem 'figaro'
 # Grab Instagram pictures
 gem 'instagram'
 
+# Using nokogiri for parsing XML data from the interwebz
+gem 'nokogiri'
+
 
 
 group :development, :test do

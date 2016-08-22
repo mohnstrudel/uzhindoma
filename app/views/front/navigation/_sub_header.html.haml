@@ -4,16 +4,16 @@
 			.jumbotron-mod-1.text-center
 				%div
 					%h1
-						%small Готовьте без лишних хлопот
-						%span.text-bold Ужин Дома
-					%p набор продуктов для домашнего ужина
+						%small.text-uzhindoma Готовьте без лишних хлопот
+						%span.text-bold.text-uzhindoma Ужин Дома
+					%p.text-uzhindoma набор продуктов для домашнего ужина
 					.btn-group-variant
 						=link_to 'Хочу набор', dinner_index_path, class: 'btn btn-success btn-sm'
 			.swiper-wrapper
-				.swiper-slide{"data-slide-bg" => asset_path("placeholder_images/slider-1.jpg")}
+				.swiper-slide{"data-slide-bg" => asset_path("backgrounds/slider-1.jpg")}
 					.swiper-slide-caption
 			/ Swiper Pagination
-			/ .swiper-pagination
+			.swiper-pagination
 -else
 	%section.relative.text-center
 	.container

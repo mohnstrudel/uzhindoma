@@ -10493,7 +10493,9 @@ html.lt-ie-10 .range > [class*="cell-lg-preffix-"] {
 }
 
 .fa-shopping-cart:before {
-  content: "\f07a";
+  /* As of 22/08/2016 content changed from shopping cart to user */
+  content: "\f0c0";
+  /*content: "\f07a";*/
 }
 
 .fa-folder:before {
@@ -13348,7 +13350,7 @@ address dl:first-of-type dt {
     transform: translateY(-50%);
     display: inline-block;
     width: 100px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #0d264f;
   }
   .jumbotron h1 small:before, .jumbotron-mod-1 h1 small:before {
     left: -120px;
@@ -13371,7 +13373,7 @@ address dl:first-of-type dt {
 .jumbotron p, .jumbotron-mod-1 p {
   margin-top: 46px;
   font-size: 20px;
-  color: #fff;
+  color: #0d264f;
   margin-bottom: 0;
 }
 
@@ -22262,7 +22264,7 @@ a.fa-shopping-cart span {
 }
 
 .bg-transparent .rd-navbar {
-  background-color: transparent;
+  background: rgba(255,255,255,0.8);
   color: #fff;
 }
 
@@ -22273,8 +22275,10 @@ a.fa-shopping-cart span {
 
 .bg-transparent .rd-navbar-static .rd-navbar-nav > li a,
 .bg-transparent .rd-navbar-fullwidth .rd-navbar-nav > li a {
-  color: #fff;
+  color: #0d264f;
 }
+
+
 
 .bg-transparent .rd-navbar-static .rd-navbar-nav > li.active a, .bg-transparent .rd-navbar-static .rd-navbar-nav > li.opened a, .bg-transparent .rd-navbar-static .rd-navbar-nav > li.focus a,
 .bg-transparent .rd-navbar-fullwidth .rd-navbar-nav > li.active a,
@@ -22288,6 +22292,7 @@ a.fa-shopping-cart span {
 .bg-transparent .rd-navbar-fullwidth .rd-navbar-nav > li > a:hover,
 .bg-transparent .rd-navbar-fullwidth .rd-navbar-nav > li.active > a {
   background-color: #157EA5;
+  color: #fff;
 }
 
 .bg-transparent .rd-navbar-static .rd-navbar-nav > li .rd-navbar-dropdown li a,
@@ -22321,12 +22326,12 @@ a.fa-shopping-cart span {
 }
 
 .bg-transparent .text-logo text {
-  fill: #fff;
+  fill: #0d264f;
   stroke: transparent;
 }
 
 .bg-transparent .logo {
-  stroke: #fff;
+  stroke: #0d264f;
   fill: transparent;
 }
 

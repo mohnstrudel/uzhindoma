@@ -7,4 +7,9 @@ module FrontHelper
     		link_to link_text, link_path, method: :get
   		end
 	end
+
+	def embed(youtube_url)
+    	youtube_id = youtube_url.split("=").last
+    	content_tag(:iframe, nil, frameborder: 0, width: 560, height: 315, src: "//www.youtube.com/embed/#{youtube_id}")
+  	end
 end

@@ -1,6 +1,6 @@
 %section.section
 	.container
-		%h2 Давайте знакомиться!
+		%h2 Как это работает
 		%hr
 			%p.h5.fw-l
 				Привет! Меня зовут Лена и я создатель этой компании.
@@ -9,7 +9,10 @@
 				.media-mod-3
 					.col-xs-12.col-sm-6.col-lg-6
 						.media-left
-							=image_tag "placeholder_images/lena.jpg", width: 400
+							.embed-container
+								=embed("https://www.youtube.com/watch?v=v8B5AOljhsY")
+							/ =video_tag "https://www.youtube.com/watch?v=v8B5AOljhsY", :size => "320x240", :controls => true
+							/ =image_tag "placeholder_images/lena.jpg", width: 400
 							
 					.col-xs-12.col-sm-6.col-lg-6
 						.media-body.text-sm-left
@@ -48,10 +51,10 @@
 	.container-fluid
 		%h2.text-center Наш инстаграм
 		%hr
-			.row
+			.row.ud_ml_mr_20
 				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 					-@instagram.each do |instagram|
-						.thumbnail-gallery.isotope-item.col-xs-12.col-sm-6.col-md-3{"data-filter" => "type-1"}
+						.thumbnail-gallery.isotope-item.col-xs-12.col-sm-6.col-md-2{"data-filter" => "type-1"}
 							%a{"data-lightbox" => "image", :href => instagram.images.standard_resolution.url}
 								%img{:alt => "", :src => instagram.images.low_resolution.url}
 									.caption

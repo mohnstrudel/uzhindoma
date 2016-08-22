@@ -43,6 +43,7 @@
               %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
       .rd-navbar-nav-wrap
         / RD Navbar Search
+        .rd-navbar-instagram
         .rd-navbar-search
           %form.rd-navbar-search-form{:action => "search.php", :method => "GET"}
             %label.rd-navbar-search-form-input
@@ -50,8 +51,8 @@
             %button.rd-navbar-search-form-submit.fa-shopping-cart{:type => "submit"}
           %span.rd-navbar-live-search-results
           %button.rd-navbar-search-toggle{"data-rd-navbar-toggle" => ".rd-navbar-search, .rd-navbar-live-search-results", :type => "submit"}
-        %a.fa-shopping-cart{:href => "shop-cart.html"}
-          %span 10
+        .rd-navbar-user
+        
         / RD Navbar Nav
         %ul.rd-navbar-nav
           %li
@@ -61,7 +62,7 @@
           %li
             =nav_link "Посмотреть меню и заказать", dinner_index_path
           %li
-            =link_to 'Открыть модалку', "#", data: {target: '#myModal', toggle: 'modal'}
+            =link_to 'Быстрый заказ', "#", data: {target: '#myModal', toggle: 'modal'}
             / RD Navbar Dropdown
 
 
