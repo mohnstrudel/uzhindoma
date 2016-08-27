@@ -1,9 +1,13 @@
 #myTabs
 	/ Nav tabs
-	%ul{:role => "tablist"}
-		-@current_menus.each_with_index do |current_menu, index|
-			%li{role: "presentation"}
-				=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-1 btn-sm"
+	.row.uzhindoma-tabs-row
+		.col-md-2
+		.col-md-8
+			%ul{:role => "tablist"}
+				-@current_menus.each_with_index do |current_menu, index|
+					%li{role: "presentation", class: "uzhindoma_tabs"}
+						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-1 btn-sm"
+		.col-md-2
 	/ Tab panes
 	.tab-content
 		-@current_menus.each_with_index do |current_menu, index|
@@ -26,9 +30,9 @@
 													.caption
 														.caption-wrapper
 															%span.icon.icon-md.icon-white.fa-search-plus
-															%h4.text-white
+															%h6.text-white.uzhindoma-caption-text
 																=recipe.name
-															%p.text-white
+															%p.uzhindoma-caption-text
 																=recipe.description
 								-if current_menu.category.purchasable?
 									=form_tag new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], dinner_amount: params[:dinner_amount], change: params[:change], add_dessert: params[:add_dessert]), method: 'get' do
@@ -36,6 +40,7 @@
 											%h4 
 												Набор
 												=current_menu.category.name
+												%br
 												=current_menu.daterange
 												=hidden_field_tag :menu_id, current_menu.id
 											.row

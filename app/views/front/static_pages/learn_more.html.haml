@@ -1,57 +1,33 @@
 %section.section
 	.container
-		%h2 Доставка и оплата
+		%h2 Как это работает
 		%hr
 		/ Owl Carousel
 		.row
-			.col-md-6
-				.owl-carousel{"data-dots" => "true", "data-items" => "1", "data-loop" => "tue", "data-margin" => "30"}
-					-@carriers.each do |carrier_buddy|
-						.owl-item
-							.row.text-sm-left
-								.col-xs-12.col-lg-12
-									.media.bg-light.media-mod-2
-										.media-left
-											=image_tag carrier_buddy.image.url(:portrait_thumb)
-										.media-body
-											%h6.text-success
-												=carrier_buddy.name
-											%span.text-gray Курьер
-											%p
-												=carrier_buddy.description
-											/ %ul.list-inline
-											/ 	%li
-											/ 		%a.fa-facebook{:href => "#"}
-											/ 	%li
-											/ 		%a.fa-twitter{:href => "#"}
-											/ 	%li
-											/ 		%a.fa-pinterest-p{:href => "#"}
-											/ 	%li
-											/ 		%a.fa-vimeo{:href => "#"}
-											/ 	%li
-											/ 		%a.fa-google{:href => "#"}
-			.col-lg-6
+			.col-lg-12
 				%section
-					%h6 Расценки доставки
-					%ul.marked-list.text-left
-						%li
-							%a.text-base{:href => "#"} Москва и область - бесплатно
-						%li
-							%a.text-base{:href => "#"} Тула - 500 рублей
-						%li
-							%a.text-base{:href => "#"} Нижний Новгород - 1000 рублей
-%section.section.section-inset-1.bg-primary
-	.container
-		%h2.text-center зоны доставки
-		%hr
-			.row
-				#map{style: "position: static;"}
-			%a.btn.btn-white.btn-sm.btn-min-width{:href => "#"} learn more
+					%h6 Текст над видео
+					.text-center
+						Просто текст
+			.col-lg-12
+				.media-center
+					.embed-container
+						=embed("https://www.youtube.com/watch?v=v8B5AOljhsY")
 %section.section.section-inset-1.bg-light
 	.container
 		%h2.text-center Наши поставщики
 		%hr
 			.row
+				.col-md-6.col-xs-12
+					%section
+						
+						%ul.marked-list.text-left
+							%li
+								Будте уверены в качестве!
+							%li
+								Только наисвежайшие продукты!
+							%li
+								Мы знаем своих поставщиков!
 				.col-md-6.col-xs-12
 					/ Owl Carousel
 					.owl-carousel.owl-carousel-mod-1{"data-autoplay" => "true", "data-dots" => "true", "data-dots-each" => "1", "data-items" => "1", "data-lg-items" => "3", "data-loop" => "true", "data-margin" => "15", "data-xs-items" => "2", "data-sm-items" => "2", "data-xs-stage-padding" => "15"}
@@ -64,16 +40,7 @@
 						.owl-item
 							=image_tag "placeholder_images/partner-5.png" do
 								=image_tag "placeholder_images/partner-6.png"
-				.col-md-6.col-xs-12
-					%section
-						
-						%ul.marked-list.text-left
-							%li
-								Будте уверены в качестве!
-							%li
-								Только наисвежайшие продукты!
-							%li
-								Мы знаем своих поставщиков!
+
 %section.section.section-inset-2
 	.container
 		%h2.text-center Индивидуальный подход
@@ -90,6 +57,22 @@
 								%a.text-base{:href => "#"} Можно заменить мяси и аллергены
 							%li
 								%a.text-base{:href => "#"} Всегда подскажем, как готовить
+
+%section.section.section-inset-1.bg-primary
+	.container
+		%h2.text-center зоны доставки
+		%hr
+			.row
+				.col-lg-12
+					%section
+						%h6 Бесплатная доставка даже за МКАД!
+				.col-lg-12
+					.google-maps
+						%iframe{:src => "https://www.google.com/maps/d/embed?mid=1XDErH9fQjyxgY_R7VakujiNprCc", frameborder: 0}
+					/ #map{style: "position: static;"}
+			=link_to "Заказать набор", dinner_index_path, class: 'btn btn-white btn-sm btn-min-width'
+
+
 
 %section.section.section-inset-1.bg-light
 	.container
@@ -126,3 +109,7 @@
 								%a.text-base{:href => "#"} Мы заботимся о каждой морковке
 							%li
 								%a.text-base{:href => "#"} Вы наши лучшие друзья
+			.team_row
+				.col-md-12
+					%section
+						=image_tag "backgrounds/team_hd.jpg"

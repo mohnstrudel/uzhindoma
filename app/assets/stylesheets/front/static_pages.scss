@@ -3,6 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+
+.team_row {
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
 #map {
 	position: static;  
 	width:100%;
@@ -11,4 +17,19 @@
 
 .mapboxgl-canvas {
 	position: static !important;
+}
+
+
+.google-maps {
+        position: relative;
+        padding-bottom: 75%; // This is the aspect ratio
+        height: 0;
+        overflow: hidden;
+    }
+.google-maps iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
 }

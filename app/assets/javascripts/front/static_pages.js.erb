@@ -3,6 +3,19 @@
 // You can use CoffeeScript in this file: http://coffeescript.org/
 
 
+// For page "Uznat Bolshe"
+
+$(document).ready(function(){
+
+  console.log("loaded!");
+  
+  var image = $('.bg-uzhindoma');
+  image.css('background-image', "url(<%= image_url('backgrounds/uznat_bolshe_hd.jpg') %>)");
+  bg = image.css('background-image');
+
+  // $downloadingImage.attr("src", "<%= image_url('backgrounds/uznat_bolshe_hd.jpg') %>");
+});
+
 	$(".owl-carousel-home").owlCarousel({
  
       autoPlay: 3000, //Set AutoPlay to 3 seconds
@@ -21,7 +34,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1Y
       style: 'mapbox://styles/mapbox/dark-v9',
       center: [37.5689484, 55.7491617],
   	  zoom: 8.5,
-  	  hash: true,
+  	  hash: false,
   	  interactive: false
   });
 

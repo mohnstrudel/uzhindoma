@@ -798,7 +798,7 @@ $(document).ready(function () {
                 .addClass("not-animated")
                 .end()
                 .swiper({
-                    autoplay: s.attr('data-autoplay') ? s.attr('data-autoplay') === "false" ? undefined : s.attr('data-autoplay') : 5000,
+                    autoplay: s.attr('data-autoplay') ? s.attr('data-autoplay') === "false" ? undefined : s.attr('data-autoplay') : 0,
                     direction: s.attr('data-direction') ? s.attr('data-direction') : "horizontal",
                     effect: s.attr('data-slide-effect') ? s.attr('data-slide-effect') : "slide",
                     speed: s.attr('data-slide-speed') ? s.attr('data-slide-speed') : 600,

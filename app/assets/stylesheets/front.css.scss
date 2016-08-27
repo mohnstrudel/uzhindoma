@@ -9,6 +9,25 @@
 *= require font-awesome
 */
 
+.bg-uzhindoma{
+  background-image: image-url("backgrounds/uznat_bolshe_thumb.jpg")
+}
+.btn-uzhindoma{
+  background: rgba(255,255,255,0.6);
+  color: #0d264f;
+}
+
+.btn-uzhindoma:hover {
+  color: #000;
+}
+
+.main_image_loading_screen {
+  // width: 600px;
+  // height: 450px;
+  background-image: image-url("backgrounds/slider-1_thumb.jpg");
+  // border: 1px solid black;
+  // border-radius: 5px;
+}
 
 .ud_mt_25{
 	margin-top: 25px;
@@ -48,6 +67,8 @@
 // Transparent menu as requested from client
 .bg-transparent-uzhindoma {
   background:rgba(255,255,255,0.8);
+  margin-top: -20px;
+  height: 100px; 
 }
 
 // Big pile of shitty css just for one freaking icon
@@ -189,7 +210,8 @@
 
 .bg-transparent .rd-navbar-instagram,
 {
-  color: #fff;
+  // removed as of 27/08/2016 because we need blue icons
+  // color: #fff;
 }
 
 .header-center .rd-navbar-instagram {

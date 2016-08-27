@@ -14634,7 +14634,10 @@ form.coupon-form .mfInput {
 
 /* Payment */
 .payment-wrap {
-  padding: 25px 30px 30px;
+  padding-top: 0px;
+  padding-bottom: :30px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .payment-wrap .payment + .payment {
@@ -22270,7 +22273,8 @@ a.fa-shopping-cart span {
 
 .bg-transparent .rd-navbar-static .rd-navbar-panel,
 .bg-transparent .rd-navbar-fullwidth .rd-navbar-panel {
-  padding: 48px 0;
+  /*Removed as of 27/09/2016 because padding was too much*/
+  /*padding: 48px 0;*/
 }
 
 .bg-transparent .rd-navbar-static .rd-navbar-nav > li a,
@@ -22317,7 +22321,10 @@ a.fa-shopping-cart span {
 
 .bg-transparent .rd-navbar-static.rd-navbar--is-stuck,
 .bg-transparent .rd-navbar-fullwidth.rd-navbar--is-stuck {
-  background-color: #282e3e;
+  /* This is the color to which navbar changes upon scrolling*/
+  /*background: rgba(40, 46, 62, 0.5);*/
+  /*background-color: #282e3e;*/
+  background: rgba(255,255,255,0.8);
 }
 
 .bg-transparent .rd-navbar-static.rd-navbar--is-stuck .rd-navbar-panel,
@@ -22350,7 +22357,8 @@ a.fa-shopping-cart span {
 .bg-transparent a.fa-shopping-cart,
 .bg-transparent .rd-navbar-search-toggle,
 .bg-transparent a.fa-shopping-cart span {
-  color: #fff;
+  /* Removed as of 27/08/2016 because we need blue color*/
+  /*color: #fff;*/
 }
 
 .iphone .logo,
