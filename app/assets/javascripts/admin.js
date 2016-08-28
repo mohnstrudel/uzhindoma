@@ -8,9 +8,10 @@
 
 
 //= require_tree ../../../vendor/assets/javascripts/admin/plugins/moment/.
-//= require admin/main
+
 //= require jquery
 //= require jquery_ujs
+
 //= require_tree ../../../vendor/assets/javascripts/admin/jquery_ui/.
 //= require_tree ../../../vendor/assets/javascripts/admin/plugins/.
 //= require_tree ../../../vendor/assets/javascripts/admin/daterange/.

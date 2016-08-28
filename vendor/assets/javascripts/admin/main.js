@@ -1,4 +1,4 @@
-'use strict';
+
 /*! main.js - v0.1.1
  * http://admindesigns.com/
  * Copyright (c) 2015 Admin Designs;*/
@@ -716,7 +716,8 @@ var Core = function(options) {
          // Call Core Functions
          runHelpers();
          runAnimations();
-         runHeader();
+         // As of 28/08/2016 runHeader causes jquery_ujs to break
+         // runHeader();
          runSideMenu(options);
          runFooter();
          runTrays();
