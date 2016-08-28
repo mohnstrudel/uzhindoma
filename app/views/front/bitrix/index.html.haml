@@ -1,3 +1,5 @@
 %h2 Token
-%p 
-	=link_to "Создать лид в битриксе", new_lead_path
+%p
+	=form_tag bitrix_path, method: 'get'  do
+		=text_field_tag :phone
+		=submit_tag "Создать лид в битриксе"

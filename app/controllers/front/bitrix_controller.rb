@@ -3,8 +3,8 @@ class Front::BitrixController < FrontController
 	require 'nokogiri'
 	require 'json'
 
-	before_action :find_bitrix, only: [:index, :init, :create_new_lead]
-	before_action :get_tokens, only: [:index, :init, :create_new_lead]
+	before_action :find_bitrix, only: [:index, :init, :create_new_lead, :create_new_order]
+	before_action :get_tokens, only: [:index, :init, :create_new_lead, :create_new_order]
 
 	def init(refresh)
 		client_id = "local.57a61102d0b562.81576057"
@@ -42,6 +42,11 @@ class Front::BitrixController < FrontController
 		@response = JSON.parse(doc)
 
 		p @response
+		redirect_to bitrix_path
+	end
+
+	def create_new_order
+		# In this method we first search for user and, if found, create a deal or a lead
 		redirect_to bitrix_path
 	end
 

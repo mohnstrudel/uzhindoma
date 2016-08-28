@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     resources :orders
     
     get 'bitrix', to: 'bitrix#index'
-    get 'bitrix/new' => 'bitrix#create_new_lead', :as => :new_lead
+    get 'bitrix/new' => 'bitrix#create_new_order', :as => :new_bitrix_order
   end
 
 
