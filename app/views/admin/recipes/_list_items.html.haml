@@ -50,7 +50,7 @@
                   %input{:name => "mobileos", :type => "checkbox", :value => "FR"}
                     %span.checkbox.mn
               %td.w100
-                %img.img-responsive.mw40.ib.mr10{:src => "assets/img/stock/products/thumb_1.jpg", :title => "user"}
+                =image_tag recipe.pictures.first.image.url(:mini_thumb), class: "img-responsive mw40 ib mr10", title: recipe.name
               %td
                 =link_to recipe.name, edit_admin_recipe_path(recipe) 
               %td
