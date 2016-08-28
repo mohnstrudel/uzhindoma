@@ -18,7 +18,7 @@
 
 //= require_tree ../../../vendor/assets/javascripts/admin/demo/.
 
-
+//= require admin/main
 
 //= require_self
 //= require_tree ../../../app/assets/javascripts/admin/.
