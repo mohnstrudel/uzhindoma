@@ -43,11 +43,16 @@ class Admin::RecipesController < AdminController
 
   def create 
   	@recipe = Recipe.new(recipe_params)
-  	if @recipe.save
-  		redirect_to admin_recipes_path
-      flash[:success] = "Успешно создано"
-  	else
-  		render 'new'
+    if params[:pictures]
+  	  if @recipe.save
+  		  redirect_to admin_recipes_path
+        flash[:success] = "Успешно создано"
+  	  else
+  		  render 'new'
+      end
+    else
+      @recipe.errors.add(:base, "Необходимо загрузить фотографию блюда!")
+      render 'new'
   	end
   end
 

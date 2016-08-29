@@ -1,3 +1,6 @@
+-@recipe.errors.full_messages.each do |message|
+  =content_tag(:div, message, class: "alert alert-danger")
+
 =form_for [:admin, @recipe] do |f|
   .panel.mb25.mt5
     .panel-heading
