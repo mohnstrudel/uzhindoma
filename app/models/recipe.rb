@@ -1,6 +1,6 @@
 class Recipe < ActiveRecord::Base
 	has_many :pictures, dependent: :destroy
-	accepts_nested_attributes_for :pictures, reject_if: :all_blank, allow_destroy: true
+	accepts_nested_attributes_for :pictures, allow_destroy: true
 
 	has_many :menurecipes
 	has_many :menus, through: :menurecipes

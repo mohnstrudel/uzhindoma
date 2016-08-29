@@ -45,6 +45,7 @@ class Admin::RecipesController < AdminController
   	@recipe = Recipe.new(recipe_params)
     if params[:pictures]
   	  if @recipe.save
+        params[:pictures].each { |image| @recipe.pictures.create(image: image) }
   		  redirect_to admin_recipes_path
         flash[:success] = "Успешно создано"
   	  else
