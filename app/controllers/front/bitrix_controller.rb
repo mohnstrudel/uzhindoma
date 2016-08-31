@@ -45,12 +45,35 @@ class Front::BitrixController < FrontController
 		redirect_to bitrix_path
 	end
 
-	def create_new_order
+	def create_new_order(phone)
 		# In this method we first search for user and, if found, create a deal or a lead
-		redirect_to bitrix_path
+
+		# Let's translate phone into something, that might be inside Bitrix
+		# method is in bitrix.rb model
+		# @client_data = Array.new
+		@phone = Bitrix.parse_phone(phone)
+
+		
+		# redirect_to bitrix_path
+
+		@phone.each do |current_phone|
+			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
+			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{@bitrix.access_token}&#{fields_string}"
+
+			doc = Nokogiri::HTML(open(url))
+			@client_data = JSON.parse(doc)
+			unless @client_data["result"].empty?
+				return @client_data
+			end
+		end
 	end
 
 	def index
+
+		if params[:phone]
+			create_new_order(params[:phone])
+		end
+		
 		
 		# debug
 		if @refresh_token.nil?
