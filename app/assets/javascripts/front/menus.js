@@ -19,7 +19,7 @@ $(document).ready(function() {
   		$('.isotope').isotope('destroy'); //destroying isotope
   		$('.isotope').isotope();
   		
-    	$("#owl-gal-1").owlCarousel({
+    	$("#owl-gal-2").owlCarousel({
     		nav : false,
     		responsive:{
         		0:{

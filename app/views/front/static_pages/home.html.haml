@@ -39,11 +39,14 @@
 					.resp-tabs-container
 						-@current_menus.each do |menu|
 							.text-sm-left.fadeIn.animated
-								.owl-carousel-home{"data-dots" => "true", "data-loop" => "true"}
+								.owl-carousel-home{"data-dots" => "true", "data-loop" => "true", "data-lightbox" => "gallery"}
 									-menu.recipes.each do |recipe|
 										.owl-item
 											.row.flow-offset-1
-												=image_or_default_tag(recipe, "pictures", "image")
+												=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery"} do
+													=image_or_default_tag(recipe, "pictures", "image")
+											.row.flow-offset-1.text-center
+												=recipe.name
 												/ =image_tag recipe.pictures.first.image.url
 		=link_to 'Заказать ужин', dinner_index_path, class: "btn btn-success-mod-1"
 			
@@ -55,13 +58,11 @@
 			.row.ud_ml_mr_20
 				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 					-@instagram.each do |instagram|
-						.thumbnail-gallery.isotope-item.col-xs-12.col-sm-6.col-md-2{"data-filter" => "type-1"}
+						.thumbnail-gallery.isotope-item.col-xs-6.col-sm-3.col-md-1.uzhindoma-instagram-item{"data-filter" => "type-1"}
 							%a{"data-lightbox" => "image", :href => instagram.images.standard_resolution.url}
 								%img{:alt => "", :src => instagram.images.low_resolution.url}
 									.caption
 										.caption-wrapper
 											%span.icon.icon-md.icon-white.fa-search-plus
-											%h4.text-white
-												=instagram.tags
 											%p.text-white
 												=instagram.caption.text

@@ -27,13 +27,15 @@
 											.thumbnail-gallery.isotope-item.col-xs-12.col-sm-6.col-md-6{"data-filter" => "type-1"}
 												=link_to recipe.pictures.first.image.url, data: {lightbox: "image"} do
 													=image_tag recipe.pictures.first.image.url(:mini_thumb)
-													.caption
+													.caption.uzhindoma-menu-caption
 														.caption-wrapper
 															%span.icon.icon-md.icon-white.fa-search-plus
 															%h6.text-white.uzhindoma-caption-text
 																=recipe.name
 															%p.uzhindoma-caption-text
 																=recipe.description
+									/ New line
+									.uzhindoma-newline
 								-if current_menu.category.purchasable?
 									=form_tag new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], dinner_amount: params[:dinner_amount], change: params[:change], add_dessert: params[:add_dessert]), method: 'get' do
 										.col-xs-12.col-md-6.text-center.uzhin-doma-form

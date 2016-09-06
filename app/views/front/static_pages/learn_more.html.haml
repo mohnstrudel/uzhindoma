@@ -4,15 +4,15 @@
 		%hr
 		/ Owl Carousel
 		.row
-			.col-lg-12
-				%section
-					%h6 Текст над видео
-					.text-center
-						Просто текст
-			.col-lg-12
+			.col-lg-6
 				.media-center
 					.embed-container
-						=embed("https://www.youtube.com/watch?v=v8B5AOljhsY")
+						=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 720, height: 405)
+			.col-lg-6
+				%section
+					%h6 Маркерный текст
+					.text-center
+						Справа маркерный текст
 %section.section.section-inset-1.bg-light
 	.container
 		%h2.text-center Наши поставщики
@@ -59,18 +59,19 @@
 								%a.text-base{:href => "#"} Всегда подскажем, как готовить
 
 %section.section.section-inset-1.bg-primary
-	.container
-		%h2.text-center зоны доставки
-		%hr
-			.row
-				.col-lg-12
-					%section
-						%h6 Бесплатная доставка даже за МКАД!
-				.col-lg-12
-					.google-maps
-						%iframe{:src => "https://www.google.com/maps/d/embed?mid=1XDErH9fQjyxgY_R7VakujiNprCc", frameborder: 0}
-					/ #map{style: "position: static;"}
-			=link_to "Заказать набор", dinner_index_path, class: 'btn btn-white btn-sm btn-min-width'
+	%h2.text-center зоны доставки
+	%hr
+		.row
+			.col-lg-12
+				%section
+					%h6 Бесплатная доставка даже за МКАД!
+		.row
+			.col-lg-12
+				#map{style: "position: static; height: 500px;"}
+				/ .google-maps
+				/ %iframe{:src => "https://www.google.com/maps/d/embed?mid=1XDErH9fQjyxgY_R7VakujiNprCc", frameborder: 0}
+				
+		=link_to "Заказать набор", dinner_index_path, class: 'btn btn-white btn-sm btn-min-width'
 
 
 
@@ -96,19 +97,6 @@
 														=employee.name
 													%p.text-white
 														=employee.description
-											
-				.col-md-6.col-xs-12
-					%section
-						
-						%ul.marked-list.text-left
-							%li
-								%a.text-base{:href => "#"} Профессионалы
-							%li
-								%a.text-base{:href => "#"} Мы любим свою работу
-							%li
-								%a.text-base{:href => "#"} Мы заботимся о каждой морковке
-							%li
-								%a.text-base{:href => "#"} Вы наши лучшие друзья
 			.team_row
 				.col-md-12
 					%section

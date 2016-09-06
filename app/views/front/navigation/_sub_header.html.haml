@@ -3,10 +3,6 @@
 		.swiper-container.swiper-slider
 			.jumbotron-mod-1.text-center
 				%div
-					%h1
-						%small.text-uzhindoma Готовьте без лишних хлопот
-						%span.text-bold.text-uzhindoma Ужин Дома
-					%p.text-uzhindoma набор продуктов для домашнего ужина
 					.btn-group-variant
 						=link_to 'Хочу набор', dinner_index_path, class: 'btn btn-uzhindoma btn-sm'
 			.main_image_loading_screen
@@ -14,24 +10,12 @@
 
 
 -elsif request.fullpath == '/dinner'
-	%section.relative.text-center
-	.container
-		.jumbotron.text-center
-			%h1
-				%small.text-uzhindoma Заказать набор
-				%span.text-bold.text-uzhindoma
-					Самая 
-					%br вкусная часть
+
 -else
 	%section.relative.text-center
 	.container
 		.jumbotron.text-center
-			%h1
-				%small.text-uzhindoma О нас
-				%span.text-bold.text-uzhindoma
-					Кто мы такие
-					%br и 
-					с чем нас едят
+					
 
 
 #myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}

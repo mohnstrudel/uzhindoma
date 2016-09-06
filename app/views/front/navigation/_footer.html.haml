@@ -3,26 +3,15 @@
     .container
       .row.text-left.clearleft-custom
         .col-xs-12.col-sm-6.col-lg-4.text-gray
-          .rd-navbar-brand.undefined
-            %a.brand-name{:href => "index.html"}
-              %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
-                %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.3432)"} Дома
-                %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} УЖИН
-                %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
-          %p Мы верим, что сможем сделать вашу жизнь проще!
-          %address
-            %dl
-              %dt Как нас найти:
-              %dd Москва, Адресочек
-            %dl.dl-horizontal-mod-1
-              %dt Whatsapp
-              %dd
-                %a.text-success{:href => "callto:#"} 
-                  =Setting.first.phone
-            %dl.dl-horizontal-mod-1
-              %dt Email
-              %dd
-                %a.text-success{:href => "mailto:#"} info@uzhindoma.ru
+          .row
+            %h4
+              =Setting.first.phone
+          .row
+            %i.fa.fa-whatsapp
+            %i.fa.fa-phone
+          .row
+            %p мы на связи с 9 до 22
+
           / %ul.well6.offset-5
           /   %li
           /     =link_to Setting.first.facebook, class: 'text-gray small' do
@@ -41,38 +30,27 @@
           %h4 Полезные ссылки
           .blog-post
             .blog-post-title
-              %a{:href => "blog-post.html"} Новое меню
-
+              %a{:href => "blog-post.html"} Вопрос-ответ
           .blog-post
             .blog-post-title
-              %a{:href => "blog-post.html"} Заказать
-
-          .blog-post
-            .blog-post-title
-              %a{:href => "blog-post.html"} Наша команда
+              %a{:href => "blog-post.html"} Вакансии
 
           .blog-post
             .blog-post-title
               %a{:href => "blog-post.html"} Доставка и оплата
 
-          .blog-post
-            .blog-post-title
-              %a{:href => "blog-post.html"} Вопрос и ответ
 
 
-        .col-xs-12.col-sm-6.col-lg-3
-          %h4 Наша рассылка
-          %p.text-gray Подпишитесь на нашу рассылку и мы будем уведомлять вас о наших аппетитных новостях (мы не будем слать вам ничего чаще раза в месяц!)
+        .col-xs-12.col-sm-6.col-lg-4
+          %h4 Ваш отзыв
+          %p.text-gray Напишите нам, как мы можем улучшить наш сервис.
           / RD Mailform
-          %form.rd-mailform.subscribe{:action => "bat/rd-mailform.php", "data-form-type" => "subscribe", "data-result-class" => "rd-mailform-validate", :method => "post"}
+          %form.rd-mailform{:action => "bat/rd-mailform.php", "data-form-type" => "subscribe", "data-result-class" => "rd-mailform-validate", :method => "post"}
             %input{"data-constraints" => "@NotEmpty @Email", :name => "email", :placeholder => "Ваша почта", :type => "text"}
-              %button.btn.btn-sm.btn-min-width.btn-success Подписаться
-          %p.count.h6.pull-left.offset-2
-            15 473 654
-            %span.text-gray.fw-r Рецептов
-          %p.count.h6.pull-right.offset-2
-            18 654
-            %span.text-gray.fw-r Ужинов доставлено
+            .row
+            %textarea{"data-constraints" => "@NotEmpty", :name => "complaint", :placeholder => "Ваш отзыв", :type => "text"}
+            %button.btn.btn-sm.btn-min-width.btn-success Отправить
+
   %section.copyright.bg-dark.well5
     .container
       %p.pull-sm-left
@@ -80,11 +58,13 @@
         %span#copyright-year
         Все права защищены
         %a{:href => "terms.html"} Пользовательское соглашение
-      %ul.list-inline.pull-sm-right.offset-3
-        %li
-          =link_to '', Setting.first.facebook, class: 'fa-facebook'
-        %li
-          =link_to '', Setting.first.vkontakte, class: 'fa-vk'
-        %li
-          =link_to '', Setting.first.instagram, class: 'fa-instagram'
-  / {%FOOTER_LINK}
+      .pull-sm-right
+        Вступайте в наш клуб кулинаров
+        %ul.list-inline.offset-3
+          %li
+            =link_to '', Setting.first.facebook, class: 'fa-facebook'
+          %li
+            =link_to '', Setting.first.vkontakte, class: 'fa-vk'
+          %li
+            =link_to '', Setting.first.instagram, class: 'fa-instagram'
+    / {%FOOTER_LINK}

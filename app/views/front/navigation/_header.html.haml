@@ -44,25 +44,20 @@
       .rd-navbar-nav-wrap
         / RD Navbar Search
         .rd-navbar-instagram
-        .rd-navbar-search
-          %form.rd-navbar-search-form{:action => "search.php", :method => "GET"}
-            %label.rd-navbar-search-form-input
-              %input{:autocomplete => "off", :name => "s", :placeholder => "Search..", :type => "text"}
-            %button.rd-navbar-search-form-submit.fa-shopping-cart{:type => "submit"}
-          %span.rd-navbar-live-search-results
-          %button.rd-navbar-search-toggle{"data-rd-navbar-toggle" => ".rd-navbar-search, .rd-navbar-live-search-results", :type => "submit"}
         .rd-navbar-user
+        .rd-navbar-vk
+        .rd-navbar-fb
         
         / RD Navbar Nav
         %ul.rd-navbar-nav
           %li
-            =nav_link 'Главная', root_path
+            =nav_link 'ГЛАВНАЯ', root_path
           %li
-            =nav_link 'Узнать больше', uznat_bolshe_path
+            =nav_link 'УЗНАТЬ БОЛЬШЕ', uznat_bolshe_path
           %li
-            =nav_link "Посмотреть меню и заказать", dinner_index_path
+            =nav_link "НОВОЕ МЕНЮ", dinner_index_path
           %li
-            =link_to 'Быстрый заказ', "#", data: {target: '#myModal', toggle: 'modal'}
+            =link_to 'БЫСТРЫЙ ЗАКАЗ', "#", data: {target: '#myModal', toggle: 'modal'}
             / RD Navbar Dropdown
 
 

@@ -1,2 +1,3 @@
 module Front::StaticPagesHelper
+
 end
