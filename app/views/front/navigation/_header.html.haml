@@ -43,10 +43,13 @@
               %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
       .rd-navbar-nav-wrap
         / RD Navbar Search
-        .rd-navbar-instagram
+        =link_to Setting.first.instagram do
+          .rd-navbar-instagram
         .rd-navbar-user
-        .rd-navbar-vk
-        .rd-navbar-fb
+        =link_to Setting.first.vkontakte do
+          .rd-navbar-vk
+        =link_to Setting.first.facebook do
+          .rd-navbar-fb
         
         / RD Navbar Nav
         %ul.rd-navbar-nav

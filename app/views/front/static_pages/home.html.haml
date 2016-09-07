@@ -59,10 +59,12 @@
 				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 					-@instagram.each do |instagram|
 						.thumbnail-gallery.isotope-item.col-xs-6.col-sm-3.col-md-1.uzhindoma-instagram-item{"data-filter" => "type-1"}
-							%a{"data-lightbox" => "image", :href => instagram.images.standard_resolution.url}
-								%img{:alt => "", :src => instagram.images.low_resolution.url}
-									.caption
-										.caption-wrapper
-											%span.icon.icon-md.icon-white.fa-search-plus
-											%p.text-white
-												=instagram.caption.text
+							=link_to instagram["images"]["standard_resolution"]["url"], data: {lightbox: "image"} do
+								=image_tag instagram["images"]["low_resolution"]["url"]
+								/ %a{"data-lightbox" => "image", :href => instagram.images.standard_resolution.url}
+								/ %img{:alt => "", :src => instagram.images.low_resolution.url}
+								.caption
+									.caption-wrapper
+										%span.icon.icon-md.icon-white.fa-search-plus
+										%p.text-white
+											=instagram["caption"]["text"]

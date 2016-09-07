@@ -20,7 +20,7 @@
 								.col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-0.text-center
 									=content_tag(:div, id: "owl-gal-#{index}", class: "own-carousel", "data-lightbox" => "gallery") do
 										-current_menu.recipes.each_with_index do |recipe, index|
-											=link_to recipe.pictures.first.image.url, data: {lightbox: "image", caption: "Some Title"} do
+											=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", caption: "Some Title"} do
 												=image_tag recipe.pictures.first.image.url
 									.isotope.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 										-current_menu.recipes.each_with_index do |recipe, index|
