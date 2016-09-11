@@ -14,7 +14,7 @@ class Admin::EmployeesController < AdminController
 		@employee = Employee.new(employee_params)
 
 		if @employee.save
-  			redirect_to admin_employees_path
+  			redirect_to admin_employees_path, method: :get
       		flash[:success] = "Успешно создано"
   		else
   			render 'new'
@@ -26,7 +26,7 @@ class Admin::EmployeesController < AdminController
 
 	def update
 		if @employee.update(employee_params)
-			redirect_to edit_admin_employee_path(@employee)
+			redirect_to edit_admin_employee_path(@employee), method: :get
 			flash[:success] = "Успешно обновлено"
 		else
 			render "edit"

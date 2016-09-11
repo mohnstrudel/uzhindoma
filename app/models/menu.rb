@@ -2,16 +2,16 @@ class Menu < ActiveRecord::Base
 
   # scope :current, lambda { where(daterange: "09/05/2016 - 13/05/2016") }
   scope :current, lambda { where("start_time <= ? AND end_time >= ?", Time.now, Time.now) }
+  scope :dessert, lambda { where("category_id =?", Category.dessert[0].id)}
+
   after_save :get_date
 
   mount_uploader :hotpic, PictureUploader
-  
-  has_many :pictures, dependent: :destroy
-  accepts_nested_attributes_for :pictures, allow_destroy: true
+
 
   belongs_to :category
 
-  has_many :menurecipes
+  has_many :menurecipes, dependent: :destroy
   has_many :recipes, through: :menurecipes
 
   accepts_nested_attributes_for :menurecipes

@@ -1,6 +1,6 @@
 class Admin::MenusController < AdminController
 
-	before_action :find_menu, only: [:edit, :update]
+	before_action :find_menu, only: [:edit, :update, :destroy]
 
 	def index
 		@menus = Menu.all
@@ -13,9 +13,19 @@ class Admin::MenusController < AdminController
 	def edit
 	end
 
+	def destroy
+		if @menu.destroy
+      		redirect_to admin_menus_path, method: :get
+      		flash[:success] = 'Удалено успешно'
+    	else
+      		render 'index'
+      		flash[:danger] = 'Что-то пошло не так'
+    	end
+	end
+
 	def update
 		if @menu.update(menu_params)
-			redirect_to edit_admin_menu_path(@menu)
+			redirect_to edit_admin_menu_path(@menu), method: :get
 			flash[:success] = "Успешно обновлено"
 		else
 			render "edit"
@@ -25,7 +35,7 @@ class Admin::MenusController < AdminController
 	def create
 		@menu = Menu.new(menu_params)
 		if @menu.save
-  			redirect_to admin_menus_path
+  			redirect_to admin_menus_path, method: :get
       		flash[:success] = "Успешно создано"
   		else
   			render 'new'

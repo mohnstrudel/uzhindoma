@@ -51,7 +51,12 @@
                   %input{:name => "mobileos", :type => "checkbox", :value => "FR"}
                     %span.checkbox.mn
               %td.w100
-                %img.img-responsive.mw40.ib.mr10{:src => "assets/img/stock/products/thumb_1.jpg", :title => "user"}
+                -if menu.hotpic?
+                  =image_tag menu.hotpic, class: 'img-responsive mw40 ib mr10', title: menu.daterange
+                -elsif menu.recipes.first.pictures.any?
+                  =image_tag menu.recipes.first.pictures.first.image.url, class: 'img-responsive mw40 ib mr10'
+                -else
+                  =placeholdit_image_tag "50x50", text: 'Нет картинки', class: 'img-responsive mw40 ib mr10'
               %td
                 =menu.category.name
               %td
