@@ -45,7 +45,8 @@
         / RD Navbar Search
         =link_to Setting.first.instagram do
           .rd-navbar-instagram
-        .rd-navbar-user
+        =link_to edit_user_registration_path, method: :get do
+          .rd-navbar-user
         =link_to Setting.first.vkontakte do
           .rd-navbar-vk
         =link_to Setting.first.facebook do

@@ -1,11 +1,28 @@
 Rails.application.routes.draw do
   
+  # namespace :front do
+  # get 'users/profile'
+  # end
+
+
   # root 'static_pages#home'
 
 
+  # devise_for :users, controllers: {
+  #       registrations: 'admin/users/registrations'
+  #       # registrations: 'front/users/registrations'
+  #     }
   devise_for :users, controllers: {
-        registrations: 'admin/users/registrations'
-      }
+        sessions: 'front/users/sessions',
+        registrations: 'front/users/registrations'
+      }, path: '', path_names: { 
+        sign_in: 'signin', 
+        sign_out: 'signout', 
+        sign_up: 'register', 
+        edit: 'profile' }
+  
+  get 'profile', to: 'front/users#profile', as: 'user_root'
+  
   namespace :admin do
     get '', to: 'dashboard#index', as: '/'
     resources :recipes

@@ -1,0 +1,80 @@
+=form_for @user do |f|
+	.section.section-inset-1
+		.container
+			.row
+				.col-xs-12.col-md-8.col-md-offset-2
+					%section
+						%h4 Ваши данные
+						/ RD Mailform
+						.rd-mailform.row.flow-offset-6
+							.col-xs-12.col-sm-6
+								=f.text_field :name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
+							.col-xs-12.col-sm-6.right-col
+								=f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@Phone" }, class: "form-input"
+							.col-xs-12.col-sm-12.left-col
+								=f.text_field :email, placeholder: "Ваша почта", data: { constraints: "@NotEmpty @Email" }
+							.col-xs-12.select
+								/ RD SelectMenu
+								%label{:for => "select-1"}
+								%select#select-1.rd-mailform-select{:name => "select"}
+									%option{:value => "Москва"} Москва
+									%option{:value => "Железнодорожный"} Железнодорожный
+									%option{:value => "Балашиха"} Балашиха
+							.col-xs-12.col-sm-12.left-col
+								=text_field_tag :street, placeholder: "Улица, Дом, Квартира, Подъезд", data: { constraints: "@NotEmpty" }
+							/ .col-xs-12.text-left
+							/	 %label.mfCheckbox
+							/		 %input.mfCheckbox__input{:type => "checkbox"}
+							/			 %span Create an account
+					%section.section-inset-3
+						%h4 Ваш заказ
+						.row.offset-5
+							.col-xs-12
+								.table-responsive
+									%table.table.table-striped-mod-1
+										%thead
+											%tr.bg-primary
+												%th Параметры набора
+												%th
+										%tbody.text-left
+											%tr
+												%td
+													=link_to @menu.category.name, menu_path(@menu)
+												%td
+													="#{@menu_price} руб."
+													/ Some hidden fields to set up order values
+													=f.hidden_field :menu_id, value: @menu.id
+
+											%tr
+												%td Кол-во персон
+												%td
+													=f.hidden_field :person_amount, value: params[:person_amount].to_i
+													=params[:person_amount]
+											%tr
+												%td Кол-во ужинов
+												%td
+													=f.hidden_field :menu_amount, value: params[:menu_amount].to_i
+													=params[:menu_amount]
+											%tr
+												%td Добавить дессерт?
+												%td
+													=f.hidden_field :add_dessert, value: params[:add_dessert]
+													=params[:add_dessert]
+											%tr
+												%td
+													="Заменить #{@menu.change_from} на #{@menu.change_to}?"
+												%td
+													=f.hidden_field :change, value: params[:change]
+													=params[:change]
+						.row.offset-5
+							.col-xs-12
+								.payment-wrap.text-left.bg-light
+									.payment
+										.radio
+											%label
+												%input#blankRadio1{:name => "blankRadio", :type => "radio", :value => "option1", checked: true}
+													%span.radio-field
+													%span.h6.text-success Наличными курьеру
+						.row.offset-5
+							.col-xs-12
+								=f.submit 'Оформить заказ', class: 'btn btn-sm btn-min-width btn-success'

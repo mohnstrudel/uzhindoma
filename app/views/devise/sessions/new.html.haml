@@ -1,0 +1,25 @@
+=form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+	.section.section-inset-1
+		.container
+			.row
+				.col-xs-12.col-md-8.col-md-offset-2
+					%section
+						%h4 Вход в систему
+						.rd-mailform.row.flow-offset-6
+							.col-xs-12.col-sm-6
+								=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true
+							.col-xs-12.col-sm-6
+								=f.password_field :password, placeholder: "Пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off" 
+							.col-xs-12.text-left
+								%label.mfCheckbox
+									=f.check_box :remember_me, class: 'mfCheckbox__input'
+									%span Запомнить меня
+					%section.section-inset-3
+						.row.offset-5
+							.col-xs-12
+								=f.submit 'Вход', class: 'btn btn-sm btn-min-width btn-success'
+		%section.section-inset-3
+			.row.ud_mt_4em
+				%h6 Нет аккаунта?
+			.row.offset-5
+				=link_to 'Создать', new_user_registration_path, class: 'btn btn-sm btn-min-width btn-success-mod-1'

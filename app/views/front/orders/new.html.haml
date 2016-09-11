@@ -3,10 +3,8 @@
   %section.bg-light.section-lg
     %ol.breadcrumb
       %li
-        %a{:href => "index.html"} Home
-      %li
-        %a{:href => "#"} Shop
-      %li.active Checkout
+        =link_to 'Главная', root_path
+      %li.active Заказ
   =form_for @order do |f|
     .section.section-inset-1
       .container
