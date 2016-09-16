@@ -1,0 +1,61 @@
+.section.section-inset-1
+	.container
+		.responsive-tabs.horizontal-tabs.offset-5
+			%ul.resp-tabs-list
+				%li.btn.btn-success-mod-1 Профиль
+				%li.btn.btn-success-mod-1 Заказы 
+			.resp-tabs-container
+				.text-sm-left.fadeIn.animated
+					.row
+						.col-xs-12.col-md-10.col-md-offset-1
+							%section
+								=form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "rd-mailform row", method: :put }) do |f|		
+									=devise_error_messages!
+									%h4 Ваши данные
+									.row
+										.col-xs-12.col-sm-6
+											.mfInput
+												=f.text_field :name, placeholder: "Ваше имя"
+										.col-xs-12.col-sm-6
+											.mfInput
+												=f.text_field :phone, placeholder: "Ваш телефон"
+									.row	
+										.col-xs-12.col-sm-12
+											.mfInput
+												=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true
+										-if devise_mapping.confirmable? && resource.pending_reconfirmation?
+											.info 
+												Currently waiting confirmation for: <%= resource.unconfirmed_email
+									.row
+										.col-sx-12.col-sm-12
+											.mfInput
+												=f.text_area :address, placeholder: "Ваш адрес"
+									%h4 Поменять пароль
+									.row
+										.col-xs-12.col-sm-6
+											.mfInput
+												=f.password_field :password, placeholder: "Новый пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off" 
+										.col-xs-12.col-sm-6	
+											.mfInput
+												=f.password_field :password_confirmation, placeholder: 'Повторите новый пароль', class: 'form-input', autocomplete: "off"
+									%section.section-inset-3
+										.col-xs-6.col-xs-offset-3
+											=button_tag 'Сохранить данные', class: 'btn btn-sm btn-success'
+				.text-sm-left.fadeIn.animated
+					.row
+						.col-xs-12.col-md-10.col-md-offset-1
+							%section
+								%h4.text-center Ваши заказы
+								.table-responsive
+									%table.table.table-striped-mod-1
+										%thead
+											%tr.bg-primary
+												%th Наборы
+												%th
+										%tbody.text-left
+											-@orders.each do |order|
+												%tr
+													%td
+														="#{(DateTime.strptime(order['BEGINDATE'], '%Y-%m-%dT%H:%M:%S%z')).strftime("%d/%m/%Y")}"
+													%td 
+														=order["OPPORTUNITY"]

@@ -21,10 +21,3 @@
 
 en:
   hello: "Hello world"
-  activerecord:
-    errors:
-      models:
-        recipe:
-          attributes:
-            name:
-              blank: "Название не должно быть пустым"

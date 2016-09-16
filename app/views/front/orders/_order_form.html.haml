@@ -1,4 +1,4 @@
-=form_for Order.new do |f|
+=form_for Order.new(name: current_user.name, phone: current_user.phone) do |f|
 	.col-xs-12.col-md-12.text-center.ud_mt_25
 		.rd-mailform.row.flow-offset-6
 			.row

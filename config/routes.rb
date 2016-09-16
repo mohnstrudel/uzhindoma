@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  
   # namespace :front do
   # get 'users/profile'
   # end

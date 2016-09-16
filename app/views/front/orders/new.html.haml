@@ -28,7 +28,7 @@
                     %option{:value => "Железнодорожный"} Железнодорожный
                     %option{:value => "Балашиха"} Балашиха
                 .col-xs-12.col-sm-12.left-col
-                  =text_field_tag :street, placeholder: "Улица, Дом, Квартира, Подъезд", data: { constraints: "@NotEmpty" }
+                  =f.text_area :address, placeholder: "Улица, Дом, Квартира, Подъезд", data: { constraints: "@NotEmpty" }
                 / .col-xs-12.text-left
                 /   %label.mfCheckbox
                 /     %input.mfCheckbox__input{:type => "checkbox"}

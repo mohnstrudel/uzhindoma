@@ -6,7 +6,8 @@ class Front::OrdersController < FrontController
 
 
 	def new
-		@order = Order.new
+		cu = current_user
+		@order = Order.new name: cu.name, phone: cu.phone, email: cu.email, address: cu.address
 		@menu = Menu.find(params[:menu_id])
 		@menu_price = @menu.calculate_price(@menu, params)
 	end

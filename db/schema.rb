@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808191113) do
+ActiveRecord::Schema.define(version: 20160916154329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +42,8 @@ ActiveRecord::Schema.define(version: 20160808191113) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "image"
+    t.index ["jobtitle_id"], name: "index_employees_on_jobtitle_id", using: :btree
   end
-
-  add_index "employees", ["jobtitle_id"], name: "index_employees_on_jobtitle_id", using: :btree
 
   create_table "jobtitles", force: :cascade do |t|
     t.string   "name"
@@ -60,21 +58,19 @@ ActiveRecord::Schema.define(version: 20160808191113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order_id"
+    t.index ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+    t.index ["menu_id"], name: "index_line_items_on_menu_id", using: :btree
+    t.index ["order_id"], name: "index_line_items_on_order_id", using: :btree
   end
-
-  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
-  add_index "line_items", ["menu_id"], name: "index_line_items_on_menu_id", using: :btree
-  add_index "line_items", ["order_id"], name: "index_line_items_on_order_id", using: :btree
 
   create_table "menurecipes", force: :cascade do |t|
     t.integer  "menu_id"
     t.integer  "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["menu_id"], name: "index_menurecipes_on_menu_id", using: :btree
+    t.index ["recipe_id"], name: "index_menurecipes_on_recipe_id", using: :btree
   end
-
-  add_index "menurecipes", ["menu_id"], name: "index_menurecipes_on_menu_id", using: :btree
-  add_index "menurecipes", ["recipe_id"], name: "index_menurecipes_on_recipe_id", using: :btree
 
   create_table "menus", force: :cascade do |t|
     t.integer  "category_id"
@@ -88,9 +84,8 @@ ActiveRecord::Schema.define(version: 20160808191113) do
     t.string   "change_from"
     t.string   "change_to"
     t.text     "description"
+    t.index ["category_id"], name: "index_menus_on_category_id", using: :btree
   end
-
-  add_index "menus", ["category_id"], name: "index_menus_on_category_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "name"
@@ -109,20 +104,18 @@ ActiveRecord::Schema.define(version: 20160808191113) do
     t.boolean  "add_dessert"
     t.string   "order_type"
     t.string   "menu_type"
+    t.index ["category_id"], name: "index_orders_on_category_id", using: :btree
+    t.index ["menu_id"], name: "index_orders_on_menu_id", using: :btree
+    t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
   end
-
-  add_index "orders", ["category_id"], name: "index_orders_on_category_id", using: :btree
-  add_index "orders", ["menu_id"], name: "index_orders_on_menu_id", using: :btree
-  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "recipe_id"
+    t.index ["recipe_id"], name: "index_pictures_on_recipe_id", using: :btree
   end
-
-  add_index "pictures", ["recipe_id"], name: "index_pictures_on_recipe_id", using: :btree
 
   create_table "recipes", force: :cascade do |t|
     t.string   "name"
@@ -160,10 +153,11 @@ ActiveRecord::Schema.define(version: 20160808191113) do
     t.string   "avatar"
     t.string   "phone"
     t.text     "address"
+    t.string   "bitrix_id"
+    t.string   "integer"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "employees", "jobtitles"
   add_foreign_key "line_items", "carts"

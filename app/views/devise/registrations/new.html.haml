@@ -1,0 +1,26 @@
+.section.section-inset-1
+	.container
+		.row
+			.col-xs-12.col-md-8.col-md-offset-2
+				%section
+					%h4 Зарегистрироваться в системе
+					=form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "rd-mailform row"}) do |f|
+						=devise_error_messages!
+						.row
+							.col-xs-12.col-sm-12
+								.mfInput
+									=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true
+						.row.ud_mt_25
+							.col-xs-12.col-sm-6
+								.mfInput
+									=f.password_field :password, placeholder: "Пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off" 
+							.col-xs-12.col-sm-6	
+								.mfInput
+									=f.password_field :password_confirmation, placeholder: 'Повторите пароль', class: 'form-input', autocomplete: "off"
+						%section.section-inset-3
+							.col-xs-6.col-xs-offset-3
+								=button_tag 'Регистрация', class: 'btn btn-sm btn-success'
+	%section.section-inset-3
+		.row.ud_mt_4em
+			%h6 Уже есть аккаунт?
+			=link_to 'Войти', new_user_session_path, method: :get, class: 'text-success'
