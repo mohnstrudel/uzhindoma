@@ -7,7 +7,11 @@ class Front::OrdersController < FrontController
 
 	def new
 		cu = current_user
-		@order = Order.new name: cu.name, phone: cu.phone, email: cu.email, address: cu.address
+		if user_signed_in?
+			@order = Order.new name: cu.name, phone: cu.phone, email: cu.email, address: cu.address
+		else
+			@order = Order.new
+		end
 		@menu = Menu.find(params[:menu_id])
 		@menu_price = @menu.calculate_price(@menu, params)
 	end

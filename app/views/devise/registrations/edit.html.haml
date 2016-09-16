@@ -41,6 +41,8 @@
 									%section.section-inset-3
 										.col-xs-6.col-xs-offset-3
 											=button_tag 'Сохранить данные', class: 'btn btn-sm btn-success'
+					.row
+						=link_to 'Выйти', destroy_user_session_path, method: :delete, class: 'text-success'
 				.text-sm-left.fadeIn.animated
 					.row
 						.col-xs-12.col-md-10.col-md-offset-1
