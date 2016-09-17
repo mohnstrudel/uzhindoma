@@ -7,7 +7,7 @@ class Bitrix < ActiveRecord::Base
 	@scope = "crm"
 	refresh_token = ""
 	url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{@client_id}&client_secret=#{@client_secret}&refresh_token=#{refresh_token}"
-	@access_token = first.access_token
+	
 
 	def self.get_refresh_token
 		
@@ -67,8 +67,12 @@ class Bitrix < ActiveRecord::Base
 	end
 
 	def self.get_users_orders(user_id)
+
+		get_refresh_token
+
+		access_token = first.access_token
 		# This method returns all orders with date and price made by a specific user
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.list.json?&auth=#{@access_token}&filter[CONTACT_ID]=#{user_id}"
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.list.json?&auth=#{access_token}&filter[CONTACT_ID]=#{user_id}"
 		doc = Nokogiri::HTML(open(url))
 		result = JSON.parse(doc)
 	end

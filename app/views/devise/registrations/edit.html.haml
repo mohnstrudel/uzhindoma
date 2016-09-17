@@ -55,9 +55,16 @@
 												%th Наборы
 												%th
 										%tbody.text-left
-											-@orders.each do |order|
+											-if @orders
+												-@orders.each do |order|
+													%tr
+														%td
+															="#{(DateTime.strptime(order['BEGINDATE'], '%Y-%m-%dT%H:%M:%S%z')).strftime("%d/%m/%Y")}"
+														%td 
+															=order["OPPORTUNITY"]
+											-else
 												%tr
 													%td
-														="#{(DateTime.strptime(order['BEGINDATE'], '%Y-%m-%dT%H:%M:%S%z')).strftime("%d/%m/%Y")}"
-													%td 
-														=order["OPPORTUNITY"]
+														К сожалению, у вас ещё нет ни одного заказа. 
+														%br
+														=link_to 'Совершите свой первый заказ!', dinner_index_path, method: :get, class: 'text-success'

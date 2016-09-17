@@ -23,7 +23,11 @@ before_action :configure_account_update_params, only: [:update]
     # to query faster next times
     
     if current_user.bitrix_id.nil?
-      bitrix_id = Bitrix.check_if_user_exists(current_user.phone)
+      unless current_user.phone.nil?
+        bitrix_id = Bitrix.check_if_user_exists(current_user.phone)
+      end
+
+      # We simply do nothing if there is no phone number and user is new
       
       unless bitrix_id.nil?
         current_user.update(bitrix_id: bitrix_id)
