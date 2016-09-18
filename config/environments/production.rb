@@ -83,4 +83,24 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Mailer config for devise
+  config.action_mailer.default_url_options = { host: 'uzhindoma.eve-trader.net' }
+  
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true 
+  
+  config.action_mailer.delivery_method = :smtp
+
+  # Specify what domain to use for mailer URLs 
+
+  ActionMailer::Base.smtp_settings = {
+    :user_name => Figaro.env.sendgrid_user,
+    :password => Figaro.env.sendgrid_password,
+    :domain => 'uzhindoma.eve-trader.net',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 end
