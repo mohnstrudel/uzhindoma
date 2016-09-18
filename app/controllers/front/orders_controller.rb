@@ -89,31 +89,7 @@ class Front::OrdersController < FrontController
 	end
 
 	def init(refresh)
-		@bitrix = Bitrix.find(1)
-
-		client_id = "local.57a61102d0b562.81576057"
-		client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
-
-		# refresh is either true or false
-
-		if refresh
-			logger.debug "Setting variable refresh token to currently saved refresh token."
-			refresh_token = @bitrix.refresh_token
-		else
-			logger.debug "Grabbing the original refresh token."
-			refresh_token = "tbplkp08llfu6943ga68v8bowv5ggtdw"
-		end
-		url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{client_id}&client_secret=#{client_secret}&refresh_token=#{refresh_token}"
-		doc = Nokogiri::HTML(open(url))
-		data = JSON.parse(doc)
-		new_access_token = data["access_token"]
-		new_refresh_token = data["refresh_token"]
-
-		logger.debug "Received new tokens from Bitrix call. Access token is: #{new_access_token}. Refresh token is: #{new_refresh_token}."
-
-		@bitrix.update(access_token: new_access_token, refresh_token: new_refresh_token)
-		
-		# debug
+		Bitrix.get_refresh_token
 	end
 
 	def create_new_bitrix_lead(phone, name, menu_type)
@@ -136,11 +112,13 @@ class Front::OrdersController < FrontController
 	end
 
 	def create_new_bitrix_deal(user_id)
+		bitrix = Bitrix.first
+
 		title = Date.today.strftime("%d.%m.%y")
 		stage_id = "NEW"
 		fields_string = "fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}"
 		
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{@bitrix.access_token}&#{fields_string}"
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
 		doc = Nokogiri::HTML(open(url))
 
@@ -148,6 +126,7 @@ class Front::OrdersController < FrontController
 
 	def check_if_user_exists(phone)
 		# In this method we first search for user and, if found, create a deal or a lead
+		bitrix = Bitrix.first
 
 		# Let's translate phone into something, that might be inside Bitrix
 		# method is in bitrix.rb model
@@ -156,7 +135,7 @@ class Front::OrdersController < FrontController
 
 		parsed_phone.each do |current_phone|
 			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{@bitrix.access_token}&#{fields_string}"
+			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
 			doc = Nokogiri::HTML(open(url))
 			client_data = JSON.parse(doc)
