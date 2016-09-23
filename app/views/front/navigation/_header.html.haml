@@ -2,6 +2,11 @@
   -@div = "rd-navbar-wrap bg-transparent rd-navbar-wrap-mod-1"
 -else
   -@div = "rd-navbar-wrap bg-transparent"
+#ud-site-header
+  .ud-custom-logo
+    =link_to root_path, class: 'brand-name' do
+      =image_tag "custom_images/logo.png"
+
 =content_tag(:div, class: @div) do
   %nav.rd-navbar{"data-layout" => "rd-navbar-fixed", "data-lg-layout" => "rd-navbar-static", "data-md-layout" => "rd-navbar-fullwidth", "data-sm-layout" => "rd-navbar-fullwidth"}
     / (data-layout='rd-navbar-fixed',data-sm-layout='rd-navbar-fullwidth', data-lg-layout='#{rd_navbar_data_ajuster}' )
@@ -35,22 +40,23 @@
         %button.rd-navbar-toggle{"data-rd-navbar-toggle" => ".rd-navbar-nav-wrap", :type => "submit"}
           %span
         / RD Navbar Brand
-        .rd-navbar-brand
-          =link_to root_path, class: 'brand-name' do
-            %svg.text-logo{:height => "36px", "shape-rendering" => "geometricPrecision", :viewBox => "0 0 130 36", :width => "130px"}
-              %text{"font-family" => "Pacifico", "font-size" => "36px", :transform => "matrix(1 0 0 1 -0.5197 33.4432)"} Дома
-              %text{"font-family" => "Montserrat", "font-size" => "14", "letter-spacing" => "1", :transform => "matrix(1 0 0 1 68 11.125)"} УЖИН
-              %path.logo{"clip-rule" => "evenodd", :d => "M95.313,25.564c9.022-6.656,20.032-9.736,30-5", "fill-rule" => "evenodd", "stroke-linecap" => "round"}/
+        .ud-custom-logo
+
       .rd-navbar-nav-wrap
         / RD Navbar Search
         =link_to Setting.first.instagram do
-          .rd-navbar-instagram
+          .ud-custom-icon.ud-right-0
+            =image_tag "custom_images/ig.png"
+          
         =link_to edit_user_registration_path, method: :get do
-          .rd-navbar-user
+          .ud-custom-icon.ud-right-50
+            =image_tag "custom_images/yt.png"
         =link_to Setting.first.vkontakte do
-          .rd-navbar-vk
+          .ud-custom-icon.ud-right-100
+            =image_tag "custom_images/vk.png"
         =link_to Setting.first.facebook do
-          .rd-navbar-fb
+          .ud-custom-icon.ud-right-150
+            =image_tag "custom_images/fb.png"
         
         / RD Navbar Nav
         %ul.rd-navbar-nav
