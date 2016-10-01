@@ -1,26 +1,41 @@
 %section.section
 	.container
-		%h2 Как это работает
+		%h2 Что такое ужин дома
 		%hr
-			%p.h5.fw-l
-				Привет! Меня зовут Лена и я создатель этой компании.
-				%br.visible-lg С нашими ужинами я помогу вам сэкономить время и деньги. Проверено :)
+			.row
+				.col-xs-4.text-right
+					=image_tag "custom_images/lena.png"
+				.col-xs-8
+					=image_tag "custom_images/hello.png"
 			.row.clearleft-custom.flow-offset-1.offset-1
 				.media-mod-3
-					.col-xs-12.col-sm-6.col-lg-6
+					.col-xs-12.col-sm-8.col-lg-8
 						.media-left
 							.embed-container
-								=embed("https://www.youtube.com/watch?v=v8B5AOljhsY")
+								=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 784, height: 441)
 							/ =video_tag "https://www.youtube.com/watch?v=v8B5AOljhsY", :size => "320x240", :controls => true
 							/ =image_tag "placeholder_images/lena.jpg", width: 400
 							
-					.col-xs-12.col-sm-6.col-lg-6
+					.col-xs-12.col-sm-4.col-lg-4
 						.media-body.text-sm-left
-							%p Теперь я буду заботиться о вашем ужине. Подберу рецепты и качественные продукты. Вы всегда можете обратиться ко мне за кулинарной помощью. Моя мечта, чтобы каждую семью ждал вкусный ужин дома. Давайте готовить вместе!
+							%p 
+								Каждую неделю мы создаем меню
+								%br на 5 уникальных ужинов
+							%p
+								Вы получаете набор свежих продуктов
+								%br и проверенные рецепты
+							%p
+								Готовьте ужин дома, как в ресторане,
+								%br всего за 30 минут!
+							%p 
+								С нами готовят уже тысячи семей.
+								%br Это действительно удобно!
 
-%section.section.section-inset-1.bg-primary
+.uzhindoma-hr
+
+%section.section.section-inset-2
 	.container
-		%h2.text-center Актуальное меню 
+		%h2.text-center Меню на эту неделю 
 		%hr
 			-if @current_menus.empty?
 				.col-xs-12.col-sm-12.col-lg-12
@@ -48,23 +63,23 @@
 											.row.flow-offset-1.text-center.uzhindoma-home-pic-description
 												=recipe.name
 												/ =image_tag recipe.pictures.first.image.url
-		=link_to 'Заказать ужин', dinner_index_path, class: "btn btn-success-mod-1"
-			
+				=link_to 'Хочу набор!', dinner_index_path, class: "btn btn-success-mod-1"
+
+.uzhindoma-hr
 
 %section.section.section-inset-2
 	.container-fluid
-		%h2.text-center Наш инстаграм
+		%h2.text-center Тысячи честных отзывов
 		%hr
 			.row.ud_ml_mr_20
 				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
-					-@instagram.each do |instagram|
-						.thumbnail-gallery.isotope-item.col-xs-6.col-sm-3.col-md-1.uzhindoma-instagram-item{"data-filter" => "type-1"}
-							=link_to instagram["images"]["standard_resolution"]["url"], data: {lightbox: "image"} do
-								=image_tag instagram["images"]["low_resolution"]["url"]
-								/ %a{"data-lightbox" => "image", :href => instagram.images.standard_resolution.url}
-								/ %img{:alt => "", :src => instagram.images.low_resolution.url}
+					-@instagram.take(12).each do |instagram|
+						.thumbnail-gallery.isotope-item.col-xs-6.col-sm-3.col-md-2.uzhindoma-instagram-item{"data-filter" => "type-1"}
+							=link_to instagram["display_src"], data: {lightbox: "image"} do
+								=image_tag instagram["thumbnail_src"]
 								.caption
 									.caption-wrapper
-										%span.icon.icon-md.icon-white.fa-search-plus
-										%p.text-white
-											=instagram["caption"]["text"]
+										%span.icon.icon-sm.icon-white.fa-comments.text-white
+										="#{instagram["comments"]["count"]}"
+										%span.icon.icon-sm.icon-white.fa-heart.text-white
+										="#{instagram["likes"]["count"]}"

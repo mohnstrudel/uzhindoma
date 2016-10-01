@@ -5,7 +5,7 @@
 #ud-site-header
   .ud-custom-logo
     =link_to root_path, class: 'brand-name' do
-      =image_tag "custom_images/logo.png"
+      =image_tag "custom_images/logo_small.png"
 
 =content_tag(:div, class: @div) do
   %nav.rd-navbar{"data-layout" => "rd-navbar-fixed", "data-lg-layout" => "rd-navbar-static", "data-md-layout" => "rd-navbar-fullwidth", "data-sm-layout" => "rd-navbar-fullwidth"}
@@ -50,13 +50,13 @@
           
         =link_to edit_user_registration_path, method: :get do
           .ud-custom-icon.ud-right-50
-            =image_tag "custom_images/yt.png"
+            =image_tag "custom_images/lk.png"
         =link_to Setting.first.vkontakte do
           .ud-custom-icon.ud-right-100
             =image_tag "custom_images/vk.png"
-        =link_to Setting.first.facebook do
-          .ud-custom-icon.ud-right-150
-            =image_tag "custom_images/fb.png"
+        / =link_to Setting.first.facebook do
+        /   .ud-custom-icon.ud-right-150
+        /     =image_tag "custom_images/fb.png"
         
         / RD Navbar Nav
         %ul.rd-navbar-nav

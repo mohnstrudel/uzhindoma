@@ -9,12 +9,47 @@
 *= require font-awesome
 */
 
+.white-link {
+  padding-bottom: 10px;
+}
+
+.white-link a {
+  color: black; 
+}
+
+.white-link a:hover {
+  color: #b7b7b7;
+}
+
+.text-black{
+  color: black !important;
+}
+
+.uzhindoma-hr {
+  border-bottom: 2px solid #b7b7b7;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.uzhindoma-footer{
+  background-image: image-url("custom_images/footer.png");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 300px;
+}
+
+.uzhindoma-footer-white{
+  background-color: white !important;
+}
+
 .uzhindoma-instagram-item{
   padding-left: 0px !important;
   padding-right: 0px !important; 
 }
 .bg-uzhindoma{
-  background-image: image-url("backgrounds/uznat_bolshe_thumb.jpg")
+  background-image: image-url("backgrounds/uznat_bolshe_thumb.jpg");
 }
 .btn-uzhindoma{
   background: rgba(255,255,255,0.6);

@@ -1,16 +1,21 @@
-%footer.page-foot.section-inset-4.bg-primary
+.uzhindoma-hr
+%footer.page-foot.section-inset-4.bg-primary.uzhindoma-footer-white
   %section.footer-content
     .container
       .row.text-left.clearleft-custom
-        .col-xs-12.col-sm-6.col-lg-4.text-gray
+        .col-xs-12.col-sm-6.col-lg-4.text-black
           .row
             %h4
               =Setting.first.phone
           .row
-            %i.fa.fa-whatsapp
-            %i.fa.fa-phone
+            %i
+              =image_tag "custom_images/wa.png", width: 32
+            %i
+              =image_tag "custom_images/ph.png", width: 32
+
           .row
-            %p мы на связи с 9 до 22
+            %p.text-black Позвоните нам!
+            %p.text-black Мы на связи с 9 до 22
 
           / %ul.well6.offset-5
           /   %li
@@ -27,44 +32,48 @@
           /       Мы в инстаграме
 
         .col-xs-12.col-sm-6.col-lg-4
-          %h4 Полезные ссылки
-          .blog-post
-            .blog-post-title
-              %a{:href => "blog-post.html"} Вопрос-ответ
-          .blog-post
-            .blog-post-title
-              %a{:href => "blog-post.html"} Вакансии
+          .white-link
+            =link_to 'Вопрос-ответ', uznat_bolshe_path
+          .white-link
+            %a{:href => "blog-post.html"} Вакансии
+          .white-link
+            =link_to 'Сотрудничество', '#'
+          .white-link
+            =link_to 'Доставка и оплата', uznat_bolshe_path
 
-          .blog-post
-            .blog-post-title
-              %a{:href => "blog-post.html"} Доставка и оплата
+          .row
+            .pull-sm-center.text-black
+              Вступайте в наш клуб кулинаров!
+              .col-xs-8.col-xs-offset-2
+                %ul.list-inline.offset-3
+                  %li
+                    =link_to '', Setting.first.facebook do
+                      =image_tag "custom_images/fb.png", width: 32
+                  %li
+                    =link_to '', Setting.first.vkontakte do
+                      =image_tag "custom_images/vk.png", width: 32
+                  %li
+                    =link_to '', Setting.first.instagram do
+                      =image_tag "custom_images/ig.png", width: 32
 
 
 
         .col-xs-12.col-sm-6.col-lg-4
-          %h4 Ваш отзыв
-          %p.text-gray Напишите нам, как мы можем улучшить наш сервис.
+          %p.text-black Напишите нам, как мы можем улучшить наш сервис.
           / RD Mailform
           %form.rd-mailform{:action => "bat/rd-mailform.php", "data-form-type" => "subscribe", "data-result-class" => "rd-mailform-validate", :method => "post"}
-            %input{"data-constraints" => "@NotEmpty @Email", :name => "email", :placeholder => "Ваша почта", :type => "text"}
+            .row
+              .col-xs-6
+                %input{"data-constraints" => "@NotEmpty", :name => "name", :placeholder => "Имя", :type => "text"}
+              .col-xs-6
+                %input{"data-constraints" => "@NotEmpty @Email", :name => "email", :placeholder => "Почта", :type => "text"}
             .row
             %textarea{"data-constraints" => "@NotEmpty", :name => "complaint", :placeholder => "Ваш отзыв", :type => "text"}
             %button.btn.btn-sm.btn-min-width.btn-success Отправить
 
-  %section.copyright.bg-dark.well5
+  %section.copyright.uzhindoma-footer
     .container
       %p.pull-sm-left
-        ©
-        %span#copyright-year
-        Все права защищены
-        %a{:href => "terms.html"} Пользовательское соглашение
       .pull-sm-right
-        Вступайте в наш клуб кулинаров
-        %ul.list-inline.offset-3
-          %li
-            =link_to '', Setting.first.facebook, class: 'fa-facebook'
-          %li
-            =link_to '', Setting.first.vkontakte, class: 'fa-vk'
-          %li
-            =link_to '', Setting.first.instagram, class: 'fa-instagram'
+        
     / {%FOOTER_LINK}

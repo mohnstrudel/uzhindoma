@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916154329) do
+ActiveRecord::Schema.define(version: 20161001161031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,11 @@ ActiveRecord::Schema.define(version: 20160916154329) do
     t.datetime "updated_at",  null: false
     t.string   "image"
     t.index ["jobtitle_id"], name: "index_employees_on_jobtitle_id", using: :btree
+  end
+
+  create_table "instagram_helpers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "jobtitles", force: :cascade do |t|
