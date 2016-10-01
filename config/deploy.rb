@@ -36,7 +36,7 @@ set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
 # Link the dirs, so uploaded assets won't be deleted after each deployment
 
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads config/application.yml}
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
