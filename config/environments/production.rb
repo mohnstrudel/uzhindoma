@@ -99,7 +99,7 @@ Rails.application.configure do
     :password => Figaro.env.sendgrid_password,
     :domain => 'uzhindoma.eve-trader.net',
     :address => 'smtp.sendgrid.net',
-    :port => 25,
+    :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true
   }
