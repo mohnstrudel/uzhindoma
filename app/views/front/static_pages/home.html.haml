@@ -63,7 +63,7 @@
 											.row.flow-offset-1.text-center.uzhindoma-home-pic-description
 												=recipe.name
 												/ =image_tag recipe.pictures.first.image.url
-				=link_to 'Хочу набор!', dinner_index_path, class: "btn btn-success-mod-1"
+				=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-1"
 
 .uzhindoma-hr
 

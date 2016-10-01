@@ -1,33 +1,99 @@
 %section.section
 	.container
-		%h2 Как это работает
-		%hr
-		/ Owl Carousel
 		.row
-			.col-lg-6
+			.col-lg-7
 				.media-center
 					.embed-container
-						=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 720, height: 405)
-			.col-lg-6
+						=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 680, height: 383)
+			.col-lg-5
 				%section
-					%h6 Маркерный текст
-					.text-center
-						Справа маркерный текст
+					.text-left
+						%p 
+							Мы подбираем для вас интересные рецепты
+							%br и составляем меню на неделю вперед
+						%p 
+							Закупаем свежие продукты
+							%br высочайшего качества
+						%p
+							Взвешиваем и отмеряем каждый ингредиент
+							%br ровно в том количестве, которое нужно
+							по рецепту
+						%p
+							Собираем набор продуктов
+							%br для каждого ужина
+							и доставляем к вам домой.
+						%p
+							Вам остается только приготовить ужин,
+							%br как в ресторане, всего за 30 минут!
+
+
 %section.section.section-inset-1.bg-light
+	.container
+		%h2.text-center Зачем вам ужин дома
+		%hr
+			.row
+				.col-md-4.col-xs-12
+					.uzhindoma-column-container
+						.row
+							=image_tag "custom_images/why1.png"
+						.row.text-left
+							%h3
+								Вы экономите
+							%p
+								Время.
+								%br Больше не нужно составлять списки продуктов и ходить в магазин. Мы все сделаеи за вас.
+							%p
+								Продукты и бюджет.
+								%br Мы уже отмерили все ингредиенты по рецепту. Не надо тратить деньги на большие упаковки, чтобы использовать только малую часть.
+				.col-md-4.col-xs-12
+					.uzhindoma-column-container
+						.row
+							=image_tag "custom_images/why2.png"
+						.row.text-left
+							%h3
+								Вы получаете
+							%p
+								Безупречные продукты.
+								%br Доверьте нам выбор лучших ингредиентов.
+							%p
+								Только проверенные авторские рецепты.
+								%br Будьте уверены, все получится!
+							%p
+								Действительно сытные порции (от 450 гр. на персону)
+							%p
+								Вкусно, как в ресторане.
+								%br Вы легко приготовите изысканный ужин всего за 30 минут.
+							%p
+								Кулинарный эксперимент.
+								%br Пробуйте новые блюда и интересные сочетания каждый день.
+				.col-md-4.col-xs-12
+					.uzhindoma-column-container
+						.row
+							=image_tag "custom_images/why3.png"
+						.row.text-left
+							%h3
+								Почему мы?
+							%p
+								Два вида меню: сытное и легкое. И ещё десерт!
+							%p
+								Наборы на 3/4/5 ужинов на 2 или 4 персоны.
+							%p
+								Бесплатная доставка даже за МКАД! Самые галантные курьеры в городе.
+							%p
+								С нами вы становитесь частью большой семьи. С первого заказа у вас будет персональный помощник в WhatsApp.
+
+
+%section.section.section-inset-1
 	.container
 		%h2.text-center Наши поставщики
 		%hr
 			.row
 				.col-md-6.col-xs-12
 					%section
-						
-						%ul.marked-list.text-left
-							%li
-								Будте уверены в качестве!
-							%li
-								Только наисвежайшие продукты!
-							%li
-								Мы знаем своих поставщиков!
+						%p.text-left
+							Мы сотрудничаем с проверенными и надежными поставщиками.
+							Каждый продукт на нашем производстве имеет все подтверждающие документы и сертификаты качества.
+							Мы заботимся не только о вашем времени, но и о вашем здоровье. Поэтому за качество продуктов несем двойную ответственность.
 				.col-md-6.col-xs-12
 					/ Owl Carousel
 					.owl-carousel.owl-carousel-mod-1{"data-autoplay" => "true", "data-dots" => "true", "data-dots-each" => "1", "data-items" => "1", "data-lg-items" => "3", "data-loop" => "true", "data-margin" => "15", "data-xs-items" => "2", "data-sm-items" => "2", "data-xs-stage-padding" => "15"}
@@ -41,41 +107,51 @@
 							=image_tag "placeholder_images/partner-5.png" do
 								=image_tag "placeholder_images/partner-6.png"
 
-%section.section.section-inset-2
-	.container
-		%h2.text-center Индивидуальный подход
-		%hr
-			.row
-				.col-md-6.col-xs-12
-					=image_tag "placeholder_images/baby_face.jpg"
-				.col-md-6.col-xs-12
-					%section
-						%ul.marked-list.text-left
-							%li
-								%a.text-base{:href => "#"} Рецепты подходят для детей
-							%li
-								%a.text-base{:href => "#"} Можно заменить мяси и аллергены
-							%li
-								%a.text-base{:href => "#"} Всегда подскажем, как готовить
-
-%section.section.section-inset-1.bg-primary
-	%h2.text-center зоны доставки
-	%hr
-		.row
-			.col-lg-12
-				%section
-					%h6 Бесплатная доставка даже за МКАД!
-		.row
-			.col-lg-12
-				#map{style: "position: static; height: 500px;"}
-				/ .google-maps
-				/ %iframe{:src => "https://www.google.com/maps/d/embed?mid=1XDErH9fQjyxgY_R7VakujiNprCc", frameborder: 0}
-				
-		=link_to "Заказать набор", dinner_index_path, class: 'btn btn-white btn-sm btn-min-width'
-
-
+/ %section.section.section-inset-2
+/ 	.container
+/ 		%h2.text-center Индивидуальный подход
+/ 		%hr
+/ 			.row
+/ 				.col-md-6.col-xs-12
+/ 					=image_tag "placeholder_images/baby_face.jpg"
+/ 				.col-md-6.col-xs-12
+/ 					%section
+/ 						%ul.marked-list.text-left
+/ 							%li
+/ 								%a.text-base{:href => "#"} Рецепты подходят для детей
+/ 							%li
+/ 								%a.text-base{:href => "#"} Можно заменить мяси и аллергены
+/ 							%li
+/ 								%a.text-base{:href => "#"} Всегда подскажем, как готовить
 
 %section.section.section-inset-1.bg-light
+	.container
+		%h2.text-center Доставка и оплата
+		%hr
+			.row
+				.col-xs-12.col-sm-8
+					#map{style: "position: static; height: 500px;"}
+					/ .google-maps
+					/ %iframe{:src => "https://www.google.com/maps/d/embed?mid=1XDErH9fQjyxgY_R7VakujiNprCc", frameborder: 0}
+				.col-xs-12.col-sm-4
+					.row.text-left
+						%p
+							Мы доставляем наборы 
+							%br по Москве и Московской области.
+							Зону нашей доставки смотрите на карте.
+							%br Доставка БЕСПЛАТНА по всем направлениям, и даже за МКАД.
+						%p
+							Выберите удобный вам интервал доставки:
+							%br 9-12, 11-14, 17-21, 21-23.
+						%p
+							Вы можете оплатить набор наличными курьеру
+							или банковской картой на сайте.
+					
+			=link_to "Хочу набор!", dinner_index_path, method: :get, class: 'btn btn-sm btn-min-width btn-success'
+
+
+
+%section.section.section-inset-1
 	.container
 		%h2.text-center Наша команда
 		%hr
@@ -100,4 +176,4 @@
 			.team_row
 				.col-md-12
 					%section
-						=image_tag "backgrounds/team_hd.jpg"
+						=image_tag "custom_images/komanda.jpg"

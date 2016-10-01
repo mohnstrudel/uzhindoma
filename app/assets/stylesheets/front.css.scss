@@ -9,6 +9,19 @@
 *= require font-awesome
 */
 
+.uzhindoma-column-container{
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.uzhindoma-learn-more{
+  background-image: image-url("custom_images/banner2.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 400px;
+}
+
 .white-link {
   padding-bottom: 10px;
 }
@@ -37,7 +50,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  min-height: 300px;
+  min-height: 500px;
 }
 
 .uzhindoma-footer-white{
