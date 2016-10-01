@@ -1,6 +1,13 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  if Rails.env.production?
+    config_path = File.expand_path(Rails.root.to_s + '/config/application.yml')
+      if File.exists? config_path
+      ENV.update YAML.load_file(config_path)[Rails.env]
+    end
+  end
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -85,7 +92,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Mailer config for devise
-  config.action_mailer.default_url_options = { host: 'uzhindoma.eve-trader.net' }
+  config.action_mailer.default_url_options = { host: 'http://uzhindoma.eve-trader.net' }
   
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true 
