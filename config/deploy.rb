@@ -36,7 +36,7 @@ set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
 # Link the dirs, so uploaded assets won't be deleted after each deployment
 
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads config/application.yml}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -48,6 +48,18 @@ namespace :puma do
   end
 
   before :start, :make_dirs
+end
+
+namespace :figaro do
+  desc "SCP transfer figaro configuration to the shared folder"
+  task :setup do
+    transfer :up, "config/application.yml", "#{shared_path}/application.yml", :via => :scp
+  end
+
+  desc "Symlink application.yml to the release path"
+  task :finalize do
+    run "ln -sf #{shared_path}/application.yml #{release_path}/config/application.yml"
+  end
 end
 
 namespace :deploy do
