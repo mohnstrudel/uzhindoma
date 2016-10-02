@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001161031) do
+ActiveRecord::Schema.define(version: 20161002141120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,8 +97,8 @@ ActiveRecord::Schema.define(version: 20161001161031) do
     t.text     "address"
     t.string   "email"
     t.string   "pay_type"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "phone"
     t.integer  "category_id"
     t.integer  "menu_id"
@@ -109,9 +109,18 @@ ActiveRecord::Schema.define(version: 20161001161031) do
     t.boolean  "add_dessert"
     t.string   "order_type"
     t.string   "menu_type"
+    t.float    "order_price"
+    t.string   "delivery_timeframe"
     t.index ["category_id"], name: "index_orders_on_category_id", using: :btree
     t.index ["menu_id"], name: "index_orders_on_menu_id", using: :btree
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
+  end
+
+  create_table "partners", force: :cascade do |t|
+    t.string   "picture"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -139,6 +148,7 @@ ActiveRecord::Schema.define(version: 20161001161031) do
     t.string   "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "order_mail"
   end
 
   create_table "users", force: :cascade do |t|

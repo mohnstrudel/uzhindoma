@@ -103,7 +103,7 @@
                             <td valign='top' align='center'>
                               <div class="contentEditableContainer contentTextEditable">
                                 <div class="contentEditable">
-                                  <p style='text-align:center;margin:0;font-family:Georgia,Time,sans-serif;font-size:26px;color:#222222;'>Спасибо за ваш заказ у <span style='color:#69C374;'>Ужин Дома</span></p>
+                                  <p style='text-align:center;margin:0;font-family:Georgia,Time,sans-serif;font-size:26px;color:#222222;'>Спасибо за ваш заказ у <span style='color:#006eb6;'>Ужин Дома</span></p>
                                 </div>
                               </div>
                             </td>
@@ -117,7 +117,7 @@
                             <td valign='top' align='center'>
                               <div class="contentEditableContainer contentImageEditable">
                                 <div class="contentEditable">
-                                  <img src="images/line.png" width='251' height='43' alt='' data-default="placeholder" data-max-width="560">
+                                  <img src="http://uzhindoma.eve-trader.net/assets/custom_images/logo_small.png" width='64' height='64' alt='' data-default="placeholder" data-max-width="560">
                                 </div>
                               </div>
                             </td>
@@ -150,7 +150,7 @@
                                     <%= "Уважаемый/ая #{@order.name}, мы приняли ваш заказ и наш менеджер обработает его в кратчайшие сроки. При возникновении вопросов мы свяжемся с вами по указанному в заказе телефону #{@order.phone}."%>
                                     <br>
                                     <br>
-                                    <%= "Ваш заказ включает в себя ужин на #{@order.person_amount} персон, стоимостью #{@order.add_dessert}." %>
+                                    <%= "Ваш заказ включает в себя #{@order.menu_amount} ужин/а/ов на #{@order.person_amount} персон, стоимостью #{@order.order_price} рублей." %>
                                     <br>
                                     <br>
                                     С наилучшими пожеланиями,
@@ -198,14 +198,10 @@
                                     <div class="contentEditableContainer contentTextEditable">
                                       <div class="contentEditable" align='center'>
                                         <p  style='text-align:left;color:#CCCCCC;font-size:12px;font-weight:normal;line-height:20px;'>
-                                          <span style='font-weight:bold;'>[CLIENTS.COMPANY_NAME]</span>
+                                          <span style='font-weight:bold;'>Ужин Дома</span>
                                           <br>
-                                          [CLIENTS.ADDRESS]
+                                          Тел.: <%= Setting.first.phone %>
                                           <br>
-                                          <a target='_blank' href="[FORWARD]">Forward to a friend</a><br>
-                                          <a target='_blank' href="[UNSUBSCRIBE]" class='link1' class='color:#382F2E;'>Unsubscribe</a>
-                                          <br>
-                                          <a target='_blank' class='link1' class='color:#382F2E;' href="[SHOWEMAIL]">Show this email in your browser</a>
                                         </p>
                                       </div>
                                     </div>
@@ -216,7 +212,7 @@
                                   <td valign='top' width='52'>
                                     <div class="contentEditableContainer contentFacebookEditable">
                                       <div class="contentEditable">
-                                        <a target='_blank' href="#"><img src="images/facebook.png" width='52' height='53' alt='facebook icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
+                                        <a target='_blank' href="#"><img src="http://uzhindoma.eve-trader.net/assets/custom_images/fb.png" width='52' height='53' alt='facebook icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
                                       </div>
                                     </div>
                                   </td>
@@ -226,7 +222,7 @@
                                   <td valign='top' width='52'>
                                     <div class="contentEditableContainer contentTwitterEditable">
                                       <div class="contentEditable">
-                                        <a target='_blank' href="#"><img src="images/twitter.png" width='52' height='53' alt='twitter icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
+                                        <a target='_blank' href="#"><img src="http://uzhindoma.eve-trader.net/assets/custom_images/ig.png" width='52' height='53' alt='twitter icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
                                       </div>
                                     </div>
                                   </td>

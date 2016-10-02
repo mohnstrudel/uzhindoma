@@ -97,16 +97,10 @@
 				.col-md-6.col-xs-12
 					/ Owl Carousel
 					.owl-carousel.owl-carousel-mod-1{"data-autoplay" => "true", "data-dots" => "true", "data-dots-each" => "1", "data-items" => "1", "data-lg-items" => "3", "data-loop" => "true", "data-margin" => "15", "data-xs-items" => "2", "data-sm-items" => "2", "data-xs-stage-padding" => "15"}
-						.owl-item
-							=image_tag "placeholder_images/partner-1.png" do
-								=image_tag "placeholder_images/partner-2.png"
-						.owl-item
-							=image_tag "placeholder_images/partner-3.png" do
-								=image_tag "placeholder_images/partner-4.png"
-						.owl-item
-							=image_tag "placeholder_images/partner-5.png" do
-								=image_tag "placeholder_images/partner-6.png"
-
+						-@partners.each do |partner|
+							.owl-item
+								=image_tag partner.picture.partner_thumb.url do
+									=image_tag partner.picture.partner_thumb.url
 / %section.section.section-inset-2
 / 	.container
 / 		%h2.text-center Индивидуальный подход

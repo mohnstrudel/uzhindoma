@@ -14,7 +14,7 @@ class OrderNotifier < ApplicationMailer
 
   def notifyShop(order)
     @order = order
-    mail to: 'a.kostin.09@gmail.com', subject: 'На сайте оставлен заказ'
+    mail to: Setting.first.order_mail, subject: 'На сайте оставлен заказ'
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml

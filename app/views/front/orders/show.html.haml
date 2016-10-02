@@ -15,3 +15,5 @@
             -unless @order.order_type == "fast"
               %p.text-sm-left
                 ="Мы отправили вам письмо с подтверждением заказа на адрес #{@order.email}"
+              %p.text-sm-left
+                ="Время доставки выбрано - #{@order.delivery_timeframe}."

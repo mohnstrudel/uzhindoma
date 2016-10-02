@@ -2,10 +2,13 @@
 // All this logic will automatically be available in application.js.
 // You can use CoffeeScript in this file: http://coffeescript.org/
 
-//= require jquery
+//= require jquery3
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require_tree ../../../vendor/assets/javascripts/front/.
+
+//= require_tree ../../../vendor/assets/javascripts/front/additional/.
+//= require_tree ../../../vendor/assets/javascripts/front/theme/.
+//= require_tree ../../../vendor/assets/javascripts/front/custom/.
 
 
 //= require_self
@@ -34,6 +37,22 @@ $(document).ready(function(){
   		$banner_image.attr("src", $(this).attr("src"));	
 	});
 	$downloadingImage.attr("src", "<%= image_url('backgrounds/slider-1-hd.jpg') %>");
+
+		// Create a phone mask
+
+
+	// Prevent submitting empty order form
+	$('#new_order').submit(function() {
+    	if ($.trim($("#order_phone").val()) === "" || $.trim($("#order_name").val()) === "") {
+        	// alert('you did not fill out one of the fields');
+        	return false;
+    	}
+	});
+
+	
+
+
+	
 });
 
 

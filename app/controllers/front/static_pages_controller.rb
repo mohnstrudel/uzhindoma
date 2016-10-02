@@ -14,5 +14,6 @@ class Front::StaticPagesController < FrontController
   def learn_more
   	@carriers = Employee.profession("kurer")
   	@employees = Employee.all
+    @partners = Partner.all
   end
 end

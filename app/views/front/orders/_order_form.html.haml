@@ -39,7 +39,7 @@
 				.row
 				.row
 					.col-xs-12.col-sm-6
-						=f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@Phone" }
+						=f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@NotEmpty @Phone" }
 					.col-xs-12.col-sm-6
 						=f.text_field :name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
 			=f.submit('Заказать набор', class: "btn btn-success btn-sm")

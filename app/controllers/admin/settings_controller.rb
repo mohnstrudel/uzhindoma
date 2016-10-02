@@ -18,6 +18,6 @@ class Admin::SettingsController < AdminController
 	private
 
 	def settings_params
-		params.require(:setting).permit(:vkontakte, :facebook, :instagram, :phone)
+		params.require(:setting).permit(:vkontakte, :facebook, :instagram, :phone, :order_mail)
 	end
 end

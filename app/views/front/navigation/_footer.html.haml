@@ -5,7 +5,7 @@
       .row.text-left.clearleft-custom
         .col-xs-12.col-sm-6.col-lg-4.text-black
           .row
-            %h4
+            %h4.text-black
               =Setting.first.phone
           .row
             %i
@@ -47,13 +47,13 @@
               .col-xs-8.col-xs-offset-2
                 %ul.list-inline.offset-3
                   %li
-                    =link_to '', Setting.first.facebook do
+                    =link_to Setting.first.facebook do
                       =image_tag "custom_images/fb.png", width: 32
                   %li
-                    =link_to '', Setting.first.vkontakte do
+                    =link_to Setting.first.vkontakte do
                       =image_tag "custom_images/vk.png", width: 32
                   %li
-                    =link_to '', Setting.first.instagram do
+                    =link_to Setting.first.instagram do
                       =image_tag "custom_images/ig.png", width: 32
 
 
