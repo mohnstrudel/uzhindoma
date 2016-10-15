@@ -9,6 +9,14 @@
 *= require font-awesome
 */
 
+.uzhindoma-footer-links{
+  padding-left: 40px;
+}
+
+.padding-top-70{
+  padding-top: 70px;
+}
+
 #uzhindoma-fast-order-button a{
   background-color: #516aa1;
   color: #fff !important;
@@ -24,12 +32,12 @@
   margin-right: 50px;
 }
 .uzhindoma-learn-more{
-  background-image: image-url("custom_images/banner2.jpg");
+  background-image: image-url("backgrounds/how_it_works_hd.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  min-height: 400px;
+  min-height: 600px;
 }
 
 .white-link {

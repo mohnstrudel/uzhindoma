@@ -10,11 +10,10 @@
 
           .row
             %p.text-black Напишите нам!
-          .row
+            .text-black Мы на связи с 9 до 22
             %h4.text-uzhindoma-blue
               =Setting.first.phone
-          .row
-            %p.text-black Мы на связи с 9 до 22
+            
 
           / %ul.well6.offset-5
           /   %li
@@ -31,19 +30,20 @@
           /       Мы в инстаграме
 
         .col-xs-12.col-sm-6.col-lg-4
-          .white-link
-            =link_to 'Вопрос-ответ', uznat_bolshe_path
-          .white-link
-            %a{:href => "blog-post.html"} Вакансии
-          .white-link
-            =link_to 'Сотрудничество', '#'
-          .white-link
-            =link_to 'Доставка и оплата', uznat_bolshe_path
+          .uzhindoma-footer-links
+            .white-link
+              =link_to 'Вопрос-ответ', uznat_bolshe_path
+            .white-link
+              %a{:href => "blog-post.html"} Вакансии
+            .white-link
+              =link_to 'Сотрудничество', '#'
+            .white-link
+              =link_to 'Доставка и оплата', uznat_bolshe_path
 
-          .row
+          .row.padding-top-70
             .pull-sm-center.text-black.text-center
-              .col-xs-8.col-xs-offset-2
-                %ul.list-inline.offset-3
+              .col-xs-8.col-xs-offset-0
+                %ul.list-inline
                   %li
                     =link_to Setting.first.facebook do
                       =image_tag "custom_images/fb_64.png"
@@ -53,7 +53,8 @@
                   %li
                     =link_to Setting.first.instagram do
                       =image_tag "custom_images/ig_64.png"
-              Вступайте в наш клуб кулинаров!
+          .row
+            Вступайте в наш клуб кулинаров!
 
 
 
