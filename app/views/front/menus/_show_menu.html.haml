@@ -6,7 +6,7 @@
 			%ul{:role => "tablist"}
 				-@current_menus.each_with_index do |current_menu, index|
 					%li{role: "presentation", class: "uzhindoma_tabs"}
-						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-1 btn-sm"
+						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-uzhindoma btn-sm"
 		.col-md-2
 	/ Tab panes
 	.tab-content
@@ -134,7 +134,7 @@
 												%span.h4#uzhin_price
 													=render 'front/menus/show_price'
 												%i.fa-rub
-											=button_tag(type: "submit", class: "btn btn-success btn-sm") do
+											=button_tag(type: "submit", class: "btn btn-success btn-sm btn-success-mod-uzhindoma") do
 												%span.icon.icon-xs.fa-shopping-cart
 												Заказать набор
 												

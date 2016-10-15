@@ -1,20 +1,19 @@
 .uzhindoma-hr
-%footer.page-foot.section-inset-4.bg-primary.uzhindoma-footer
+%footer.page-foot.section-inset-4.uzhindoma-footer
   %section.footer-content
     .container
       .row.text-left.clearleft-custom
         .col-xs-12.col-sm-6.col-lg-4.text-black
           .row
-            %h4.text-black
-              =Setting.first.phone
-          .row
             %i
-              =image_tag "custom_images/wa.png", width: 32
-            %i
-              =image_tag "custom_images/ph.png", width: 32
+              =image_tag "custom_images/wa_v2_64.png"
 
           .row
-            %p.text-black Позвоните нам!
+            %p.text-black Напишите нам!
+          .row
+            %h4.text-uzhindoma-blue
+              =Setting.first.phone
+          .row
             %p.text-black Мы на связи с 9 до 22
 
           / %ul.well6.offset-5
@@ -42,19 +41,19 @@
             =link_to 'Доставка и оплата', uznat_bolshe_path
 
           .row
-            .pull-sm-center.text-black
-              Вступайте в наш клуб кулинаров!
+            .pull-sm-center.text-black.text-center
               .col-xs-8.col-xs-offset-2
                 %ul.list-inline.offset-3
                   %li
                     =link_to Setting.first.facebook do
-                      =image_tag "custom_images/fb.png", width: 32
+                      =image_tag "custom_images/fb_64.png"
                   %li
                     =link_to Setting.first.vkontakte do
-                      =image_tag "custom_images/vk.png", width: 32
+                      =image_tag "custom_images/vk_64.png"
                   %li
                     =link_to Setting.first.instagram do
-                      =image_tag "custom_images/ig.png", width: 32
+                      =image_tag "custom_images/ig_64.png"
+              Вступайте в наш клуб кулинаров!
 
 
 
@@ -69,6 +68,6 @@
                 %input{"data-constraints" => "@NotEmpty @Email", :name => "email", :placeholder => "Почта", :type => "text"}
             .row
             %textarea{"data-constraints" => "@NotEmpty", :name => "complaint", :placeholder => "Ваш отзыв", :type => "text"}
-            %button.btn.btn-sm.btn-min-width.btn-success Отправить
+            %button.btn.btn-sm.btn-min-width.btn-success-mod-uzhindoma-dark Отправить
         
     / {%FOOTER_LINK}

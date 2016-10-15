@@ -1,42 +1,41 @@
 %section.section
 	.container
 		%h2 Что такое ужин дома
-		%hr
-			.row
-				.col-xs-4.text-right
-					=image_tag "custom_images/lena.png"
-				.col-xs-8
-					=image_tag "custom_images/hello.png"
-			.row.clearleft-custom.flow-offset-1.offset-1
-				.media-mod-3
-					.col-xs-12.col-sm-8.col-lg-8
-						.media-left
-							.embed-container
-								=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 784, height: 441)
-							/ =video_tag "https://www.youtube.com/watch?v=v8B5AOljhsY", :size => "320x240", :controls => true
-							/ =image_tag "placeholder_images/lena.jpg", width: 400
-							
-					.col-xs-12.col-sm-4.col-lg-4
-						.media-body.text-sm-left
-							%p 
-								Каждую неделю мы создаем меню
-								%br на 5 уникальных ужинов
-							%p
-								Вы получаете набор свежих продуктов
-								%br и проверенные рецепты
-							%p
-								Готовьте ужин дома, как в ресторане,
-								%br всего за 30 минут!
-							%p 
-								С нами готовят уже тысячи семей.
-								%br Это действительно удобно!
+		.row.margin-top-30
+			.col-xs-4.text-right
+				=image_tag "custom_images/lena.png"
+			.col-xs-8.text-left.padding-top-35
+				=image_tag "custom_images/hello_v2.png"
+		.row.clearleft-custom.flow-offset-1.offset-1
+			.media-mod-3
+				.col-xs-12.col-sm-8.col-lg-8
+					.media-left
+						.embed-container
+							=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 784, height: 441)
+						/ =video_tag "https://www.youtube.com/watch?v=v8B5AOljhsY", :size => "320x240", :controls => true
+						/ =image_tag "placeholder_images/lena.jpg", width: 400
+						
+				.col-xs-12.col-sm-4.col-lg-4
+					.media-body.text-sm-left
+						%p 
+							Каждую неделю мы создаем меню
+							%br на 5 уникальных ужинов
+						%p
+							Вы получаете набор свежих продуктов
+							%br и проверенные рецепты
+						%p
+							Готовьте ужин дома, как в ресторане,
+							%br всего за 30 минут!
+						%p 
+							С нами готовят уже тысячи семей.
+							%br Это действительно удобно!
 
 .uzhindoma-hr
 
 %section.section.section-inset-2
 	.container
 		%h2.text-center Меню на эту неделю 
-		%hr
+		.row
 			-if @current_menus.empty?
 				.col-xs-12.col-sm-12.col-lg-12
 					.thumbnail.thumbnail-mod-1
@@ -49,7 +48,7 @@
 				.responsive-tabs.horizontal-tabs.offset-5
 					%ul.resp-tabs-list
 						-@current_menus.each do |menu|
-							%li.btn.btn-success-mod-1
+							%li.btn.btn-success-mod-uzhindoma
 								=menu.category.name
 					.resp-tabs-container
 						-@current_menus.each do |menu|
@@ -63,15 +62,15 @@
 											.row.flow-offset-1.text-center.uzhindoma-home-pic-description
 												=recipe.name
 												/ =image_tag recipe.pictures.first.image.url
-				=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-1"
+				=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-uzhindoma"
 
 .uzhindoma-hr
 
 %section.section.section-inset-2
 	.container-fluid
 		%h2.text-center Тысячи честных отзывов
-		%hr
-			.row.ud_ml_mr_20
+		.row
+			.ud_ml_mr_20
 				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
 					-@instagram.take(12).each do |instagram|
 						.thumbnail-gallery.isotope-item.col-xs-6.col-sm-3.col-md-2.uzhindoma-instagram-item{"data-filter" => "type-1"}
