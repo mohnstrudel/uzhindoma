@@ -51,9 +51,6 @@
         =link_to edit_user_registration_path, method: :get do
           .ud-custom-icon.ud-right-50
             =image_tag "custom_images/lk.png"
-        =link_to Setting.first.vkontakte do
-          .ud-custom-icon.ud-right-100
-            =image_tag "custom_images/vk.png"
         / =link_to Setting.first.facebook do
         /   .ud-custom-icon.ud-right-150
         /     =image_tag "custom_images/fb.png"
@@ -66,7 +63,7 @@
             =nav_link 'УЗНАТЬ БОЛЬШЕ', uznat_bolshe_path
           %li
             =nav_link "НОВОЕ МЕНЮ", dinner_index_path
-          %li
+          %li#uzhindoma-fast-order-button
             =link_to 'БЫСТРЫЙ ЗАКАЗ', "#", data: {target: '#myModal', toggle: 'modal'}
             / RD Navbar Dropdown
 

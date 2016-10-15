@@ -76,10 +76,17 @@
  * Bootstrap Framework
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
+@font-face {
+  font-family: 'Gill Sans SemiBold';
+  src: url(<%= font_path 'GillSans-SemiBold.ttf' %>) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  color: #516aa1;
+}
+
 html {
-  font-family: 'PT Sans Caption', sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+  font-family: 'Gill Sans SemiBold';
 }
 
 body {
@@ -20980,7 +20987,8 @@ img.mfp-img {
   display: block;
   font-weight: 700;
   font-size: 14px;
-  line-height: 26px;
+  /* Changed on 15-10-2016 because of client's wish from 26px to 10px*/
+  line-height: 10px;
   color: #157EA5;
 }
 
@@ -22307,7 +22315,8 @@ a.fa-shopping-cart span {
 .bg-transparent .rd-navbar-static .rd-navbar-nav > li a,
 .bg-transparent .rd-navbar-fullwidth .rd-navbar-nav > li a {
   border: 1px solid transparent;
-  color: #006eb6;
+  color: #516aa1;
+  /*color: #006eb6;*/
   /*color: #0d264f;*/
 }
 
