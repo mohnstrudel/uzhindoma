@@ -130,7 +130,8 @@
 
 %section.section.section-inset-1
 	.container
-		%h2.text-center Доставка и оплата
+		%b
+			%h2.text-center Доставка и оплата
 		.row.margin-top-30
 			.col-xs-12.col-sm-8
 				#map{style: "position: static; height: 500px;"}
@@ -157,25 +158,7 @@
 %section.section.section-inset-1
 	.container
 		%h2.text-center Наша команда
-		.row.margin-top-30
-			.col-md-6.col-xs-12
-				.row.clearleft-custom.flow-offset-1
-					.container-fluid
-						.isotope.offset-1.isotope-no-gutter.cobbles-gallery{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
-
-							-@employees.all.each_with_index do |employee, index|
-
-								.thumbnail-gallery.isotope-item{"data-filter" => "type-1"}
-									=link_to employee.image.url, data: {lightbox: "image"} do
-										=image_tag employee.grab_cobbles(index)
-										.caption
-											.caption-wrapper
-												%span.icon.icon-md.icon-white.fa-search-plus
-												%h4.text-white
-													=employee.name
-												%p.text-white
-													=employee.description
-		.team_row
+		.team_row.margin-top-30
 			.col-md-12
 				%section
 					=image_tag "custom_images/komanda.jpg"

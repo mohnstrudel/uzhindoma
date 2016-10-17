@@ -5,7 +5,8 @@
 #ud-site-header
   .ud-custom-logo
     =link_to root_path, class: 'brand-name' do
-      =image_tag "custom_images/logo_small.png"
+      .logo-large
+        =image_tag "custom_images/logo_full_v2.png"
 
 =content_tag(:div, class: @div) do
   %nav.rd-navbar{"data-layout" => "rd-navbar-fixed", "data-lg-layout" => "rd-navbar-static", "data-md-layout" => "rd-navbar-fullwidth", "data-sm-layout" => "rd-navbar-fullwidth"}

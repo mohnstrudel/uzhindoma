@@ -78,15 +78,26 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 @font-face {
-  font-family: 'Gill Sans SemiBold';
-  src: url(<%= font_path 'GillSans-SemiBold.ttf' %>) format('truetype');
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans.ttf' %>);
   font-weight: normal;
   font-style: normal;
   color: #516aa1;
 }
 
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-SemiBold.ttf' %>);
+  font-weight: bold;
+  font-style: normal;
+  color: #516aa1;
+}
+
+
+
 html {
-  font-family: 'Gill Sans SemiBold';
+  font-family: 'Gill Sans';
+  font-weight: normal;
 }
 
 body {
@@ -493,7 +504,7 @@ hr {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: inherit;
-  font-weight: 700;
+  font-weight: bold;
   line-height: 1.2;
   color: inherit;
 }
@@ -15398,6 +15409,9 @@ blockquote {
   border-radius: 5px;
 }
 
+.btn-success-mod-uzhindoma:focus {
+  background-color: #516aa1;
+}
 .btn-success-mod-uzhindoma:hover {
   color: #fff;
   background-color: #516aa1;
@@ -20648,8 +20662,9 @@ img.mfp-img {
   margin-left: auto;
   margin-right: auto;
   /*Added on 23-09-2016 because menu is getting smaller*/
-  padding-top: 10px;
-  padding-bottom: 10px;
+  /* Changed on 17-10-2016 from 10 and 10 to 15px and 20px*/
+  padding-top: 15px;
+  padding-bottom: 20px;
 }
 
 .rd-navbar-static .rd-navbar-nav > li > .rd-navbar-dropdown, .rd-navbar-fullwidth .rd-navbar-nav > li > .rd-navbar-dropdown {
@@ -23884,10 +23899,16 @@ a.fa-shopping-cart,
   border-radius: 6px;
 }
 
-.resp-tabs-list .btn-success-mod-1.resp-tab-active {
-  background-color: #157EA5;
+
+/* Changed from .btn-success-mod-1.resp-tab-active to .btn-success-mod-uzhindoma.resp-tab-active  */
+/* on 17-10-2016. Mind the lack of gap! */
+.resp-tabs-list .btn-success-mod-uzhindoma.resp-tab-active {
+  background-color: #516aa1;
   color: #fff;
 }
+
+
+
 
 .horizontal-tabs .resp-tabs-list {
   margin-left: -10px;

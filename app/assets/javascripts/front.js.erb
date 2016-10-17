@@ -18,6 +18,39 @@
 //= require turbolinks
 
 
+
+// Change logo on scroll
+
+$(function() { 
+	var logo = $(".logo-large"); 
+	
+	var image = logo.find('img');
+	var image_src = image.attr('src');
+	// console.log(image_src);
+
+	$(window).scroll(function() {
+		var scroll = $(window).scrollTop();
+
+	    if (scroll >= 10) {
+	      if(!logo.hasClass("logo-small")) {
+	        logo.hide();
+	        image.attr('src',"<%= image_url('custom_images/logo_text_only.png') %>");
+	        logo.removeClass('logo-large').addClass("logo-small").addClass("ud-minus-10-mt").fadeIn( "slow");
+	      }
+	    } else {
+	      if(!logo.hasClass("logo-large")) {
+	        logo.hide();
+	        image.attr('src',"<%= image_url('custom_images/logo_full_v2.png') %>");
+	        logo.removeClass("logo-small").addClass('logo-large').removeClass("ud-minus-10-mt").fadeIn( "slow");
+	      }
+	    }
+
+	});
+});
+
+// End change logo on scroll
+
+
 $(document).ready(function(){
 	$("ul").on("click", "li", function(){
 		console.log($(this)['context'].innerHTML);
