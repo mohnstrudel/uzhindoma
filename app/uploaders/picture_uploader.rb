@@ -55,6 +55,10 @@ class PictureUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [480, 290]
   end
 
+  version :instagram_thumb do
+    process resize_to_fill: [300, 300]
+  end
+
   # Create different versions of your uploaded files:
   # version :thumb do
   #   process :resize_to_fit => [50, 50]

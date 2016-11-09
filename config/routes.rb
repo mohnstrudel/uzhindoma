@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :employees
     resources :jobtitles
     resources :partners
+    resources :igrams
   end
 
 

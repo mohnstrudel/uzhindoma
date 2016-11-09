@@ -1,0 +1,15 @@
+
+.carouselGallery-grid
+	.row
+		.carouselGallery-col-60
+			-@instagram.each_with_index do |instagram, index|
+				.grid-item.carouselGallery-carousel{"data-userpic" => instagram.userpic.url, "data-imagepath" => instagram.src_image, "data-imagetext" => "\n						<ul class='modal-comments'>\n						<li><span class='comment-author'>#{instagram.author} </span><div class='comment-text'>#{instagram.description}</div></li>\n  </ul>", "data-index" => index, "data-likes" => instagram.likes, "data-location" => "sweden", "data-posturl" => instagram.url, "data-username" => instagram.author, :style => "background-image:url(#{instagram.src_image.instagram_thumb.url}"}
+					.carouselGallery-item
+						.carouselGallery-item-meta
+							.meta-wrap
+								%span.likes
+									%span.icon.icon-xs.icon-white.fa-comments.text-white>
+									="#{instagram.comments}"
+								%span.comments
+									%span.icon.icon-xs.icon-white.fa-heart.text-white>
+									="#{instagram.likes}"

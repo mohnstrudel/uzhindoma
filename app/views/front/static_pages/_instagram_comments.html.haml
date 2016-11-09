@@ -1,0 +1,5 @@
+-@comments_all.each do |comment|
+	%li
+		%span.comment-author
+			=comment["user"]["username"]
+		=comment["text"]

@@ -1,0 +1,2 @@
+module Admin::IgramsHelper
+end

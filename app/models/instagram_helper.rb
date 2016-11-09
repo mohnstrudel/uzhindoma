@@ -1,5 +1,5 @@
 class InstagramHelper < ApplicationRecord
-	def by_tag(keyword, max_count = 12)
+	def by_tag(keyword, max_count = 24)
 	    keyword = URI.escape(keyword)
 	    url = "https://www.instagram.com/explore/tags/#{keyword}/?__a=1"
 	    
@@ -29,6 +29,5 @@ class InstagramHelper < ApplicationRecord
 	    logger.info "End result node size - #{nodes.size}"
 	    return nodes
 	end
-
 
 end

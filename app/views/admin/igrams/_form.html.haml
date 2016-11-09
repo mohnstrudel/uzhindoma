@@ -1,0 +1,60 @@
+=form_for [:admin, @igram] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Добавить новый пост инстаграма
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Параметры инстаграма
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-4
+            .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+              .fileupload-preview.thumbnail.mb20
+                -if @igram.src_image?
+                  =image_tag @igram.src_image.instagram_thumb.url
+                -else
+                  %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+          .col-md-8.pl15
+            .section.row
+              %label.field.prepend-icon{for: 'instagram_url'}
+                =f.text_field :url, class: 'form-control', placeholder: "URL поста в инстаграме"
+                %label.field-icon{:for => "instagram_url"}
+                  %i.fa.fa-instagram
+                  
+            .section.row
+              %label.field.prepend-icon{:for => "daterangepicker1"} 
+                =f.text_field :author, class: "gui-input", placeholder: 'Имя автора (заполняется автоматически)', disabled: true
+                %label.field-icon{:for => "product-price"}
+                  %i.fa.fa-user
+
+            .section.row
+              %label.field.prepend-icon{:for => "instagram_description"}
+                =f.text_field :description, placeholder: "Описание поста", class: "gui-textarea br-light bg-light", disabled: true, style: "height: 160px;"
+                %label.field-icon{:for => "instagram_description"}
+                  %i.fa.fa-user
+            
+            .section.row
+              %label.field.prepend-icon{:for => "instagram_comments"}
+                =f.number_field :comments, placeholder: "Кол-во комментов", class: "gui-input", disabled: true
+                %label.field-icon{:for => "instagram_comments"}
+                  %i.fa.fa-comments
+
+            .section.row
+              %label.field.prepend-icon{:for => "instagram_likes"}
+                =f.text_field :likes, placeholder: "Кол-во лайков", class: "gui-input", disabled: true
+                %label.field-icon{:for => "instagram_likes"}
+                  %i.fa.fa-heart
+
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+              / %label.field.option.mt10
+              /   %input{:checked => "", :name => "info", :type => "checkbox"}
+              /     %span.checkbox>
+              /     Save Customer
+              /     %em.small-text.text-muted - A Random Unique ID will be generated
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section

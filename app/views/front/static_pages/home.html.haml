@@ -71,14 +71,4 @@
 		%h2.text-center Тысячи честных отзывов
 		.row
 			.ud_ml_mr_20
-				.isotope.offset-1.masonry-gallery.row{"data-isotope-group" => "gallery", "data-isotope-layout" => "masonry", "data-lightbox" => "gallery"}
-					-@instagram.take(12).each do |instagram|
-						.thumbnail-gallery.isotope-item.col-xs-6.col-sm-3.col-md-2.uzhindoma-instagram-item{"data-filter" => "type-1"}
-							=link_to instagram["display_src"], data: {lightbox: "image"} do
-								=image_tag instagram["thumbnail_src"]
-								.caption
-									.caption-wrapper
-										%span.icon.icon-sm.icon-white.fa-comments.text-white
-										="#{instagram["comments"]["count"]}"
-										%span.icon.icon-sm.icon-white.fa-heart.text-white
-										="#{instagram["likes"]["count"]}"
+				=render "front/static_pages/instagram_reviews"

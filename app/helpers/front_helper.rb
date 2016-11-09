@@ -19,4 +19,6 @@ module FrontHelper
     url = "https://www.instagram.com/p/#{code}/?__a=1"
     JSON.parse( open( "#{url}" ).read )["media"]["owner"]["full_name"]
   end
+
+
 end

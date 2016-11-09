@@ -1,0 +1,150 @@
+jQuery(function($) {
+
+    var updateArrows = function(){
+        $('.carouselGallery-right').removeClass('disabled');
+        $('.carouselGallery-left').removeClass('disabled');
+        var curIndex = $('.carouselGallery-carousel.active').data('index');
+        updateArrows.nbrOfItems = updateArrows.nbrOfItems || $('.carouselGallery-carousel').length -1;
+
+        curIndex === updateArrows.nbrOfItems && $('.carouselGallery-right').addClass('disabled');
+        curIndex === 0 && $('.carouselGallery-left').addClass('disabled');
+    }
+    $(window).on('resize', function(){
+        removeModal();
+    })
+    $('.carouselGallery-carousel').on('click', function(e){
+        scrollTo = $('body').scrollTop();
+       $('body').addClass('noscroll');
+       $('body').css('position', 'fixed');
+        $('.grid-item').removeClass('active');
+        $(this).addClass('active');
+        showModal($(this));
+        updateArrows();
+    });
+
+    $('body').on('click', '.carouselGallery-right, .carouselGallery-left', function(e){
+        if($(this).hasClass('disabled')) return;
+        var curIndex = $('.carouselGallery-carousel.active').data('index');
+        var nextItemIndex = parseInt(curIndex+1);
+        if($(this).hasClass('carouselGallery-left')){
+            nextItemIndex-=2;
+        }
+        var nextItem = $('.carouselGallery-carousel[data-index='+nextItemIndex+']');
+        if(nextItem.length > 0){
+            $('.grid-item').removeClass('active');
+            $('body').find('.carouselGallery-wrapper').remove();
+            showModal($(nextItem.get(0)));
+            nextItem.first().addClass('active');
+        }
+        updateArrows();
+    });
+
+    var modalHtml = '';
+    showModal = function(that){
+        var username = that.data('username'),
+        location = that.data('location'),
+        imagetext = that.data('imagetext'),
+        likes =  that.data('likes'),
+        imagepath = that.data('imagepath'),
+        carouselGalleryUrl = that.data('url');
+        postURL =  that.data('posturl');
+        userpic = that.data('userpic');
+
+        maxHeight = $(window).height()-100;
+
+        if ($('.carouselGallery-wrapper').length === 0) {
+            if(typeof imagepath !== 'undefined') {
+                if($(window).width()<736){
+                    console.log('mobile view');
+
+                    modalHtml = "<div class='carouselGallery-wrapper'>";
+                    modalHtml += "<span class='icons iconscircle-cross close-icon'></span>";
+                    modalHtml += "<div class='carouselGallery-modal'><span class='carouselGallery-left'><span class='icons icon-arrow-left6'></span></span>";
+                    modalHtml += "<div class='container'>";
+                    modalHtml += "<div class='modal-text-head'>";
+                    modalHtml += "<a href='"+postURL+"' class='user-avatar'><img src='"+userpic+"' alt='"+username+"' height=38 width=38></a>";
+                    modalHtml += "<div class='modal-text-head__user'>";
+                    modalHtml += "<span class='carouselGallery-modal-username'><a href='"+postURL+"'>"+username+"</a> </span>";
+                    modalHtml += "</div>";
+                    modalHtml += "<a href='"+postURL+"' class='gal-btn subscribe'>Follow</a>";
+                    modalHtml += "</div>";
+                    modalHtml += "<div class='carouselGallery-scrollbox' ><div class='carouselGallery-modal-image'>";
+                    modalHtml += "<img src='"+imagepath+"' alt='carouselGallery image'>";
+                    modalHtml += "</div>";
+                    modalHtml += "<div class='carouselGallery-modal-text'>";
+                    modalHtml += "<span class='carouselGallery-item-modal-likes'>";
+                    modalHtml += "<span class='modal-likes-line'>"+likes+" likes</span>";
+                    modalHtml += "<span class='modal-time-line'>16h</span>";
+                    modalHtml += "</span>";
+                    modalHtml += "<span class='carouselGallery-modal-imagetext'>";
+                    modalHtml += imagetext;
+                    modalHtml += "</span></div></div></div>";
+                    modalHtml += "<span class='carouselGallery-right'><span class='icons icon-arrow-right6'></span></span>";
+                    modalHtml += "</div></div>";
+                    $('body').append(modalHtml).fadeIn(2500);
+                }else{
+                    modalHtml = "<div class='carouselGallery-wrapper'>";
+                    modalHtml += "<span class='icons iconscircle-cross close-icon'></span>";
+                    modalHtml += "<div class='carouselGallery-modal'><span class='carouselGallery-left'><span class='icons icon-arrow-left6'></span></span>";
+                    modalHtml += "<div class='container'>";
+                    modalHtml += "<div class='carouselGallery-scrollbox' style='max-height:"+maxHeight+"px'><div class='carouselGallery-modal-image'>";
+                    modalHtml += "<img src='"+imagepath+"' alt='carouselGallery image'>";
+                    modalHtml += "</div>";
+                    modalHtml += "<div class='carouselGallery-modal-text'>";
+                    modalHtml += "<div class='modal-text-head'>";
+                    modalHtml += "<a href='"+postURL+"' class='user-avatar'><img src='"+userpic+"' alt='"+username+"' height=38 width=38></a>";
+                    modalHtml += "<div class='modal-text-head__user'>";
+                    modalHtml += "<span class='carouselGallery-modal-username'><a href='"+postURL+"'>"+username+"</a> </span>";
+                    modalHtml += "</div>";
+                    modalHtml += "<a href='"+postURL+"' class='gal-btn subscribe'>Follow</a>";
+                    modalHtml += "</div>";
+                    modalHtml += "<span class='carouselGallery-item-modal-likes'>";
+                    modalHtml += "<span class='modal-likes-line'>"+likes+" likes</span>";
+                    modalHtml += "<span class='modal-time-line'>16h</span>";
+                    modalHtml += "</span>";
+                    modalHtml += "<span class='carouselGallery-modal-imagetext'>";
+                    modalHtml += imagetext;
+                    modalHtml += "</span></div></div></div>";
+                    modalHtml += "<span class='carouselGallery-right'><span class='icons icon-arrow-right6'></span></span>";
+                    modalHtml += "</div></div>";
+                    $('body').append(modalHtml).fadeIn(2500);
+                }
+            }
+        }
+    };
+
+    $('body').on( 'click','.carouselGallery-wrapper', function(e) {
+        if($(e.target).hasClass('carouselGallery-wrapper')){
+            removeModal();
+        }
+    });
+    $('body').on('click', '.close-icon', function(e){
+        removeModal();
+    });
+
+     var removeModal = function(){
+        $('body').find('.carouselGallery-wrapper').remove();
+        $('body').removeClass('noscroll');
+        $('body').css('position', 'static');
+        $('body').animate({scrollTop: scrollTo}, 0);
+    };
+
+    // Avoid break on small devices
+    var carouselGalleryScrollMaxHeight = function() {
+        if ($('.carouselGallery-scrollbox').length) {
+            maxHeight = $(window).height()-100;
+            $('.carouselGallery-scrollbox').css('max-height',maxHeight+'px');
+        }
+    }
+    $(window).resize(function() { // set event on resize
+        clearTimeout(this.id);
+        this.id = setTimeout(carouselGalleryScrollMaxHeight, 100);
+    });
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        if (evt.keyCode == 27) {
+            removeModal();
+        }
+    };
+
+});
