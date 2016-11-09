@@ -1,4 +1,7 @@
 class InstagramHelper < ApplicationRecord
+	
+	# This whole method is legacy as of 09/11/2016. It remains here only for learning purposes
+
 	def by_tag(keyword, max_count = 24)
 	    keyword = URI.escape(keyword)
 	    url = "https://www.instagram.com/explore/tags/#{keyword}/?__a=1"
