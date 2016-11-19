@@ -1,7 +1,8 @@
 class Front::DinnerController < FrontController
 	def index
 		@categories = Category.all
-		@current_menus = Menu.current
+		@current_menus = Menu.current.order(:id)
+		@dessert = Menu.dessert[0]
 
 		unless @current_menus.empty?
 			@menu = @current_menus.first

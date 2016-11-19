@@ -6,43 +6,84 @@
 
 
 $(document).ready(function(){
-	var price = extract_price();
 
-	$('.uzhin_rb_persons').on('click', 'input[name=person_amount]', function(event){
-		recalculate(price);
+	// Preclick for user - tab 1
+	$('#radio1-0').prop("checked", true);
+	$('#radio4-0').prop("checked", true);
+	$('#radio7-0').prop("checked", true);
+	$('#radio9-0').prop("checked", true);
+
+	// Preclick for user - tab 2
+	$('#radio1-1').prop("checked", true);
+	$('#radio4-1').prop("checked", true);
+	$('#radio7-1').prop("checked", true);
+	$('#radio9-1').prop("checked", true);
+
+	var activeTab = 0;
+	
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        var activeTab = $(e.target).attr('href');
+        var tabId = activeTab.split('-')[1];
+        activeTab = parseFloat(tabId);
+		console.log("Active tab is: " + activeTab);
+	});
+
+	
+
+	var price = extract_price(activeTab);
+
+	console.log("Initial price is: " + price);
+
+	// Call all js for tab = 0
+	$('.uzhin_rb_persons').on('click', 'input[name=person_amount_0]', function(event){
+		recalculate(price, 0);
 		// event.stopImmediatePropagation();
 	});
 
-	$('.uzhin_rb_menus').on('click', 'input[name=menu_amount]', function(event){
-		recalculate(price);
+	$('.uzhin_rb_menus').on('click', 'input[name=menu_amount_0]', function(event){
+		recalculate(price, 0);
 	});
 
-	$('.uzhin_rb_dessert').on('click', 'input[name=add_dessert]', function(event){
-		recalculate(price);
+	$('.uzhin_rb_dessert').on('click', 'input[name=add_dessert_0]', function(event){
+		recalculate(price, 0);
 	});
 
+	// Call all js for tab = 1
+	$('.uzhin_rb_persons').on('click', 'input[name=person_amount_1]', function(event){
+		recalculate(price, 1);
+		// event.stopImmediatePropagation();
+	});
+
+	$('.uzhin_rb_menus').on('click', 'input[name=menu_amount_1]', function(event){
+		recalculate(price, 1);
+	});
+
+	$('.uzhin_rb_dessert').on('click', 'input[name=add_dessert_1]', function(event){
+		recalculate(price, 1);
+	});
 	
 });
 
-var recalculate = function (price){
+var recalculate = function (price, tab){
 	var end_price;
-	end_price = update_price(price);
-	end_price = update_menus(end_price);
-	end_price = update_dessert(end_price);
+	end_price = update_price(price, tab);
+	end_price = update_menus(end_price, tab);
+	end_price = update_dessert(end_price, tab);
 	
-	display_price(end_price);
+	display_price(end_price, tab);
 }
 
-var update_dessert = function(price){
-	var dessert_amount = $('input[name=add_dessert]:checked').val();
+var update_dessert = function(price, tab){
+	console.log("Dessert active tab: " + tab);
+	var dessert_amount = $("input[name=add_dessert_" + tab + "]:checked").val();
 	dessert_amount = parseFloat(dessert_amount);
-	console.log(dessert_amount);
+	console.log("Original price: "+ price + " and dessert amount: " + dessert_amount);
 	return price + dessert_amount;
 }
 
-var update_menus = function (price){
+var update_menus = function (price, tab){
 	var subtract;
-	var menus_amount = get_menus();
+	var menus_amount = get_menus(tab);
 	switch (menus_amount) {
   		case "3":
     		subtract = 1000;
@@ -61,27 +102,30 @@ var update_menus = function (price){
 
 }
 
-var get_menus = function (){
-	var menus_amount = $('input[name=menu_amount]:checked').val();	
+var get_menus = function (tab){
+	var menus_amount = $("input[name=menu_amount_" + tab + "]:checked").val();	
 	// console.log(number_price);
+	console.log("Menu amount is: " + menus_amount);
 	return menus_amount;
 }
 
-var extract_price = function (){
-	var price = $('#uzhin_price').text();
+var extract_price = function (tab){
+	var price = $('#uzhin_price_' + tab).text();
 	var stripped_price = price.split('.')[0].split(',').join("");
 	var number_price = parseFloat(stripped_price);
+	console.log("Extracted price is: " + number_price);
 	return number_price;
 }
 
-var get_persons = function (){
-	var person_amount = $('input[name=person_amount]:checked').val();	
-	// console.log(number_price);
+var get_persons = function (tab){
+	// var person_amount = $('input[name=person_amount]:checked').val();	
+	var person_amount = $("input[name=person_amount_" + tab + "]:checked").val();	
+	console.log("Person amount is: " + person_amount);
 	return person_amount;
 }
 
-var update_price = function(price){
-	var persons = get_persons();
+var update_price = function(price, tab){
+	var persons = get_persons(tab);
 	var total_price;
 	if(persons == 2){
 		total_price = price;
@@ -94,8 +138,8 @@ var update_price = function(price){
 
 }
 
-var display_price = function(price){
-	$('#uzhin_price').text(format_price(price));
+var display_price = function(price, tab){
+	$('#uzhin_price_'+tab).text(format_price(price));
 }
 
 var format_price = function(price){
