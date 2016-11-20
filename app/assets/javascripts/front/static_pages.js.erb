@@ -16,16 +16,16 @@ $(document).ready(function(){
   // $downloadingImage.attr("src", "<%= image_url('backgrounds/uznat_bolshe_hd.jpg') %>");
 });
 
-	$(".owl-carousel-home").owlCarousel({
- 
-      autoPlay: 3000, //Set AutoPlay to 3 seconds
- 
-      items : 3,
-      itemsDesktop : [400,3],
-      itemsDesktopSmall : [640,1]
-	
- 
-  });	
+// Init OWL Carousel here
+  $("#owl-uzhindoma").owlCarousel({
+    navigation: true,
+    navigationText: [
+      "<i class='fa fa-chevron-left'></i>",
+      "<i class='fa fa-chevron-right'></i>"
+      ]
+    });
+
+// Init End
 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1YWZiZGFiZDk1Zjk5NGUifQ.ueMMb8kMdWxrP5N4iqx67Q';

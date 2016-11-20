@@ -9,7 +9,7 @@
               =image_tag "custom_images/wa_v2_64.png"
 
           .row
-            %p.text-black Напишите нам!
+            %p.text-black Напишите нам в WhatsApp!
             .text-black Мы на связи с 9 до 22
             %h4.text-uzhindoma-blue
               =Setting.first.phone
@@ -34,7 +34,7 @@
             .white-link
               =link_to 'Вопрос-ответ', uznat_bolshe_path
             .white-link
-              %a{:href => "blog-post.html"} Вакансии
+              =link_to "Вакансии", "https://hh.ru/employer/1642130"
             .white-link
               =link_to 'Сотрудничество', '#'
             .white-link
@@ -45,14 +45,15 @@
               .col-xs-8.col-xs-offset-0
                 %ul.list-inline
                   %li
-                    =link_to Setting.first.facebook do
-                      =image_tag "custom_images/fb_64.png"
+                    =link_to Setting.first.instagram do
+                      =image_tag "custom_images/ig_64.png"
                   %li
                     =link_to Setting.first.vkontakte do
                       =image_tag "custom_images/vk_64.png"
                   %li
-                    =link_to Setting.first.instagram do
-                      =image_tag "custom_images/ig_64.png"
+                    =link_to Setting.first.facebook do
+                      =image_tag "custom_images/fb_64.png"
+
           .row
             Вступайте в наш клуб кулинаров!
 

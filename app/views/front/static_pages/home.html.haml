@@ -3,9 +3,10 @@
 		%h2 Что такое ужин дома
 		.row.margin-top-30
 			.col-xs-4.text-right
-				=image_tag "custom_images/lena.png"
+				=image_tag "custom_images/lena-portrait.png", width: 180
 			.col-xs-8.text-left.padding-top-35
 				=image_tag "custom_images/hello_v2.png"
+
 		.row.clearleft-custom.flow-offset-1.offset-1
 			.media-mod-3
 				.col-xs-12.col-sm-8.col-lg-8
@@ -17,18 +18,21 @@
 						
 				.col-xs-12.col-sm-4.col-lg-4
 					.media-body.text-sm-left
-						%p 
-							Каждую неделю мы создаем меню
-							%br на 5 уникальных ужинов
-						%p
-							Вы получаете набор свежих продуктов
-							%br и проверенные рецепты
-						%p
-							Готовьте ужин дома, как в ресторане,
-							%br всего за 30 минут!
-						%p 
-							С нами готовят уже тысячи семей.
-							%br Это действительно удобно!
+						.uzhindoma-list
+							%ul
+								%li
+									Каждую неделю мы создаем меню
+									%br на 5 уникальных ужинов
+								%li
+									Вы получаете набор свежих продуктов
+									%br и проверенные рецепты
+								%li
+									Готовьте ужин дома, как в ресторане,
+									%br всего за 30 минут!
+							%br
+							%p.video-text
+								С нами готовят уже тысячи семей.
+								%br Это действительно удобно!
 
 .uzhindoma-hr
 
@@ -53,7 +57,7 @@
 					.resp-tabs-container
 						-@current_menus.each do |menu|
 							.text-sm-left.fadeIn.animated
-								.owl-carousel-home{"data-dots" => "true", "data-loop" => "true", "data-lightbox" => "gallery"}
+								#owl-uzhindoma.owl-carousel.owl-theme
 									-menu.recipes.each do |recipe|
 										.owl-item
 											.row.flow-offset-1
