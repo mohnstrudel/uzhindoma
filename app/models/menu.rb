@@ -28,7 +28,9 @@ class Menu < ActiveRecord::Base
 
   def calculate_price(menu, params)
     price = menu.price
-    case params[:menu_amount]
+
+    menu_amount = params[:menu_amount_0] or params[:menu_amount_1]
+    case menu_amount
     when "5"
       subtract = 0
     when "4"
@@ -38,12 +40,15 @@ class Menu < ActiveRecord::Base
     end
     price -= subtract
 
+    person_amount = params[:person_amount_0] or params[:person_amount_1]
     case params[:person_amount]
     when "4"
       price *= 2
     end
 
-    price += params[:add_dessert].to_f
+    dessert_price = params[:add_dessert_0] or params[:add_dessert_1]
+
+    price += dessert_price.to_f
 
     return price
 

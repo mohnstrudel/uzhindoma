@@ -1,102 +1,71 @@
 
 %main.page-content
-  %section.bg-light.section-lg
-    %ol.breadcrumb
-      %li
-        =link_to 'Главная', root_path
-      %li.active Заказ
   =form_for @order do |f|
-    .section.section-inset-1
-      .container
-        .row
-          .col-xs-12.col-md-8.col-md-offset-2
-            %section
-              %h4 Куда вам привезти набор?
-              / RD Mailform
-              .rd-mailform.row.flow-offset-6
-                .col-xs-12.col-sm-6
-                  =f.text_field :name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
-                .col-xs-12.col-sm-6.right-col
-                  =f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@Phone" }, class: "form-input"
-                .col-xs-12.col-sm-12.left-col
-                  =f.text_field :email, placeholder: "Ваша почта", data: { constraints: "@NotEmpty @Email" }
-                .col-xs-12.col-sm-12.select
-                  %select#select-1.rd-mailform-select{:name => "delivery_timeframe"}
-                    %option{:value => "Любое время"} Любое время
-                    %option{:value => "09:00 - 12:00"} 09:00 - 12:00
-                    %option{:value => "11:00 - 14:00"} 11:00 - 14:00
-                    %option{:value => "17:00 - 20:00"} 17:00 - 20:00
-                    %option{:value => "20:00 - 23:00"} 20:00 - 23:00
-                .col-xs-12.select
-                  / RD SelectMenu
-                  %label{:for => "select-1"}
-                  %select#select-1.rd-mailform-select{:name => "select"}
-                    %option{:value => "Москва"} Москва
-                    %option{:value => "Московская область"} Московская область
-                    / %option{:value => "Балашиха"} Балашиха
-                .col-xs-12.col-sm-12.left-col
-                  =f.text_area :address, placeholder: "Город, Село, Улица, Дом, Квартира, Подъезд", data: { constraints: "@NotEmpty" }
-                / .col-xs-12.text-left
-                /   %label.mfCheckbox
-                /     %input.mfCheckbox__input{:type => "checkbox"}
-                /       %span Create an account
-            %section.section-inset-3
-              %h4 Ваш заказ
-              .row.offset-5
-                .col-xs-12
-                  .table-responsive
-                    %table.table.table-striped-mod-1
-                      %thead
-                        %tr.bg-primary
-                          %th Параметры набора
-                          %th
-                      %tbody.text-left
-                        %tr
-                          %td
-                            =link_to @menu.category.name, dinner_index_path
-                          %td
-                            ="#{@menu_price} руб."
-                            / Some hidden fields to set up order values
-                            =f.hidden_field :menu_id, value: @menu.id
-                            =f.hidden_field :order_price, value: @menu_price
-                            =f.hidden_field :order_type, value: "normal"
+    .row
+      %section
+        %h3.zero-letter-spacing Оформление заказа
+        .col-md-8.col-md-offset-2.margin-top-30
+          .row
+            .col-md-4
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "first_name"} Имя
+                =f.text_field :name, data: { constraints: "@NotEmpty"}, id: "first_name"
 
-                        %tr
-                          %td Кол-во персон
-                          %td
-                            =f.hidden_field :person_amount, value: params[:person_amount].to_i
-                            =params[:person_amount]
-                        %tr
-                          %td Кол-во ужинов
-                          %td
-                            =f.hidden_field :menu_amount, value: params[:menu_amount].to_i
-                            =params[:menu_amount]
-                        %tr
-                          %td Добавить дессерт?
-                          %td
-                            =f.hidden_field :add_dessert, value: params[:add_dessert]
-                            -if params[:add_dessert] == "1"
-                              Да
-                            -else
-                              Нет
-                        %tr
-                          %td
-                            ="Заменить #{@menu.change_from} на #{@menu.change_to}?"
-                          %td
-                            =f.hidden_field :change, value: params[:change]
-                            -if params[:change]
-                              Да
-                            -else
-                              Нет
-              .row.offset-5
-                .col-xs-12
-                  .payment-wrap.text-left.bg-light
-                    .payment
-                      .radio
-                        %label
-                          %input#blankRadio1{:name => "blankRadio", :type => "radio", :value => "option1", checked: true}
-                            %span.radio-field
-                            %span.h6.text-success Наличными курьеру
-              .row.offset-5
-                .col-xs-12
-                  =f.submit 'Оформить заказ', class: 'btn btn-sm btn-min-width btn-success'
+            .col-md-4
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "standard_order_phone"} Телефон
+                =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone"
+
+            .col-md-4
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "email"} E-mail
+                =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email"
+          .row
+            .col-md-3
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "street"} Улица
+                =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street"
+            .col-md-3
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "house_number"} Номер дома
+                =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
+            .col-md-3
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "korpus"} Корпус/строение
+                =f.text_field :korpus, id: "korpus"
+            .col-md-3
+              .text-wrapper
+                %label.h4.zero-letter-spacing{:for => "flat_number"} Квартира
+                =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
+          .row
+            %h3.zero-letter-spacing.text-center.margin-top-30 Интервал доставки
+            .col-md-10.col-md-offset-1.margin-top-30
+              .col-md-3
+                .radio-wrapper
+                  .uzhin_rb_menus
+                    =f.radio_button :delivery_timeframe, "9:00 - 13:00", hidden: true, id: "delivery_timeframe1"
+                    %label{id: "delivery_timeframe1", :for => "delivery_timeframe1"} 9:00 - 13:00
+              .col-md-3
+                .radio-wrapper
+                  .uzhin_rb_menus
+                    =f.radio_button :delivery_timeframe, "13:00 - 17:00", hidden: true, id: "delivery_timeframe2"
+                    %label{id: "delivery_timeframe2", :for => "delivery_timeframe2"} 13:00 - 17:00
+              .col-md-3
+                .radio-wrapper
+                  .uzhin_rb_menus
+                    =f.radio_button :delivery_timeframe, "17:00 - 21:00", hidden: true, id: "delivery_timeframe3"
+                    %label{id: "delivery_timeframe3", :for => "delivery_timeframe3"} 17:00 - 21:00
+              .col-md-3
+                .radio-wrapper
+                  .uzhin_rb_menus
+                    =f.radio_button :delivery_timeframe, "21:00 - 24:00", hidden: true, id: "delivery_timeframe4"
+                    %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 21:00 - 24:00
+
+          .row
+            .text-wrapper
+              %label.h4.zero-letter-spacing.text-center.margin-top-30{:for => "area"} Комментарии к заказу
+              =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+          
+          .row
+            =f.submit "Готово!", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                      

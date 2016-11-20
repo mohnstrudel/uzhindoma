@@ -59,6 +59,9 @@ class Front::OrdersController < FrontController
 		phone = params[:order][:phone]
 		name = params[:order][:name]
 		menu_type = params[:menu_type]
+		address = "Адрес: Улица - #{params[:order][:street]}/#{params[:order][:house_number]}, квартира номер #{params[:order][:flat_number]} (корпус #{params[:order][:korpus]})"
+		comment = params[:order][:comment]
+		delivery = params[:order][:delivery_timeframe]
 
 		user = check_if_user_exists(phone)
 		# Here we either create a new deal for existing user or create new lead
@@ -68,7 +71,7 @@ class Front::OrdersController < FrontController
 			create_new_bitrix_deal(user, order)
 			logger.debug "User with id #{user} found, creating a new deal inside Bitrix."
 		else
-			create_new_bitrix_lead(phone, name, menu_type)
+			create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery)
 			logger.debug "No user with phone number: #{phone} found. Creating a new lead inside Bitrix."
 		end
 
@@ -85,7 +88,8 @@ class Front::OrdersController < FrontController
 	end
 
 	def order_params
-		params.require(:order).permit(:name, :address, :city, :phone, :email, 
+		params.require(:order).permit(:name, :street, :phone, :email, 
+			:korpus, :flat_number, :house_number,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe)
 	end
@@ -98,14 +102,16 @@ class Front::OrdersController < FrontController
 		Bitrix.get_refresh_token
 	end
 
-	def create_new_bitrix_lead(phone, name, menu_type)
+	def create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery)
 		# auth=КЛЮЧ&fields[TITLE]=test&fields[NAME]=ИМЯ
 		bitrix = Bitrix.first
 		title = Date.today.strftime("%d.%m.%y")
 		encoded_name = URI.escape(name)
-		commentary = URI.escape("Тип набора: #{menu_type}")
+		commentary = URI.escape("Тип набора: #{menu_type}, Комментарий клиента: #{comment}, Интервал доставки: #{delivery}")
+		encoded_address = URI.escape(address)
+
 		logger.info "Creating a new lead with params: name - #{encoded_name}, phone - #{phone}, title - #{title} and menu type - #{menu_type}"
-		fields_string = "fields[TITLE]=#{title}&fields[NAME]=#{encoded_name}&fields[SECOND_NAME]=#{phone}&fields[COMMENTS]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[PHONE][0][VALUE_TYPE]=WORK"
+		fields_string = "fields[TITLE]=#{title}&fields[NAME]=#{encoded_name}&fields[SECOND_NAME]=#{phone}&fields[COMMENTS]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		
