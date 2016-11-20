@@ -106,7 +106,7 @@
 											=recipe.name
 										%p
 											=recipe.description
-									=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", caption: "Some Title"} do
+									=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
 										=image_tag recipe.pictures.first.image.url
 							.item
 								.description
@@ -114,5 +114,5 @@
 										=@dessert.recipes.first.name
 									%p
 										=@dessert.recipes.first.description
-								=link_to @dessert.hotpic.url, data: {lightbox: "gallery", caption: "Some Title"} do
+								=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
 									=image_tag @dessert.hotpic.url		
