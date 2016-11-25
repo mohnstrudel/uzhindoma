@@ -79,17 +79,82 @@
 
 @font-face {
   font-family: 'Gill Sans';
-  src: url(<%= font_path 'GillSans.ttf' %>);
-  font-weight: normal;
+  src: url(<%= font_path 'GillSans.eot' %>);
+  src: url(<%= font_path 'GillSans.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans.woff' %>) format('woff'), url(<%= font_path 'GillSans.ttf' %>) format('truetype');
+  font-weight: 400;
   font-style: normal;
   color: #516aa1;
 }
 
 @font-face {
   font-family: 'Gill Sans';
-  src: url(<%= font_path 'GillSans-SemiBold.ttf' %>);
-  font-weight: bold;
+  src: url(<%= font_path 'GillSans-Light.eot' %>);
+  src: url(<%= font_path 'GillSans-Light.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-Light.woff' %>) format('woff'), url(<%= font_path 'GillSans-Light.ttf' %>) format('truetype');
+  font-weight: 300;
   font-style: normal;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-Italic.eot' %>);
+  src: url(<%= font_path 'GillSans-Italic.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-Italic.woff' %>) format('woff'), url(<%= font_path 'GillSans-Italic.ttf' %>) format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-UltraBold.eot' %>);
+  src: url(<%= font_path 'GillSans-UltraBold.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-UltraBold.woff' %>) format('woff'), url(<%= font_path 'GillSans-UltraBold.ttf' %>) format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-SemiBold.eot' %>);
+  src: url(<%= font_path 'GillSans-SemiBold.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-SemiBold.woff' %>) format('woff'), url(<%= font_path 'GillSans-SemiBold.ttf' %>) format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-BoldItalic.eot' %>);
+  src: url(<%= font_path 'GillSans-BoldItalic.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-BoldItalic.woff' %>) format('woff'), url(<%= font_path 'GillSans-BoldItalic.ttf' %>) format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-Bold.eot' %>);
+  src: url(<%= font_path 'GillSans-Bold.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-Bold.woff' %>) format('woff'), url(<%= font_path 'GillSans-Bold.ttf' %>) format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-LightItalic.eot' %>);
+  src: url(<%= font_path 'GillSans-LightItalic.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-LightItalic.woff' %>) format('woff'), url(<%= font_path 'GillSans-LightItalic.ttf' %>) format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  color: #516aa1;
+}
+
+@font-face {
+  font-family: 'Gill Sans';
+  src: url(<%= font_path 'GillSans-SemiBoldItalic.eot' %>);
+  src: url(<%= font_path 'GillSans-SemiBoldItalic.eot?#iefix' %>) format('embedded-opentype'),url(<%= font_path 'GillSans-SemiBoldItalic.woff' %>) format('woff'), url(<%= font_path 'GillSans-SemiBoldItalic.ttf' %>) format('truetype');
+  font-weight: 600;
+  font-style: italic;
   color: #516aa1;
 }
 
@@ -505,7 +570,7 @@ hr {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: inherit;
-  font-weight: bold;
+  /*font-weight: bold;*/
   line-height: 1.2;
   color: inherit;
 }
@@ -15408,6 +15473,7 @@ blockquote {
   border-color: #516aa1;
   line-height: 4px;
   border-radius: 5px;
+  font-weight: 600;
 }
 
 .btn-success-mod-uzhindoma:focus {
@@ -21036,7 +21102,7 @@ img.mfp-img {
 
 .rd-navbar-static .rd-navbar-nav > li > a, .rd-navbar-fullwidth .rd-navbar-nav > li > a {
   display: block;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
   /* Changed on 15-10-2016 because of client's wish from 26px to 10px*/
   line-height: 10px;

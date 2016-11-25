@@ -59,7 +59,7 @@ class Front::OrdersController < FrontController
 		phone = params[:order][:phone]
 		name = params[:order][:name]
 		menu_type = params[:menu_type]
-		address = "Адрес: Улица - #{params[:order][:street]}/#{params[:order][:house_number]}, квартира номер #{params[:order][:flat_number]} (корпус #{params[:order][:korpus]})"
+		address = URI.escape("Адрес: Улица - #{params[:order][:street]}/#{params[:order][:house_number]}, квартира номер #{params[:order][:flat_number]} (корпус #{params[:order][:korpus]})")
 		comment = params[:order][:comment]
 		delivery = params[:order][:delivery_timeframe]
 

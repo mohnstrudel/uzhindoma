@@ -2,7 +2,7 @@
 	/ Nav tabs
 	.row.margin-top-30
 		.text-center
-			%h2 Новое меню
+			%h2.zero-letter-spacing Новое меню
 	.row.uzhindoma-tabs-row
 		.col-md-2
 		.col-md-8
@@ -21,10 +21,10 @@
 					=form_tag new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], dinner_amount: params[:dinner_amount], change: params[:change], add_dessert: params[:add_dessert]), method: 'get' do
 
 						=hidden_field_tag :menu_id, current_menu.id
-						.container
+						.container-fluid{style: "margin-top:20px;"}
 							.row
 								.col-md-3
-									%h4.zero-letter-spacing 
+									%h6.zero-letter-spacing 
 										Сколько ужинов?
 									.radio-wrapper
 										.uzhin_rb_menus
@@ -40,79 +40,76 @@
 											%label{id: "radio3-#{index}", :for => "radio3-#{index}"} Три
 
 								.col-md-3
-									%h4.zero-letter-spacing
+									%h6.zero-letter-spacing
 										На сколько персон?
-									.padding-top-25
-										.radio-wrapper
-											.uzhin_rb_persons
-												%input{id: "radio4-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: 2 }/
-												%label{id: "radio4-#{index}", :for => "radio4-#{index}"} Две
-										.radio-wrapper
-											.uzhin_rb_persons
-												%input{id: "radio5-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: 4 }/
-												%label{id: "radio5-#{index}", :for => "radio5-#{index}"} Четыре
+									.radio-wrapper
+										.uzhin_rb_persons
+											%input{id: "radio4-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: 2 }/
+											%label{id: "radio4-#{index}", :for => "radio4-#{index}"} Две
+									.radio-wrapper
+										.uzhin_rb_persons
+											%input{id: "radio5-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: 4 }/
+											%label{id: "radio5-#{index}", :for => "radio5-#{index}"} Четыре
 								.col-md-3
-									%h4.zero-letter-spacing
+									%h6.zero-letter-spacing
 										="Заменить #{current_menu.change_from} на #{current_menu.change_to}?" 
-									.padding-top-25
-										.radio-wrapper
-											%input{id: "radio6-#{index}", :hidden => "", :name => "change_meat", :type => "Radio"}/
-											%label{id: "radio6-#{index}", :for => "radio6-#{index}"} Да
-										.radio-wrapper
-											%input{id: "radio7-#{index}", :hidden => "", :name => "change_meat", :type => "Radio"}/
-											%label{id: "radio7-#{index}", :for => "radio7-#{index}"} Нет
+									.radio-wrapper
+										%input{id: "radio6-#{index}", :hidden => "", :name => "change_meat", :type => "Radio"}/
+										%label{id: "radio6-#{index}", :for => "radio6-#{index}"} Да
+									.radio-wrapper
+										%input{id: "radio7-#{index}", :hidden => "", :name => "change_meat", :type => "Radio"}/
+										%label{id: "radio7-#{index}", :for => "radio7-#{index}"} Нет
 								.col-md-3
-									.text-right
-										%h4.zero-letter-spacing
-											Добавить десерт?
-										.padding-top-25
-											.radio-wrapper
-												.uzhin_rb_dessert
-													%input{id: "radio8-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: @dessert.price}/
-													%label{id: "radio8-#{index}", :for => "radio8-#{index}"} Да
-											.radio-wrapper
-												.uzhin_rb_dessert
-													%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
-													%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
+									%h6.zero-letter-spacing
+										Добавить десерт?
+									.radio-wrapper
+										.uzhin_rb_dessert
+											%input{id: "radio8-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: @dessert.price}/
+											%label{id: "radio8-#{index}", :for => "radio8-#{index}"} Да
+									.radio-wrapper
+										.uzhin_rb_dessert
+											%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
+											%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
 							.row
 								.col-md-4.col-md-offset-3
-									%span.h4.zero-letter-spacing
+									%span.h6.zero-letter-spacing
 										="ДОСТАВКА: #{current_menu.daterange.split("-")[1]}"
 								
 								.col-md-5
 									.text-right
 										.price-container
-											%span.h4.zero-letter-spacing СУММА К ОПЛАТЕ:
-											=content_tag(:span, id: "uzhin_price_#{index}", class: "h4") do
+											%span.h6.zero-letter-spacing СУММА К ОПЛАТЕ:
+											=content_tag(:span, id: "uzhin_price_#{index}", class: "h6") do
 												=render 'front/menus/show_price'
-											%span.h4.zero-letter-spacing РУБ.
+											%span.h6.zero-letter-spacing РУБ.
 											/ %i.fa-rub
 							.row
 								.col-md-4.col-md-offset-8
 									.text-right
-										=button_tag(type: "submit", class: "btn btn-success-mod-uzhindoma") do
+										=button_tag(type: "submit", class: "btn btn-small btn-success-mod-uzhindoma") do
 											%span.icon.icon-xs.fa-shopping-cart
 											Заказать набор
 
 				.uzhindoma-hr.margin-top-30
 				
-				.container
-					.row.margin-top-30
-						.gal
-							-current_menu.recipes.each_with_index do |recipe, index|
+				%section.grid
+					.uzhindoma-container-fluid
+						.uzhindoma-row
+							.gal
+								-current_menu.recipes.each_with_index do |recipe, index|
+									.item
+										.description
+											%h3
+												=recipe.name
+											%p
+												=recipe.description
+										=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
+											=image_tag recipe.pictures.first.image.url
 								.item
 									.description
 										%h3
-											=recipe.name
+											=@dessert.recipes.first.name
 										%p
-											=recipe.description
-									=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
-										=image_tag recipe.pictures.first.image.url
-							.item
-								.description
-									%h3
-										=@dessert.recipes.first.name
-									%p
-										=@dessert.recipes.first.description
-								=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
-									=image_tag @dessert.hotpic.url		
+											=@dessert.recipes.first.description
+									=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+										=image_tag @dessert.hotpic.url		

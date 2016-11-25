@@ -1,0 +1,38 @@
+#on-top,
+.item {
+  position: relative;
+  cursor: pointer;
+}
+
+#on-top {
+  content: "";
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #e9e9e9;
+  position: fixed;
+  right: 100px;
+  bottom: 50px;
+}
+
+#on-top:after,
+#on-top:before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  border-left: 1px solid #fff;
+  width: 1px;
+  height: 35px;
+}
+
+#on-top:before {
+  left: 22px;
+  -webkit-transform: rotate(25deg);
+  transform: rotate(25deg);
+}
+
+#on-top:after {
+  -webkit-transform: rotate(-25deg);
+  transform: rotate(-25deg);
+  right: 22px;
+}
