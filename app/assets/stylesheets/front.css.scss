@@ -297,4 +297,16 @@
   color: #fff;
 }
 
+.uzhindoma-home-pic-description {
+    margin-right: 0.8em;
+    position: absolute;
+    display: none;
+    bottom: 0;
+    padding: 20px 10px;
+    margin-left: 0em;
+    background: rgba(255,255,255,0.7);
+}
+.owl-item:hover > .uzhindoma-home-pic-description {
+    display:block!important;
+}
 // End of big pile of shit css
