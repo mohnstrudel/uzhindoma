@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         sign_up: 'register', 
         edit: 'profile' }
   
-  get 'profile', to: 'front/users#profile', as: 'user_root'
+  get 'reset_password', to: 'front/profile#change_password'
   
   namespace :admin do
     get '', to: 'dashboard#index', as: '/'

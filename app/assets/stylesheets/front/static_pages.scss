@@ -3,6 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+.no-class-icon{
+    color: transparent !important;
+}
+
 .video-text {
     padding-left: 40px;
     font-weight: 800;
@@ -20,13 +24,32 @@
 .margin-top-100 {
     margin-top: 100px;
 }
+#owl-demo-0 .item img{
+        display: block;
+        width: 100%;
+        height: auto;
+        padding-right: 32px;
+    }
+#owl-demo-1 .item img{
+        display: block;
+        width: 100%;
+        height: auto;
+        padding-right: 32px;
+    }
+#owl-demo-2 .item img{
+        display: block;
+        width: 100%;
+        height: auto;
+        padding-right: 32px;
+    }
 .uzhindoma-home-pic-description {
-    margin-right: 0.8em;
+    margin-right: 0;
     position: absolute;
     display: none;
     bottom: 0;
     padding: 20px 10px;
     margin-left: 0em;
+    color:#000;
     background: rgba(255,255,255,0.7);
 }
 .owl-item:hover > .uzhindoma-home-pic-description {

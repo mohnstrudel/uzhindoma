@@ -34,7 +34,7 @@ var userAgent = navigator.userAgent.toLowerCase(),
         textRotator: $(".rotator"),
         mfp: $('[data-lightbox]').not('[data-lightbox="gallery"] [data-lightbox]'),
         mfpGallery: $('[data-lightbox^="gallery"]'),
-        owl: $('.owl-carousel'),
+        
         navbar: $('.rd-navbar'),
         dateCountdown: $('.DateCountdown'),
         statefulButton: $('.btn-stateful'),
@@ -938,116 +938,6 @@ $(document).ready(function () {
      * @author       Bartosz Wojciechowski
      * @license      The MIT License (MIT)
      */
-    if (plugins.owl.length) {
-        for (i = 0; i < plugins.owl.length; i++) {
-            var c = $(plugins.owl[i]),
-                responsive = {};
-
-            var aliaces = ["-", "-xs-", "-sm-", "-md-", "-lg-"],
-                values = [0, 480, 768, 992, 1200],
-                j, k;
-
-            for (j = 0; j < values.length; j++) {
-                responsive[values[j]] = {};
-                for (k = j; k >= -1; k--) {
-                    if (!responsive[values[j]]["items"] && c.attr("data" + aliaces[k] + "items")) {
-                        responsive[values[j]]["items"] = k < 0 ? 1 : parseInt(c.attr("data" + aliaces[k] + "items"));
-                    }
-                    if (!responsive[values[j]]["stagePadding"] && responsive[values[j]]["stagePadding"] !== 0 && c.attr("data" + aliaces[k] + "stage-padding")) {
-                        responsive[values[j]]["stagePadding"] = k < 0 ? 0 : parseInt(c.attr("data" + aliaces[k] + "stage-padding"));
-                    }
-                    if (!responsive[values[j]]["margin"] && responsive[values[j]]["margin"] !== 0 && c.attr("data" + aliaces[k] + "margin")) {
-                        responsive[values[j]]["margin"] = k < 0 ? 30 : parseInt(c.attr("data" + aliaces[k] + "margin"));
-                    }
-                }
-            }
-
-            c.owlCarousel({
-                autoplay: c.attr("data-autoplay") === "true",
-                loop: c.attr("data-loop") !== "false",
-                items: 1,
-                dotsContainer: c.attr("data-pagination-class") || false,
-                navContainer: c.attr("data-navigation-class") || false,
-                mouseDrag: c.attr("data-mouse-drag") !== "false",
-                nav: c.attr("data-nav") === "true",
-                dots: c.attr("data-dots") === "true",
-                dotsEach: c.attr("data-dots-each") ? parseInt(c.attr("data-dots-each")) : false,
-                responsive: responsive,
-                singleItem: false,
-                navText: [],
-                onInitialized: function () {
-                    if ($.fn.magnificPopup) {
-                        var o = this.$element.attr('data-lightbox') !== undefined && this.$element.attr("data-lightbox") !== "gallery",
-                            g = this.$element.attr('data-lightbox') === "gallery";
-                        if (o) {
-                            for (var m = 0; m < (this.$element).length; m++) {
-                                var $this = $(this.$element[m]);
-                                $this.magnificPopup({
-                                    type: $this.attr("data-lightbox"),
-                                    callbacks: {
-                                        open: function () {
-                                            if (isTouch) {
-                                                $document.on("touchmove", preventScroll);
-                                                $document.swipe({
-                                                    swipeDown: function () {
-                                                        $.magnificPopup.close();
-                                                    }
-                                                });
-                                            }
-                                        },
-                                        close: function () {
-                                            if (isTouch) {
-                                                $document.off("touchmove", preventScroll);
-                                                $document.swipe("destroy");
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                        if (g) {
-                            for (var k = 0; k < (this.$element).length; k++) {
-                                var $gallery = $(this.$element[k]).find('[data-lightbox]');
-                                for (var j = 0; j < $gallery.length; j++) {
-                                    var $item = $gallery[j];
-                                    $item.addClass("mfp-" + $item.attr("data-lightbox"));
-                                }
-                                $gallery.end()
-                                    .magnificPopup({
-                                        delegate: '.owl-item [data-lightbox]',
-                                        type: "image",
-                                        gallery: {
-                                            enabled: true
-                                        },
-                                        callbacks: {
-                                            open: function () {
-                                                if (isTouch) {
-                                                    $document.on("touchmove", preventScroll);
-                                                    $document.swipe({
-                                                        swipeDown: function () {
-                                                            $.magnificPopup.close();
-                                                        }
-                                                    });
-                                                }
-                                            },
-                                            close: function () {
-                                                if (isTouch) {
-                                                    $document.off("touchmove", preventScroll);
-                                                    $document.swipe("destroy");
-                                                }
-                                            }
-                                        }
-                                    });
-                            }
-                        }
-                    }
-                    if (c.attr("data-active")) {
-                        c.trigger("to.owl.carousel", c.attr("data-active") - 1);
-                    }
-                }
-            });
-        }
-    }
 
     /**
      * @module       jQuery Count To

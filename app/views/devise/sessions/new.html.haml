@@ -7,13 +7,17 @@
 						%h4 Вход в систему
 						.rd-mailform.row.flow-offset-6
 							.col-xs-12.col-sm-6
-								=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true
+								=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone"
 							.col-xs-12.col-sm-6
 								=f.password_field :password, placeholder: "Пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off" 
-							.col-xs-12.text-left
+
+							.col-xs-12.col-sm-6.text-left
 								%label.mfCheckbox
 									=f.check_box :remember_me, class: 'mfCheckbox__input'
 									%span Запомнить меня
+							.col-xs-12.col-sm-6.text-right
+								%label.mfCheckbox#send_password
+									=link_to 'Выслать пароль по смс', reset_password_path(phone: params["user[phone]"]), method: :get
 					%section.section-inset-3
 						.row.offset-5
 							.col-xs-12

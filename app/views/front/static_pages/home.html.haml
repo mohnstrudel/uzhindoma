@@ -55,16 +55,25 @@
 							%li.btn.btn-success-mod-uzhindoma
 								=menu.category.name
 					.resp-tabs-container
-						-@current_menus.each do |menu|
+						-@current_menus.each_with_index do |menu, index|
 							.text-sm-left.fadeIn.animated
-								-menu.recipes.each do |recipe|
-									.owl-item
-										.row.flow-offset-1
-											=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery"} do
-												=image_or_default_tag(recipe, "pictures", "image")
-										.row.flow-offset-1.text-center.uzhindoma-home-pic-description
-											=recipe.name
-											/ =image_tag recipe.pictures.first.image.url
+								#demo
+									.container
+										.row
+											.span12
+												=content_tag(:div, id: "owl-demo-#{index}", class: "owl-carousel") do
+													-menu.recipes.each do |recipe|
+														.item
+															.owl-item
+																.row.flow-offset-1
+																	%a.fancybox{"data-caption" => recipe.description, "data-fancybox-group" => "gallery", :href => recipe.pictures.first.image.url, :title => recipe.name}
+																		=image_tag recipe.pictures.first.image.url
+																		/ =image_or_default_tag(recipe, "pictures", "image")
+																.flow-offset-1.text-center.uzhindoma-home-pic-description
+																	=recipe.description
+
+
+									
 				=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-uzhindoma"
 
 .uzhindoma-hr

@@ -38,6 +38,9 @@ gem 'devise'
 # Create useful slugs
 gem 'babosa'
 
+# This gem helps with two-factor-authentication. It is useful for sending passwords via sms
+gem 'active_model_otp'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'puma'

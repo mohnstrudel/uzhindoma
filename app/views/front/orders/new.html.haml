@@ -9,34 +9,42 @@
             .col-md-4
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "first_name"} Имя
-                =f.text_field :name, data: { constraints: "@NotEmpty"}, id: "first_name"
+                .uzhindoma-input
+                  =f.text_field :name, data: { constraints: "@NotEmpty"}, id: "first_name"
 
             .col-md-4
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "standard_order_phone"} Телефон
-                =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone"
+                .uzhindoma-input
+                  =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone"
 
             .col-md-4
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "email"} E-mail
-                =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email"
+                .uzhindoma-input
+                  =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email"
           .row
             .col-md-3
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "street"} Улица
-                =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street"
+                .uzhindoma-input
+                  =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street"
+
             .col-md-3
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "house_number"} Номер дома
-                =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
+                .uzhindoma-input
+                  =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
             .col-md-3
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "korpus"} Корпус/строение
-                =f.text_field :korpus, id: "korpus"
+                .uzhindoma-input
+                  =f.text_field :korpus, id: "korpus"
             .col-md-3
               .text-wrapper
                 %label.h4.zero-letter-spacing{:for => "flat_number"} Квартира
-                =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
+                .uzhindoma-input
+                  =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
           .row
             %h3.zero-letter-spacing.text-center.margin-top-30 Интервал доставки
             .col-md-10.col-md-offset-1.margin-top-30
@@ -65,6 +73,22 @@
             .text-wrapper
               %label.h4.zero-letter-spacing.text-center.margin-top-30{:for => "area"} Комментарии к заказу
               =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+
+          / Some hidden fields to set up order values
+          =f.hidden_field :menu_id, value: @menu.id
+          =f.hidden_field :order_price, value: @menu_price
+          =f.hidden_field :order_type, value: "normal"
+          
+          -if params[:person_amount_0]
+            =f.hidden_field :person_amount, value: params[:person_amount_0].to_i
+          -elsif params[:person_amount_1]
+            =f.hidden_field :person_amount, value: params[:person_amount_1].to_i
+          
+          =f.hidden_field(:menu_amount, value: params[:menu_amount_0].to_i) unless params[:menu_amount_0].empty?
+          / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
+
+          =f.hidden_field :add_dessert, value: params[:add_dessert_0]
+          =f.hidden_field :change, value: params[:change]
           
           .row
             =f.submit "Готово!", class: "btn btn-success-mod-uzhindoma margin-bottom-60"

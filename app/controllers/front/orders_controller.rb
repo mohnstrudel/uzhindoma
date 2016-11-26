@@ -89,7 +89,7 @@ class Front::OrdersController < FrontController
 
 	def order_params
 		params.require(:order).permit(:name, :street, :phone, :email, 
-			:korpus, :flat_number, :house_number,
+			:korpus, :flat_number, :house_number, :comment,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe)
 	end
@@ -139,6 +139,73 @@ class Front::OrdersController < FrontController
 
 		doc = Nokogiri::HTML(open(url))
 
+		response = JSON.parse(doc)
+		deal_id = response["result"]
+
+		found_product = find_product_for_order(order)
+		
+		# Добавить десерт, если в заказе выбрано
+		dessert_id = nil
+		dessert_price = nil
+
+		if order[:add_dessert]
+			dessert_name = Menu.current_dessert[0].recipes[0][:name]
+			found_dessert = find_dessert(dessert_name)
+			dessert_id = found_dessert[0]
+			dessert_price = found_dessert[1]
+		end
+		product_id = found_product[0]
+		product_price = found_product[1]
+
+		# Добавляем все товары из Битрикса в битриксовую сделку
+		add_products_to_deal(deal_id, product_id, product_price, dessert_id, dessert_price)
+
+	end
+
+	def find_dessert(name)
+		bitrix = Bitrix.first
+		name = URI.escape(name)
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name}"
+		doc = Nokogiri::HTML(open(url))
+		response = JSON.parse(doc)
+
+		return response["result"][0]["ID"], response["result"][0]["PRICE"]
+	end
+
+	def find_product_for_order(order)
+		menu_id = order[:menu_id]
+		menu_type = Menu.find(menu_id).category.name
+
+		person_amount = order[:person_amount]
+		menu_amount = order[:menu_amount]
+		bitrix = Bitrix.first
+
+		logger.debug "\n"
+		logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}"
+		logger.debug "\n"
+
+		name_to_search = URI.escape("#{menu_type} #{menu_amount}х#{person_amount}")
+
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name_to_search}"
+		doc = Nokogiri::HTML(open(url))
+		response = JSON.parse(doc)
+
+		product_id = response["result"][0]["ID"]
+		product_price = response["result"][0]["PRICE"]
+
+		return product_id, product_price
+	end
+
+	def add_products_to_deal(deal_id, product_id, product_price, dessert_id, dessert_price)
+		bitrix = Bitrix.first
+		fields_string = "&id=#{deal_id}&&rows[0][PRODUCT_ID]=#{product_id}&rows[0][PRICE]=#{product_price}&rows[0][QUANTITY]=1"
+		dessert_string = ""
+		if dessert_id
+			dessert_string = "&rows[1][PRODUCT_ID]=#{dessert_id}&rows[1][PRICE]=#{dessert_price}&rows[1][QUANTITY]=1"
+		end
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}"
+
+		doc = Nokogiri::HTML(open(url))
 	end
 
 	def check_if_user_exists(phone)

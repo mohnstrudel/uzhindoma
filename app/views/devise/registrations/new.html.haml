@@ -3,13 +3,13 @@
 		.row
 			.col-xs-12.col-md-8.col-md-offset-2
 				%section
-					%h4 Зарегистрироваться в системе
+					%h4.zero-letter-spacing Зарегистрироваться в системе
 					=form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "rd-mailform row"}) do |f|
 						=devise_error_messages!
 						.row
 							.col-xs-12.col-sm-12
 								.mfInput
-									=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true
+									=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty@Phone" }, autofocus: true, id: "standard_order_phone"
 						.row.ud_mt_25
 							.col-xs-12.col-sm-6
 								.mfInput
@@ -22,5 +22,5 @@
 								=button_tag 'Регистрация', class: 'btn btn-sm btn-success'
 	%section.section-inset-3
 		.row.ud_mt_4em
-			%h6 Уже есть аккаунт?
+			%h6.zero-letter-spacing Уже есть аккаунт?
 			=link_to 'Войти', new_user_session_path, method: :get, class: 'text-success'
