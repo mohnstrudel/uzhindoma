@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.btn-small {
+  padding: 5px 15px;
+}
+
 .padding-top-25 {
 	padding-top: 25px;
 }
@@ -54,13 +58,13 @@ label {
 .radio-wrapper label {
   color: #516aa1;
   border: 2px solid #516aa1;
-  font-size: 16px;
+  font-size: 12px;
   margin-bottom: 0;
-  font-weight: 700;
+  font-weight: 500;
   vertical-align: middle;
   cursor: pointer;
   white-space: nowrap;
-  padding: 10px 30px;
+  padding: 5px 15px;
   border-radius: 5px;
   letter-spacing: .12em;
   text-transform: uppercase;

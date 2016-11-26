@@ -57,15 +57,14 @@
 					.resp-tabs-container
 						-@current_menus.each do |menu|
 							.text-sm-left.fadeIn.animated
-								#owl-uzhindoma.owl-carousel.owl-theme
-									-menu.recipes.each do |recipe|
-										.owl-item
-											.row.flow-offset-1
-												=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery"} do
-													=image_or_default_tag(recipe, "pictures", "image")
-											.row.flow-offset-1.text-center.uzhindoma-home-pic-description
-												=recipe.name
-												/ =image_tag recipe.pictures.first.image.url
+								-menu.recipes.each do |recipe|
+									.owl-item
+										.row.flow-offset-1
+											=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery"} do
+												=image_or_default_tag(recipe, "pictures", "image")
+										.row.flow-offset-1.text-center.uzhindoma-home-pic-description
+											=recipe.name
+											/ =image_tag recipe.pictures.first.image.url
 				=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-uzhindoma"
 
 .uzhindoma-hr
