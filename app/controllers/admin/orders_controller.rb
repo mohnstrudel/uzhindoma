@@ -83,7 +83,7 @@ class Admin::OrdersController < AdminController
 
 
 	def order_params
-		params.require(:order).permit(:name, :address, :email, :pay_type, 
+		params.require(:order).permit(:name, :address, :email, :pay_type, :payed_online,
 			:phone, :category_id, :menu_id, :menu_amount, :person_amount, :change, :user_id, :add_dessert)
 	end
 

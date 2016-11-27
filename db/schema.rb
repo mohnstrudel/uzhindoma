@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161126173917) do
+ActiveRecord::Schema.define(version: 20161127134942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "card_first_six"
+    t.string   "card_last_four"
+    t.string   "card_type"
+    t.string   "issuer_bank_country"
+    t.string   "token"
+    t.string   "card_exp_date"
+    t.integer  "user_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id", using: :btree
+  end
 
   create_table "bitrixes", force: :cascade do |t|
     t.string   "access_token"
@@ -130,6 +143,7 @@ ActiveRecord::Schema.define(version: 20161126173917) do
     t.string   "korpus"
     t.string   "flat_number"
     t.text     "comment"
+    t.boolean  "payed_online"
     t.index ["category_id"], name: "index_orders_on_category_id", using: :btree
     t.index ["menu_id"], name: "index_orders_on_menu_id", using: :btree
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
@@ -140,6 +154,19 @@ ActiveRecord::Schema.define(version: 20161126173917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "price",         null: false
+    t.string   "alfa_order_id"
+    t.string   "alfa_form_url"
+    t.boolean  "paid"
+    t.string   "description"
+    t.integer  "user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["alfa_order_id"], name: "index_payments_on_alfa_order_id", using: :btree
+    t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -194,6 +221,7 @@ ActiveRecord::Schema.define(version: 20161126173917) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "employees", "jobtitles"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "menus"

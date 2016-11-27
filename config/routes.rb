@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     resources :menus
     resources :dinner
     resources :orders
+    resources :payments
     
     get 'bitrix', to: 'bitrix#index'
     get 'bitrix/new' => 'bitrix#create_new_order', :as => :new_bitrix_order

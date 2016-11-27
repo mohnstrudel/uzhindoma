@@ -1,0 +1,13 @@
+%h4 Оплата
+
+/ =form_for payments_path, method: :get, html: { id: "paymentFormSample" }, remote: true do
+/ 	=text_field_tag "number", "", data: { cp: "cardNumber" }
+/ 	=text_field_tag "holder", "", data: { cp: "name" }
+/ 	=text_field_tag "expiration", "", data: { cp: "expDateMonthYear" }
+/ 	=text_field_tag "security", "", data: { cp: "cvv" }
+
+/ 	=submit_tag "Оплатить 100 рублей"
+
+#checkout.btn.btn-success Оплатить
+
+=hidden_field_tag :payment, false

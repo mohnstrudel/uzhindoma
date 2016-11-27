@@ -32,6 +32,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Nifty gem for placeholder images
 gem 'placeholdit'
 
+# Try this gem for cloudpayments payments
+
+
 # Managing users
 gem 'devise'
 

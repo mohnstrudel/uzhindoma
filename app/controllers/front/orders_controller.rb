@@ -89,7 +89,7 @@ class Front::OrdersController < FrontController
 
 	def order_params
 		params.require(:order).permit(:name, :street, :phone, :email, 
-			:korpus, :flat_number, :house_number, :comment,
+			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe)
 	end

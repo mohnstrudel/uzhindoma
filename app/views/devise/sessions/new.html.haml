@@ -16,8 +16,8 @@
 									=f.check_box :remember_me, class: 'mfCheckbox__input'
 									%span Запомнить меня
 							.col-xs-12.col-sm-6.text-right
-								%label.mfCheckbox#send_password
-									=link_to 'Выслать пароль по смс', reset_password_path(phone: params["user[phone]"]), method: :get
+								#send_password
+									=submit_tag 'Выслать пароль по смс', class: "reset_password", id: 'reset_btn', name: 'reset', remote: true
 					%section.section-inset-3
 						.row.offset-5
 							.col-xs-12

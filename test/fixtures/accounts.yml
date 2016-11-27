@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  card_first_six: MyString
+  card_last_four: MyString
+  card_type: MyString
+  issuer_bank_country: MyString
+  token: MyString
+  card_exp_date: MyString
+  user: one
+
+two:
+  card_first_six: MyString
+  card_last_four: MyString
+  card_type: MyString
+  issuer_bank_country: MyString
+  token: MyString
+  card_exp_date: MyString
+  user: two

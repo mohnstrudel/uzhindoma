@@ -73,11 +73,28 @@
             .text-wrapper
               %label.h4.zero-letter-spacing.text-center.margin-top-30{:for => "area"} Комментарии к заказу
               =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+          .row
+            %h3.zero-letter-spacing.text-center.margin-top-30 Тип оплаты
+            .col-md-10.col-md-offset-1.margin-top-30
+              .col-md-6
+                .radio-wrapper
+                  .uzhin_rb_menus
+                    =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
+                    %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
+              .col-md-6
+                .radio-wrapper
+                  .uzhin_rb_menus
+                    =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
+                    %label{id: "card_online", :for => "card_online"} Картой онлайн
+            .row
+              .col-md-12.text-center
+                #payment_status
 
           / Some hidden fields to set up order values
           =f.hidden_field :menu_id, value: @menu.id
           =f.hidden_field :order_price, value: @menu_price
           =f.hidden_field :order_type, value: "normal"
+          =f.hidden_field :payed_online, value: false
           
           -if params[:person_amount_0]
             =f.hidden_field :person_amount, value: params[:person_amount_0].to_i
