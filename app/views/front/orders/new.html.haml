@@ -101,7 +101,10 @@
           -elsif params[:person_amount_1]
             =f.hidden_field :person_amount, value: params[:person_amount_1].to_i
           
-          =f.hidden_field(:menu_amount, value: params[:menu_amount_0].to_i) unless params[:menu_amount_0].empty?
+          -if params[:menu_amount_0]
+            =f.hidden_field(:menu_amount, value: params[:menu_amount_0].to_i)
+          -elsif params[:menu_amoun_1]
+            =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i)
           / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
 
           =f.hidden_field :add_dessert, value: params[:add_dessert_0]

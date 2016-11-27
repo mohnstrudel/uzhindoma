@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161127134942) do
+ActiveRecord::Schema.define(version: 20161127195951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,15 @@ ActiveRecord::Schema.define(version: 20161127134942) do
     t.index ["order_id"], name: "index_line_items_on_order_id", using: :btree
   end
 
+  create_table "menupersonamounts", force: :cascade do |t|
+    t.integer  "menu_id"
+    t.integer  "personamount_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["menu_id"], name: "index_menupersonamounts_on_menu_id", using: :btree
+    t.index ["personamount_id"], name: "index_menupersonamounts_on_personamount_id", using: :btree
+  end
+
   create_table "menurecipes", force: :cascade do |t|
     t.integer  "menu_id"
     t.integer  "recipe_id"
@@ -169,6 +178,13 @@ ActiveRecord::Schema.define(version: 20161127134942) do
     t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
+  create_table "personamounts", force: :cascade do |t|
+    t.integer  "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "wordvalue"
+  end
+
   create_table "pictures", force: :cascade do |t|
     t.string   "image"
     t.datetime "created_at", null: false
@@ -226,6 +242,8 @@ ActiveRecord::Schema.define(version: 20161127134942) do
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "menus"
   add_foreign_key "line_items", "orders"
+  add_foreign_key "menupersonamounts", "menus"
+  add_foreign_key "menupersonamounts", "personamounts"
   add_foreign_key "menurecipes", "menus"
   add_foreign_key "menurecipes", "recipes"
   add_foreign_key "menus", "categories"

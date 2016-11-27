@@ -1,6 +1,6 @@
 %section.section
 	.container
-		%h2 Что такое ужин дома
+		%h2.zero-letter-spacing Что такое ужин дома
 		.row.margin-top-30
 			.col-xs-4.text-right
 				=image_tag "custom_images/lena-portrait.png", width: 180
@@ -30,7 +30,7 @@
 									Готовьте ужин дома, как в ресторане,
 									%br всего за 30 минут!
 							%br
-							%p.video-text
+							%h6.zero-letter-spacing
 								С нами готовят уже тысячи семей.
 								%br Это действительно удобно!
 
@@ -38,7 +38,7 @@
 
 %section.section.section-inset-2
 	.container
-		%h2.text-center Меню на эту неделю 
+		%h2.zero-letter-spacing.text-center Меню на эту неделю 
 		.row
 			-if @current_menus.empty?
 				.col-xs-12.col-sm-12.col-lg-12
@@ -77,7 +77,7 @@
 
 %section.section.section-inset-2
 	.container-fluid
-		%h2.text-center Тысячи честных отзывов
+		%h2.zero-letter-spacing.text-center Тысячи честных отзывов
 		.row
 			.ud_ml_mr_20
 				=render "front/static_pages/instagram_reviews"

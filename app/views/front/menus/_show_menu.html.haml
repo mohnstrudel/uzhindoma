@@ -23,7 +23,7 @@
 						=hidden_field_tag :menu_id, current_menu.id
 						.container-fluid{style: "margin-top:20px;"}
 							.row
-								.col-md-3
+								.col-md-4
 									%h6.zero-letter-spacing 
 										Сколько ужинов?
 									.radio-wrapper
@@ -39,27 +39,16 @@
 											%input{id: "radio3-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: 3 }/
 											%label{id: "radio3-#{index}", :for => "radio3-#{index}"} Три
 
-								.col-md-3
+								.col-md-4
 									%h6.zero-letter-spacing
 										На сколько персон?
-									.radio-wrapper
-										.uzhin_rb_persons
-											%input{id: "radio4-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: 2 }/
-											%label{id: "radio4-#{index}", :for => "radio4-#{index}"} Две
-									.radio-wrapper
-										.uzhin_rb_persons
-											%input{id: "radio5-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: 4 }/
-											%label{id: "radio5-#{index}", :for => "radio5-#{index}"} Четыре
-								.col-md-3
-									%h6.zero-letter-spacing
-										="Заменить #{current_menu.change_from} на #{current_menu.change_to}?" 
-									.radio-wrapper
-										%input{id: "radio6-#{index}", :hidden => "", :name => "change_meat", :type => "Radio"}/
-										%label{id: "radio6-#{index}", :for => "radio6-#{index}"} Да
-									.radio-wrapper
-										%input{id: "radio7-#{index}", :hidden => "", :name => "change_meat", :type => "Radio"}/
-										%label{id: "radio7-#{index}", :for => "radio7-#{index}"} Нет
-								.col-md-3
+									-current_menu.personamounts.each_with_index do |p_amount, p_index|
+										.radio-wrapper
+											.uzhin_rb_persons
+												%input{id: "radio-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: p_amount.value }/
+												%label{id: "radio-pa-#{p_index}-#{index}", :for => "radio-pa-#{p_index}-#{index}"}
+													=p_amount.wordvalue
+								.col-md-4
 									%h6.zero-letter-spacing
 										Добавить десерт?
 									.radio-wrapper

@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :jobtitles
     resources :partners
     resources :igrams
+    resources :personamounts
   end
 
 

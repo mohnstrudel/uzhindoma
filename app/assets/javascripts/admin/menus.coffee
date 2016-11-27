@@ -15,10 +15,14 @@ jQuery(document).ready ->
     placeholder: 'Выберите значение...'
   
   # Init Select2 - Basic Multiple
-  $('.select2-multiple').select2
+  $('.select-recipes').select2
     placeholder: 'Выбрать рецепты для данного набора'
     allowClear: true
     # minimumInputLength: 3
+
+  $('.select-personamount').select2
+    placeholder: 'Выбрать кол-во персон для данного набора'
+    allowClear: true
   
 
   # Init Select2 - Contextuals (via html classes)

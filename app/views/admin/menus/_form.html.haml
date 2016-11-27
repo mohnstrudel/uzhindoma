@@ -39,10 +39,17 @@
                 =f.text_field :daterange, id: "daterangepicker1", class: "form-control pull-right", placeholder: 'Выбрать диапазон дат для меню'
                 %label.field-icon{:for => "product-price"}
                   %i.fa.fa-calendar
-
+            
+            / Select recipes for this menu
             .section.row
               %label.field.prepend-field
-                =f.collection_select(:recipe_ids, Recipe.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @menu.recipes.map(&:id)}, { class: 'select2-multiple form-control select-info', :multiple => true})
+                =f.collection_select(:recipe_ids, Recipe.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @menu.recipes.map(&:id)}, { class: 'select2-multiple form-control select-info select-recipes', :multiple => true})
+            
+            / Select for how many persons this menu can be bought for
+            .section.row
+              %label.field.prepend-field
+                =f.collection_select(:personamount_ids, Personamount.all, :id, :value, {include_blank: false, :include_hidden => false, :selected => @menu.personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-personamount', :multiple => true})
+
             .section.row
               %label.field.prepend-icon{:for => "product-price"}
                 =f.number_field :price, placeholder: "Цена набора", class: "gui-input"

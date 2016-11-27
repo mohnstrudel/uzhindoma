@@ -1,0 +1,2 @@
+class Personamount < ApplicationRecord
+end

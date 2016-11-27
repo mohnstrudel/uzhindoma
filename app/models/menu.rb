@@ -15,6 +15,9 @@ class Menu < ActiveRecord::Base
   has_many :menurecipes, dependent: :destroy
   has_many :recipes, through: :menurecipes
 
+  has_many :menupersonamounts, dependent: :destroy
+  has_many :personamounts, through: :menupersonamounts
+
   accepts_nested_attributes_for :menurecipes
 
   has_many :line_items
@@ -30,7 +33,7 @@ class Menu < ActiveRecord::Base
   def calculate_price(menu, params)
     price = menu.price
 
-    menu_amount = params[:menu_amount_0] or params[:menu_amount_1]
+    menu_amount = params[:menu_amount_0] || params[:menu_amount_1]
     case menu_amount
     when "5"
       subtract = 0
