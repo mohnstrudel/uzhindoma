@@ -4,7 +4,7 @@
 			.col-lg-7
 				.media-center
 					.embed-container
-						=embed("https://www.youtube.com/watch?v=v8B5AOljhsY", width: 680, height: 383)
+						=embed("https://www.youtube.com/watch?v=TrSWB6AYNKM", width: 680, height: 383)
 			.col-lg-5
 				%section
 					.uzhindoma-list.text-left
@@ -167,35 +167,16 @@
 	.container
 		%h2.zero-letter-spacing.text-center Наши поставщики
 		.row.margin-top-30
-			.col-md-6.col-xs-12
-				%section
-					%p.text-left
-						Мы сотрудничаем с проверенными и надежными поставщиками.
-						Каждый продукт на нашем производстве имеет все подтверждающие документы и сертификаты качества.
-						Мы заботимся не только о вашем времени, но и о вашем здоровье. Поэтому за качество продуктов несем двойную ответственность.
-			.col-md-6.col-xs-12
-				/ Owl Carousel
-				.owl-carousel.owl-carousel-mod-1{"data-autoplay" => "true", "data-dots" => "true", "data-dots-each" => "1", "data-items" => "1", "data-lg-items" => "3", "data-loop" => "true", "data-margin" => "15", "data-xs-items" => "2", "data-sm-items" => "2", "data-xs-stage-padding" => "15"}
-					-@partners.each do |partner|
-						.owl-item
-							=image_tag partner.picture.partner_thumb.url do
-								=image_tag partner.picture.partner_thumb.url
-/ %section.section.section-inset-2
-/ 	.container
-/ 		%h2.text-center Индивидуальный подход
-/ 		%hr
-/ 			.row
-/ 				.col-md-6.col-xs-12
-/ 					=image_tag "placeholder_images/baby_face.jpg"
-/ 				.col-md-6.col-xs-12
-/ 					%section
-/ 						%ul.marked-list.text-left
-/ 							%li
-/ 								%a.text-base{:href => "#"} Рецепты подходят для детей
-/ 							%li
-/ 								%a.text-base{:href => "#"} Можно заменить мяси и аллергены
-/ 							%li
-/ 								%a.text-base{:href => "#"} Всегда подскажем, как готовить
+			.row
+				.col-md-12.col-xs-12
+					%section
+						%p.text-center
+							Мы сотрудничаем с проверенными и надежными поставщиками.
+							Каждый продукт на нашем производстве имеет все подтверждающие документы и сертификаты качества.
+							Мы заботимся не только о вашем времени, но и о вашем здоровье. Поэтому за качество продуктов несем двойную ответственность.
+	.row
+		.col-md-12.col-xs-12
+			=image_tag "custom_images/partners.jpg"
 
 .uzhindoma-hr
 
