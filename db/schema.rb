@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161127195951) do
+ActiveRecord::Schema.define(version: 20161128201535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 20161127195951) do
     t.datetime "updated_at",    null: false
     t.boolean  "purchasable"
     t.boolean  "display_vital"
+    t.integer  "sortable"
+  end
+
+  create_table "days", force: :cascade do |t|
+    t.integer  "value"
+    t.string   "wordvalue"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "pricechange"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -93,6 +102,15 @@ ActiveRecord::Schema.define(version: 20161127195951) do
     t.index ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
     t.index ["menu_id"], name: "index_line_items_on_menu_id", using: :btree
     t.index ["order_id"], name: "index_line_items_on_order_id", using: :btree
+  end
+
+  create_table "menudays", force: :cascade do |t|
+    t.integer  "day_id"
+    t.integer  "menu_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["day_id"], name: "index_menudays_on_day_id", using: :btree
+    t.index ["menu_id"], name: "index_menudays_on_menu_id", using: :btree
   end
 
   create_table "menupersonamounts", force: :cascade do |t|
@@ -180,9 +198,10 @@ ActiveRecord::Schema.define(version: 20161127195951) do
 
   create_table "personamounts", force: :cascade do |t|
     t.integer  "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "wordvalue"
+    t.integer  "pricechange"
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -242,6 +261,8 @@ ActiveRecord::Schema.define(version: 20161127195951) do
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "menus"
   add_foreign_key "line_items", "orders"
+  add_foreign_key "menudays", "days"
+  add_foreign_key "menudays", "menus"
   add_foreign_key "menupersonamounts", "menus"
   add_foreign_key "menupersonamounts", "personamounts"
   add_foreign_key "menurecipes", "menus"

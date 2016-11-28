@@ -51,8 +51,12 @@
                 =f.collection_select(:personamount_ids, Personamount.all, :id, :value, {include_blank: false, :include_hidden => false, :selected => @menu.personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-personamount', :multiple => true})
 
             .section.row
+              %label.field.prepend-field
+                =f.collection_select(:day_ids, Day.all, :id, :value, {include_blank: false, :include_hidden => false, :selected => @menu.days.map(&:id)}, { class: 'select2-multiple form-control select-info select-days', :multiple => true})
+
+            .section.row
               %label.field.prepend-icon{:for => "product-price"}
-                =f.number_field :price, placeholder: "Цена набора", class: "gui-input"
+                =f.number_field :price, placeholder: "Базовая цена набора (с нулевыми опциями)", class: "gui-input"
                 %label.field-icon{:for => "product-price"}
                   %i.fa.fa-rub
 

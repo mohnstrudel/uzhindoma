@@ -26,18 +26,12 @@
 								.col-md-4
 									%h6.zero-letter-spacing 
 										Сколько ужинов?
-									.radio-wrapper
-										.uzhin_rb_menus
-											%input{id: "radio1-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: 5 }/
-											%label{id: "radio1-#{index}", :for => "radio1-#{index}"} Все пять!
-									.radio-wrapper
-										.uzhin_rb_menus
-											%input{id: "radio2-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: 4 }/
-											%label{id: "radio2-#{index}", :for => "radio2-#{index}"} Четыре
-									.radio-wrapper
-										.uzhin_rb_menus
-											%input{id: "radio3-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: 3 }/
-											%label{id: "radio3-#{index}", :for => "radio3-#{index}"} Три
+									-current_menu.days.each_with_index do |d_amount, d_index|
+										.radio-wrapper
+											.uzhin_rb_menus
+												%input{id: "radio1-da-#{d_index}-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange] }/
+												%label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
+													=d_amount.wordvalue
 
 								.col-md-4
 									%h6.zero-letter-spacing
@@ -45,8 +39,8 @@
 									-current_menu.personamounts.each_with_index do |p_amount, p_index|
 										.radio-wrapper
 											.uzhin_rb_persons
-												%input{id: "radio-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: p_amount.value }/
-												%label{id: "radio-pa-#{p_index}-#{index}", :for => "radio-pa-#{p_index}-#{index}"}
+												%input{id: "radio2-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: [p_amount.value, p_amount.pricechange] }/
+												%label{id: "radio2-pa-#{p_index}-#{index}", :for => "radio2-pa-#{p_index}-#{index}"}
 													=p_amount.wordvalue
 								.col-md-4
 									%h6.zero-letter-spacing

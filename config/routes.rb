@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :partners
     resources :igrams
     resources :personamounts
+    resources :days
   end
 
 

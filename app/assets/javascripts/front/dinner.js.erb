@@ -8,15 +8,15 @@
 $(document).ready(function(){
 
 	// Preclick for user - tab 1
-	$('#radio1-0').prop("checked", true);
-	$('#radio4-0').prop("checked", true);
-	$('#radio7-0').prop("checked", true);
+	$('#radio1-da-0-0').prop("checked", true);
+	$('#radio2-pa-0-0').prop("checked", true);
+	// Dessert
 	$('#radio9-0').prop("checked", true);
 
 	// Preclick for user - tab 2
-	$('#radio1-1').prop("checked", true);
-	$('#radio4-1').prop("checked", true);
-	$('#radio7-1').prop("checked", true);
+	$('#radio1-da-0-1').prop("checked", true);
+	$('#radio2-pa-0-1').prop("checked", true);
+	// Dessert
 	$('#radio9-1').prop("checked", true);
 
 	var activeTab = 0;
@@ -26,12 +26,14 @@ $(document).ready(function(){
         var tabId = activeTab.split('-')[1];
         activeTab = parseFloat(tabId);
 		console.log("Active tab is: " + activeTab);
+
+		recalculate(price, activeTab);
 	});
 
 	
 
 	var price = extract_price(activeTab);
-
+	recalculate(price, activeTab);
 	console.log("Initial price is: " + price);
 
 	// Call all js for tab = 0
@@ -64,6 +66,21 @@ $(document).ready(function(){
 	
 });
 
+var extract_numbers = function (array_as_string){
+
+	console.log("array input is: " + array_as_string);
+	var first_part = array_as_string.split(",")[0];
+	var second_part = array_as_string.split(",")[1];
+
+	first_part = first_part.replace('[','').replace(' ', '');
+	first_part = parseFloat(first_part);
+
+	second_part = second_part.replace(']','').replace(' ', '');
+	second_part = parseFloat(second_part);
+
+	return [first_part, second_part];
+}
+
 var recalculate = function (price, tab){
 	var end_price;
 	end_price = update_price(price, tab);
@@ -82,23 +99,12 @@ var update_dessert = function(price, tab){
 }
 
 var update_menus = function (price, tab){
-	var subtract;
+	var price_change;
 	var menus_amount = get_menus(tab);
-	switch (menus_amount) {
-  		case "3":
-    		subtract = 1000;
-    		break;
-  		case "4":
-  			subtract = 500;
-    		break;
-  		case "5":
-    		subtract = 0;
-    		break;
-  		default:
-    		console.log(menus_amount);
-	}
 
-	return price-subtract;
+	price_change = extract_numbers(menus_amount)[1];
+
+	return price+price_change;
 
 }
 
@@ -125,16 +131,12 @@ var get_persons = function (tab){
 }
 
 var update_price = function(price, tab){
-	var persons = get_persons(tab);
-	var total_price;
-	if(persons == 2){
-		total_price = price;
-	} else {
-		total_price = price*2;
-	}
-	
-	// console.log(total_price);
-	return total_price;
+	var price_change;
+	var person_amount = get_persons(tab);
+
+	price_change = extract_numbers(person_amount)[1];
+
+	return price+price_change;
 
 }
 

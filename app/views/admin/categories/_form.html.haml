@@ -8,11 +8,17 @@
     .panel-body.p20.pb10
       .tab-content.pn.br-n.admin-form
         .section.row.mbn
-          .col-md-12.pl15
+          .col-md-6.pl15
             .section.mb10
               %label.field.prepend-icon{:for => "name2"}
                 =f.text_field :name, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Название категории'
                 %label.field-icon{:for => "name2"}
+                  %i.fa.fa-tag
+          .col-md-6.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name2"}
+                =f.number_field :sortable, id: "name3", class: "event-name gui-input br-light light", placeholder: 'Соритровка категории (чем меньше число, тем левее будет отображаться)'
+                %label.field-icon{:for => "name3"}
                   %i.fa.fa-tag
           .col-md-12.pl15
             .section.mb10

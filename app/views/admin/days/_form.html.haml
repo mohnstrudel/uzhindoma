@@ -1,32 +1,32 @@
--@personamount.errors.full_messages.each do |message|
+-@day.errors.full_messages.each do |message|
   =content_tag(:div, message, class: "alert alert-danger")
 
-=form_for [:admin, @personamount] do |f|
+=form_for [:admin, @day] do |f|
   .panel.mb25.mt5
     .panel-heading
-      %span.panel-title.hidden-xs Добавить новое кол-во
+      %span.panel-title.hidden-xs Добавить новое кол-во ужинов
       %ul.nav.panel-tabs-border.panel-tabs
         %li.active
-          %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание кол-ва
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание кол-ва ужинов
     .panel-body.p20.pb10
       .tab-content.pn.br-n.admin-form
         .section.row.mbn
           .col-md-6.pl15
             .section.mb10
-              %label.field.prepend-icon{:for => "name2"}
-                =f.text_field :value, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Кол-во в числах (напрмер - 2, 4...)'
-                %label.field-icon{:for => "name2"}
+              %label.field.prepend-icon{:for => "name1"}
+                =f.text_field :value, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Кол-во в числах (например - 5, 4, 3...)'
+                %label.field-icon{:for => "name1"}
                   %i.fa.fa-tag
           .col-md-6.pl15
             .section.mb10
               %label.field.prepend-icon{:for => "name2"}
-                =f.text_field :wordvalue, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Кол-во в словах (например - две, четыре...)'
+                =f.text_field :wordvalue, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Кол-во в словах (например - все пять!, четыре, три...)'
                 %label.field-icon{:for => "name2"}
                   %i.fa.fa-tag
           .col-md-12.pl15
             .section.mb10
-              %label.field.prepend-icon{:for => "name2"}
-                =f.number_field :pricechange, id: "name3", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится цена, если пользователь выберет данную опцию'
+              %label.field.prepend-icon{:for => "name3"}
+                =f.number_field :pricechange, id: "name2", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится цена, если пользователь выберет данную опцию'
                 %label.field-icon{:for => "name3"}
                   %i.fa.fa-rub
 

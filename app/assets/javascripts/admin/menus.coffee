@@ -24,6 +24,9 @@ jQuery(document).ready ->
     placeholder: 'Выбрать кол-во персон для данного набора'
     allowClear: true
   
+  $('.select-days').select2
+    placeholder: 'Выбрать кол-во ужинов для данного набора'
+    allowClear: true
 
   # Init Select2 - Contextuals (via html classes)
   $('.select2-primary').select2()

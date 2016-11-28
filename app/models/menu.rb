@@ -4,6 +4,7 @@ class Menu < ActiveRecord::Base
   scope :current, lambda { where("start_time <= ? AND end_time >= ?", Time.now, Time.now) }
   scope :dessert, lambda { where("category_id =?", Category.dessert[0].id)}
   scope :current_dessert, lambda { where("start_time <= ? AND end_time >= ? AND category_id = ?", Time.now, Time.now, Category.dessert[0].id)}
+  # scope :ordered, -> { order('category.sortable') }
 
   after_save :get_date
 
@@ -17,6 +18,9 @@ class Menu < ActiveRecord::Base
 
   has_many :menupersonamounts, dependent: :destroy
   has_many :personamounts, through: :menupersonamounts
+
+  has_many :menudays, dependent: :destroy
+  has_many :days, through: :menudays
 
   accepts_nested_attributes_for :menurecipes
 
@@ -33,24 +37,20 @@ class Menu < ActiveRecord::Base
   def calculate_price(menu, params)
     price = menu.price
 
-    menu_amount = params[:menu_amount_0] || params[:menu_amount_1]
-    case menu_amount
-    when "5"
-      subtract = 0
-    when "4"
-      subtract = 500
-    when "3"
-      subtract = 1000
-    end
-    price -= subtract
+    menu_amount = params[:menu_amount_0] || params[:menu_amount_1] || params[:menu_amount_2]
+    # Мы получаем вот такой массив в виде стринга
+    # "[150, 20000]", соответсвенно нужно сплитунть на запятой и убрать пробел + скобку
+    # (цена всегда на втором месте стоит)
+    menu_price_change = menu_amount.split(",")[1].gsub(" ","").gsub("]",'')
 
-    person_amount = params[:person_amount_0] or params[:person_amount_1]
-    case params[:person_amount]
-    when "4"
-      price *= 2
-    end
+    price += menu_price_change.to_f
 
-    dessert_price = params[:add_dessert_0] or params[:add_dessert_1]
+    person_amount = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2]
+    person_price_change = person_amount.split(",")[1].gsub(" ","").gsub("]",'')
+
+    price += person_price_change.to_f
+
+    dessert_price = params[:add_dessert_0] || params[:add_dessert_1] || params[:add_dessert_2]
 
     price += dessert_price.to_f
 
