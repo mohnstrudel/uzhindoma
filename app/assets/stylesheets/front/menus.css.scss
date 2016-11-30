@@ -191,6 +191,9 @@ textarea {
   transition: .5s;
   -webkit-transform: translateY(100%);
   transform: translateY(100%);
+  // Added on 30/11/2016 because else bars are too small
+  width: 100%;
+
 }
 
 .item .description h3 {

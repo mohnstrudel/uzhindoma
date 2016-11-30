@@ -30,18 +30,21 @@
         width: 100%;
         height: auto;
         padding-right: 32px;
+        margin-left: 25px;
     }
 #owl-demo-1 .item img{
         display: block;
         width: 100%;
         height: auto;
         padding-right: 32px;
+        margin-left: 25px;
     }
 #owl-demo-2 .item img{
         display: block;
         width: 100%;
         height: auto;
         padding-right: 32px;
+        margin-left: 25px;
     }
 .uzhindoma-home-pic-description {
     margin-right: 0;
@@ -52,6 +55,9 @@
     margin-left: 0em;
     color:#000;
     background: rgba(255,255,255,0.7);
+    // Added on 30/11/2016
+    width: 100%;
+    text-align: left;
 }
 .owl-item:hover > .uzhindoma-home-pic-description {
     display:block!important;
@@ -91,8 +97,9 @@
 }
 
 .uzhindoma-home-pic-description{
-    margin-right: 0.8em;
-    margin-left: 0em;
+    // margin-right: 0.8em;
+    
+    margin-left: 8px;
 }
 
 .team_row {

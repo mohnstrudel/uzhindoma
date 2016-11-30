@@ -115,7 +115,7 @@ class Front::OrdersController < FrontController
 
 	def order_params
 		params.require(:order).permit(:first_name, :second_name, :street, :phone, :email,
-			:delivery_region, :city,
+			:delivery_region, :city, :additional_address,
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe)
@@ -131,6 +131,7 @@ class Front::OrdersController < FrontController
 
 	def create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery, order)
 		# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле лида
+		email = order[:email] || ""
 		payment_fields = ""
 		payment_string = ""
 		if order[:payed_online]
@@ -138,6 +139,14 @@ class Front::OrdersController < FrontController
 			# Пока комментируем, так как нет полей под оплату онлайн в лиде
 			# payment_fields = "&fields[UF_CRM_1467563310]=#{price}&fields[UF_CRM_1459692590]=#{price}"
 		end
+
+		# Получаем поля адреса из параметров
+		address = URI.escape("#{order[:delivery_region]}, город #{order[:city]}, улица #{order[:street]}, дом #{order[:house_number]}, квартира #{order[:flat_number]}")
+		# Добавляем адрес в соответсвующие поля лида в Битриксе
+		address_fields = "&fields[UF_CRM_1454918385]=#{address}&fields[UF_CRM_1454922125]=#{address}"
+		# Получаем допник для адреса
+		add_address = URI.escape("#{order[:additional_address]}")
+		add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]"
 
 		# auth=КЛЮЧ&fields[TITLE]=test&fields[NAME]=ИМЯ
 		bitrix = Bitrix.first
@@ -150,7 +159,7 @@ class Front::OrdersController < FrontController
 
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title} and menu type - #{menu_type}"
-		fields_string = "fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[COMMENTS]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}"
+		fields_string = "fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[COMMENTS]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		
@@ -184,18 +193,29 @@ class Front::OrdersController < FrontController
 		address = URI.escape(order[:address]) if order[:address]
 		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
 		bitrix = Bitrix.first
+		commentary = URI.escape("Комментарий клиента: #{order[:comment]}, Интервал доставки: #{order[:delivery_timeframe]}.")
 
 		title = Date.today.strftime("%d.%m.%y")
 		stage_id = "NEW"
 
 		# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
 		if order[:payed_online]
-			payment_fields = "&fields[UF_CRM_1467563310]=#{price}&fields[UF_CRM_1459692590]=#{price}"
+			payment_fields = "&fields[UF_CRM_1467563310]=#{opportunity}&fields[UF_CRM_1459692590]=#{opportunity}"
 		else
 			payment_fields = ""
 		end
 
-		fields_string = "fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_56B8878D5D5CC]=#{address}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}"
+		# Передаем параметры адреса непосредственно в сделку 
+
+		# Получаем поля адреса из параметров
+		address = URI.escape("#{order[:delivery_region]}, город #{order[:city]}, улица #{order[:street]}, дом #{order[:house_number]}, квартира #{order[:flat_number]}")
+		# Добавляем адрес в соответсвующие поля лида в Битриксе
+		address_fields = "&fields[UF_CRM_56B8878D5D5CC]=#{address}"
+		# Получаем допник для адреса
+		add_address = URI.escape("#{order[:additional_address]}")
+		add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+
+		fields_string = "fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[COMMENTS]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_56B8878D5D5CC]=#{address}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 

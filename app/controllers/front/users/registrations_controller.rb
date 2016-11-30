@@ -81,7 +81,7 @@ before_action :configure_account_update_params, only: [:update]
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :second_name, :phone, :street, :house_number,
-      :flat_number, :delivery_region, :email, :city])
+      :flat_number, :delivery_region, :email, :city, :additional_address])
   end
 
   # The path used after sign up.

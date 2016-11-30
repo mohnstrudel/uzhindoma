@@ -1,5 +1,16 @@
 //note: в примере используется библиотека jquery
 
+$(document).ready(function(){
+    $('#delivery_region_2').on('click', function(){
+        $('#city_input').show(350);
+    });
+
+    $('#delivery_region_1').on('click', function(){
+        $('#city_input').hide(350);
+    });
+
+});
+
 this.pay = function () {
     var widget = new cp.CloudPayments();
     var email = $("#email").val();

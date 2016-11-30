@@ -65,7 +65,7 @@
 													-menu.recipes.each do |recipe|
 														.item
 															.owl-item
-																.row.flow-offset-1
+																.row
 																	%a.fancybox{"data-caption" => recipe.description, "data-fancybox-group" => "gallery", :href => recipe.pictures.first.image.url, :title => recipe.name}
 																		=image_tag recipe.pictures.first.image.url
 																		/ =image_or_default_tag(recipe, "pictures", "image")

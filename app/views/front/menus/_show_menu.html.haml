@@ -82,7 +82,7 @@
 								-current_menu.recipes.each_with_index do |recipe, index|
 									.item
 										.description
-											%h3
+											%h3.zero-letter-spacing
 												=recipe.name
 											%p
 												=recipe.description
@@ -90,7 +90,7 @@
 											=image_tag recipe.pictures.first.image.url
 								.item
 									.description
-										%h3
+										%h3.zero-letter-spacing
 											=@dessert.recipes.first.name
 										%p
 											=@dessert.recipes.first.description
