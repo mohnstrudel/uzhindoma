@@ -68,9 +68,10 @@ class Front::OrdersController < FrontController
 			delivery_region = params[:order][:delivery_region]
 			house_number = params[:order][:house_number]
 			flat_number = params[:order][:flat_number]
+			additional_address = params[:order][:additional_address]
 			password = User.generate_password_code
 		
-			User.create(phone: phone, password: password, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number)
+			User.create(phone: phone, password: password, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
 			logger.info "After creating order a complete new user #{first_name} with phone: #{phone} was created."
 			message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
 			
@@ -144,10 +145,13 @@ class Front::OrdersController < FrontController
 		address = URI.escape("#{order[:delivery_region]}, город #{order[:city]}, улица #{order[:street]}, дом #{order[:house_number]}, квартира #{order[:flat_number]}")
 		# Добавляем адрес в соответсвующие поля лида в Битриксе
 		address_fields = "&fields[UF_CRM_1454918385]=#{address}&fields[UF_CRM_1454922125]=#{address}"
+		
 		# Получаем допник для адреса
-		add_address = URI.escape("#{order[:additional_address]}")
-		add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]"
-
+		add_address_fields = ""
+		unless order[:additional_address].empty?
+			add_address = URI.escape("#{order[:additional_address]}")
+			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]=#{add_address}"
+		end
 		# auth=КЛЮЧ&fields[TITLE]=test&fields[NAME]=ИМЯ
 		bitrix = Bitrix.first
 		title = Date.today.strftime("%d.%m.%y")
