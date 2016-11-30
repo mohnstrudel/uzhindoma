@@ -42,7 +42,7 @@
 												%input{id: "radio2-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: [p_amount.value, p_amount.pricechange] }/
 												%label{id: "radio2-pa-#{p_index}-#{index}", :for => "radio2-pa-#{p_index}-#{index}"}
 													=p_amount.wordvalue
-								-unless @dessert.nil?
+								-if current_menu.has_dessert && !@dessert.nil?
 									=content_tag(:div, class: "col-md-#{@col_value}") do
 										%h6.zero-letter-spacing
 											Добавить десерт?
@@ -89,7 +89,7 @@
 												=recipe.description
 										=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
 											=image_tag recipe.pictures.first.image.medium_thumb.url
-								-unless @dessert.nil?
+								-if current_menu.has_dessert && !@dessert.nil?
 									.item
 										.description
 											%h3.zero-letter-spacing
