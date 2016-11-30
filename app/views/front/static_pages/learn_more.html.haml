@@ -213,6 +213,21 @@
 	.container
 		%h2.zero-letter-spacing.text-center Наша команда
 		.team_row.margin-top-30
-			.col-md-12
-				%section
-					=image_tag "custom_images/komanda.jpg"
+			.span12
+				=content_tag(:div, id: "owl-team", class: "owl-carousel") do
+					.item
+						.owl-item
+							.row
+								=image_tag "custom_images/team1_medium.jpg"
+					.item
+						.owl-item
+							.row
+								=image_tag "custom_images/team2_medium.jpg"
+					.item
+						.owl-item
+							.row
+								=image_tag "custom_images/team3_medium.jpg"
+					.item
+						.owl-item
+							.row
+								=image_tag "custom_images/team4_medium.jpg"
