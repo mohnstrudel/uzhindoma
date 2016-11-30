@@ -8,21 +8,25 @@ class Front::Users::SessionsController < Devise::SessionsController
     if params[:reset]
       phone = params[:user][:phone]
       # logger.debug("Phone is: #{phone}")
-      new_password = Array.new
-      5.times do
-        new_password << rand(9)  
-      end
-      password = new_password.join("")
+
+      password = User.generate_password_code
       User.where(phone: phone).update(password: password)
 
-      stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
-      encoded_phone = URI.escape(stripped_phone)
-      encoded_message = URI.escape("Ваш новый пароль - #{password}.")
-      # logger.debug("New password for user #{phone} - #{password}")
-      # url = "https://sms.e-vostok.ru/smsout.php?login=uzhin&password=PvlIjlL0&service=23964&space_force=1&space=UzhinDoma&subno=#{encoded_phone}&text=#{encoded_message}"
-      # doc = Nokogiri::HTML(open(url))
-      flash[:success] = "Пароль успешно выслан."
-      redirect_to new_user_session_path
+      if phone.length == 17
+        
+        stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
+        encoded_phone = URI.escape(stripped_phone)
+        encoded_message = URI.escape("Ваш новый пароль - #{password}.")
+        logger.debug("New password for user #{phone} - #{password}")
+        
+        helpers.send_sms(encoded_phone, encoded_phone)
+
+        flash[:success] = "Пароль успешно выслан."
+        redirect_to new_user_session_path
+      else
+        flash[:danger] = "Телефон введен не верно"
+        redirect_to new_user_session_path
+      end
     else
       super
     end

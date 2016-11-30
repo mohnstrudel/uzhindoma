@@ -52,8 +52,10 @@ label {
 }
 
 .radio-wrapper {
-  margin: 5px;
+  margin: 0px;
+  // margin: 5px;
 }
+
 
 .radio-wrapper label {
   color: #516aa1;
@@ -94,8 +96,8 @@ textarea {
   border: 2px solid #516aa1;
   font-size: 16px;
   border-radius: 5px;
-  padding: 10px;
-  margin: 5px 20px 10px;
+  padding: 4px;
+  // margin: 5px 20px 10px;
   font-style: italic;
   color: #b7b7b7;
 }
@@ -107,16 +109,19 @@ textarea:focus {
 }
 
 textarea {
+  // Width added on 29/11/2016
+  width: 100%;
   resize: none;
-  border-top: 5px solid #516aa1;
+  border-top: 2px solid #516aa1;
   border-right: 2px solid #516aa1;
-  border-bottom: 5px solid #516aa1;
+  border-bottom: 2px solid #516aa1;
   border-left: 2px solid #516aa1;
 }
 
 .text-wrapper {
   text-align: center;
   display: inline-block;
+  width: 100%;
 }
 
 .text-wrapper label {
@@ -126,7 +131,8 @@ textarea {
 }
 
 .text-wrapper input[type=text] {
-  width: 200px;
+  // width: 200px;
+  width: 100%;
 }
 
 .button {

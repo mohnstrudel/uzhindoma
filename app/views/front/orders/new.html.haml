@@ -1,115 +1,230 @@
-
-%main.page-content
-  =form_for @order do |f|
-    .row
-      %section
-        %h3.zero-letter-spacing Оформление заказа
-        .col-md-8.col-md-offset-2.margin-top-30
-          .row
-            .col-md-4
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "first_name"} Имя
-                .uzhindoma-input
-                  =f.text_field :name, data: { constraints: "@NotEmpty"}, id: "first_name"
-
-            .col-md-4
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "standard_order_phone"} Телефон
-                .uzhindoma-input
-                  =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone"
-
-            .col-md-4
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "email"} E-mail
-                .uzhindoma-input
-                  =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email"
-          .row
-            .col-md-3
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "street"} Улица
-                .uzhindoma-input
-                  =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street"
-
-            .col-md-3
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "house_number"} Номер дома
-                .uzhindoma-input
-                  =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
-            .col-md-3
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "korpus"} Корпус/строение
-                .uzhindoma-input
-                  =f.text_field :korpus, id: "korpus"
-            .col-md-3
-              .text-wrapper
-                %label.h4.zero-letter-spacing{:for => "flat_number"} Квартира
-                .uzhindoma-input
-                  =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
-          .row
-            %h3.zero-letter-spacing.text-center.margin-top-30 Интервал доставки
-            .col-md-10.col-md-offset-1.margin-top-30
-              .col-md-3
-                .radio-wrapper
-                  .uzhin_rb_menus
-                    =f.radio_button :delivery_timeframe, "9:00 - 13:00", hidden: true, id: "delivery_timeframe1"
-                    %label{id: "delivery_timeframe1", :for => "delivery_timeframe1"} 9:00 - 13:00
-              .col-md-3
-                .radio-wrapper
-                  .uzhin_rb_menus
-                    =f.radio_button :delivery_timeframe, "13:00 - 17:00", hidden: true, id: "delivery_timeframe2"
-                    %label{id: "delivery_timeframe2", :for => "delivery_timeframe2"} 13:00 - 17:00
-              .col-md-3
-                .radio-wrapper
-                  .uzhin_rb_menus
-                    =f.radio_button :delivery_timeframe, "17:00 - 21:00", hidden: true, id: "delivery_timeframe3"
-                    %label{id: "delivery_timeframe3", :for => "delivery_timeframe3"} 17:00 - 21:00
-              .col-md-3
-                .radio-wrapper
-                  .uzhin_rb_menus
-                    =f.radio_button :delivery_timeframe, "21:00 - 24:00", hidden: true, id: "delivery_timeframe4"
-                    %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 21:00 - 24:00
-
-          .row
-            .text-wrapper
-              %label.h4.zero-letter-spacing.text-center.margin-top-30{:for => "area"} Комментарии к заказу
-              =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
-          .row
-            %h3.zero-letter-spacing.text-center.margin-top-30 Тип оплаты
-            .col-md-10.col-md-offset-1.margin-top-30
-              .col-md-6
-                .radio-wrapper
-                  .uzhin_rb_menus
-                    =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
-                    %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
-              .col-md-6
-                .radio-wrapper
-                  .uzhin_rb_menus
-                    =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
-                    %label{id: "card_online", :for => "card_online"} Картой онлайн
+-if user_signed_in?
+  %main.page-content
+    =form_for @order do |f|
+      .row
+        %section
+          %h3.zero-letter-spacing Оформление заказа
+          .col-xs-12.col-md-10.col-md-offset-1
+            %h4.zero-letter-spacing.text-left.margin-top-30
+              ="Здравствуйте, #{@cu.first_name} #{@cu.second_name}"
+            %h5.zero-letter-spacing.text-left.margin-top-30
+              Куда доставляем заказ?
             .row
-              .col-md-12.text-center
-                #payment_status
+              .col-md-8
+                =f.text_field :address, placeholder: "Текущий адрес", class: "uzhindoma-universal-input"
+            .row
+              .col-md-8
+                %h5.zero-letter-spacing.margin-top-30.text-left Интервал доставки
+                .margin-top-30
+                .col-md-3.no-left-padding-margin.text-left
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "9:00 - 13:00", hidden: true, id: "delivery_timeframe1"
+                      %label{id: "delivery_timeframe1", :for => "delivery_timeframe1"} 9:00 - 13:00
+                .col-md-3.no-left-padding-margin.text-center
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "13:00 - 17:00", hidden: true, id: "delivery_timeframe2"
+                      %label{id: "delivery_timeframe2", :for => "delivery_timeframe2"} 13:00 - 17:00
+                .col-md-3.no-left-padding-margin.text-center
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "17:00 - 21:00", hidden: true, id: "delivery_timeframe3"
+                      %label{id: "delivery_timeframe3", :for => "delivery_timeframe3"} 17:00 - 21:00
+                .col-md-3.no-left-padding-margin.text-right.no-right-padding-margin
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "21:00 - 24:00", hidden: true, id: "delivery_timeframe4"
+                      %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 21:00 - 24:00
+            .row
+              .col-md-8
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.margin-top-30{:for => "area"} Комментарии к заказу
+                  =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+            .row
+              .col-md-8
+                %h5.zero-letter-spacing.margin-top-30.text-left Тип оплаты
+                .margin-top-30
+                  .col-md-3.no-left-padding-margin.text-left
+                    .radio-wrapper
+                      .uzhin_rb_menus
+                        =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
+                        %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
+                  .col-md-3.text-right.no-right-padding-margin
+                    .radio-wrapper
+                      .uzhin_rb_menus
+                        =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
+                        %label{id: "card_online", :for => "card_online"} Картой онлайн
+              .row
+                .col-md-6.text-center
+                  #payment_status
 
-          / Some hidden fields to set up order values
-          =f.hidden_field :menu_id, value: @menu.id
-          =f.hidden_field :order_price, value: @menu_price
-          =f.hidden_field :order_type, value: "normal"
-          =f.hidden_field :payed_online, value: false
-          
-          -if params[:person_amount_0]
-            =f.hidden_field :person_amount, value: params[:person_amount_0].to_i
-          -elsif params[:person_amount_1]
-            =f.hidden_field :person_amount, value: params[:person_amount_1].to_i
-          
-          -if params[:menu_amount_0]
-            =f.hidden_field(:menu_amount, value: params[:menu_amount_0].to_i)
-          -elsif params[:menu_amoun_1]
-            =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i)
-          / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
+            / Some hidden fields to set up order values
+            =f.hidden_field :menu_id, value: @menu.id
+            =f.hidden_field :order_price, value: @menu_price
+            =f.hidden_field :order_type, value: "normal"
+            =f.hidden_field :payed_online, value: false
+            =f.hidden_field :phone, value: @cu.phone
+            =f.hidden_field :email, value: @cu.email
+            =f.hidden_field :address, value: @cu.address
+            
+            -if params[:person_amount_0]
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_0])
+            -elsif params[:person_amount_1]
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_1])
+            
+            -if params[:menu_amount_0]
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_0]))
+            -elsif params[:menu_amount_1]
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_1]))
+            / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
 
-          =f.hidden_field :add_dessert, value: params[:add_dessert_0]
-          =f.hidden_field :change, value: params[:change]
-          
-          .row
-            =f.submit "Готово!", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
-                      
+            =f.hidden_field :add_dessert, value: params[:add_dessert_0]
+            =f.hidden_field :change, value: params[:change]
+            
+            .row.margin-top-30
+              .col-md-8.text-right
+                =f.submit "Готово!", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                        
+
+-else
+  %main.page-content
+    =form_for @order do |f|
+      .row
+        %section
+          %h3.zero-letter-spacing Оформление заказа
+          .col-md-10.col-md-offset-1.margin-top-30
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "first_name"} Имя
+                  .uzhindoma-input
+                    =f.text_field :first_name, data: { constraints: "@NotEmpty"}, id: "first_name"
+
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "second_name"} Фамилия
+                  .uzhindoma-input
+                    =f.text_field :second_name, data: { constraints: "@NotEmpty"}, id: "second_name"
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "email"} E-mail
+                  .uzhindoma-input
+                    =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email"
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "standard_order_phone"} Телефон
+                  .uzhindoma-input
+                    =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone"
+            .row
+              .col-md-4
+                %h5.zero-letter-spacing.text-left.margin-top-30{:for => "standard_order_phone"} Москва или область?
+                .margin-top-15
+                .col-md-6.no-left-padding-margin.text-left
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_1"
+                      %label{id: "delivery_region_1", :for => "delivery_region_1"} Москва
+                .col-md-6.no-right-padding-margin.text-right
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_2"
+                      %label{id: "delivery_region_2", :for => "delivery_region_2"} Московская область
+
+
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "street"} Улица
+                  .uzhindoma-input
+                    =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street"
+            .row
+              .col-md-3
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "house_number"} Дом
+                  .uzhindoma-input
+                    =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
+              .col-md-3
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "flat_number"} Квартира
+                  .uzhindoma-input
+                    =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
+            .row
+              .col-md-6
+                %h5.zero-letter-spacing.text-left.margin-top-30 Интервал доставки
+                .margin-top-15
+                .col-md-3.no-left-padding-margin.text-left
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "9:00 - 13:00", hidden: true, id: "delivery_timeframe1"
+                      %label{id: "delivery_timeframe1", :for => "delivery_timeframe1"} 9:00 - 13:00
+                .col-md-3.text-center
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "13:00 - 17:00", hidden: true, id: "delivery_timeframe2"
+                      %label{id: "delivery_timeframe2", :for => "delivery_timeframe2"} 13:00 - 17:00
+                .col-md-3.text-center
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "17:00 - 21:00", hidden: true, id: "delivery_timeframe3"
+                      %label{id: "delivery_timeframe3", :for => "delivery_timeframe3"} 17:00 - 21:00
+                .col-md-3.no-right-padding-margin.text-right
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "21:00 - 24:00", hidden: true, id: "delivery_timeframe4"
+                      %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 21:00 - 24:00
+
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.margin-top-30{:for => "area"} Комментарии к заказу
+                  =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+            .row
+              .col-md-4
+                %h4.zero-letter-spacing.text-left.margin-top-30 Тип оплаты
+                .margin-top-15
+                .col-md-6.no-left-padding-margin.text-left
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
+                      %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
+                .col-md-6.no-right-padding-margin.text-right
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
+                      %label{id: "card_online", :for => "card_online"} Картой онлайн
+              .row
+                .col-md-6.text-center
+                  #payment_status
+              .row
+                .col-md-6.text-left
+                  .padding-left-15
+                    Для Вашего удобства с введенными данными мы создадим для Вас учетную запись на нашем сайте. При последующих заказах вы сможете войти в систему, введя свой телефон (пароль придет по смс на указанный номер).
+
+            / Some hidden fields to set up order values
+            =f.hidden_field :menu_id, value: @menu.id
+            =f.hidden_field :order_price, value: @menu_price
+            =f.hidden_field :order_type, value: "normal"
+            =f.hidden_field :payed_online, value: false
+            
+            -if params[:person_amount_0]
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_0])
+            -elsif params[:person_amount_1]
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_1])
+            
+            -if params[:menu_amount_0]
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_0]))
+            -elsif params[:menu_amount_1]
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_1]))
+            / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
+
+            =f.hidden_field :add_dessert, value: params[:add_dessert_0]
+            =f.hidden_field :change, value: params[:change]
+            
+            .row
+              .col-md-6.text-right
+                =f.submit "Готово!", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                        

@@ -4,7 +4,7 @@
 			.row
 				.col-xs-12.col-md-8.col-md-offset-2
 					%section
-						%h4 Вход в систему
+						%h4.zero-letter-spacing Вход в систему
 						.rd-mailform.row.flow-offset-6
 							.col-xs-12.col-sm-6
 								=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone"
@@ -24,6 +24,6 @@
 								=f.submit 'Вход', class: 'btn btn-sm btn-min-width btn-success'
 		%section.section-inset-3
 			.row.ud_mt_4em
-				%h6 Нет аккаунта?
+				%h6.zero-letter-spacing Нет аккаунта?
 			.row.offset-5
 				=link_to 'Создать', new_user_registration_path, method: :get, class: 'btn btn-sm btn-min-width btn-success-mod-1'

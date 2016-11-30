@@ -9,7 +9,7 @@
 			%ul{:role => "tablist"}
 				-@current_menus.each_with_index do |current_menu, index|
 					%li{role: "presentation", class: "uzhindoma_tabs"}
-						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-uzhindoma"
+						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-uzhindoma", id: "dinner-tab-#{index}"
 		.col-md-2
 	.uzhindoma-hr
 	

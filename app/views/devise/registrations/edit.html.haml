@@ -9,38 +9,56 @@
 					.row
 						.col-xs-12.col-md-10.col-md-offset-1
 							%section
-								=form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "rd-mailform row", method: :put }) do |f|		
+								=form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "", method: :put }) do |f|		
 									=devise_error_messages!
-									%h4 Ваши данные
+									%h4.zero-letter-spacing Ваши данные
 									.row
 										.col-xs-12.col-sm-6
-											.mfInput
-												=f.text_field :name, placeholder: "Ваше имя"
+											=f.text_field :first_name, placeholder: "Ваше имя", class: "uzhindoma-universal-input"
 										.col-xs-12.col-sm-6
-											.mfInput
-												=f.text_field :phone, placeholder: "Ваш телефон"
-									.row	
-										.col-xs-12.col-sm-12
-											.mfInput
-												=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true
+											=f.text_field :second_name, placeholder: "Ваша фамилия", class: "uzhindoma-universal-input"
+									.row
+										.col-xs-12.col-sm-6
+											=f.text_field :phone, placeholder: "Ваш телефон", id: "user_phone_number", class: "uzhindoma-universal-input"
+										.col-xs-12.col-sm-6
+											=f.email_field :email, placeholder: "Электронная почта", data: { constraints: "@NotEmpty@Email" }, autofocus: true, class: "uzhindoma-universal-input"
 										-if devise_mapping.confirmable? && resource.pending_reconfirmation?
 											.info 
 												Currently waiting confirmation for: <%= resource.unconfirmed_email
-									.row
-										.col-sx-12.col-sm-12
-											.mfInput
-												=f.text_area :address, placeholder: "Ваш адрес"
-									%h4 Поменять пароль
+
+									%h4.zero-letter-spacing.margin-top-30 Адрес доставки
 									.row
 										.col-xs-12.col-sm-6
-											.mfInput
-												=f.password_field :password, placeholder: "Новый пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off" 
+											.col-md-6
+												.radio-wrapper
+													.uzhin_rb_menus
+														=f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_4"
+														%label{id: "delivery_region_4", :for => "delivery_region_4"} Москва
+											.col-md-6
+												.radio-wrapper
+													.uzhin_rb_menus
+														=f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_5"
+														%label{id: "delivery_region_5", :for => "delivery_region_5"} Московская область
+										.col-xs-12.col-sm-6
+											=f.text_field :city, placeholder: "Город", class: "uzhindoma-universal-input"
+									.row
+										.col-xs-12.col-sm-12
+											=f.text_field :street, placeholder: "Улица", class: "uzhindoma-universal-input"
+									.row
+										.col-xs-12.col-sm-6
+											=f.text_field :house_number, placeholder: "Номер дома", class: "uzhindoma-universal-input"
+										.col-xs-12.col-sm-6
+											=f.text_field :flat_number, placeholder: "Номер квартиры", class: "uzhindoma-universal-input"		
+
+									%h4.zero-letter-spacing.margin-top-30 Поменять пароль
+									.row
+										.col-xs-12.col-sm-6
+											=f.password_field :password, placeholder: "Новый пароль", data: { constraints: "@Password" }, class: "uzhindoma-universal-input", autocomplete: "off" 
 										.col-xs-12.col-sm-6	
-											.mfInput
-												=f.password_field :password_confirmation, placeholder: 'Повторите новый пароль', class: 'form-input', autocomplete: "off"
-									%section.section-inset-3
-										.col-xs-6.col-xs-offset-3
-											=button_tag 'Сохранить данные', class: 'btn btn-sm btn-success'
+											=f.password_field :password_confirmation, placeholder: 'Повторите новый пароль', class: "uzhindoma-universal-input", autocomplete: "off"
+									%section.section-inset-3.margin-top-30
+										.col-xs-12.text-center
+											=button_tag 'Сохранить данные', class: 'btn btn-sm btn-min-width btn-success-mod-uzhindoma-dark'
 					.row
 						=link_to 'Выйти', destroy_user_session_path, method: :delete, class: 'text-success'
 				.text-sm-left.fadeIn.animated

@@ -20,5 +20,14 @@ module FrontHelper
     JSON.parse( open( "#{url}" ).read )["media"]["owner"]["full_name"]
   end
 
+  def parse_checkbox_array_params(array_as_string)
+    value = array_as_string.split(",")[0].gsub(" ","").gsub("[",'').to_i
+  end
+
+  def send_sms(phone, message)
+    url = "https://sms.e-vostok.ru/smsout.php?login=uzhin&password=PvlIjlL0&service=23964&space_force=1&space=UzhinDoma&subno=#{phone}&text=#{message}"
+    doc = Nokogiri::HTML(open(url))
+  end
+
 
 end

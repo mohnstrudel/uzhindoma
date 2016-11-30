@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
   	('a'..'z').to_a.shuffle[0,8].join
   end
 
+  def self.generate_password_code
+    password = ('0'..'9').to_a.shuffle[0,5].join
+  end
+
   def email_required?
     false
   end

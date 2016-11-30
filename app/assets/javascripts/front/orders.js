@@ -4,7 +4,7 @@ this.pay = function () {
     var widget = new cp.CloudPayments();
     var email = $("#email").val();
     widget.charge({ // options
-            publicId: 'pk_c5ded818fb3fab18c2323ceda9600',  //id из личного кабинета
+            publicId: 'test_api_00000000000000000000001',  //id из личного кабинета
             description: 'С вас спишется сумма заказа', //назначение
             amount: 10, //сумма
             currency: 'RUB', //валюта

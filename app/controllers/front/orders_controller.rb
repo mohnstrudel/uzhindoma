@@ -6,9 +6,9 @@ class Front::OrdersController < FrontController
 
 
 	def new
-		cu = current_user
+		@cu = current_user
 		if user_signed_in?
-			@order = Order.new name: cu.name, phone: cu.phone, email: cu.email, address: cu.address
+			@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
 		else
 			@order = Order.new
 		end
@@ -30,6 +30,8 @@ class Front::OrdersController < FrontController
 
 		logger.debug "Calling create method with following params: #{params}"
 		# Here happens some Bitrix magic (see methods below)
+
+		create_user_if_not_exists_yet(params)
 		
 		action_upon_order_creation(@order)
 
@@ -52,12 +54,36 @@ class Front::OrdersController < FrontController
 
 	private
 
+	def create_user_if_not_exists_yet(params)
+		phone = params[:order][:phone]
+		logger.info "Inside creating new user with user params: #{params[:order]}"
+		if User.where(phone: phone)[0].nil?
+			# Вытаскиваем параметры только если пользователя ещё нет в системе
+			# что бы зря не нагружать контроллер
+			
+			first_name = params[:order][:first_name]
+			second_name = params[:order][:second_name]
+			email = params[:order][:email]
+			street = params[:order][:street]
+			delivery_region = params[:order][:delivery_region]
+			house_number = params[:order][:house_number]
+			flat_number = params[:order][:flat_number]
+			password = User.generate_password_code
+		
+			User.create(phone: phone, password: password, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number)
+			logger.info "After creating order a complete new user #{first_name} with phone: #{phone} was created."
+			message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
+			
+			helpers.send_sms(phone, message)
+		end
+	end
+
 	def action_upon_order_creation(order)
 
 		check_token
 
 		phone = params[:order][:phone]
-		name = params[:order][:name]
+		name = URI.escape("#{params[:order][:first_name]} #{params[:order][:second_name]}")
 		menu_type = params[:menu_type]
 		address = URI.escape("Адрес: Улица - #{params[:order][:street]}/#{params[:order][:house_number]}, квартира номер #{params[:order][:flat_number]} (корпус #{params[:order][:korpus]})")
 		comment = params[:order][:comment]
@@ -88,7 +114,8 @@ class Front::OrdersController < FrontController
 	end
 
 	def order_params
-		params.require(:order).permit(:name, :street, :phone, :email, 
+		params.require(:order).permit(:first_name, :second_name, :street, :phone, :email,
+			:delivery_region, :city,
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe)
@@ -190,8 +217,14 @@ class Front::OrdersController < FrontController
 		doc = Nokogiri::HTML(open(url))
 		response = JSON.parse(doc)
 
-		product_id = response["result"][0]["ID"]
-		product_price = response["result"][0]["PRICE"]
+		begin
+			product_id = response["result"][0]["ID"]
+			product_price = response["result"][0]["PRICE"]
+		rescue Exception => e
+			logger.fatal "No product with name - #{URI.encode(name_to_search)} inside Bitrix found!"
+			flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
+			# redirect_to dinner_index_path
+		end
 
 		return product_id, product_price
 	end
