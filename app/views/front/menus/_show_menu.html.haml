@@ -23,7 +23,7 @@
 						=hidden_field_tag :menu_id, current_menu.id
 						.container-fluid{style: "margin-top:20px;"}
 							.row
-								.col-md-4
+								=content_tag(:div, class: "col-md-#{@col_value}") do
 									%h6.zero-letter-spacing 
 										Сколько ужинов?
 									-current_menu.days.each_with_index do |d_amount, d_index|
@@ -33,7 +33,7 @@
 												%label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
 													=d_amount.wordvalue
 
-								.col-md-4
+								=content_tag(:div, class: "col-md-#{@col_value}") do
 									%h6.zero-letter-spacing
 										На сколько персон?
 									-current_menu.personamounts.each_with_index do |p_amount, p_index|
@@ -42,17 +42,18 @@
 												%input{id: "radio2-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: [p_amount.value, p_amount.pricechange] }/
 												%label{id: "radio2-pa-#{p_index}-#{index}", :for => "radio2-pa-#{p_index}-#{index}"}
 													=p_amount.wordvalue
-								.col-md-4
-									%h6.zero-letter-spacing
-										Добавить десерт?
-									.radio-wrapper
-										.uzhin_rb_dessert
-											%input{id: "radio8-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: @dessert.price}/
-											%label{id: "radio8-#{index}", :for => "radio8-#{index}"} Да
-									.radio-wrapper
-										.uzhin_rb_dessert
-											%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
-											%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
+								-unless @dessert.nil?
+									=content_tag(:div, class: "col-md-#{@col_value}") do
+										%h6.zero-letter-spacing
+											Добавить десерт?
+										.radio-wrapper
+											.uzhin_rb_dessert
+												%input{id: "radio8-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: @dessert.price}/
+												%label{id: "radio8-#{index}", :for => "radio8-#{index}"} Да
+										.radio-wrapper
+											.uzhin_rb_dessert
+												%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
+												%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
 							.row
 								.col-md-4.col-md-offset-3
 									%span.h6.zero-letter-spacing
@@ -88,11 +89,12 @@
 												=recipe.description
 										=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
 											=image_tag recipe.pictures.first.image.url
-								.item
-									.description
-										%h3.zero-letter-spacing
-											=@dessert.recipes.first.name
-										%p
-											=@dessert.recipes.first.description
-									=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
-										=image_tag @dessert.hotpic.url		
+								-unless @dessert.nil?
+									.item
+										.description
+											%h3.zero-letter-spacing
+												=@dessert.recipes.first.name
+											%p
+												=@dessert.recipes.first.description
+										=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+											=image_tag @dessert.hotpic.url		

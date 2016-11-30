@@ -100,6 +100,10 @@ var update_dessert = function(price, tab){
 	console.log("Dessert active tab: " + tab);
 	var dessert_amount = $("input[name=add_dessert_" + tab + "]:checked").val();
 	dessert_amount = parseFloat(dessert_amount);
+
+	if(isNaN(dessert_amount)) {
+		dessert_amount = 0;
+	}
 	console.log("Original price: "+ price + " and dessert amount: " + dessert_amount);
 	return price + dessert_amount;
 }
