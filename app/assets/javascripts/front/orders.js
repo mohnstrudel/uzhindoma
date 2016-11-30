@@ -4,7 +4,7 @@ this.pay = function () {
     var widget = new cp.CloudPayments();
     var email = $("#email").val();
     widget.charge({ // options
-            publicId: 'test_api_00000000000000000000001',  //id из личного кабинета
+            publicId: 'pk_35b1b441a2f142c5317bdf2810e16',  //id из личного кабинета
             description: 'С вас спишется сумма заказа', //назначение
             amount: 10, //сумма
             currency: 'RUB', //валюта
@@ -18,11 +18,11 @@ this.pay = function () {
             console.log("Payment successful!");
             $('#order_payed_online').val(true);
             $("#courier_cash").prop('disabled', true);
-            $('#payment_status').html("<p>Оплата прошла успешно!</p>");
+            $('#payment_status').html("<div class='alert alert-success'><p>Оплата прошла успешно!</p></div>");
             //действие при успешной оплате
         },
         function (reason, options) { // fail
-            $('#payment_status').html("<p>К сожалению, оплата не прошла.</p>");
+            $('#payment_status').html("<div class='alert alert-danger'><p>К сожалению, оплата не прошла.</p></div>");
             //действие при неуспешной оплате
         });
 };

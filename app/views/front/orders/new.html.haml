@@ -61,6 +61,7 @@
 
             / Some hidden fields to set up order values
             =f.hidden_field :menu_id, value: @menu.id
+            =f.hidden_field :menu_type, value: @menu.category.name
             =f.hidden_field :order_price, value: @menu_price
             =f.hidden_field :order_type, value: "normal"
             =f.hidden_field :payed_online, value: false
@@ -196,16 +197,16 @@
                     .uzhin_rb_menus
                       =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
                       %label{id: "card_online", :for => "card_online"} Картой онлайн
-              .row
-                .col-md-6.text-center
-                  #payment_status
-              .row
-                .col-md-6.text-left
-                  .padding-left-15
-                    Для Вашего удобства с введенными данными мы создадим для Вас учетную запись на нашем сайте. При последующих заказах вы сможете войти в систему, введя свой телефон (пароль придет по смс на указанный номер).
+            .row
+              .col-md-6.text-center
+                #payment_status
+            .row
+              .col-md-6.text-left
+                Для Вашего удобства с введенными данными мы создадим для Вас учетную запись на нашем сайте. При последующих заказах вы сможете войти в систему, введя свой телефон (пароль придет по смс на указанный номер).
 
             / Some hidden fields to set up order values
             =f.hidden_field :menu_id, value: @menu.id
+            =f.hidden_field :menu_type, value: @menu.category.name
             =f.hidden_field :order_price, value: @menu_price
             =f.hidden_field :order_type, value: "normal"
             =f.hidden_field :payed_online, value: false
