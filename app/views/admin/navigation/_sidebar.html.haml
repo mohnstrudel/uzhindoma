@@ -46,47 +46,47 @@
     %ul.nav.sidebar-menu
       %li.sidebar-label.pt20 Управление
       %li
-        =link_to admin_menus_path do
+        =link_to admin_menus_path, method: :get do
           %span.fa.fa-calendar
           %span.sidebar-title Наборы
       %li
-        =link_to admin_recipes_path do
+        =link_to admin_recipes_path, method: :get do
           %span.glyphicon.glyphicon-book
           %span.sidebar-title Рецепты
       %li
-        =link_to admin_users_path do
+        =link_to admin_users_path, method: :get do
           %span.glyphicon.glyphicon-home
           %span.sidebar-title Клиенты
       %li
-        =link_to admin_orders_path do
+        =link_to admin_orders_path, method: :get do
           %span.fa.fa-columns
           %span.sidebar-title Заказы
       %li
-        =link_to admin_partners_path do
+        =link_to admin_partners_path, method: :get do
           %span.fa.fa-truck
           %span.sidebar-title Партнеры
       %li
-        =link_to edit_admin_setting_path(1) do
+        =link_to edit_admin_setting_path(1), method: :get do
           %span.glyphicon.glyphicon-fire
           %span.sidebar-title Настройки
       %li
-        =link_to admin_employees_path do
+        =link_to admin_employees_path, method: :get do
           %span.glyphicon.glyphicon-check
           %span.sidebar-title Внутренние пользователи
       %li
-        =link_to admin_jobtitles_path do
+        =link_to admin_jobtitles_path, method: :get do
           %span.glyphicon.glyphicon-check
           %span.sidebar-title Настройки внутренних пользователей
       %li
-        =link_to admin_igrams_path do
+        =link_to admin_igrams_path, method: :get do
           %span.fa.fa-instagram
           %span.sidebar-title Настройки ИГ постов
       %li
-        =link_to admin_personamounts_path do
+        =link_to admin_personamounts_path, method: :get do
           %span.fa.fa-cogs
           %span.sidebar-title Настройки наборов
       %li
-        =link_to admin_days_path do
+        =link_to admin_days_path, method: :get do
           %span.fa.fa-cogs
           %span.sidebar-title Настройки дней наборов
 

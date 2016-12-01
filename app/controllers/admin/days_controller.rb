@@ -1,5 +1,5 @@
 class Admin::DaysController < AdminController
-before_action :find_day, only: [:edit, :update]
+before_action :find_day, only: [:edit, :update, :destroy]
 	
 
 	def new
@@ -38,6 +38,15 @@ before_action :find_day, only: [:edit, :update]
   			end
   			render 'edit'
   		end
+	end
+
+	def destroy
+	    if @day.destroy
+      		redirect_to admin_days_path
+      		flash[:alert] = 'Удалено успешно'
+    	else
+      		render 'index'
+    	end
 	end
 
 	private
