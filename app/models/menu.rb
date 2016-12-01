@@ -2,6 +2,7 @@ class Menu < ActiveRecord::Base
 
   # scope :current, lambda { where(daterange: "09/05/2016 - 13/05/2016") }
   scope :current, lambda { where("start_time <= ? AND end_time >= ?", Time.now, Time.now) }
+  scope :no_dessert, lambda { where("category_id != ?", Category.dessert[0].id)}
   scope :dessert, lambda { where("category_id =?", Category.dessert[0].id)}
   scope :current_dessert, lambda { where("start_time <= ? AND end_time >= ? AND category_id = ?", Time.now, Time.now, Category.dessert[0].id)}
   # scope :ordered, -> { order('category.sortable') }

@@ -1,7 +1,7 @@
 class Front::DinnerController < FrontController
 	def index
 		@categories = Category.all
-		@current_menus = Menu.current.sort_by { |menu| menu.category.sortable }
+		@current_menus = Menu.no_dessert.current.sort_by { |menu| menu.category.sortable }
 		@dessert = Menu.current_dessert[0]
 
 		if @dessert.nil?

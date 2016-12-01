@@ -96,5 +96,10 @@
 												=@dessert.recipes.first.name
 											%p
 												=@dessert.recipes.first.description
-										=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
-											=image_tag @dessert.hotpic.url		
+										-if @dessert.hotpic?
+											=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+												=image_tag @dessert.hotpic.url		
+										-else
+											=link_to @dessert.recipes.first.pictures.first.image.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+												=image_tag @dessert.recipes.first.pictures.first.image.medium_thumb.url
+

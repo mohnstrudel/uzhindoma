@@ -7,7 +7,7 @@ class Front::StaticPagesController < FrontController
 
     # @instagram = client.tag_recent_media(tags[0].name)
     # debug
-  	@current_menus = Menu.current.sort_by { |menu| menu.category.sortable }
+  	@current_menus = Menu.no_dessert.current.sort_by { |menu| menu.category.sortable }
 
   	@setting = Setting.first
   end

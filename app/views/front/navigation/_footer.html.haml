@@ -62,14 +62,17 @@
         .col-xs-12.col-sm-6.col-lg-4
           %p.text-black Напишите нам, как мы можем улучшить наш сервис.
           / RD Mailform
-          %form.rd-mailform{:action => "bat/rd-mailform.php", "data-form-type" => "subscribe", "data-result-class" => "rd-mailform-validate", :method => "post"}
+          =form_tag "#" do
             .row
               .col-xs-6
-                %input{"data-constraints" => "@NotEmpty", :name => "name", :placeholder => "Имя", :type => "text"}
+                =text_field_tag "name", "", class: "uzhindoma-universal-input", placeholder: "Имя"
               .col-xs-6
-                %input{"data-constraints" => "@NotEmpty @Email", :name => "email", :placeholder => "Почта", :type => "text"}
+                =email_field_tag "email", "", class: "uzhindoma-universal-input", placeholder: "Почта"
             .row
-            %textarea{"data-constraints" => "@NotEmpty", :name => "complaint", :placeholder => "Ваш отзыв", :type => "text"}
-            %button.btn.btn-sm.btn-min-width.btn-success-mod-uzhindoma-dark Отправить
+              .col-xs-12
+                =text_area_tag "complaint", "", class: "", placeholder: "Ваш отзыв", rows: 5
+            .row
+              .col-md-8.col-md-offset-2.text-center
+                =submit_tag "Отправить", class: "btn btn-success-mod-uzhindoma"
         
     / {%FOOTER_LINK}
