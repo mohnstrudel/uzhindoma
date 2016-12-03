@@ -9,9 +9,9 @@ $(document).ready(function(){
 
   console.log("loaded!");
   
-  var image = $('.bg-uzhindoma');
-  image.css('background-image', "url(<%= image_url('backgrounds/how_it_works_hd.jpg') %>)");
-  bg = image.css('background-image');
+  // var image = $('.bg-uzhindoma');
+  // image.css('background-image', "url(<%= image_url('backgrounds/how_it_works_hd.jpg') %>)");
+  // bg = image.css('background-image');
 
   // $downloadingImage.attr("src", "<%= image_url('backgrounds/uznat_bolshe_hd.jpg') %>");
 });
@@ -98,15 +98,23 @@ $(document).ready(function(){
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1YWZiZGFiZDk1Zjk5NGUifQ.ueMMb8kMdWxrP5N4iqx67Q';
   var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/dark-v9',
+      style: 'mapbox://styles/schnibba/ciw9f6qp500542qmkzdjjqd8o',
       center: [37.5689484, 55.7491617],
   	  zoom: 7.5,
   	  hash: false,
   	  interactive: false
   });
 
+  var nav = new mapboxgl.Navigation();
+
+
 map.on('load', function () {
-    map.addSource('maine', {
+  // Add zoom and rotation controls to the map.
+
+  map.addControl(nav, 'top-left');
+  map.dragPan.enable();
+  
+  map.addSource('maine', {
         'type': 'geojson',
         'data': {
             'type': 'Feature',

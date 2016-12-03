@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   scope module: :front do
     root 'static_pages#home'
     get 'uznat-bolshe', to: 'static_pages#learn_more'
+    get 'policy', to: 'static_pages#policy'
     resources :menus
     resources :dinner
     resources :orders

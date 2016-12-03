@@ -16,11 +16,12 @@
         =render 'front/navigation/header'
         =render 'front/navigation/sub_header' 
     -elsif request.fullpath == '/uznat-bolshe'
-      %header.page-head.uzhindoma-learn-more
+      %header.page-head
         =render 'front/navigation/header'
+        =image_tag "backgrounds/how_it_works_hd.jpg"
         =render 'front/navigation/sub_header' 
     -else
-      %header.page-head.bg-uzhindoma
+      %header.page-head.ud-background
         =render 'front/navigation/header'
         =render 'front/navigation/sub_header' 
     %main.page-content

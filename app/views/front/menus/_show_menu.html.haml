@@ -23,7 +23,9 @@
 						=hidden_field_tag :menu_id, current_menu.id
 						.container-fluid{style: "margin-top:20px;"}
 							.row
-								=content_tag(:div, class: "col-md-#{@col_value}") do
+								-col_value = 6
+								-col_value = 4 if current_menu.has_dessert
+								=content_tag(:div, class: "col-md-#{col_value}") do
 									%h6.zero-letter-spacing 
 										Сколько ужинов?
 									-current_menu.days.each_with_index do |d_amount, d_index|
@@ -33,7 +35,7 @@
 												%label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
 													=d_amount.wordvalue
 
-								=content_tag(:div, class: "col-md-#{@col_value}") do
+								=content_tag(:div, class: "col-md-#{col_value}") do
 									%h6.zero-letter-spacing
 										На сколько персон?
 									-current_menu.personamounts.each_with_index do |p_amount, p_index|
@@ -43,7 +45,7 @@
 												%label{id: "radio2-pa-#{p_index}-#{index}", :for => "radio2-pa-#{p_index}-#{index}"}
 													=p_amount.wordvalue
 								-if current_menu.has_dessert && !@dessert.nil?
-									=content_tag(:div, class: "col-md-#{@col_value}") do
+									=content_tag(:div, class: "col-md-#{col_value}") do
 										%h6.zero-letter-spacing
 											Добавить десерт?
 										.radio-wrapper
