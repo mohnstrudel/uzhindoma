@@ -41,6 +41,12 @@
                 =f.number_field :pricechange_four, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Для четырех человек - на столько увеличится цена.'
                 %label.field-icon{:for => "name3"}
                   %i.fa.fa-rub
+          .col-md-6.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name3"}
+                =f.number_field :sortable, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Сортировка кол-ва ужинов. Чем меньше цифра, тем левее будет кнопка.'
+                %label.field-icon{:for => "name3"}
+                  %i.fa.fa-sort
 
           / end section
         / end section row section

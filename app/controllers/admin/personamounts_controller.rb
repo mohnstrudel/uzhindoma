@@ -53,7 +53,7 @@ class Admin::PersonamountsController < AdminController
 
 
 	def personamount_params
-		params.require(:personamount).permit(:value, :wordvalue, :pricechange, :title, :pricechange_life)
+		params.require(:personamount).permit(:value, :wordvalue, :pricechange, :title, :pricechange_life, :sortable)
 	end
 
 	def find_personamount

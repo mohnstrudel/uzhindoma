@@ -36,6 +36,13 @@
                 %label.field-icon{:for => "name3"}
                   %i.fa.fa-rub
 
+          .col-md-6.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name4"}
+                =f.number_field :sortable, id: "name4", class: "event-name gui-input br-light light", placeholder: 'Сортировка кол-ва людей. Чем меньше цифра, тем левее будет кнопка.'
+                %label.field-icon{:for => "name4"}
+                  %i.fa.fa-sort
+
           / end section
         / end section row section
         %hr.short.alt

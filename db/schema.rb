@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161204141650) do
+ActiveRecord::Schema.define(version: 20161204183737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20161204141650) do
     t.integer  "pricechange"
     t.string   "title"
     t.integer  "pricechange_four"
+    t.integer  "sortable"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -212,6 +213,7 @@ ActiveRecord::Schema.define(version: 20161204141650) do
     t.integer  "pricechange"
     t.string   "title"
     t.integer  "pricechange_life"
+    t.integer  "sortable"
   end
 
   create_table "pictures", force: :cascade do |t|

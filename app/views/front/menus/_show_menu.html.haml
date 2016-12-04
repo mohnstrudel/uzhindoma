@@ -28,7 +28,7 @@
 								=content_tag(:div, class: "col-md-#{col_value}") do
 									%h6.zero-letter-spacing 
 										Сколько ужинов?
-									-current_menu.days.each_with_index do |d_amount, d_index|
+									-current_menu.days.order(:sortable).each_with_index do |d_amount, d_index|
 										.radio-wrapper
 											.uzhin_rb_menus
 												%input{id: "radio1-da-#{d_index}-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange, d_amount.pricechange_four] }/
@@ -38,7 +38,7 @@
 								=content_tag(:div, class: "col-md-#{col_value}") do
 									%h6.zero-letter-spacing
 										На сколько персон?
-									-current_menu.personamounts.each_with_index do |p_amount, p_index|
+									-current_menu.personamounts.order(:sortable).each_with_index do |p_amount, p_index|
 										.radio-wrapper
 											.uzhin_rb_persons
 												%input{id: "radio2-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: [p_amount.value, p_amount.pricechange] }/
@@ -82,7 +82,7 @@
 					.uzhindoma-container-fluid
 						.uzhindoma-row
 							.gal
-								-current_menu.recipes.each_with_index do |recipe, index|
+								-current_menu.recipes.sort_by {|menurecipe| menurecipe.created_at }.reverse.each_with_index do |recipe, index|
 									.item
 										.description
 											%h3.zero-letter-spacing
