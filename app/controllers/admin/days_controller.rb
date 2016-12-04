@@ -53,7 +53,7 @@ before_action :find_day, only: [:edit, :update, :destroy]
 
 
 	def day_params
-		params.require(:day).permit(:value, :wordvalue, :pricechange)
+		params.require(:day).permit(:value, :wordvalue, :pricechange, :title, :pricechange_four)
 	end
 
 	def find_day

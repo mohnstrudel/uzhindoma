@@ -11,6 +11,12 @@
     .panel-body.p20.pb10
       .tab-content.pn.br-n.admin-form
         .section.row.mbn
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name1"}
+                =f.text_field :title, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Наменования кол-ва ужинов, что бы не перепутать (например 5 ужинов для ЛАЙФ набора)'
+                %label.field-icon{:for => "name1"}
+                  %i.fa.fa-tag
           .col-md-6.pl15
             .section.mb10
               %label.field.prepend-icon{:for => "name1"}
@@ -23,10 +29,16 @@
                 =f.text_field :wordvalue, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Кол-во в словах (например - все пять!, четыре, три...)'
                 %label.field-icon{:for => "name2"}
                   %i.fa.fa-tag
-          .col-md-12.pl15
+          .col-md-6.pl15  
             .section.mb10
               %label.field.prepend-icon{:for => "name3"}
-                =f.number_field :pricechange, id: "name2", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится цена, если пользователь выберет данную опцию'
+                =f.number_field :pricechange, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Для двух человек - на столько увеличится цена'
+                %label.field-icon{:for => "name3"}
+                  %i.fa.fa-rub
+          .col-md-6.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name3"}
+                =f.number_field :pricechange_four, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Для четырех человек - на столько увеличится цена.'
                 %label.field-icon{:for => "name3"}
                   %i.fa.fa-rub
 

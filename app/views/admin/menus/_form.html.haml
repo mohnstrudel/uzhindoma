@@ -49,14 +49,14 @@
                 / Select for how many persons this menu can be bought for
                 .section.row
                   %label.field.prepend-field
-                    =f.collection_select(:personamount_ids, Personamount.all, :id, :value, {include_blank: false, :include_hidden => false, :selected => @menu.personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-personamount', :multiple => true})
+                    =f.collection_select(:personamount_ids, Personamount.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-personamount', :multiple => true})
                 
               .col-md-2
               .col-md-5
                 / Выбор кол-ва дней на набор (обычно 3,4,5)
                 .section.row
                   %label.field.prepend-field
-                    =f.collection_select(:day_ids, Day.all, :id, :value, {include_blank: false, :include_hidden => false, :selected => @menu.days.map(&:id)}, { class: 'select2-multiple form-control select-info select-days', :multiple => true})
+                    =f.collection_select(:day_ids, Day.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.days.map(&:id)}, { class: 'select2-multiple form-control select-info select-days', :multiple => true})
             .section.row
               %label.field.option.mt10
                 =f.check_box :has_dessert

@@ -36,7 +36,7 @@
         %thead
           %tr.bg-light
             %th.text-center Select
-            %th Компания партнера
+            %th Кол-во человек
             %th.text-right Статус
         %tbody
           -@personamounts.each do |personamount|
@@ -47,7 +47,7 @@
                     %span.checkbox.mn
 
               %td
-                =link_to personamount.value, edit_admin_personamount_path(personamount) 
+                =link_to personamount.title, edit_admin_personamount_path(personamount) 
 
               %td.text-right
                 .btn-group.text-right

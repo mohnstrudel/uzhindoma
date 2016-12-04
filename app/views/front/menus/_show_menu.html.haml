@@ -31,7 +31,7 @@
 									-current_menu.days.each_with_index do |d_amount, d_index|
 										.radio-wrapper
 											.uzhin_rb_menus
-												%input{id: "radio1-da-#{d_index}-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange] }/
+												%input{id: "radio1-da-#{d_index}-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange, d_amount.pricechange_four] }/
 												%label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
 													=d_amount.wordvalue
 
@@ -57,12 +57,12 @@
 												%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
 												%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
 							.row
-								.col-md-4.col-md-offset-3
+								.col-md-4.col-md-offset-4
 									%span.h6.zero-letter-spacing
 										="ДОСТАВКА: #{current_menu.daterange.split("-")[1]}"
 								
-								.col-md-5
-									.text-right
+								.col-md-4
+									.text-center
 										.price-container
 											%span.h6.zero-letter-spacing СУММА К ОПЛАТЕ:
 											=content_tag(:span, id: "uzhin_price_#{index}", class: "h6") do
@@ -71,7 +71,7 @@
 											/ %i.fa-rub
 							.row
 								.col-md-4.col-md-offset-8
-									.text-right
+									.text-center
 										=button_tag(type: "submit", class: "btn btn-small btn-success-mod-uzhindoma") do
 											%span.icon.icon-xs.fa-shopping-cart
 											Заказать набор

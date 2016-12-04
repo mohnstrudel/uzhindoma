@@ -101,6 +101,13 @@
   padding-left: 0px !important;
   padding-right: 0px !important; 
 }
+
+.ud-default-header-bg{
+  background-image: image-url("backgrounds/default-header-bg.jpg");
+  background-size: cover;
+  max-height: 75px;
+}
+
 .bg-uzhindoma{
   background-image: image-url("backgrounds/uznat_bolshe_thumb.jpg");
 }

@@ -1,5 +1,5 @@
 class Admin::PersonamountsController < AdminController
-	before_action :find_personamount, only: [:edit, :update]
+	before_action :find_personamount, only: [:edit, :update, :destroy]
 	
 
 	def new
@@ -11,6 +11,15 @@ class Admin::PersonamountsController < AdminController
 	end
 
 	def edit
+	end
+
+	def destroy
+	    if @personamount.destroy
+      		redirect_to admin_personamounts_path
+      		flash[:alert] = 'Удалено успешно'
+    	else
+      		render 'index'
+    	end
 	end
 
 	def create
@@ -44,7 +53,7 @@ class Admin::PersonamountsController < AdminController
 
 
 	def personamount_params
-		params.require(:personamount).permit(:value, :wordvalue, :pricechange)
+		params.require(:personamount).permit(:value, :wordvalue, :pricechange, :title, :pricechange_life)
 	end
 
 	def find_personamount

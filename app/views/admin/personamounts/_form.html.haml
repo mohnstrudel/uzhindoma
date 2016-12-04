@@ -11,6 +11,12 @@
     .panel-body.p20.pb10
       .tab-content.pn.br-n.admin-form
         .section.row.mbn
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name1"}
+                =f.text_field :title, id: "name1", class: "event-name gui-input br-light light", placeholder: 'Название, что бы не запутаться (например "4 человека для лайф-набора")'
+                %label.field-icon{:for => "name1"}
+                  %i.fa.fa-tag              
           .col-md-6.pl15
             .section.mb10
               %label.field.prepend-icon{:for => "name2"}
@@ -26,7 +32,7 @@
           .col-md-12.pl15
             .section.mb10
               %label.field.prepend-icon{:for => "name2"}
-                =f.number_field :pricechange, id: "name3", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится цена, если пользователь выберет данную опцию'
+                =f.number_field :pricechange, id: "name3", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится цена для СТАНДАРТ набора, если пользователь выберет данную опцию'
                 %label.field-icon{:for => "name3"}
                   %i.fa.fa-rub
 

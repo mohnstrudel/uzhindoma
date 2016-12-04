@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 	// Preclick for user - tab 2
 	$('#radio1-da-0-1').prop("checked", true);
-	$('#radio2-pa-0-1').prop("checked", true);
+	$('#radio2-pa-1-1').prop("checked", true);
 	// Dessert
 	$('#radio9-1').prop("checked", true);
 
@@ -32,9 +32,12 @@ $(document).ready(function(){
 		recalculate(price, activeTab);
 	});
 
-	
-
+	// Should be changed in the future!
+	var basic_price = 2400;
+	// end
 	var price = extract_price(activeTab);
+	price = basic_price;
+
 	recalculate(price, activeTab);
 	console.log("Initial price is: " + price);
 
@@ -72,16 +75,22 @@ var extract_numbers = function (array_as_string){
 
 	if (typeof array_as_string != 'undefined') {
 		console.log("array input is: " + array_as_string);
-		var first_part = array_as_string.split(",")[0];
-		var second_part = array_as_string.split(",")[1];
+		var splitted_array = array_as_string.split(",");
+		var first_part = splitted_array[0];
+		var second_part = splitted_array[1];
+		var third_part = splitted_array[2];
 
 		first_part = first_part.replace('[','').replace(' ', '');
 		first_part = parseFloat(first_part);
 
 		second_part = second_part.replace(']','').replace(' ', '');
 		second_part = parseFloat(second_part);
+		if (typeof third_part != 'undefined'){
+			third_part = third_part.replace(']','').replace(' ', '');
+			third_part = parseFloat(third_part);
+		}
 
-		return [first_part, second_part];
+		return [first_part, second_part, third_part];
 	} else {
 		console.log("Empty call of 'extract_numbers' function");
 	}
@@ -112,8 +121,12 @@ var update_menus = function (price, tab){
 	var price_change;
 	var menus_amount = get_menus(tab);
 	if (typeof menus_amount != 'undefined'){
-		price_change = extract_numbers(menus_amount)[1];
-
+		
+		extracted_numbers = extract_numbers(menus_amount);
+		price_change = extracted_numbers[1];
+		if (get_amount_of_persons(tab) == 4){
+			price_change += extracted_numbers[2];
+		}
 		return price+price_change;
 	} else {
 		console.log("Empty call of 'update_menus' function");
@@ -141,6 +154,12 @@ var get_persons = function (tab){
 	var person_amount = $("input[name=person_amount_" + tab + "]:checked").val();	
 	console.log("Person amount is: " + person_amount);
 	return person_amount;
+}
+
+var get_amount_of_persons = function (tab){
+	var person_amount = $("input[name=person_amount_" + tab + "]:checked").val();	
+	amount_of_persons = extract_numbers(person_amount)[0];
+	return amount_of_persons;
 }
 
 var update_price = function(price, tab){

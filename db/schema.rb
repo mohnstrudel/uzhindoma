@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130191251) do
+ActiveRecord::Schema.define(version: 20161204141650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,9 +52,11 @@ ActiveRecord::Schema.define(version: 20161130191251) do
   create_table "days", force: :cascade do |t|
     t.integer  "value"
     t.string   "wordvalue"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "pricechange"
+    t.string   "title"
+    t.integer  "pricechange_four"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -204,10 +206,12 @@ ActiveRecord::Schema.define(version: 20161130191251) do
 
   create_table "personamounts", force: :cascade do |t|
     t.integer  "value"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.string   "wordvalue"
     t.integer  "pricechange"
+    t.string   "title"
+    t.integer  "pricechange_life"
   end
 
   create_table "pictures", force: :cascade do |t|
