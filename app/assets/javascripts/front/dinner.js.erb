@@ -19,6 +19,11 @@ $(document).ready(function(){
 	// Dessert
 	$('#radio9-1').prop("checked", true);
 
+	// Preclick for user - tab 2
+	$('#radio1-da-0-2').prop("checked", true);
+	$('#radio2-pa-0-2').prop("checked", true);
+
+
 	$('#dinner-tab-0').click();
 
 	var activeTab = 0;
@@ -67,6 +72,20 @@ $(document).ready(function(){
 
 	$('.uzhin_rb_dessert').on('click', 'input[name=add_dessert_1]', function(event){
 		recalculate(price, 1);
+	});
+
+	// Call all js for tab = 2
+	$('.uzhin_rb_persons').on('click', 'input[name=person_amount_2]', function(event){
+		recalculate(price, 2);
+		// event.stopImmediatePropagation();
+	});
+
+	$('.uzhin_rb_menus').on('click', 'input[name=menu_amount_2]', function(event){
+		recalculate(price, 2);
+	});
+
+	$('.uzhin_rb_dessert').on('click', 'input[name=add_dessert_2]', function(event){
+		recalculate(price, 2);
 	});
 	
 });
