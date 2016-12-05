@@ -261,7 +261,8 @@ class Front::OrdersController < FrontController
 
 	def find_dessert(name)
 		bitrix = Bitrix.first
-		name = URI.escape(name)
+		# Меняем с вариабельного имени на "Десерт", потому что ребята всегда добавляют один и тот же битриксовый товар.
+		name = URI.escape("Десерт")
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name}"
 		doc = Nokogiri::HTML(open(url))
 		response = JSON.parse(doc)
