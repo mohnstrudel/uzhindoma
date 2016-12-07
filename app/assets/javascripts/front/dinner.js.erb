@@ -7,6 +7,25 @@
 
 $(document).ready(function(){
 
+	$("#standard_order_phone").on('mousedown', function(){
+		$("#standard_order_phone").removeClass('wrong-phone-number');
+	});
+
+	$("#create_new_order").on('click', function(e){
+		var phone_input = $("#standard_order_phone");
+		var phone = phone_input.val();
+		if (phone) {
+			// console.log("Phone is: " + phone);
+			// e.preventDefault();
+		}
+		else {
+
+			// console.log("No correct phone entered");
+			phone_input.addClass("wrong-phone-number");
+			e.preventDefault();
+		}
+	});
+
 	// Preclick for user - tab 1
 	$('#radio1-da-0-0').prop("checked", true);
 	$('#radio2-pa-0-0').prop("checked", true);

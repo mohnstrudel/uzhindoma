@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.wrong-phone-number {
+      border: 2px solid #BF4D28 !important;
+      background-color: rgba(191,77,40,0.2);
+}
+
 .uzhin-doma-form {
 	background-color: #f6f6f6;
 	padding-bottom: 35px;

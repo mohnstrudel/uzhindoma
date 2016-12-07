@@ -75,7 +75,7 @@
 										Ваш номер телефона:
 										=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", class: "menu-phone-input"
 								.col-md-3.text-left.padding-left-0
-									=button_tag(type: "submit", class: "btn btn-small btn-success-mod-uzhindoma") do
+									=button_tag(type: "submit", class: "btn btn-small btn-success-mod-uzhindoma", id: "create_new_order") do
 										%span.icon.icon-xs.fa-shopping-cart
 										Заказать набор
 
