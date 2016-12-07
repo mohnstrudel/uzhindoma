@@ -2,6 +2,24 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.padding-right-0 {
+  padding-right: 0px;
+}
+
+.padding-left-0 {
+  padding-left: 0px;
+}
+
+.menu-phone-input {
+  text-align: left;
+  border: 2px solid #516aa1;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 8px;
+  font-style: italic;
+  color: #b7b7b7;
+}
+
 .btn-small {
   padding: 5px 15px;
 }

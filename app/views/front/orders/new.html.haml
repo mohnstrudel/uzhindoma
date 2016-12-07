@@ -123,7 +123,7 @@
                 .text-wrapper
                   %label.h5.zero-letter-spacing.text-left{:for => "standard_order_phone"} Телефон
                   .uzhindoma-input
-                    =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone", required: ""
+                    =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", value: params[:phone]
             .row
               .col-md-4
                 %h5.zero-letter-spacing.text-left.margin-top-30{:for => "standard_order_phone"} Москва или область?

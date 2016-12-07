@@ -6,14 +6,21 @@ class Front::OrdersController < FrontController
 
 
 	def new
-		@cu = current_user
-		if user_signed_in?
-			@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
+		# Перенаправляем пользователя на форму логина, если он уже есть в системе, но не авторизован
+		if !User.where(phone: params[:phone]).blank? && !user_signed_in?
+			redirect_to new_user_session_path
+			flash[:success] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
+			# перенаправление end
 		else
-			@order = Order.new
+			@cu = current_user
+			if user_signed_in?
+				@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
+			else
+				@order = Order.new
+			end
+			@menu = Menu.find(params[:menu_id])
+			@menu_price = @menu.calculate_price(@menu, params)
 		end
-		@menu = Menu.find(params[:menu_id])
-		@menu_price = @menu.calculate_price(@menu, params)
 	end
 
 	def create
@@ -55,16 +62,18 @@ class Front::OrdersController < FrontController
 	private
 
 	def create_user_if_not_exists_yet(params)
+		email = params[:order][:email] || ""
 		phone = params[:order][:phone]
-		logger.info "Inside creating new user with user params: #{params[:order]}"
-		if User.where(phone: phone)[0].nil?
+		logger.info "Inside creating new user with user params: #{email}"
+		if (User.where(phone: phone)[0].nil?)
 			# Вытаскиваем параметры только если пользователя ещё нет в системе
 			# что бы зря не нагружать контроллер
 			
-			first_name = params[:order][:first_name]
-			second_name = params[:order][:second_name]
-			email = params[:order][:email]
-			street = params[:order][:street]
+			first_name = params[:order][:first_name] || ""
+			second_name = params[:order][:second_name] || ""
+			phone = params[:order][:phone] || ""
+			# email = params[:order][:email]
+			street = params[:order][:street] || ""
 			delivery_region = params[:order][:delivery_region]
 			house_number = params[:order][:house_number]
 			flat_number = params[:order][:flat_number]
@@ -148,7 +157,7 @@ class Front::OrdersController < FrontController
 		
 		# Получаем допник для адреса
 		add_address_fields = ""
-		unless order[:additional_address].empty?
+		unless order[:additional_address].blank?
 			add_address = URI.escape("#{order[:additional_address]}")
 			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]=#{add_address}"
 		end
@@ -271,11 +280,18 @@ class Front::OrdersController < FrontController
 	end
 
 	def find_product_for_order(order)
-		menu_id = order[:menu_id]
-		menu_type = Menu.find(menu_id).category.name
+		if order[:order_type] == "fast"
+			menu_type = order[:menu_type]
+			person_amount = 2
+			menu_amount = 5
+		else
+			menu_id = order[:menu_id]
+			menu_type = Menu.find(menu_id).category.name
 
-		person_amount = order[:person_amount]
-		menu_amount = order[:menu_amount]
+			person_amount = order[:person_amount]
+			menu_amount = order[:menu_amount]
+		end
+		
 		bitrix = Bitrix.first
 
 		logger.debug "\n"
