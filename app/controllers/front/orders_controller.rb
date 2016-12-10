@@ -9,7 +9,7 @@ class Front::OrdersController < FrontController
 		# Перенаправляем пользователя на форму логина, если он уже есть в системе, но не авторизован
 		if !User.where(phone: params[:phone]).blank? && !user_signed_in?
 			redirect_to new_user_session_path
-			flash[:success] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
+			flash[:info] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
 			# перенаправление end
 		else
 			@cu = current_user

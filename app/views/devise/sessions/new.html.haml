@@ -2,28 +2,31 @@
 	.section.section-inset-1
 		.container
 			.row
-				.col-xs-12.col-md-8.col-md-offset-2
+				.col-xs-12.col-md-4.col-md-offset-4
 					%section
 						%h4.zero-letter-spacing Вход в систему
-						.rd-mailform.row.flow-offset-6
-							.col-xs-12.col-sm-6
-								=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone"
-							.col-xs-12.col-sm-6
-								=f.password_field :password, placeholder: "Пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off" 
+						.row.flow-offset-6.text-center
+							#signin_phone
+								.col-xs-12.col-sm-12.margin-bottom-30
+									=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone", class: "uzhindoma-universal-input"
+							#signin_password.hidden
+								.col-xs-12.col-sm-12
+									=f.password_field :password, placeholder: "Пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off", class: "uzhindoma-universal-input"
 
-							.col-xs-12.col-sm-6.text-left
-								%label.mfCheckbox
-									=f.check_box :remember_me, class: 'mfCheckbox__input'
-									%span Запомнить меня
-							.col-xs-12.col-sm-6.text-right
-								#send_password
-									=submit_tag 'Выслать пароль по смс', class: "reset_password", id: 'reset_btn', name: 'reset', remote: true
+								.col-xs-12.col-sm-12.text-center
+									%label.mfCheckbox
+										=f.check_box :remember_me, class: 'mfCheckbox__input'
+										%span Запомнить меня
+				.col-xs-12.col-sm-12.margin-bottom-30
+					#send_password
+						=submit_tag 'Выслать пароль по смс', class: "btn btn-sm btn-min-width btn-success-mod-1", id: 'reset_btn', name: 'reset', remote: true
+				#signin_button.hidden
 					%section.section-inset-3
 						.row.offset-5
 							.col-xs-12
-								=f.submit 'Вход', class: 'btn btn-sm btn-min-width btn-success'
-		%section.section-inset-3
-			.row.ud_mt_4em
-				%h6.zero-letter-spacing Нет аккаунта?
-			.row.offset-5
-				=link_to 'Создать', new_user_registration_path, method: :get, class: 'btn btn-sm btn-min-width btn-success-mod-1'
+								=f.submit 'Вход', class: 'btn btn-sm btn-min-width btn-success-mod-1'
+		/ %section.section-inset-3
+		/ 	.row.ud_mt_4em
+		/ 		%h6.zero-letter-spacing Нет аккаунта?
+		/ 	.row.offset-5
+		/ 		=link_to 'Создать', new_user_registration_path, method: :get, class: 'btn btn-sm btn-min-width btn-success-mod-1'

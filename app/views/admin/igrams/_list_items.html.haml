@@ -36,6 +36,7 @@
         %thead
           %tr.bg-light
             %th.text-center Select
+            %th
             %th Instagram-URL
             %th.text-right Статус
         %tbody
@@ -45,6 +46,9 @@
                 %label.option.block.mn
                   %input{:name => "mobileos", :type => "checkbox", :value => "FR"}
                     %span.checkbox.mn
+              %td
+                -unless igram.src_image.blank?
+                  =image_tag igram.src_image.partner_thumb.url, class: "img img-responsive", width: 50
               %td
                 =link_to igram.url, edit_admin_igram_path(igram) 
               %td.text-right
@@ -59,6 +63,7 @@
                     %li
                       =link_to 'Удалить', admin_igram_path(igram.id), method: :delete, data: {confirm: 'Действительно удалить?'}
           %tr
+            %td
             %td
             %td
             %td.text-right
