@@ -101,10 +101,10 @@
 												=@dessert.recipes.first.name
 											%p
 												=@dessert.recipes.first.description
-										-if @dessert.hotpic?
+										-if !@dessert.hotpic.blank?
 											=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
-												=image_tag @dessert.hotpic.url		
+												=image_tag @dessert.hotpic.medium_thumb.url		
 										-else
-											=link_to @dessert.recipes.first.pictures.first.image.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+											=link_to @dessert.recipes.first.pictures.first.image.medium_thumb.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
 												=image_tag @dessert.recipes.first.pictures.first.image.medium_thumb.url
 

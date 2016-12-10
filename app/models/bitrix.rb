@@ -77,6 +77,15 @@ class Bitrix < ActiveRecord::Base
 		result = JSON.parse(doc)
 	end
 
+	def self.get_productrows_for_order(order_id)
+
+		access_token = first.access_token
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.productrows.get.json?&auth=#{access_token}&ID=#{order_id}"
+		doc = Nokogiri::HTML(open(url))
+		result = JSON.parse(doc)
+		return result["result"]
+	end
+
 	def self.get_token
 		return access_token
 	end

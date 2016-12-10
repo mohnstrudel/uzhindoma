@@ -67,17 +67,22 @@
 					.row
 						.col-xs-12.col-md-10.col-md-offset-1
 							%section
-								%h4.text-center Ваши заказы
+								%h4.text-center.zero-letter-spacing Ваши заказы
 								.table-responsive
 									%table.table.table-striped-mod-1
 										%thead
 											%tr.bg-primary
-												%th Наборы
-												%th
+												%th Набор
+												%th Дата
+												%th Цена
 										%tbody.text-left
 											-if @orders
 												-@orders.each do |order|
 													%tr
+														%td
+															-Bitrix.get_productrows_for_order(order["ID"]).each do |productrow|
+																=productrow["PRODUCT_NAME"]
+																%br
 														%td
 															="#{(DateTime.strptime(order['BEGINDATE'], '%Y-%m-%dT%H:%M:%S%z')).strftime("%d/%m/%Y")}"
 														%td 

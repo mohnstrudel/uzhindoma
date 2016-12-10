@@ -9,10 +9,17 @@ class Front::Users::SessionsController < Devise::SessionsController
       phone = params[:user][:phone]
       # logger.debug("Phone is: #{phone}")
 
-      password = User.generate_password_code
-      User.where(phone: phone).update(password: password)
+      
 
       if phone.length == 17
+
+        password = User.generate_password_code
+        user = User.where(phone: phone)[0]
+        if user.update(password: password)
+          logger.debug("New password for user #{user.email} successfully updated")
+        else
+          logger.debug("Password failed to update")
+        end
         
         stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
         encoded_phone = URI.escape(stripped_phone)
@@ -22,7 +29,7 @@ class Front::Users::SessionsController < Devise::SessionsController
         helpers.send_sms(encoded_phone, encoded_message)
 
         flash[:success] = "Пароль успешно выслан."
-        redirect_to new_user_session_path
+        redirect_to new_user_session_path(phone: phone)
       else
         flash[:danger] = "Телефон введен не верно"
         redirect_to new_user_session_path

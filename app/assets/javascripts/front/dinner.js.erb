@@ -13,16 +13,22 @@ $(document).ready(function(){
 
 	$("#create_new_order").on('click', function(e){
 		var phone_input = $("#standard_order_phone");
-		var phone = phone_input.val();
-		if (phone) {
-			// console.log("Phone is: " + phone);
-			// e.preventDefault();
-		}
-		else {
+		var phone_value = phone_input.val();
+		// console.log("Phone input value is: " + phone_input.length);
+		var exists = phone_input.length;
 
-			// console.log("No correct phone entered");
-			phone_input.addClass("wrong-phone-number");
-			e.preventDefault();
+		if (exists != 0) {
+			if (phone_value) {
+				// console.log("Phone is: " + phone);
+				// e.preventDefault();
+			}
+			else {
+
+				// console.log("No correct phone entered");
+				phone_input.addClass("wrong-phone-number");
+				console.log("Default prevented for submit button");
+				e.preventDefault();
+			}
 		}
 	});
 

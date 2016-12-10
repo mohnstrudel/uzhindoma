@@ -12,6 +12,7 @@ class Front::OrdersController < FrontController
 			flash[:info] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
 			# перенаправление end
 		else
+			logger.debug "Нажато на создание нового заказа"
 			@cu = current_user
 			if user_signed_in?
 				@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
