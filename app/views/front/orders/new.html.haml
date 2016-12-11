@@ -199,23 +199,14 @@
                 .text-wrapper
                   %label.h5.zero-letter-spacing.text-left.margin-top-30{:for => "area"} Комментарии к заказу
                   =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Код домофона, не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+
             .row
-              .col-md-4
-                %h4.zero-letter-spacing.text-left.margin-top-30 Тип оплаты
-                .margin-top-15
-                .col-md-6.no-left-padding-margin.text-left
-                  .radio-wrapper
-                    .uzhin_rb_menus
-                      =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
-                      %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
-                .col-md-6.no-right-padding-margin.text-right
-                  .radio-wrapper
-                    .uzhin_rb_menus
-                      =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
-                      %label{id: "card_online", :for => "card_online"} Картой онлайн
-            .row
-              .col-md-6.text-center
-                #payment_status
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left{:for => "street"} Промокод
+                  .uzhindoma-input
+                    =f.text_field :pcode, id: "promocode", placeholder: "Промокод (уточнаяйте у мендежера) на скидку 500 рублей."
+
             .row
               .col-md-6.text-left
                 Для Вашего удобства с введенными данными мы создадим для Вас учетную запись на нашем сайте. При последующих заказах вы сможете войти в систему, введя свой телефон (пароль придет по смс на указанный номер).
@@ -225,7 +216,7 @@
             =f.hidden_field :menu_type, value: @menu.category.name
             =f.hidden_field :order_price, value: @menu_price
             =f.hidden_field :order_type, value: "normal"
-            =f.hidden_field :payed_online, value: false
+            / =f.hidden_field :payed_online, value: false
             
             -if params[:person_amount_0]
               =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_0])
@@ -243,5 +234,5 @@
             
             .row
               .col-md-6.text-right
-                =f.submit "Готово!", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                =f.submit "Перейти к оплате", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
                         

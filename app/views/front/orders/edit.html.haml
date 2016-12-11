@@ -1,0 +1,38 @@
+%main.page-content
+  %section.bg-light.section-lg
+    %ol.breadcrumb
+      %li
+        =link_to 'Главная', root_path
+      %li.active Оплата заказа
+  .section
+    =form_for @order do |f|
+      =hidden_field_tag "order_id", @order.id
+      =hidden_field_tag "order_price", @order.order_price
+      =f.hidden_field :payed_online, value: false
+      .container
+        .row
+          .col-xs-12.col-md-8.col-md-offset-2
+            %section.section-inset-1
+              %h1.zero-letter-spacing Оплата заказа
+              %p.text-sm-left.offset-7
+                ="Итоговая сумма заказа - #{@order.order_price} рублей"
+              .row
+                .col-md-6
+                  %h4.zero-letter-spacing.text-left.margin-top-30 Тип оплаты
+                  .margin-top-15
+                  .col-md-6.no-left-padding-margin.text-left
+                    .radio-wrapper
+                      .uzhin_rb_menus
+                        =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
+                        %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
+                  .col-md-6.no-right-padding-margin.text-right
+                    .radio-wrapper
+                      .uzhin_rb_menus
+                        =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online"
+                        %label{id: "card_online", :for => "card_online"} Картой онлайн
+              .row
+                .col-md-6.text-center
+                  #payment_status
+              .row
+                .col-md-6.text-center
+                  =f.submit "Завершить заказ", class: "btn btn-success-mod-uzhindoma margin-bottom-60"

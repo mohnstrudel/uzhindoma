@@ -1,0 +1,35 @@
+-@promocode.errors.full_messages.each do |message|
+  =content_tag(:div, message, class: "alert alert-danger")
+
+=form_for [:admin, @promocode] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Добавить новое кол-во ужинов
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание кол-ва ужинов
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "name1"}
+                =number_field_tag :amount, "", class: "event-name gui-input br-light light", placeholder: 'Сколько промокодов создать?'
+                %label.field-icon{:for => "name1"}
+                  %i.fa.fa-tag
+          
+
+          / end section
+        / end section row section
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+              %label.field.option.mt10
+                %input{:checked => "", :name => "info", :type => "checkbox"}
+                  %span.checkbox>
+                  Save Customer
+                  %em.small-text.text-muted - A Random Unique ID will be generated
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section

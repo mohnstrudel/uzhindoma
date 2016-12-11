@@ -1,6 +1,6 @@
 class Front::OrdersController < FrontController
 
-	before_action :find_order, only: [:show]
+	before_action :find_order, only: [:show, :edit, :update]
 	before_action :find_bitrix, only: [:index, :init, :create_new_lead, :create_new_order, :check_token, :action_upon_order_creation]
 	before_action :get_tokens, only: [:index, :init, :create_new_lead, :create_new_order, :check_token, :action_upon_order_creation]
 
@@ -39,16 +39,64 @@ class Front::OrdersController < FrontController
 		logger.debug "Calling create method with following params: #{params}"
 		# Here happens some Bitrix magic (see methods below)
 
-		create_user_if_not_exists_yet(params)
+		user_id = create_user_if_not_exists_yet(params)
 		
 		action_upon_order_creation(@order)
 
+		# Меняем стоимость набора с учетом скидки, если такая есть		
+		
+		if apply_promocode(@order[:pcode])
+			logger.debug "Applying promocode discount for #{@order[:pcode]}"
+			@order[:order_price] += find_product("Скидка")[1].to_i
+
+			p_code = find_promocode(@order[:pcode])
+			logger.debug "Found p_code: #{p_code.id}"
+			@order[:promocode_id] = p_code.id
+			p_code_model = Promocode.find(p_code.id)
+			logger.debug "Found p_code model: #{p_code_model.id}, trying to update with #{@order[:id]}"
+			if p_code_model.update(order_id: @order[:id])
+				logger.debug "Promocode updated with proper order id"
+			end
+		end
+
+		@order[:user_id] = user_id
+
 		if @order.save
+			if apply_promocode(@order[:pcode])
+				logger.debug "Applying promocode discount for #{@order[:pcode]}"
+				@order[:order_price] += find_product("Скидка")[1].to_i
+
+				p_code = find_promocode(@order[:pcode])
+				logger.debug "Found p_code: #{p_code.id}"
+				@order[:promocode_id] = p_code.id
+				p_code_model = Promocode.find(p_code.id)
+				logger.debug "Found p_code model: #{p_code_model.id}, trying to update with #{@order.id}"
+				if p_code_model.update(order_id: @order.id)
+					logger.debug "Promocode updated with proper order id"
+				end
+			end
 			respond_to do |format|
-				format.html { redirect_to @order}
+				format.html { redirect_to edit_order_path(@order) }
+			end
+		else
+			render "new"
+		end
+	end
+
+	def show
+	end
+
+	def edit
+	end
+
+	def update
+
+		if @order.update(order_params)
+			respond_to do |format|
+				format.html { redirect_to order_path(@order) }
 			end
 
-			unless params[:order][:order_type] == "fast"
+			unless params[:order_type] == "fast"
 				OrderNotifier.received(@order).deliver_now
 			end
 			OrderNotifier.notifyShop(@order).deliver_now
@@ -57,7 +105,7 @@ class Front::OrdersController < FrontController
 		end
 	end
 
-	def show
+	def confirm
 	end
 
 	private
@@ -81,12 +129,25 @@ class Front::OrdersController < FrontController
 			additional_address = params[:order][:additional_address]
 			password = User.generate_password_code
 		
-			User.create(phone: phone, password: password, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
+			user = User.create(phone: phone, password: password, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
 			logger.info "After creating order a complete new user #{first_name} with phone: #{phone} was created."
 			message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
 			
 			helpers.send_sms(phone, message)
+
+			return user.id
 		end
+	end
+
+	def find_promocode(code)
+		Promocode.not_used_yet.where(value: code)[0]
+	end
+
+	def apply_promocode(code)
+		# Проверяем по базе, есть ли такой промокод и не был ли он уже использован
+		promocode_valid = !Promocode.not_used_yet.where(value: code)[0].blank?
+		logger.debug "Requested promocode: #{code} is #{promocode_valid}"
+		return promocode_valid
 	end
 
 	def action_upon_order_creation(order)
@@ -126,10 +187,10 @@ class Front::OrdersController < FrontController
 
 	def order_params
 		params.require(:order).permit(:first_name, :second_name, :street, :phone, :email,
-			:delivery_region, :city, :additional_address,
+			:delivery_region, :city, :additional_address, :pcode,
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
-			:order_type, :menu_type, :order_price, :delivery_timeframe)
+			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id)
 	end
 
 	def find_order
@@ -188,16 +249,22 @@ class Front::OrdersController < FrontController
 		lead_id = response["result"]
 
 		found_product = find_product_for_order(order)
+
+		# Если промокод указан верно, то discount будет true
+		discount = apply_promocode(order[:promocode])
 		
-		answer = format_id_and_prices(found_product, order[:add_dessert])
+		answer = format_id_and_prices(found_product, order[:add_dessert], discount)
 		product_id = answer[0]
 		product_price = answer[1]
 		dessert_id = answer[2]
 		dessert_price = answer[3]
+		# Скидка
+		discount_id = answer[4]
+		discount_price = answer[5]
 
 
 		# Добавляем все товары из Битрикса в битриксовый лид
-		add_products_to_order("lead", lead_id, product_id, product_price, dessert_id, dessert_price)
+		add_products_to_order("lead", lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
 		# @response = JSON.parse(doc)
 	end
 
@@ -239,40 +306,58 @@ class Front::OrdersController < FrontController
 		deal_id = response["result"]
 
 		found_product = find_product_for_order(order)
+
+
+		# Если промокод указан верно, то discount будет true
+		logger.debug "Creating deal with promocode: #{order[:promocode]}"
+		discount = apply_promocode(order[:promocode])
 		
-		answer = format_id_and_prices(found_product, order[:add_dessert])
+		answer = format_id_and_prices(found_product, order[:add_dessert], discount)
 		product_id = answer[0]
 		product_price = answer[1]
 		dessert_id = answer[2]
 		dessert_price = answer[3]
+		# Скидка
+		discount_id = answer[4]
+		discount_price = answer[5]
 
 		# Добавляем все товары из Битрикса в битриксовую сделку
-		add_products_to_order("deal", deal_id, product_id, product_price, dessert_id, dessert_price)
+		add_products_to_order("deal", deal_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
 
 	end
 
-	def format_id_and_prices(found_product, dessert)
+	def format_id_and_prices(found_product, dessert, discount)
 		
 		# Добавить десерт, если в заказе выбрано
 		dessert_id = nil
 		dessert_price = nil
 
+		# Дефолтные nil-значения для скидки
+		discount_id = nil
+		discount_price = nil
+
 		if dessert
 			dessert_name = Menu.current_dessert[0].recipes[0][:name]
-			found_dessert = find_dessert(dessert_name)
+			found_dessert = find_product("Десерт")
 			dessert_id = found_dessert[0]
 			dessert_price = found_dessert[1]
+		end
+
+		if discount
+			found_discount = find_product("Скидка")
+			discount_id = found_discount[0]
+			discount_price = found_discount[1]
 		end
 		product_id = found_product[0]
 		product_price = found_product[1]
 
-		return product_id, product_price, dessert_id, dessert_price
+		return product_id, product_price, dessert_id, dessert_price, discount_id, discount_price
 	end
 
-	def find_dessert(name)
+	def find_product(name)
 		bitrix = Bitrix.first
 		# Меняем с вариабельного имени на "Десерт", потому что ребята всегда добавляют один и тот же битриксовый товар.
-		name = URI.escape("Десерт")
+		name = URI.escape(name)
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name}"
 		doc = Nokogiri::HTML(open(url))
 		response = JSON.parse(doc)
@@ -317,14 +402,20 @@ class Front::OrdersController < FrontController
 		return product_id, product_price
 	end
 
-	def add_products_to_order(order_type, deal_id, product_id, product_price, dessert_id, dessert_price)
+	def add_products_to_order(order_type, deal_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
 		bitrix = Bitrix.first
 		fields_string = "&id=#{deal_id}&&rows[0][PRODUCT_ID]=#{product_id}&rows[0][PRICE]=#{product_price}&rows[0][QUANTITY]=1"
 		dessert_string = ""
+		discount_string = ""
 		if dessert_id
 			dessert_string = "&rows[1][PRODUCT_ID]=#{dessert_id}&rows[1][PRICE]=#{dessert_price}&rows[1][QUANTITY]=1"
+			if discount_id
+				discount_string = "&rows[2][PRODUCT_ID]=#{discount_id}&rows[2][PRICE]=#{discount_price}&rows[2][QUANTITY]=1"
+			end
+		elsif !dessert_id && discount_id
+			discount_string = "&rows[1][PRODUCT_ID]=#{discount_id}&rows[1][PRICE]=#{discount_price}&rows[1][QUANTITY]=1"
 		end
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}"
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}#{discount_string}"
 
 		doc = Nokogiri::HTML(open(url))
 	end

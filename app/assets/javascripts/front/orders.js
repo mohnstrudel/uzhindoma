@@ -9,17 +9,30 @@ $(document).ready(function(){
         $('#city_input').hide(350);
     });
 
+    // $('#promocode').keyup(function(e){
+    //     var element = $('#promocode').val();
+    //     // var event = e;
+    //     $.ajax({
+    //         type: "GET",
+    //         contentType: "application/json; charset=utf-8",
+    //         url: "/promocodes/"
+    //     });
+    //     // console.log("Element - " + element + " triggerd with event: " + String.fromCharCode(event.keyCode));
+    // });
+
 });
 
 this.pay = function () {
     var widget = new cp.CloudPayments();
     var email = $("#email").val();
+    var order_id = $("#order_id").val();
+    var amount = parseFloat($("#order_price").val());
     widget.charge({ // options
             publicId: 'pk_35b1b441a2f142c5317bdf2810e16',  //id из личного кабинета
-            description: 'С вас спишется сумма заказа', //назначение
-            amount: 10, //сумма
+            description: 'Оплата заказа', //назначение
+            amount: amount, //сумма
             currency: 'RUB', //валюта
-            invoiceId: '1234567', //номер заказа  (необязательно)
+            invoiceId: order_id, //номер заказа  (необязательно)
             accountId: email, //идентификатор плательщика (необязательно)
             data: {
                 myProp: 'myProp value' //произвольный набор параметров

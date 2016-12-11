@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     resources :igrams
     resources :personamounts
     resources :days
+    resources :promocodes
   end
 
 
