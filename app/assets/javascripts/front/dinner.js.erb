@@ -5,7 +5,9 @@
 
 
 
-$(document).ready(function(){
+$('dinner').ready(function(){
+
+	$("#standard_order_phone").mask("+7 (999) 999-9999");
 
 	$("#standard_order_phone").on('mousedown', function(){
 		$("#standard_order_phone").removeClass('wrong-phone-number');

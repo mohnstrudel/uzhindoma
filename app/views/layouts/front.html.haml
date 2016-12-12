@@ -9,7 +9,7 @@
   = javascript_include_tag "https://widget.cloudpayments.ru/bundles/cloudpayments"
   = csrf_meta_tags
 
-%body
+%body{class: "#{controller_name} #{action_name}"}
   .page.text-center
     -if request.fullpath == '/'
       %header.page-head.undefined

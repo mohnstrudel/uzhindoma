@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$('session.new').ready(function(){
 	console.log("Users.js loaded!");
 	if ($('.alert-danger').length) {
 		// $("#signin_password").removeClass('hidden');

@@ -5,16 +5,12 @@
 
 // For page "Uznat Bolshe"
 
-$(document).ready(function(){
+$('.static_pages').ready(function(){
 
-  console.log("loaded!");
+
+
+console.log("Static pages loaded!");
   
-  // var image = $('.bg-uzhindoma');
-  // image.css('background-image', "url(<%= image_url('backgrounds/how_it_works_hd.jpg') %>)");
-  // bg = image.css('background-image');
-
-  // $downloadingImage.attr("src", "<%= image_url('backgrounds/uznat_bolshe_hd.jpg') %>");
-});
 
 // Init OWL Carousel here
   var carousel_0 = $("#owl-demo-0");
@@ -95,7 +91,7 @@ $(document).ready(function(){
 // Init End
 
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1YWZiZGFiZDk1Zjk5NGUifQ.ueMMb8kMdWxrP5N4iqx67Q';
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1YWZiZGFiZDk1Zjk5NGUifQ.ueMMb8kMdWxrP5N4iqx67Q';
   var map = new mapboxgl.Map({
       container: 'mapcontainer',
       style: 'mapbox://styles/schnibba/ciw9f6qp500542qmkzdjjqd8o',
@@ -108,7 +104,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1Y
   var nav = new mapboxgl.NavigationControl();
 
 
-map.on('load', function () {
+  map.on('load', function () {
   // Add zoom and rotation controls to the map.
 
   map.addControl(nav, 'top-left');
@@ -193,3 +189,4 @@ map.on('load', function () {
     });
   });
 
+});
