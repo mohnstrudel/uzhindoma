@@ -14,6 +14,7 @@ $(document).ready(function(){
 	// console.log("Flash alert exists!");
 	} 
 		else if ($('.alert-success').length) {
+			console.log("Alert success detected. Hiding phone and showing password");
 			$("#signin_phone").addClass('hidden');
 			$('#reset_btn').val('Повторить можно через 60 секунд').fadeIn( 400 );
 			setTimeout( function() 
