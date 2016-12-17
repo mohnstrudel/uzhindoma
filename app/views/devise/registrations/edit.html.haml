@@ -2,8 +2,8 @@
 	.container
 		.responsive-tabs.horizontal-tabs.offset-5
 			%ul.resp-tabs-list
-				%li.btn.btn-success-mod-1 Профиль
-				%li.btn.btn-success-mod-1 Заказы 
+				%li.btn.btn-success-mod-uzhindoma Профиль
+				%li.btn.btn-success-mod-uzhindoma Заказы 
 			.resp-tabs-container
 				.text-sm-left.fadeIn.animated
 					.row
@@ -11,7 +11,7 @@
 							%section
 								=form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "", method: :put }) do |f|		
 									=devise_error_messages!
-									%h4.zero-letter-spacing Ваши данные
+									%h6.zero-letter-spacing Ваши данные
 									.row
 										.col-xs-12.col-sm-6
 											=f.text_field :first_name, placeholder: "Ваше имя", class: "uzhindoma-universal-input"
@@ -26,19 +26,19 @@
 											.info 
 												Currently waiting confirmation for: <%= resource.unconfirmed_email
 
-									%h4.zero-letter-spacing.margin-top-30 Адрес доставки
+									%h6.zero-letter-spacing.margin-top-30 Адрес доставки
 									.row
 										.col-xs-12.col-sm-6
-											.col-md-6
+											#delivery-container
 												.radio-wrapper
 													.uzhin_rb_menus
 														=f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_4"
 														%label{id: "delivery_region_4", :for => "delivery_region_4"} Москва
-											.col-md-6
 												.radio-wrapper
 													.uzhin_rb_menus
 														=f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_5"
-														%label{id: "delivery_region_5", :for => "delivery_region_5"} Московская область
+														%label{id: "delivery_region_5", :for => "delivery_region_5"} Московская 
+												%span.stretch
 										.col-xs-12.col-sm-6
 											=f.text_field :city, placeholder: "Город", class: "uzhindoma-universal-input"
 									.row
@@ -52,7 +52,7 @@
 										.col-xs-12.col-sm-6
 											=f.text_field :flat_number, placeholder: "Номер квартиры", class: "uzhindoma-universal-input"		
 
-									%h4.zero-letter-spacing.margin-top-30 Поменять пароль
+									%h6.zero-letter-spacing.margin-top-30 Поменять пароль
 									.row
 										.col-xs-12.col-sm-6
 											=f.password_field :password, placeholder: "Новый пароль", data: { constraints: "@Password" }, class: "uzhindoma-universal-input", autocomplete: "off" 
@@ -61,7 +61,7 @@
 									%section.section-inset-3.margin-top-30
 										.col-xs-12.text-center
 											=button_tag 'Сохранить данные', class: 'btn btn-sm btn-min-width btn-success-mod-uzhindoma-dark'
-					.row
+					.row.text-center.margin-top-30
 						=link_to 'Выйти', destroy_user_session_path, method: :delete, class: 'text-success'
 				.text-sm-left.fadeIn.animated
 					.row

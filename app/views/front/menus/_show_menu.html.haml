@@ -9,7 +9,7 @@
 			%ul{:role => "tablist"}
 				-@current_menus.each_with_index do |current_menu, index|
 					%li{role: "presentation", class: "uzhindoma_tabs"}
-						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "btn btn-success-mod-uzhindoma", id: "dinner-tab-#{index}"
+						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "", id: "dinner-tab-#{index}"
 		.col-md-2
 	.uzhindoma-hr
 	
@@ -57,27 +57,28 @@
 												%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
 												%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
 							.row
-								.col-md-4.col-md-offset-4
-									%span.h6.zero-letter-spacing
-										="ДОСТАВКА: #{current_menu.daterange.split("-")[1]}"
-								
-								.col-md-4
-									.text-center
-										.price-container
-											%span.h6.zero-letter-spacing СУММА К ОПЛАТЕ:
-											=content_tag(:span, id: "uzhin_price_#{index}", class: "h6") do
-												=render 'front/menus/show_price'
-											%span.h6.zero-letter-spacing РУБ.
-											/ %i.fa-rub
-							.row
-								.col-md-6.col-md-offset-3.text-right
-									-unless user_signed_in?
-										Ваш номер телефона:
-										=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", class: "menu-phone-input"
-								.col-md-3.text-left.padding-left-0
-									=button_tag(type: "submit", class: "btn btn-small btn-success-mod-uzhindoma", id: "create_new_order") do
-										%span.icon.icon-xs.fa-shopping-cart
-										Заказать набор
+								.col-md-6.col-xs-12.padding-top-10
+									.col-md-6
+										%span.h6.zero-letter-spacing
+											="ДОСТАВКА: #{current_menu.daterange.split("-")[1]}"
+									
+									.col-md-6
+										.text-center
+											.price-container
+												%span.h6.zero-letter-spacing СУММА К ОПЛАТЕ:
+												=content_tag(:span, id: "uzhin_price_#{index}", class: "h6") do
+													=render 'front/menus/show_price'
+												%span.h6.zero-letter-spacing РУБ.
+												/ %i.fa-rub
+								.col-md-6.col-xs-12
+									.col-md-7.text-right
+										-unless user_signed_in?
+											Ваш номер телефона:
+											=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", class: "menu-phone-input"
+									.col-md-5.text-left
+										=button_tag(type: "submit", class: "btn btn-xs-small btn-success-mod-uzhindoma", id: "create_new_order") do
+											%span.icon.icon-xs.fa-shopping-cart
+											Заказать набор
 
 				.uzhindoma-hr.margin-top-30
 				

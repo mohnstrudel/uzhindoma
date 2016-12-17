@@ -32,7 +32,7 @@
 
 %section.section.section-inset-1
 	.container
-		%h1.text-center.zero-letter-spacing Зачем вам ужин дома
+		%h2.text-center.zero-letter-spacing Зачем вам ужин дома
 		.row.margin-top-30
 			.col-md-12.col-xs-12
 				.row
@@ -134,7 +134,7 @@
 							Кулинарный эксперимент
 						%p
 							Пробуйте новые блюда и интересные сочетания каждый день
-			.row
+			.row.margin-bottom-60
 				.col-md-6
 					.col-md-4
 						=image_tag "uznat_bolshe/delivery.png"
@@ -151,15 +151,12 @@
 							Мы всегда рядом!
 						%p
 							С первого заказа у вас будет персональные кулинарный помощник в WhatsApp
-.uzhindoma-hr
+			.row
+				.text-center
+					=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-uzhindoma"
 
-%section.section
-	.container
-		.text-center
-			=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-uzhindoma"
-
-			%h4.zero-letter-spacing.padding-top-35
-				С нами вас всегда ждет вкусный ужин дома!
+					%h4.zero-letter-spacing.padding-top-35
+						С нами вас всегда ждет вкусный ужин дома!
 
 .uzhindoma-hr
 

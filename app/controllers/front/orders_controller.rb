@@ -8,7 +8,7 @@ class Front::OrdersController < FrontController
 	def new
 		# Перенаправляем пользователя на форму логина, если он уже есть в системе, но не авторизован
 		if !User.where(phone: params[:phone]).blank? && !user_signed_in?
-			redirect_to new_user_session_path
+			redirect_to new_user_session_path(phone: params[:phone])
 			flash[:info] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
 			# перенаправление end
 		else
@@ -212,22 +212,29 @@ class Front::OrdersController < FrontController
 			# payment_fields = "&fields[UF_CRM_1467563310]=#{price}&fields[UF_CRM_1459692590]=#{price}"
 		end
 
+		# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+		if order[:delivery_region] == "Москва"
+			city = order[:delivery_region]
+		else
+			city = "#{order[:delivery_region]}, #{order[:city]}"
+		end
+
 		# Получаем поля адреса из параметров
-		address = URI.escape("#{order[:delivery_region]}, город #{order[:city]}, улица #{order[:street]}, дом #{order[:house_number]}, квартира #{order[:flat_number]}")
+		address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
 		# Добавляем адрес в соответсвующие поля лида в Битриксе
 		address_fields = "&fields[UF_CRM_1454918385]=#{address}&fields[UF_CRM_1454922125]=#{address}"
 		
 		# Получаем допник для адреса
 		add_address_fields = ""
 		unless order[:additional_address].blank?
-			add_address = URI.escape("#{order[:additional_address]}")
+			add_address = URI.escape("#{order[:flat_number]}")
 			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]=#{add_address}"
 		end
 		# auth=КЛЮЧ&fields[TITLE]=test&fields[NAME]=ИМЯ
 		bitrix = Bitrix.first
 		title = Date.today.strftime("%d.%m.%y")
 		# encoded_name = URI.escape(name)
-		commentary = URI.escape("Тип набора: #{menu_type}, Комментарий клиента: #{comment}, Интервал доставки: #{delivery}. #{payment_string}")
+		commentary = URI.escape("Тип набора: #{menu_type}, Комментарий клиента: #{order[:additional_address]}, Интервал доставки: #{delivery}. #{payment_string}")
 		encoded_address = URI.escape(address)
 		price = order[:order_price]
 
