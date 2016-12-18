@@ -26,7 +26,7 @@ class Front::Users::SessionsController < Devise::SessionsController
         encoded_message = URI.escape("Ваш новый пароль - #{password}.")
         logger.debug("New password for user #{phone} - #{password}")
         
-        # helpers.send_sms(encoded_phone, encoded_message)
+        helpers.send_sms(encoded_phone, encoded_message)
 
         flash[:success] = "Пароль успешно выслан."
         redirect_to new_user_session_path(phone: phone, menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
