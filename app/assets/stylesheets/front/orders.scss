@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.payment-button-padding {
+    padding-left: 31px;
+    padding-right: 31px;
+}
+
 #delivery-container {
 	width: 100%;
     margin-left: auto; 

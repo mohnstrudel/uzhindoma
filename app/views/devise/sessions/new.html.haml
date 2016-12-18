@@ -25,6 +25,10 @@
 						.row.offset-5
 							.col-xs-12
 								=f.submit 'Вход', class: 'btn btn-sm btn-min-width btn-success-mod-1'
+				=f.hidden_field :menu_id, value: params[:menu_id]
+				=f.hidden_field :person_amount, value: params[:person_amount]
+				=f.hidden_field :menu_amount, value: params[:menu_amount]
+				=f.hidden_field :add_dessert, value: params[:add_dessert]
 		/ %section.section-inset-3
 		/ 	.row.ud_mt_4em
 		/ 		%h6.zero-letter-spacing Нет аккаунта?

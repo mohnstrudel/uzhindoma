@@ -11,6 +11,12 @@
             %h5.zero-letter-spacing.text-left.margin-top-30
               ="Здравствуйте, #{@cu.first_name}"
             %h5.zero-letter-spacing.text-left.margin-top-30
+              Опции заказа
+            .row
+              %ul
+                %li
+                  =params[:person_amount]
+            %h5.zero-letter-spacing.text-left.margin-top-30
               Куда доставляем заказ?
             .row
               .col-md-8
@@ -58,14 +64,24 @@
               =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_0])
             -elsif params[:person_amount_1]
               =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_1])
+            -else
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount])
             
             -if params[:menu_amount_0]
               =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_0]))
             -elsif params[:menu_amount_1]
               =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_1]))
+            -else
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount]))
             / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
 
-            =f.hidden_field :add_dessert, value: params[:add_dessert_0]
+            
+            -if params[:add_dessert_0]
+              =f.hidden_field :add_dessert, value: params[:add_dessert_0]
+            -elsif params[:add_dessert_1]
+              =f.hidden_field :add_dessert, value: params[:add_dessert_1]
+            -else
+              =f.hidden_field :add_dessert, value: params[:add_dessert]
             =f.hidden_field :change, value: params[:change]
             
             .row.margin-top-30
@@ -145,12 +161,7 @@
                   %label.h5.zero-letter-spacing.text-left{:for => "flat_number"} Квартира, Подъезд, Этаж
                   .uzhindoma-input
                     =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number", required: ""
-            .row
-              .col-md-6
-                .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "street"} Дополнительно к адресу
-                  .uzhindoma-input
-                    =f.text_field :additional_address, data: { constraints: "@NotEmpty"}, id: "street", placeholder: "Подъезд, корпус, этаж, домофон, секретное слово для консьержа"
+
             .row
               .col-md-6
                 %label.h5.zero-letter-spacing.text-left{:for => "delivery_timeframe"}  Интервал доставки

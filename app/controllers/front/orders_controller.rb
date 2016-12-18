@@ -8,7 +8,14 @@ class Front::OrdersController < FrontController
 	def new
 		# Перенаправляем пользователя на форму логина, если он уже есть в системе, но не авторизован
 		if !User.where(phone: params[:phone]).blank? && !user_signed_in?
-			redirect_to new_user_session_path(phone: params[:phone])
+			# Пробрасываем в новую сессию значения заказа, потому что нам надо будет вернуться потом на страницу нового
+			# заказа с этими же значениями
+			# Так как у нас параметры с разными названиями приходят, нужно их обработать (как на странице orders#new)
+			# Обычно меню только два, но проверяем на всякий случай три меню (с запасом)
+			person_amount = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2]
+			menu_amount = params[:menu_amount_0] || params[:menu_amount_1] || params[:menu_amount_2]
+			add_dessert = params[:add_dessert_0] || params[:add_dessert_1] || params[:add_dessert_2]
+			redirect_to new_user_session_path(phone: params[:phone], menu_id: params[:menu_id], person_amount: person_amount, menu_amount: menu_amount, add_dessert: add_dessert)
 			flash[:info] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
 			# перенаправление end
 		else
@@ -206,6 +213,8 @@ class Front::OrdersController < FrontController
 		email = order[:email] || ""
 		payment_fields = ""
 		payment_string = ""
+
+		type_id = "Сайт"
 		if order[:payed_online]
 			payment_string = "Оплата была успешно совершена по карте!"
 			# Пока комментируем, так как нет полей под оплату онлайн в лиде
@@ -234,14 +243,14 @@ class Front::OrdersController < FrontController
 		bitrix = Bitrix.first
 		title = Date.today.strftime("%d.%m.%y")
 		# encoded_name = URI.escape(name)
-		commentary = URI.escape("Тип набора: #{menu_type}, Комментарий клиента: #{order[:additional_address]}, Интервал доставки: #{delivery}. #{payment_string}")
+		commentary = URI.escape("#{order[:comment]}. #{payment_string}")
 		encoded_address = URI.escape(address)
 		price = order[:order_price]
 
 
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title} and menu type - #{menu_type}"
-		fields_string = "fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[COMMENTS]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}"
+		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		
@@ -286,6 +295,9 @@ class Front::OrdersController < FrontController
 		title = Date.today.strftime("%d.%m.%y")
 		stage_id = "NEW"
 
+		# Ставим тип продаж = сайт
+		type_id = "Сайт"
+
 		# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
 		if order[:payed_online]
 			payment_fields = "&fields[UF_CRM_1467563310]=#{opportunity}&fields[UF_CRM_1459692590]=#{opportunity}"
@@ -303,7 +315,7 @@ class Front::OrdersController < FrontController
 		add_address = URI.escape("#{order[:additional_address]}")
 		add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
 
-		fields_string = "fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[COMMENTS]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_56B8878D5D5CC]=#{address}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
+		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_56B8878D5D5CC]=#{address}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
@@ -388,6 +400,7 @@ class Front::OrdersController < FrontController
 		bitrix = Bitrix.first
 
 		logger.debug "\n"
+		logger.debug order
 		logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}"
 		logger.debug "\n"
 

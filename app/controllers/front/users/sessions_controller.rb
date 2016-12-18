@@ -26,13 +26,13 @@ class Front::Users::SessionsController < Devise::SessionsController
         encoded_message = URI.escape("Ваш новый пароль - #{password}.")
         logger.debug("New password for user #{phone} - #{password}")
         
-        helpers.send_sms(encoded_phone, encoded_message)
+        # helpers.send_sms(encoded_phone, encoded_message)
 
         flash[:success] = "Пароль успешно выслан."
-        redirect_to new_user_session_path(phone: phone)
+        redirect_to new_user_session_path(phone: phone, menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
       else
         flash[:danger] = "Телефон введен не верно"
-        redirect_to new_user_session_path
+        redirect_to new_user_session_path(menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
       end
     else
       super
@@ -41,6 +41,7 @@ class Front::Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   # def create
+    
   #   super
   # end
 
@@ -55,4 +56,8 @@ class Front::Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+
+  def after_sign_in_path_for(resource)
+    new_order_path(menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
+  end
 end

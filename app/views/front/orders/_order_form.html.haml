@@ -19,7 +19,7 @@
 					.col-xs-12.col-sm-6
 						=f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@Phone" }
 					.col-xs-12.col-sm-6
-						=f.text_field :name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
+						=f.text_field :first_name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
 			=f.submit('Заказать набор', class: "btn btn-success btn-sm")
 
 -else
@@ -42,5 +42,5 @@
 					.col-xs-12.col-sm-6
 						=f.text_field :phone, placeholder: "Ваш номер телефона", data: { constraints: "@NotEmpty" }
 					.col-xs-12.col-sm-6
-						=f.text_field :name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
+						=f.text_field :first_name, placeholder: "Как вас зовут?", data: { constraints: "@NotEmpty" }
 			=f.submit('Заказать набор', class: "btn btn-success btn-sm")

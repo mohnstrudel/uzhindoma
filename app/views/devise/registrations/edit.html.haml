@@ -29,16 +29,14 @@
 									%h6.zero-letter-spacing.margin-top-30 Адрес доставки
 									.row
 										.col-xs-12.col-sm-6
-											#delivery-container
-												.radio-wrapper
-													.uzhin_rb_menus
-														=f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_4"
-														%label{id: "delivery_region_4", :for => "delivery_region_4"} Москва
-												.radio-wrapper
-													.uzhin_rb_menus
-														=f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_5"
-														%label{id: "delivery_region_5", :for => "delivery_region_5"} Московская 
-												%span.stretch
+											.radio-wrapper
+												.uzhin_rb_menus
+													=f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_4"
+													%label{id: "delivery_region_4", :for => "delivery_region_4"} Москва
+											.radio-wrapper
+												.uzhin_rb_menus
+													=f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_5"
+													%label{id: "delivery_region_5", :for => "delivery_region_5"} Московская область
 										.col-xs-12.col-sm-6
 											=f.text_field :city, placeholder: "Город", class: "uzhindoma-universal-input"
 									.row

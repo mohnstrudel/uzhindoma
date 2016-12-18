@@ -38,7 +38,7 @@ class Menu < ActiveRecord::Base
   def calculate_price(menu, params)
     price = menu.price
 
-    menu_amount = params[:menu_amount_0] || params[:menu_amount_1] || params[:menu_amount_2]
+    menu_amount = params[:menu_amount_0] || params[:menu_amount_1] || params[:menu_amount_2] || params[:menu_amount]
     # Мы получаем вот такой массив в виде стринга
     # "[150, 20000]", соответсвенно нужно сплитунть на запятой и убрать пробел + скобку
     # (цена всегда на втором месте стоит)
@@ -46,12 +46,12 @@ class Menu < ActiveRecord::Base
 
     price += menu_price_change.to_f
 
-    person_amount = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2]
+    person_amount = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2] || params[:person_amount]
     person_price_change = person_amount.split(",")[1].gsub(" ","").gsub("]",'')
 
     price += person_price_change.to_f
 
-    dessert_price = params[:add_dessert_0] || params[:add_dessert_1] || params[:add_dessert_2]
+    dessert_price = params[:add_dessert_0] || params[:add_dessert_1] || params[:add_dessert_2] || params[:add_dessert]
 
     price += dessert_price.to_f
 
