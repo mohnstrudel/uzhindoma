@@ -214,7 +214,9 @@ class Front::OrdersController < FrontController
 		payment_fields = ""
 		payment_string = ""
 
-		type_id = "Сайт"
+		# Ставим тип продаж = сайт
+		type_id = URI.escape("Сайт")
+
 		if order[:payed_online]
 			payment_string = "Оплата была успешно совершена по карте!"
 			# Пока комментируем, так как нет полей под оплату онлайн в лиде
@@ -296,7 +298,7 @@ class Front::OrdersController < FrontController
 		stage_id = "NEW"
 
 		# Ставим тип продаж = сайт
-		type_id = "Сайт"
+		type_id = URI.escape("Сайт")
 
 		# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
 		if order[:payed_online]
