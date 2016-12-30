@@ -8,22 +8,20 @@
         %section
           %h3.zero-letter-spacing Оформление заказа
           .col-xs-12.col-md-10.col-md-offset-1
-            %h5.zero-letter-spacing.text-left.margin-top-30
+            %h5.zero-letter-spacing.text-left.margin-top-30.extra-small
               ="Здравствуйте, #{@cu.first_name}"
-            %h5.zero-letter-spacing.text-left.margin-top-30
-              Опции заказа
             .row
               %ul
                 %li
                   =params[:person_amount]
-            %h5.zero-letter-spacing.text-left.margin-top-30
+            %h5.zero-letter-spacing.text-left.margin-top-30.extra-small
               Куда доставляем заказ?
             .row
-              .col-md-8
+              .col-md-5
                 =f.text_field :address, placeholder: "Текущий адрес", class: "uzhindoma-universal-input"
             .row
-              .col-md-8
-                %h5.zero-letter-spacing.margin-top-30.text-left Интервал доставки
+              .col-md-5
+                %h5.zero-letter-spacing.margin-top-30.text-left.extra-small Интервал доставки
                 .row
                 #delivery-container
                   .radio-wrapper
@@ -44,10 +42,9 @@
                       %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 20:00 - 23:00
                   %span.stretch
             .row
-              .col-md-8
-                .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "area"} Комментарии к заказу
-                  =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+              .col-md-5
+                %label.h5.zero-letter-spacing.text-left.extra-small{:for => "area"} Комментарии к заказу
+                =f.text_area :comment, id: "area", cols: "50", rows: 3, placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
 
             / Some hidden fields to set up order values
             =f.hidden_field :menu_id, value: @menu.id
@@ -99,31 +96,31 @@
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "first_name"} Имя
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "first_name"} Имя
                   .uzhindoma-input
                     =f.text_field :first_name, data: { constraints: "@NotEmpty"}, id: "first_name", required: ""
 
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "second_name"} Фамилия
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "second_name"} Фамилия
                   .uzhindoma-input
                     =f.text_field :second_name, data: { constraints: "@NotEmpty"}, id: "second_name", required: ""
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "email"} E-mail
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "email"} E-mail
                   .uzhindoma-input
                     =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email", required: ""
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "standard_order_phone"} Телефон
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "standard_order_phone"} Телефон
                   .uzhindoma-input
                     =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", value: params[:phone]
             .row
               .col-md-4
-                %h5.zero-letter-spacing.text-left.margin-top-30{:for => "standard_order_phone"} Москва или область?
+                %h5.zero-letter-spacing.text-left.margin-top-30.extra-small{:for => "standard_order_phone"} Москва или область?
                 .margin-top-15
                 .col-md-6.no-left-padding-margin.text-left
                   .radio-wrapper
@@ -139,32 +136,39 @@
               .row
                 .col-md-6
                   .text-wrapper
-                    %label.h5.zero-letter-spacing.text-left{:for => "street"} Город
+                    %label.h5.zero-letter-spacing.text-left.extra-small{:for => "street"} Город
                     .uzhindoma-input
                       =f.text_field :city, data: { constraints: "@NotEmpty"}, id: "street", value: ""
 
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "street"} Улица
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "street"} Улица
                   .uzhindoma-input
                     =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street", required: ""
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "house_number"} Дом
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "house_number"} Дом
                   .uzhindoma-input
                     =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number", required: ""
             .row  
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "flat_number"} Квартира, Подъезд, Этаж
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "flat_number"} Квартира
                   .uzhindoma-input
                     =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number", required: ""
 
+            .row  
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "flat_number"} Подъезд, Этаж, Код домофона
+                  .uzhindoma-input
+                    =f.text_field :additional_address, data: { constraints: "@NotEmpty"}, id: "flat_number", required: ""
+
             .row
               .col-md-6
-                %label.h5.zero-letter-spacing.text-left{:for => "delivery_timeframe"}  Интервал доставки
+                %label.h5.zero-letter-spacing.text-left.extra-small{:for => "delivery_timeframe"}  Интервал доставки
                 #delivery-container
                   .radio-wrapper
                     .uzhin_rb_menus
@@ -187,13 +191,13 @@
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left.margin-top-30{:for => "area"} Комментарии к заказу
+                  %label.h5.zero-letter-spacing.text-left.margin-top-30.extra-small{:for => "area"} Комментарии к заказу
                   =f.text_area :comment, id: "area", cols: "50", rows: 5, placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
 
             .row
               .col-md-6
                 .text-wrapper
-                  %label.h5.zero-letter-spacing.text-left{:for => "street"} Промокод
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "street"} Промокод
                   .uzhindoma-input
                     =f.text_field :pcode, id: "promocode", placeholder: "Промокод (уточнаяйте у мендежера) на скидку 500 рублей."
 

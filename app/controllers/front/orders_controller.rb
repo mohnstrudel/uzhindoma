@@ -237,10 +237,17 @@ class Front::OrdersController < FrontController
 		
 		# Получаем допник для адреса
 		add_address_fields = ""
-		unless order[:additional_address].blank?
+		unless order[:flat_number].blank?
 			add_address = URI.escape("#{order[:flat_number]}")
+			
+			unless order[:additional_address].blank?
+				add_address = URI.escape("#{add_adress}, #{order[:additional_address]}")
+			end
 			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]=#{add_address}"
+		
 		end
+
+
 		# auth=КЛЮЧ&fields[TITLE]=test&fields[NAME]=ИМЯ
 		bitrix = Bitrix.first
 		title = Date.today.strftime("%d.%m.%y")

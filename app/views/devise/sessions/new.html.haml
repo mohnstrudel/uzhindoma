@@ -4,9 +4,9 @@
 			.row
 				.col-xs-12.col-md-4.col-md-offset-4
 					%section
-						%h4.zero-letter-spacing Вход в систему
+						%h4.zero-letter-spacing.hidden Вход в систему
 						.row.flow-offset-6.text-center
-							#signin_phone
+							#signin_phone.hidden
 								.col-xs-12.col-sm-12.margin-bottom-30
 									=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone", class: "uzhindoma-universal-input", value: params[:phone]
 							#signin_password.hidden
@@ -19,12 +19,12 @@
 										%span Запомнить меня
 				.col-xs-12.col-sm-12.margin-bottom-30
 					#send_password
-						=submit_tag 'Выслать пароль по смс', class: "btn btn-sm btn-min-width btn-success-mod-1", id: 'reset_btn', name: 'reset', remote: true
+						=submit_tag 'Продолжить', class: "btn btn-sm btn-success-mod-uzhindoma", id: 'reset_btn', name: 'reset', remote: true
 				#signin_button.hidden
 					%section.section-inset-3
 						.row.offset-5
 							.col-xs-12
-								=f.submit 'Вход', class: 'btn btn-sm btn-min-width btn-success-mod-1'
+								=f.submit 'Вход', class: 'btn btn-sm btn-success-mod-uzhindoma'
 				=f.hidden_field :menu_id, value: params[:menu_id]
 				=f.hidden_field :person_amount, value: params[:person_amount]
 				=f.hidden_field :menu_amount, value: params[:menu_amount]
