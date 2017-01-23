@@ -2,7 +2,6 @@ class Bitrix < ActiveRecord::Base
 
 	require 'httpclient'
 	require 'open-uri'
-	require 'curb'
 
 	
 	refresh_token = ""
