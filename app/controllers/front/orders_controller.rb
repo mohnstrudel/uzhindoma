@@ -213,6 +213,22 @@ class Front::OrdersController < FrontController
 		email = order[:email] || ""
 		payment_fields = ""
 		payment_string = ""
+		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
+
+		# Поля битрикса:
+		# Имя	Имя	
+		# Фамилия	Фамилия	
+		# E-mail	E-mail	
+		# телефон	телефон	
+		# москва/моск.обл.	Улица/дом_1	UF_CRM_1454918385
+		# Улица		
+		# Дом	Доп. Часть 1	UF_CRM_1454918441
+		# Квартира		
+		# ПОДЪЕЗД, ЭТАЖ...		
+		# интервал доставки	Время (интервал)	UF_CRM_1484728934
+		# комментарии к заказу	Комментарий к заказу	UF_CRM_1482065300
+		
+		# источник	SOURCE_ID
 
 		# Ставим тип продаж = сайт
 		type_id = URI.escape("Сайт")
@@ -232,19 +248,24 @@ class Front::OrdersController < FrontController
 
 		# Получаем поля адреса из параметров
 		address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
-		# Добавляем адрес в соответсвующие поля лида в Битриксе
-		address_fields = "&fields[UF_CRM_1454918385]=#{address}&fields[UF_CRM_1454922125]=#{address}"
+		# Добавляем адрес в соответствующие поля лида в Битриксе
+		address_fields = "&fields[UF_CRM_1454918385]=#{address}"
 		
-		# Получаем допник для адреса
+		# В поле "дополнительная часть" прописываем:
+		# номер дома, квартиру, подъезд, этаж
 		add_address_fields = ""
 		unless order[:flat_number].blank?
-			add_address = URI.escape("#{order[:flat_number]}")
+			add_address = URI.escape("кв. #{order[:flat_number]}")
 			
 			unless order[:additional_address].blank?
 				add_address = URI.escape("#{add_adress}, #{order[:additional_address]}")
 			end
-			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}&fields[UF_CRM_1454930742]=#{add_address}"
-		
+			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
+		end
+
+		timeframe_fields = ""
+		if !timeframe.blank?
+			timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
 		end
 
 
@@ -259,7 +280,7 @@ class Front::OrdersController < FrontController
 
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title} and menu type - #{menu_type}"
-		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}"
+		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		
@@ -299,7 +320,7 @@ class Front::OrdersController < FrontController
 		address = URI.escape(order[:address]) if order[:address]
 		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
 		bitrix = Bitrix.first
-		commentary = URI.escape("Комментарий клиента: #{order[:comment]}, Интервал доставки: #{order[:delivery_timeframe]}.")
+		commentary = URI.escape(order[:comment])
 
 		title = Date.today.strftime("%d.%m.%y")
 		stage_id = "NEW"
@@ -316,13 +337,31 @@ class Front::OrdersController < FrontController
 
 		# Передаем параметры адреса непосредственно в сделку 
 
+		# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+		if order[:delivery_region] == "Москва"
+			city = order[:delivery_region]
+		else
+			city = "#{order[:delivery_region]}, #{order[:city]}"
+		end
+
 		# Получаем поля адреса из параметров
-		address = URI.escape("#{order[:delivery_region]}, город #{order[:city]}, улица #{order[:street]}, дом #{order[:house_number]}, квартира #{order[:flat_number]}")
+		address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
 		# Добавляем адрес в соответсвующие поля лида в Битриксе
 		address_fields = "&fields[UF_CRM_56B8878D5D5CC]=#{address}"
+		
 		# Получаем допник для адреса
-		add_address = URI.escape("#{order[:additional_address]}")
-		add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+		# В поле "дополнительная часть" прописываем:
+		# номер дома, квартиру, подъезд, этаж
+		add_address_fields = ""
+		
+		unless order[:flat_number].blank?
+			add_address = URI.escape("кв. #{order[:flat_number]}")
+			
+			unless order[:additional_address].blank?
+				add_address = URI.escape("#{add_adress}, #{order[:additional_address]}")
+			end
+			add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+		end
 
 		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_56B8878D5D5CC]=#{address}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
 		

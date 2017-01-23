@@ -1,13 +1,46 @@
 class Bitrix < ActiveRecord::Base
 
-	@client_id = "local.57a61102d0b562.81576057"
-	@client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
-	@redirect_uri = "http://uzhindoma.eve-trader.net"
-	@portal_name = "uzhin-doma"
-	@scope = "crm"
+	require 'httpclient'
+	require 'open-uri'
+	require 'curb'
+
+	
 	refresh_token = ""
 	url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{@client_id}&client_secret=#{@client_secret}&refresh_token=#{refresh_token}"
 	
+	def initialize
+		@client_id = "local.57a61102d0b562.81576057"
+		@client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
+		@redirect_uri = "http://uzhindoma.eve-trader.net"
+		@portal_name = "uzhin-doma"
+		@scope = "crm"
+		
+		first_url_to_hit = "https://#{@portal_name}.bitrix24.ru/oauth/authorize/?response_type=code&client_id=#{@client_id}&redirect_uri=#{@redirect_uri}"
+		# puts first_url_to_hit
+
+		# Since there are two urls to hit we first go the first one and try to obtain the
+		# 'code' variable
+		res = Net::HTTP.get_response(URI(first_url_to_hit))
+		authorize_url = res['location']
+
+		# Since we're redirected to authorization page with our initial request, we 
+		# need to authorize via CURL
+		c = Curl::Easy.new(authorize_url)
+		c.http_auth_types = :basic
+		c.username = 'anton@yadadya.com'
+		c.password = 'muerex123'
+		c.http_post(authorize_url) do |curl| 
+		    curl.headers["Content-Type"] = ["application/json"]
+		end
+
+		# Now let's parse the headers and get the Location value, which will hold
+		# the 'code' variable
+		http_headers = c.header_str.split(/[\r\n]+/).map(&:strip)
+		http_headers = Hash[http_headers.flat_map{ |s| s.scan(/^(\S+): (.+)/) }]
+
+		p http_headers['Location']
+
+	end
 
 	def self.get_refresh_token
 		

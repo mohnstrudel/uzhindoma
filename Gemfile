@@ -70,6 +70,9 @@ gem 'instagram'
 
 # Using nokogiri for parsing XML data from the interwebz
 gem 'nokogiri'
+# Gem for accessing urls
+gem 'httpclient'
+gem 'curb'
 
 
 
@@ -77,6 +80,10 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'better_errors'
+
+  # Lets test the shit out of this app
+  gem 'rspec-rails'
+  gem 'rails-controller-testing'
 end
 
 group :development do
