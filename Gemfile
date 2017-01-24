@@ -72,7 +72,7 @@ gem 'instagram'
 gem 'nokogiri'
 # Gem for accessing urls
 gem 'httpclient'
-gem 'curb'
+# gem 'curb'
 
 
 

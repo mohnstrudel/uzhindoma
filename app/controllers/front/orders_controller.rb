@@ -364,7 +364,7 @@ class Front::OrdersController < FrontController
 			add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
 		end
 
-		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_56B8878D5D5CC]=#{address}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
+		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
