@@ -1,8 +1,7 @@
 class Front::OrdersController < FrontController
 
 	before_action :find_order, only: [:show, :edit, :update]
-	before_action :find_bitrix, only: [:index, :init, :create_new_lead, :create_new_order, :check_token, :action_upon_order_creation]
-	before_action :get_tokens, only: [:index, :init, :create_new_lead, :create_new_order, :check_token, :action_upon_order_creation]
+	before_filter :get_tokens
 
 
 	def new
@@ -258,7 +257,8 @@ class Front::OrdersController < FrontController
 			add_address = URI.escape("кв. #{order[:flat_number]}")
 			
 			unless order[:additional_address].blank?
-				add_address = URI.escape("#{add_adress}, #{order[:additional_address]}")
+				rest_address = URI.escape(order[:additional_address]) 
+				add_address = "#{add_address}, #{rest_address}"
 			end
 			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
 		end
@@ -358,7 +358,8 @@ class Front::OrdersController < FrontController
 			add_address = URI.escape("кв. #{order[:flat_number]}")
 			
 			unless order[:additional_address].blank?
-				add_address = URI.escape("#{add_adress}, #{order[:additional_address]}")
+				rest_address = URI.escape(order[:additional_address])
+				add_address = "#{add_adress}, #{rest_address}"
 			end
 			add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
 		end
@@ -490,7 +491,6 @@ class Front::OrdersController < FrontController
 
 	def check_if_user_exists(phone)
 		# In this method we first search for user and, if found, create a deal or a lead
-		bitrix = Bitrix.first
 
 		# Let's translate phone into something, that might be inside Bitrix
 		# method is in bitrix.rb model
@@ -499,7 +499,7 @@ class Front::OrdersController < FrontController
 
 		parsed_phone.each do |current_phone|
 			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
+			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{@access_token}&#{fields_string}"
 
 			doc = Nokogiri::HTML(open(url))
 			client_data = JSON.parse(doc)
@@ -512,12 +512,8 @@ class Front::OrdersController < FrontController
 		return nil
 	end
 
-
-	def find_bitrix
-		@bitrix = Bitrix.find(1)
-	end
-
 	def get_tokens
+		@bitrix = Bitrix.find(1)
 		@access_token = @bitrix.access_token
 		@refresh_token = @bitrix.refresh_token
 	end

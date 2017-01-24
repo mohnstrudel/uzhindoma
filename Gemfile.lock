@@ -91,6 +91,7 @@ GEM
       execjs
     coffee-script-source (1.11.1)
     concurrent-ruby (1.0.2)
+    curb (0.9.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
       bcrypt (~> 3.0)
@@ -283,6 +284,7 @@ DEPENDENCIES
   capistrano3-puma
   carrierwave
   coffee-rails (~> 4.1.0)
+  curb
   devise
   figaro
   font-awesome-rails

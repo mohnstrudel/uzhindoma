@@ -1,43 +1,76 @@
 class Bitrix < ActiveRecord::Base
 
-	require 'httpclient'
 	require 'open-uri'
+	# require 'curb'
 
 	
 	refresh_token = ""
 	url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{@client_id}&client_secret=#{@client_secret}&refresh_token=#{refresh_token}"
-	
+	@client_id = "local.57a61102d0b562.81576057"
+	@client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
+	@redirect_uri = "http://uzhindoma.eve-trader.net"
+	@portal_name = "uzhin-doma"
+	@scope = "crm"
+
 	def initialize
-		@client_id = "local.57a61102d0b562.81576057"
-		@client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
-		@redirect_uri = "http://uzhindoma.eve-trader.net"
-		@portal_name = "uzhin-doma"
-		@scope = "crm"
+		# Метод деприкейтед
+
+		# @client_id = "local.57a61102d0b562.81576057"
+		# @client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
+		# @redirect_uri = "http://uzhindoma.eve-trader.net"
+		# @portal_name = "uzhin-doma"
+		# @scope = "crm"
 		
-		first_url_to_hit = "https://#{@portal_name}.bitrix24.ru/oauth/authorize/?response_type=code&client_id=#{@client_id}&redirect_uri=#{@redirect_uri}"
+		# first_url_to_hit = "https://#{@portal_name}.bitrix24.ru/oauth/authorize/?response_type=code&client_id=#{@client_id}&redirect_uri=#{@redirect_uri}"
 		# puts first_url_to_hit
 
-		# Since there are two urls to hit we first go the first one and try to obtain the
-		# 'code' variable
-		res = Net::HTTP.get_response(URI(first_url_to_hit))
-		authorize_url = res['location']
+		# # Since there are two urls to hit we first go the first one and try to obtain the
+		# # 'code' variable
+		# res = Net::HTTP.get_response(URI(first_url_to_hit))
+		# authorize_url = res['location']
 
-		# Since we're redirected to authorization page with our initial request, we 
-		# need to authorize via CURL
-		c = Curl::Easy.new(authorize_url)
-		c.http_auth_types = :basic
-		c.username = 'anton@yadadya.com'
-		c.password = 'muerex123'
-		c.http_post(authorize_url) do |curl| 
-		    curl.headers["Content-Type"] = ["application/json"]
-		end
+		# # Since we're redirected to authorization page with our initial request, we 
+		# # need to authorize via CURL
+		# c = Curl::Easy.new(authorize_url)
+		# c.http_auth_types = :basic
+		# c.username = 'anton@yadadya.com'
+		# c.password = 'muerex123'
+		# c.http_post(authorize_url) do |curl| 
+		#     curl.headers["Content-Type"] = ["application/json"]
+		# end
 
-		# Now let's parse the headers and get the Location value, which will hold
-		# the 'code' variable
-		http_headers = c.header_str.split(/[\r\n]+/).map(&:strip)
-		http_headers = Hash[http_headers.flat_map{ |s| s.scan(/^(\S+): (.+)/) }]
+		# # Now let's parse the headers and get the Location value, which will hold
+		# # the 'code' variable
+		# puts "---- headers begin ----"
+		# p c.header_str
+		# http_headers = c.header_str.split(/[\r\n]+/).map(&:strip)
+		# http_headers = Hash[http_headers.flat_map{ |s| s.scan(/^(\S+): (.+)/) }]
+		# puts "---- headers end ----"
+		# url_with_code = http_headers['Location']
 
-		p http_headers['Location']
+		# puts "***"
+		# puts url_with_code
+		# puts "***"
+		
+		# # Now we need to extract the 'code' variable from the headers location
+		# query_params = URI.parse(url_with_code).query
+		# params_hash = URI::decode_www_form(query_params).to_h
+
+		# puts code = params_hash['code']
+
+		# second_url_to_hit = "https://#{@portal_name}.bitrix24.ru/oauth/token/?grant_type=authorization_code&client_id=#{@client_id}&client_secret=#{@client_secret}&redirect_uri=#{@redirect_uri}&scope=#{@scope}&code=#{code}"
+		# puts second_url_to_hit
+		# doc = Nokogiri::HTML(open(second_url_to_hit))
+		# result = JSON.parse(doc)
+
+		# puts result
+
+		
+		# After hitting the second URL we need to extract access_token and refresh_token
+
+		# First of all we need to check if there is a simple request possible
+		# If not, then we need to update our refresh_token or access_token
+
 
 	end
 
@@ -56,6 +89,7 @@ class Bitrix < ActiveRecord::Base
 		# debug
 		begin
 			refresh_tokens_url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{@client_id}&client_secret=#{@client_secret}&refresh_token=#{refresh_token}"
+			puts refresh_tokens_url
 			doc = Nokogiri::HTML(open(refresh_tokens_url))
 			data = JSON.parse(doc)
 
@@ -66,7 +100,7 @@ class Bitrix < ActiveRecord::Base
 
 			return "Tokens refreshed and updated"
 		rescue Exception => e
-			logger.info "Logged out error: #{e}"
+			logger.info "Method 'get_refresh_token' aborted. Logged out error: #{e}"
 
 		end
 		# res = Net::HTTP.get_response(URI(first_url_to_hit))
