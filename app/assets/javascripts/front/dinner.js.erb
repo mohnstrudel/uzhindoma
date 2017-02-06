@@ -7,14 +7,17 @@
 
 $('dinner').ready(function(){
 
-	$("#standard_order_phone").mask("+7 (999) 999-9999");
+	// for (var i = 0; i < 3; i++) {
+		$(".menu-phone-input").mask("+7 (999) 999-9999");
+		
+		$(".menu-phone-input").on('mousedown', function(){
+			$(".menu-phone-input").removeClass('wrong-phone-number');
+		});
 
-	$("#standard_order_phone").on('mousedown', function(){
-		$("#standard_order_phone").removeClass('wrong-phone-number');
-	});
+	// }	
 
 	$("#create_new_order").on('click', function(e){
-		var phone_input = $("#standard_order_phone");
+		var phone_input = $(".menu-phone-input");
 		var phone_value = phone_input.val();
 		// console.log("Phone input value is: " + phone_input.length);
 		var exists = phone_input.length;

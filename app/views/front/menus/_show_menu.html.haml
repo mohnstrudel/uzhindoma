@@ -74,7 +74,7 @@
 									.col-md-7.text-right
 										-unless user_signed_in?
 											Ваш номер телефона:
-											=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", class: "menu-phone-input"
+											=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone_#{index}", required: "", class: "menu-phone-input"
 									.col-md-5.text-left
 										=button_tag(type: "submit", class: "btn btn-xs-small btn-success-mod-uzhindoma", id: "create_new_order") do
 											%span.icon.icon-xs.fa-shopping-cart

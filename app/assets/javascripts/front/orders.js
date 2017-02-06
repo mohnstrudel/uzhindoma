@@ -25,11 +25,11 @@ $(document).ready(function(){
             // Если интервал доставки выбран, то все чики пуки, ничего не делаем
             // Но если мы до этого нажали на отправить и все-таки выбрали интервал и нажали снова,
             // то удаляем ошибку и текст
-            $('#delivery-container').removeClass('delivery-alert').children("p").remove();
+            $('#delivery-container').children("p").remove();
         } else {
             // Если не выбран, то не даем заказать
             e.preventDefault();
-            $('#delivery-container').addClass('delivery-alert').append("<p>Необходимо выбрать интервал доставки!</p>");
+            $('#delivery-container').append("<p><b>Необходимо выбрать интервал доставки!<b></p>");
         }
     });
 
