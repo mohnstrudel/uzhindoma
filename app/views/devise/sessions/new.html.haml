@@ -6,7 +6,7 @@
 					%section
 						%h4.zero-letter-spacing.hidden Вход в систему
 						.row.flow-offset-6.text-center
-							#signin_phone.hidden
+							#signin_phone{class: ("hidden" unless params[:phone].blank?)}
 								.col-xs-12.col-sm-12.margin-bottom-30
 									=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone", class: "uzhindoma-universal-input", value: params[:phone]
 							#signin_password.hidden

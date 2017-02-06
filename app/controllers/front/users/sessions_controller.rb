@@ -58,6 +58,10 @@ class Front::Users::SessionsController < Devise::SessionsController
   # end
 
   def after_sign_in_path_for(resource)
-    new_order_path(menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
+    if params[:user][:menu_id].blank?
+      edit_user_registration_path
+    else
+      new_order_path(menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
+    end
   end
 end

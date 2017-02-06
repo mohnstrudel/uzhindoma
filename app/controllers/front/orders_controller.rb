@@ -193,7 +193,7 @@ class Front::OrdersController < FrontController
 
 	def order_params
 		params.require(:order).permit(:first_name, :second_name, :street, :phone, :email,
-			:delivery_region, :city, :additional_address, :pcode,
+			:delivery_region, :city, :additional_address, :pcode, :address,
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id)
@@ -315,9 +315,10 @@ class Front::OrdersController < FrontController
 	end
 
 	def create_new_bitrix_deal(user_id, order)
+		@cu = current_user
 		# getting order data
 		opportunity = order[:order_price] if order[:order_price]
-		address = URI.escape(order[:address]) if order[:address]
+		# address = URI.escape(order[:address]) if order[:address]
 		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
 		bitrix = Bitrix.first
 		commentary = URI.escape(order[:comment])
@@ -338,16 +339,18 @@ class Front::OrdersController < FrontController
 		# Передаем параметры адреса непосредственно в сделку 
 
 		# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-		if order[:delivery_region] == "Москва"
-			city = order[:delivery_region]
+		if @cu.delivery_region == "Москва"
+			city = @cu.delivery_region
 		else
-			city = "#{order[:delivery_region]}, #{order[:city]}"
+			city = "#{@cu.delivery_region}, #{@cu.city}"
 		end
 
 		# Получаем поля адреса из параметров
-		address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
+		address = URI.escape("#{city}, улица #{@cu.street}, дом #{@cu.house_number}")
 		# Добавляем адрес в соответсвующие поля лида в Битриксе
-		address_fields = "&fields[UF_CRM_56B8878D5D5CC]=#{address}"
+		# оригинал, сохраняем для бэкапа
+		# address_fields = "&fields[UF_CRM_56B8878D5D5CC]=#{address}"
+		address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
 		
 		# Получаем допник для адреса
 		# В поле "дополнительная часть" прописываем:
@@ -355,13 +358,15 @@ class Front::OrdersController < FrontController
 		add_address_fields = ""
 		
 		unless order[:flat_number].blank?
-			add_address = URI.escape("кв. #{order[:flat_number]}")
+			add_address = URI.escape("кв. #{@cu.flat_number}")
 			
 			unless order[:additional_address].blank?
 				rest_address = URI.escape(order[:additional_address])
 				add_address = "#{add_adress}, #{rest_address}"
 			end
-			add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+			# оригинал, сохраняем для бэкапа
+			# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+			add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
 		end
 
 		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
@@ -495,11 +500,13 @@ class Front::OrdersController < FrontController
 		# Let's translate phone into something, that might be inside Bitrix
 		# method is in bitrix.rb model
 		# @client_data = Array.new
+
+		bitrix = Bitrix.first
 		parsed_phone = Bitrix.parse_phone(phone)
 
 		parsed_phone.each do |current_phone|
 			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{@access_token}&#{fields_string}"
+			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
 			doc = Nokogiri::HTML(open(url))
 			client_data = JSON.parse(doc)

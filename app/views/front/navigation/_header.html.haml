@@ -4,7 +4,7 @@
   -@div = "rd-navbar-wrap bg-transparent"
 #ud-site-header
   .ud-custom-logo
-    =link_to root_path, class: 'brand-name' do
+    =link_to root_path, class: 'brand-name', method: :get do
       .logo-large
         =image_tag "custom_images/logo_full_v2.png"
 

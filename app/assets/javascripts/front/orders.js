@@ -20,6 +20,19 @@ $(document).ready(function(){
     //     // console.log("Element - " + element + " triggerd with event: " + String.fromCharCode(event.keyCode));
     // });
 
+    $('.submit-order').on('click', function(e){
+        if ($("input[name='order[delivery_timeframe]']:checked").length > 0) {
+            // Если интервал доставки выбран, то все чики пуки, ничего не делаем
+            // Но если мы до этого нажали на отправить и все-таки выбрали интервал и нажали снова,
+            // то удаляем ошибку и текст
+            $('#delivery-container').removeClass('delivery-alert').children("p").remove();
+        } else {
+            // Если не выбран, то не даем заказать
+            e.preventDefault();
+            $('#delivery-container').addClass('delivery-alert').append("<p>Необходимо выбрать интервал доставки!</p>");
+        }
+    });
+
 });
 
 this.pay = function () {
