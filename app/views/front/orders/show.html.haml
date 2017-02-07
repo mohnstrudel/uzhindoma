@@ -14,7 +14,7 @@
 							-if @order.name.blank?
 								-name = @order.first_name
 							-else 
-								-name = @order.first_name
+								-name = @order.name
 							="Уважаемый/ая #{name}. Ваш заказ №#{@order.id} принят и наш менеджер обработает его в кратчайшие сроки. При возникновении вопросов мы свяжемся с вами по указанному в заказе телефону #{@order.phone}." 
 						-unless @order.order_type == "fast"
 							%p.text-sm-left

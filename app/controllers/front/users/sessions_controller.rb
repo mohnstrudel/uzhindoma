@@ -15,11 +15,19 @@ class Front::Users::SessionsController < Devise::SessionsController
 
         password = User.generate_password_code
         user = User.where(phone: phone)[0]
-        if user.update(password: password)
-          logger.debug("New password for user #{user.email} successfully updated")
+
+        # Если не находим пользователя, то сразу его создаем
+        if not user
+          User.create(phone: phone, password: password)
         else
-          logger.debug("Password failed to update")
+          if user.update(password: password)
+            logger.debug("New password for user #{user.email} successfully updated")
+          else
+            logger.debug("Password failed to update")
+          end
         end
+
+        
         
         stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
         encoded_phone = URI.escape(stripped_phone)

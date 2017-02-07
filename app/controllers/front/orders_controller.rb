@@ -172,10 +172,12 @@ class Front::OrdersController < FrontController
 		# with given data
 
 		if user
-			create_new_bitrix_deal(user, order)
+			# create_new_bitrix_deal(user, order)
+			create_new_bitrix_lead_or_deal("deal", order, user)
 			logger.debug "User with id #{user} found, creating a new deal inside Bitrix."
 		else
-			create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery, order)
+			# create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery, order)
+			create_new_bitrix_lead_or_deal("lead", order)
 			logger.debug "No user with phone number: #{phone} found. Creating a new lead inside Bitrix."
 		end
 
@@ -207,196 +209,174 @@ class Front::OrdersController < FrontController
 		Bitrix.get_refresh_token
 	end
 
-	def create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery, order)
-		# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле лида
-		email = order[:email] || ""
-		payment_fields = ""
-		payment_string = ""
-		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
-
-		# Поля битрикса:
-		# Имя	Имя	
-		# Фамилия	Фамилия	
-		# E-mail	E-mail	
-		# телефон	телефон	
-		# москва/моск.обл.	Улица/дом_1	UF_CRM_1454918385
-		# Улица		
-		# Дом	Доп. Часть 1	UF_CRM_1454918441
-		# Квартира		
-		# ПОДЪЕЗД, ЭТАЖ...		
-		# интервал доставки	Время (интервал)	UF_CRM_1484728934
-		# комментарии к заказу	Комментарий к заказу	UF_CRM_1482065300
-		
-		# источник	SOURCE_ID
-
-		# Ставим тип продаж = сайт
-		type_id = URI.escape("Сайт")
-
-		if order[:payed_online]
-			payment_string = "Оплата была успешно совершена по карте!"
-			# Пока комментируем, так как нет полей под оплату онлайн в лиде
-			# payment_fields = "&fields[UF_CRM_1467563310]=#{price}&fields[UF_CRM_1459692590]=#{price}"
-		end
-
-		# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-		if order[:delivery_region] == "Москва"
-			city = order[:delivery_region]
-		else
-			city = "#{order[:delivery_region]}, #{order[:city]}"
-		end
-
-		# Получаем поля адреса из параметров
-		address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
-		# Добавляем адрес в соответствующие поля лида в Битриксе
-		address_fields = "&fields[UF_CRM_1454918385]=#{address}"
-		
-		# В поле "дополнительная часть" прописываем:
-		# номер дома, квартиру, подъезд, этаж
-		add_address_fields = ""
-		unless order[:flat_number].blank?
-			add_address = URI.escape("кв. #{order[:flat_number]}")
-			
-			unless order[:additional_address].blank?
-				rest_address = URI.escape(order[:additional_address]) 
-				add_address = "#{add_address}, #{rest_address}"
-			end
-			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
-		end
-
-		timeframe_fields = ""
-		if !timeframe.blank?
-			timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
-		end
-
-
-		# auth=КЛЮЧ&fields[TITLE]=test&fields[NAME]=ИМЯ
+	def create_new_bitrix_lead_or_deal(type, order, user_id=nil)
+		# Получаем токены
 		bitrix = Bitrix.first
 		title = Date.today.strftime("%d.%m.%y")
-		# encoded_name = URI.escape(name)
-		commentary = URI.escape("#{order[:comment]}. #{payment_string}")
-		encoded_address = URI.escape(address)
-		price = order[:order_price]
 
-
-
-		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title} and menu type - #{menu_type}"
-		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
-		
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
-		
-		logger.debug "Calling url: #{url}"
-
-		# long url example
-		# auth=bo00krlcimz2k3fggnzzxfusg2rhk3d3&&fields[TITLE]=%D0%98%D0%9F%20%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[NAME]=%D0%93%D0%BB%D0%B5%D0%B1&fields[SECOND_NAME]=%D0%95%D0%B3%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87&fields[LAST_NAME]=%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[STATUS_ID]=NEW&fields[OPENED]=Y&fields[ASSIGNED_BY_ID]=1&fields[CURRENCY_ID]=USD&fields[OPPORTUNITY]=12500&&fields[PHONE][0][VALUE]=555888&fields[PHONE][0][VALUE_TYPE]=WORK&params[REGISTER_SONET_EVENT]=Y
-
-		doc = Nokogiri::HTML(open(url))
-		response = JSON.parse(doc)
-
-		lead_id = response["result"]
-
-		found_product = find_product_for_order(order)
-
-		# Если промокод указан верно, то discount будет true
-		discount = apply_promocode(order[:promocode])
-		
-		answer = format_id_and_prices(found_product, order[:add_dessert], discount)
-		product_id = answer[0]
-		product_price = answer[1]
-		dessert_id = answer[2]
-		dessert_price = answer[3]
-		# Скидка
-		discount_id = answer[4]
-		discount_price = answer[5]
-
-
-		# Добавляем все товары из Битрикса в битриксовый лид
-		add_products_to_order("lead", lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
-		# @response = JSON.parse(doc)
-	end
-
-	def create_new_bitrix_deal(user_id, order)
-		@cu = current_user
-		# getting order data
-		opportunity = order[:order_price] if order[:order_price]
-		# address = URI.escape(order[:address]) if order[:address]
+		# Интервал доставки для всех типов присутствует
 		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
-		bitrix = Bitrix.first
+		# Комментарий также для всех присутствует
 		commentary = URI.escape(order[:comment])
 
-		title = Date.today.strftime("%d.%m.%y")
-		stage_id = "NEW"
-
 		# Ставим тип продаж = сайт
 		type_id = URI.escape("Сайт")
-
-		# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
-		if order[:payed_online]
-			payment_fields = "&fields[UF_CRM_1467563310]=#{opportunity}&fields[UF_CRM_1459692590]=#{opportunity}"
-		else
-			payment_fields = ""
-		end
-
-		# Передаем параметры адреса непосредственно в сделку 
-
-		# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-		if @cu.delivery_region == "Москва"
-			city = @cu.delivery_region
-		else
-			city = "#{@cu.delivery_region}, #{@cu.city}"
-		end
-
-		# Получаем поля адреса из параметров
-		address = URI.escape("#{city}, улица #{@cu.street}, дом #{@cu.house_number}")
-		# Добавляем адрес в соответсвующие поля лида в Битриксе
-		# оригинал, сохраняем для бэкапа
-		# address_fields = "&fields[UF_CRM_56B8878D5D5CC]=#{address}"
-		address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
 		
-		# Получаем допник для адреса
-		# В поле "дополнительная часть" прописываем:
-		# номер дома, квартиру, подъезд, этаж
-		add_address_fields = ""
-		
-		unless order[:flat_number].blank?
-			add_address = URI.escape("кв. #{@cu.flat_number}")
-			
-			unless order[:additional_address].blank?
-				rest_address = URI.escape(order[:additional_address])
-				add_address = "#{add_adress}, #{rest_address}"
+		# Проверяем сначала, нам данные из профиля пользователя брать или из формы
+		if @cu = current_user
+			email = @cu.email || ""
+			name = URI.escape("#{@cu.first_name} #{@cu.second_name}")
+			phone = @cu.phone
+
+			# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+			if @cu.delivery_region == "Москва"
+				city = @cu.delivery_region
+			else
+				city = "#{@cu.delivery_region}, #{@cu.city}"
 			end
-			# оригинал, сохраняем для бэкапа
-			# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
-			add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
+
+			# Получаем поля адреса из параметров
+			address = URI.escape("#{city}, улица #{@cu.street}, дом #{@cu.house_number}")
+
+			# Получаем допник для адреса
+			# В поле "дополнительная часть" прописываем:
+			# номер дома, квартиру, подъезд, этаж
+			add_address_fields = ""
+			
+			unless order[:flat_number].blank?
+				add_address = URI.escape("кв. #{@cu.flat_number}")
+				
+				unless order[:additional_address].blank?
+					rest_address = URI.escape(order[:additional_address])
+					add_address = "#{add_adress}, #{rest_address}"
+				end
+				# оригинал, сохраняем для бэкапа
+				# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+				# add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
+			end
+		else
+			# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле лида
+			email = order[:email] || ""
+			payment_fields = ""
+			payment_string = ""
+			name = URI.escape("#{params[:order][:first_name]} #{params[:order][:second_name]}")
+			phone = params[:order][:phone]
+
+			# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+			if order[:delivery_region] == "Москва"
+				city = order[:delivery_region]
+			else
+				city = "#{order[:delivery_region]}, #{order[:city]}"
+			end
+
+			# Получаем поля адреса из параметров
+			address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
+			
+			# В поле "дополнительная часть" прописываем:
+			# номер дома, квартиру, подъезд, этаж
+			add_address_fields = ""
+			unless order[:flat_number].blank?
+				add_address = URI.escape("кв. #{order[:flat_number]}")
+				
+				unless order[:additional_address].blank?
+					rest_address = URI.escape(order[:additional_address]) 
+					add_address = "#{add_address}, #{rest_address}"
+				end
+			end
+
+			timeframe_fields = ""
+			if !timeframe.blank?
+				timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
+			end
 		end
 
-		fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
-		
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
+		# Передаем параметры адреса непосредственно в сделку или в лид
 
-		doc = Nokogiri::HTML(open(url))
+		case type
+		when "deal"
+			# Тут уникальная ерунда для СДЕЛКИ
+			stage_id = "NEW"
+			opportunity = order[:order_price] if order[:order_price]
+			# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
+			if order[:payed_online]
+				payment_fields = "&fields[UF_CRM_1467563310]=#{opportunity}&fields[UF_CRM_1459692590]=#{opportunity}"
+			else
+				payment_fields = ""
+			end
 
-		response = JSON.parse(doc)
-		deal_id = response["result"]
+			# Прописываем все доп. параметры урла в соответствии с данными заказа
+			# для СДЕЛКИ
+			address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
+			add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
 
-		found_product = find_product_for_order(order)
+			logger.info "Creating a new DEAL with params: user_id - #{user_id}, comment - #{commentary}, title - #{title}"
+			fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
+			
+			url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
+
+			doc = Nokogiri::HTML(open(url))
+
+			response = JSON.parse(doc)
+			deal_id = response["result"]
+
+			found_product = find_product_for_order(order)
 
 
-		# Если промокод указан верно, то discount будет true
-		logger.debug "Creating deal with promocode: #{order[:promocode]}"
-		discount = apply_promocode(order[:promocode])
-		
-		answer = format_id_and_prices(found_product, order[:add_dessert], discount)
-		product_id = answer[0]
-		product_price = answer[1]
-		dessert_id = answer[2]
-		dessert_price = answer[3]
-		# Скидка
-		discount_id = answer[4]
-		discount_price = answer[5]
+			# Если промокод указан верно, то discount будет true
+			logger.debug "Creating deal with promocode: #{order[:promocode]}"
+			discount = apply_promocode(order[:promocode])
+			
+			answer = format_id_and_prices(found_product, order[:add_dessert], discount)
+			product_id = answer[0]
+			product_price = answer[1]
+			dessert_id = answer[2]
+			dessert_price = answer[3]
+			# Скидка
+			discount_id = answer[4]
+			discount_price = answer[5]
 
-		# Добавляем все товары из Битрикса в битриксовую сделку
-		add_products_to_order("deal", deal_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+			# Добавляем все товары из Битрикса в битриксовую сделку
+			add_products_to_order(type, deal_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
 
+		when "lead"
+
+			address_fields = "&fields[UF_CRM_1454918385]=#{address}"
+			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
+
+			logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
+			fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
+			
+			url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
+			
+			logger.debug "Calling url: #{url}"
+
+			# long url example
+			# auth=bo00krlcimz2k3fggnzzxfusg2rhk3d3&&fields[TITLE]=%D0%98%D0%9F%20%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[NAME]=%D0%93%D0%BB%D0%B5%D0%B1&fields[SECOND_NAME]=%D0%95%D0%B3%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87&fields[LAST_NAME]=%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[STATUS_ID]=NEW&fields[OPENED]=Y&fields[ASSIGNED_BY_ID]=1&fields[CURRENCY_ID]=USD&fields[OPPORTUNITY]=12500&&fields[PHONE][0][VALUE]=555888&fields[PHONE][0][VALUE_TYPE]=WORK&params[REGISTER_SONET_EVENT]=Y
+
+			doc = Nokogiri::HTML(open(url))
+			response = JSON.parse(doc)
+
+			lead_id = response["result"]
+
+			found_product = find_product_for_order(order)
+
+			# Если промокод указан верно, то discount будет true
+			discount = apply_promocode(order[:promocode])
+			
+			answer = format_id_and_prices(found_product, order[:add_dessert], discount)
+			product_id = answer[0]
+			product_price = answer[1]
+			dessert_id = answer[2]
+			dessert_price = answer[3]
+			# Скидка
+			discount_id = answer[4]
+			discount_price = answer[5]
+
+
+			# Добавляем все товары из Битрикса в битриксовый лид
+			add_products_to_order(type, lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+			# @response = JSON.parse(doc)
+		end
 	end
 
 	def format_id_and_prices(found_product, dessert, discount)

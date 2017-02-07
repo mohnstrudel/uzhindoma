@@ -41,6 +41,12 @@
               .col-md-5
                 %label.h5.zero-letter-spacing.text-left.extra-small{:for => "area"} Комментарии к заказу
                 =f.text_area :comment, id: "area", cols: "50", rows: 3, placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+            .row
+              .col-md-5
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "street"} Промокод
+                  .uzhindoma-input
+                    =f.text_field :pcode, id: "promocode", placeholder: "Промокод (уточнаяйте у мендежера) на скидку 500 рублей."
 
             / Some hidden fields to set up order values
             =f.hidden_field :menu_id, value: @menu.id
@@ -52,6 +58,7 @@
             =f.hidden_field :email, value: @cu.email
             =f.hidden_field :address, value: @cu.address
             =f.hidden_field :additional_address, value: @cu.additional_address
+            =f.hidden_field :first_name, value: @cu.first_name
             
             -if params[:person_amount_0]
               =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_0])
