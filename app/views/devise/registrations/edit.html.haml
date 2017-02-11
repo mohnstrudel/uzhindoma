@@ -78,7 +78,7 @@
 												-if Rails.env.production?
 													-if @orders
 														-@orders.each do |order|
-															=render 'devise/registrations/orders'
+															=render partial: 'devise/registrations/orders', locals: {order: order}
 												-else
 													%tr
 														%td
