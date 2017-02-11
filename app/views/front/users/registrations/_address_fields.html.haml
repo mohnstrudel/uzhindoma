@@ -1,0 +1,36 @@
+%fieldset
+	%h6.zero-letter-spacing.margin-top-30 Адрес доставки
+	.row
+		.col-xs-12.col-sm-12
+			=f.text_field :title, placeholder: "Название адреса, например 'Дом' или 'Доставка на работу по пятницам'", class: "uzhindoma-universal-input"
+		/ Пока оставляем основной на потом
+		/ .col-xs-12.col-sm-6
+		/ 	Этот адрес основной?
+		/ =f.radio_button :main, true
+	.row
+		.col-xs-12.col-sm-6
+			.radio-wrapper
+				.uzhin_rb_menus
+					=f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_#{f.options[:child_index]}_0"
+					%label{id: "delivery_region_#{f.options[:child_index]}_0", :for => "delivery_region_#{f.options[:child_index]}_0"} Москва
+			.radio-wrapper
+				.uzhin_rb_menus
+					=f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_#{f.options[:child_index]}_1"
+					%label{id: "delivery_region_#{f.options[:child_index]}_1", :for => "delivery_region_#{f.options[:child_index]}_1"} Московская область
+		.col-xs-12.col-sm-6
+			=f.text_field :city, placeholder: "Город", class: "uzhindoma-universal-input city"
+	.row
+		.col-xs-12.col-sm-6
+			=f.text_field :street, placeholder: "Улица", class: "uzhindoma-universal-input"
+		.col-xs-12.col-sm-6
+			=f.text_field :additional_address, placeholder: "Дополнение - подъезд, корпус, этаж, домофон", class: "uzhindoma-universal-input"
+	.row
+		.col-xs-12.col-sm-6
+			=f.text_field :house_number, placeholder: "Номер дома", class: "uzhindoma-universal-input"
+		.col-xs-12.col-sm-6
+			=f.text_field :flat_number, placeholder: "Номер квартиры", class: "uzhindoma-universal-input"	
+	.row
+		.col-xs-12.col-sm-6
+			=f.hidden_field :_destroy
+			=link_to "Удалить адрес?", '#', class: "remove_fields"
+			

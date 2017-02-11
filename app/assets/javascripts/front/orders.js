@@ -27,10 +27,98 @@ $(document).ready(function(){
             // то удаляем ошибку и текст
             $('#delivery-container').children("p").remove();
         } else {
+            // Удаляем возможные предыдущие статусы
+            $('#delivery-container').children("p").remove();
             // Если не выбран, то не даем заказать
             e.preventDefault();
             $('#delivery-container').append("<p><b>Необходимо выбрать интервал доставки!<b></p>");
         }
+        // Проверяем также на обязательное заполнение полей НОВОГО адреса, но только
+        // если данная опция выбрана, т.е. если эти поля ВИДНЫ
+
+
+        
+
+        if (!$('.optional_address_block').hasClass("hidden"))
+        {
+
+            if ($("input[name='order[delivery_region]']:checked").length > 0) {
+                // Тут проверяем город
+                // console.log("Регион выбран!");
+                $('#region_input').children("p").remove();
+                // console.log("Значение региона - " + $("input[name='order[delivery_region]']:checked").val());
+                if ($("input[name='order[delivery_region]']:checked").val() == "Московская область"){
+                    if (!$('#city_input input').val())
+                    {   
+                        // console.log("Улица пустая! - " + $('#street_input input').val());
+                        $('#city_input').children("p").remove();
+                        $('#city_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                    e.preventDefault();    
+                    }
+                }
+            } else {
+                console.log("Город не выбран!");
+                // Удаляем возможные предыдущие статусы
+                $('#region_input').children("p").remove();
+                // Если не выбран, то не даем заказать
+                e.preventDefault();
+                $('#region_input').append("<p><b>Необходимо выбрать регион доставки!<b></p>");
+            }
+
+            console.log('Optional new address is visible');
+            // Тут устраиваем проверку на заполненность полей
+            if (!$('#street_input input').val())
+            {   
+                // console.log("Улица пустая! - " + $('#street_input input').val());
+                $('#street_input').children("p").remove();
+                $('#street_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                e.preventDefault();    
+            }
+            if (!$('#house_input input').val())
+            {
+                $('#house_input').children("p").remove();
+                $('#house_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                e.preventDefault();    
+            }
+
+            if (!$('#flat_input input').val())
+            {
+                $('#flat_input').children("p").remove();
+                $('#flat_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                e.preventDefault();    
+            }
+
+            if (!$('#add_address_input input').val())
+            {
+                $('#add_address_input').children("p").remove();
+                $('#add_address_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                e.preventDefault();    
+            }
+
+            
+
+            
+
+        } 
+        else if (($('.optional_address_block').hasClass("hidden")))
+        {
+            // console.log('Optional new address is NOT visible');
+            // ничего не делаем
+        }
+        
+
+        
+    });
+
+    $("select#delivery_address").on('change', function(){
+        var option = $(this).val();
+        // console.log("some address clicked! " + option );
+        if(option == "new"){
+            $('.optional_address_block').removeClass('hidden');
+        } else {
+            $('.optional_address_block').addClass('hidden');
+        }
+
     });
 
 });

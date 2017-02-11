@@ -37,6 +37,7 @@ before_action :configure_account_update_params, only: [:update]
       orders = Bitrix.get_users_orders(current_user.bitrix_id)
       @orders = orders["result"].reverse
     end
+      # @address = current_user.addresses.build
 
     super
   end
@@ -81,7 +82,9 @@ before_action :configure_account_update_params, only: [:update]
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :second_name, :phone, :street, :house_number,
-      :flat_number, :delivery_region, :email, :city, :additional_address])
+      :flat_number, :delivery_region, :email, :city, :additional_address,
+      addresses_attributes: [:id, :title, :street, :house_number, :flat_number, :delivery_region, :city, :additional_address, :_destroy, :user_id, :main]
+      ])
   end
 
   # The path used after sign up.

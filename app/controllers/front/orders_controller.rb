@@ -57,7 +57,8 @@ class Front::OrdersController < FrontController
 			@order.menu_type = params[:menu_type]
 		end
 
-		logger.debug "Calling create method with following params: #{params}"
+		logger.debug "Calling create method with following address type: #{params[:delivery_address]}"
+		
 		# Here happens some Bitrix magic (see methods below)
 
 		user_id = create_user_if_not_exists_yet(params)
@@ -160,6 +161,10 @@ class Front::OrdersController < FrontController
 			helpers.send_sms(phone, message)
 
 			return user.id
+		else
+			user = User.where(phone: phone)[0]
+			user_id = user.id
+			return user_id
 		end
 	end
 
@@ -246,31 +251,81 @@ class Front::OrdersController < FrontController
 			name = URI.escape("#{@cu.first_name} #{@cu.second_name}")
 			phone = @cu.phone
 
-			# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-			if @cu.delivery_region == "Москва"
-				city = @cu.delivery_region
-			else
-				city = "#{@cu.delivery_region}, #{@cu.city}"
-			end
-
-			# Получаем поля адреса из параметров
-			address = URI.escape("#{city}, улица #{@cu.street}, дом #{@cu.house_number}")
-
-			# Получаем допник для адреса
-			# В поле "дополнительная часть" прописываем:
-			# номер дома, квартиру, подъезд, этаж
-			add_address_fields = ""
-			
-			unless order[:flat_number].blank?
-				add_address = URI.escape("кв. #{@cu.flat_number}")
-				
-				unless order[:additional_address].blank?
-					rest_address = URI.escape(order[:additional_address])
-					add_address = "#{add_adress}, #{rest_address}"
+			# Проверяем, ввел ли он новый адрес или использовал старый
+			if params[:delivery_address] == "new"
+				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+				if order[:delivery_region] == "Москва"
+					city = order[:delivery_region]
+				else
+					city = "#{order[:delivery_region]}, #{order[:city]}"
 				end
-				# оригинал, сохраняем для бэкапа
-				# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
-				# add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
+
+				# Получаем поля адреса из параметров
+				address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
+				
+				# В поле "дополнительная часть" прописываем:
+				# номер дома, квартиру, подъезд, этаж
+				add_address_fields = ""
+				unless order[:flat_number].blank?
+					add_address = URI.escape("кв. #{order[:flat_number]}")
+					
+					unless order[:additional_address].blank?
+						rest_address = URI.escape(order[:additional_address]) 
+						add_address = "#{add_address}, #{rest_address}"
+					end
+				end
+
+				# Сохраняем новый адрес у пользователя
+				current_user.addresses.create(delivery_region: order[:delivery_region], city: order[:city], street: order[:street], house_number: order[:house_number], flat_number: order[:flat_number], additional_address: order[:additional_address])
+			elsif params[:delivery_address] == "current"
+				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+				
+				city = Order.check_delivery_region(@cu)
+
+				# Получаем поля адреса из параметров
+				address = URI.escape("#{city}, улица #{@cu.street}, дом #{@cu.house_number}")
+
+				# Получаем допник для адреса
+				# В поле "дополнительная часть" прописываем:
+				# номер дома, квартиру, подъезд, этаж
+				add_address_fields = ""
+				
+				unless order[:flat_number].blank?
+					add_address = URI.escape("кв. #{@cu.flat_number}")
+					
+					unless order[:additional_address].blank?
+						rest_address = URI.escape(order[:additional_address])
+						add_address = "#{add_address}, #{rest_address}"
+					end
+					# оригинал, сохраняем для бэкапа
+					# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+					# add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
+				end
+			else
+				# В данном случае мы подставляем поля выбранного дополнительного адреса
+				found_address = Address.find(params[:delivery_address].to_i)
+
+				city = Order.check_delivery_region(found_address)
+
+				# Получаем поля адреса из параметров
+				address = URI.escape("#{city}, улица #{found_address.street}, дом #{found_address.house_number}")
+
+				# Получаем допник для адреса
+				# В поле "дополнительная часть" прописываем:
+				# номер дома, квартиру, подъезд, этаж
+				add_address_fields = ""
+				
+				unless order[:flat_number].blank?
+					add_address = URI.escape("кв. #{found_address.flat_number}")
+					
+					unless order[:additional_address].blank?
+						rest_address = URI.escape(order[:additional_address])
+						add_address = "#{add_address}, #{rest_address}"
+					end
+					# оригинал, сохраняем для бэкапа
+					# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+					# add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
+				end
 			end
 		else
 			# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле лида

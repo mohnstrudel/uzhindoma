@@ -14,7 +14,61 @@
               Куда доставляем заказ?
             .row
               .col-md-5
-                =f.text_field :address, placeholder: "Текущий адрес", class: "uzhindoma-universal-input"
+                =select_tag :delivery_address, options_for_select([[@order.address, "current"]] + Order.get_addresses(current_user) + [["Добавить новый адрес", "new"]]), class: 'form-control'
+                / =f.text_field :address, placeholder: "Текущий адрес", class: "uzhindoma-universal-input"
+            .optional_address_block.hidden
+              .row
+                .col-md-4
+                  %h5.zero-letter-spacing.text-left.margin-top-30.extra-small{:for => "standard_order_phone"} Москва или область?
+                  .margin-top-15
+                  #region_input
+                    .col-md-6.no-left-padding-margin.text-left
+                      .radio-wrapper
+                        .uzhin_rb_menus
+                          =f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_1"
+                          %label{id: "delivery_region_1", :for => "delivery_region_1"} Москва
+                    .col-md-6.no-right-padding-margin.text-right
+                      .radio-wrapper
+                        .uzhin_rb_menus
+                          =f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_2"
+                          %label{id: "delivery_region_2", :for => "delivery_region_2"} Московская область
+              
+              .row
+                .col-md-6
+                  #city_input      
+                    .text-wrapper
+                      %label.h5.zero-letter-spacing.text-left.extra-small{:for => "street"} Город
+                      .uzhindoma-input
+                        =f.text_field :city, data: { constraints: "@NotEmpty"}, id: "street", value: ""
+              .row
+                .col-md-6
+                  #street_input
+                    .text-wrapper
+                      %label.h5.zero-letter-spacing.text-left.extra-small{:for => "street"} Улица
+                      .uzhindoma-input
+                        =f.text_field :street, data: { constraints: "@NotEmpty"}, id: "street"
+              .row
+                .col-md-6
+                  #house_input
+                    .text-wrapper
+                      %label.h5.zero-letter-spacing.text-left.extra-small{:for => "house_number"} Дом
+                      .uzhindoma-input
+                        =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
+              .row  
+                .col-md-6
+                  #flat_input
+                    .text-wrapper
+                      %label.h5.zero-letter-spacing.text-left.extra-small{:for => "flat_number"} Квартира
+                      .uzhindoma-input
+                        =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
+
+              .row  
+                .col-md-6
+                  #add_address_input
+                    .text-wrapper
+                      %label.h5.zero-letter-spacing.text-left.extra-small{:for => "flat_number"} Подъезд, Этаж, Код домофона
+                      .uzhindoma-input
+                        =f.text_field :additional_address, data: { constraints: "@NotEmpty"}, id: "flat_number"
             .row
               .col-md-5
                 %h5.zero-letter-spacing.margin-top-30.text-left.extra-small Интервал доставки

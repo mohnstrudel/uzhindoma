@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, PictureUploader
 
   has_many :orders
+  has_many :addresses
+  accepts_nested_attributes_for :addresses, allow_destroy: true
 
 
   has_one_time_password column_name: :otp_secret_key, length: 4
