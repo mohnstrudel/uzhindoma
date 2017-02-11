@@ -183,13 +183,6 @@ class Front::OrdersController < FrontController
 
 		check_token
 
-		phone = params[:order][:phone]
-		name = URI.escape("#{params[:order][:first_name]} #{params[:order][:second_name]}")
-		menu_type = params[:order_type]
-		address = URI.escape("Адрес: Улица - #{params[:order][:street]}/#{params[:order][:house_number]}, квартира номер #{params[:order][:flat_number]} (корпус #{params[:order][:korpus]})")
-		comment = params[:order][:comment]
-		delivery = params[:order][:delivery_timeframe]
-
 		user = check_if_user_exists(phone)
 		# Here we either create a new deal for existing user or create new lead
 		# with given data
@@ -247,12 +240,16 @@ class Front::OrdersController < FrontController
 		
 		# Проверяем сначала, нам данные из профиля пользователя брать или из формы
 		if @cu = current_user
+
+			# Логика под пользователя, у которого уже есть профиль
+			
 			email = @cu.email || ""
 			name = URI.escape("#{@cu.first_name} #{@cu.second_name}")
 			phone = @cu.phone
 
 			# Проверяем, ввел ли он новый адрес или использовал старый
 			if params[:delivery_address] == "new"
+				# Тут логика для опции "Добавить новый адрес"
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
 				if order[:delivery_region] == "Москва"
 					city = order[:delivery_region]
@@ -278,8 +275,10 @@ class Front::OrdersController < FrontController
 				# Сохраняем новый адрес у пользователя
 				current_user.addresses.create(delivery_region: order[:delivery_region], city: order[:city], street: order[:street], house_number: order[:house_number], flat_number: order[:flat_number], additional_address: order[:additional_address])
 			elsif params[:delivery_address] == "current"
+				# Тут логика для ПЕРВОГО адреса, который является основным и хранится в полях пользователя, а не
+				# в доп. адресах (т.е. это user.street, а не user.addresses.first.street)
+
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-				
 				city = Order.check_delivery_region(@cu)
 
 				# Получаем поля адреса из параметров
@@ -290,11 +289,11 @@ class Front::OrdersController < FrontController
 				# номер дома, квартиру, подъезд, этаж
 				add_address_fields = ""
 				
-				unless order[:flat_number].blank?
+				unless @cu.flat_number.blank?
 					add_address = URI.escape("кв. #{@cu.flat_number}")
 					
-					unless order[:additional_address].blank?
-						rest_address = URI.escape(order[:additional_address])
+					unless @cu.additional_address.blank?
+						rest_address = URI.escape(@cu.additional_address)
 						add_address = "#{add_address}, #{rest_address}"
 					end
 					# оригинал, сохраняем для бэкапа
@@ -302,6 +301,9 @@ class Front::OrdersController < FrontController
 					# add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
 				end
 			else
+				# Тут логика для адресов, которые "между" первым и последним
+				# Т.е. тут все адреса, которые находятся в user.addresses
+
 				# В данном случае мы подставляем поля выбранного дополнительного адреса
 				found_address = Address.find(params[:delivery_address].to_i)
 
@@ -315,11 +317,11 @@ class Front::OrdersController < FrontController
 				# номер дома, квартиру, подъезд, этаж
 				add_address_fields = ""
 				
-				unless order[:flat_number].blank?
+				unless found_address.flat_number.blank?
 					add_address = URI.escape("кв. #{found_address.flat_number}")
 					
-					unless order[:additional_address].blank?
-						rest_address = URI.escape(order[:additional_address])
+					unless found_address.additional_address.blank?
+						rest_address = URI.escape(found_address.additional_address)
 						add_address = "#{add_address}, #{rest_address}"
 					end
 					# оригинал, сохраняем для бэкапа
@@ -328,6 +330,9 @@ class Front::OrdersController < FrontController
 				end
 			end
 		else
+			# Здесь логика под совсем нового пользователя, т.е. которого нет ни в битриксе
+			# ни на сайте
+
 			# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле лида
 			email = order[:email] || ""
 			payment_fields = ""
