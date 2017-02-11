@@ -45,10 +45,17 @@
                 %label.field-icon{:for => "comment"}
                   %i.fa.fa-whatsapp
             .section.mb10
-              %label.field.prepend-icon
+              %label.field.prepend-icon.mb10
                 =f.text_field :order_mail, id: "order_mail", class: "event-name gui-input br-light light", placeholder: 'Электронная почта для получения заказов'
                 %label.field-icon{:for => "comment"}
                   %i.fa.fa-envelope
+              .alert.alert-micro.alert-border-left.alert-info
+                %i.fa.fa-info.pr10
+                На данную
+                %strong почту
+                будут приходить уведомления о новых заказах.
+                
+
 
 
 

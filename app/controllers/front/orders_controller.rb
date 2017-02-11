@@ -20,13 +20,28 @@ class Front::OrdersController < FrontController
 		else
 			logger.debug "Нажато на создание нового заказа"
 			@cu = current_user
-			if user_signed_in?
-				@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
-			else
-				@order = Order.new
+
+			# Тут проверяем, какой день сегодня - с четверга по воскресенье отключаем
+			# Возможность заказать набор
+			if Order.check_order_day(Date.today)
+				if user_signed_in?
+					session[:phone] = @cu.phone
+				else
+					session[:phone] = params[:phone]
+				end
+				logger.debug "Out of order called with phone: #{session[:phone]}"
+				redirect_to out_of_order_path
+				# Оповещаем админа сайта, что есть заказ в день, когда списки закрыты
+				OrderNotifier.out_of_order(session[:phone]).deliver_now
+			else	
+				if user_signed_in?
+					@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
+				else
+					@order = Order.new
+				end
+				@menu = Menu.find(params[:menu_id])
+				@menu_price = @menu.calculate_price(@menu, params)
 			end
-			@menu = Menu.find(params[:menu_id])
-			@menu_price = @menu.calculate_price(@menu, params)
 		end
 	end
 
@@ -93,6 +108,9 @@ class Front::OrdersController < FrontController
 	end
 
 	def edit
+	end
+
+	def out_of_order
 	end
 
 	def update
@@ -283,11 +301,6 @@ class Front::OrdersController < FrontController
 					add_address = "#{add_address}, #{rest_address}"
 				end
 			end
-
-			timeframe_fields = ""
-			if !timeframe.blank?
-				timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
-			end
 		end
 
 		# Передаем параметры адреса непосредственно в сделку или в лид
@@ -304,13 +317,19 @@ class Front::OrdersController < FrontController
 				payment_fields = ""
 			end
 
+			# Интервал доставки
+			timeframe_fields = ""
+			if !timeframe.blank?
+				timeframe_fields = "&fields[UF_CRM_1455025743]=#{timeframe}"
+			end
+
 			# Прописываем все доп. параметры урла в соответствии с данными заказа
 			# для СДЕЛКИ
 			address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
 			add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
 
 			logger.info "Creating a new DEAL with params: user_id - #{user_id}, comment - #{commentary}, title - #{title}"
-			fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}&fields[UF_CRM_1455025743]=#{timeframe}#{payment_fields}#{address_fields}#{add_address_fields}"
+			fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
 			
 			url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
@@ -342,6 +361,12 @@ class Front::OrdersController < FrontController
 
 			address_fields = "&fields[UF_CRM_1454918385]=#{address}"
 			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
+
+			# Интервал доставки
+			timeframe_fields = ""
+			if !timeframe.blank?
+				timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
+			end
 
 			logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
 			fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"

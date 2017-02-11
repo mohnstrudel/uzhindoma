@@ -22,9 +22,8 @@ class OrderNotifier < ApplicationMailer
   #
   #   en.order_notifier.shipped.subject
   #
-  def shipped
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+  def out_of_order(phone)
+    @phone = phone
+    mail to: Setting.first.order_mail, subject: "На сайте был оставлен заказа когда списки были закрыты"
   end
 end

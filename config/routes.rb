@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     root 'static_pages#home'
     get 'uznat-bolshe', to: 'static_pages#learn_more'
     get 'policy', to: 'static_pages#policy'
+    get 'out_of_order', to: 'orders#out_of_order'
     resources :menus
     resources :dinner
     resources :orders
