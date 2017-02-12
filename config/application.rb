@@ -11,5 +11,12 @@ module Uzhindoma
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.days_of_week = {	"1" => "Понедельник",
+							"2" => "Вторник",
+							"3" => "Среда",
+							"4" => "Четверг",
+							"5" => "Пятница",
+							"6" => "Суббота",
+							"7" => "Воскресенье"}
   end
 end

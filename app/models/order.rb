@@ -34,8 +34,11 @@ class Order < ActiveRecord::Base
 	end
 
 	def self.check_order_day(current_date)
+		setting = Setting.first
 		if Rails.env.production?
-			days_to_check = [4,5,6,0]
+			days_to_check = (setting.out_of_order_begin..setting.out_of_order_end).to_a
+			# семерку нужно заменить на ноль, так как 0 - это воскресенье для рельс
+			days_to_check.map!{ |x| x == 7 ? x=0 : x } 
 		else
 			# Нам не нужно проверять страницу каждый раз в девелопменте
 			days_to_check = []

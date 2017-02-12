@@ -54,8 +54,24 @@
                 На данную
                 %strong почту
                 будут приходить уведомления о новых заказах.
-                
-
+            
+        .section.row
+          .col-md-6
+            .alert.alert-micro.alert-border-left.alert-info
+              %i.fa.fa-info.pr10
+              В этот день списки на этой неделе закроются
+            %label.field.select{:for => "out_of_order_begin"}
+              =f.select :out_of_order_begin, options_for_select(Rails.application.config.days_of_week.collect{ |u| [u[1], u[0].to_i]}, @setting.out_of_order_begin.to_i)
+              %i.arrow.double
+          / end section
+          .col-md-6
+            .alert.alert-micro.alert-border-left.alert-info
+              %i.fa.fa-info.pr10
+              Списки будут закрыты до этого дня (включительно этого дня)
+            %label.field.select{:for => "out_of_order_begin"}
+              =f.select :out_of_order_end, options_for_select(Rails.application.config.days_of_week.collect{ |u| [u[1], u[0].to_i]}, @setting.out_of_order_end.to_i)
+              %i.arrow.double
+          / end section
 
 
 
