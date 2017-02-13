@@ -183,6 +183,7 @@ class Front::OrdersController < FrontController
 
 		check_token
 
+		phone = params[:order][:phone]
 		user = check_if_user_exists(phone)
 		# Here we either create a new deal for existing user or create new lead
 		# with given data
