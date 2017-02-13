@@ -1,14 +1,20 @@
+<h1> Привет, это я, робот Ужина Дома!</h1>
 <%- if @order.order_type == "fast" %>
-	<%= "#{@order.name} оставил/а заявку на заказ набора #{@order.menu_type}." %>
+	<%= "#{@order.first_name} оставил/а заявку на заказ набора #{@order.menu_type}." %>
 	<p>
 		
 		<%= "Перезвоните по телефону: #{@order.phone} как можно быстрее!" %>
 	</p> 
 
 <%- else %>
-	<%= "#{@order.name} оставил/а заказ на нашем сайте." %>
+	<%= "#{@order.first_name} оставил/а заказ на нашем сайте." %>
 	<p>
 		Заказ включает в себя:
 		<%= "Набор #{Menu.find(@order.menu_id).category.name } на #{@order.person_amount} персон/ы" %>
 	</p>
+	<p>
+		Телефон клиента на всякий случай: <%= @order.phone %>
+	</p>
 <%- end %> 
+
+<small>Я убежал)</small>
