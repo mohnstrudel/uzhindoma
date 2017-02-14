@@ -76,20 +76,24 @@
                 #delivery-container
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "9:00 - 12:00", hidden: true, id: "delivery_timeframe1"
+                      =f.radio_button :delivery_timeframe, "9:00-12:00", hidden: true, id: "delivery_timeframe1"
                       %label{id: "delivery_timeframe1", :for => "delivery_timeframe1"} 9:00 - 12:00
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "11:00 - 14:00", hidden: true, id: "delivery_timeframe2"
+                      =f.radio_button :delivery_timeframe, "11:00-14:00", hidden: true, id: "delivery_timeframe2"
                       %label{id: "delivery_timeframe2", :for => "delivery_timeframe2"} 11:00 - 14:00
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "17:00 - 20:00", hidden: true, id: "delivery_timeframe3"
+                      =f.radio_button :delivery_timeframe, "17:00-20:00", hidden: true, id: "delivery_timeframe3"
                       %label{id: "delivery_timeframe3", :for => "delivery_timeframe3"} 17:00 - 20:00
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "20:00 - 23:00", hidden: true, id: "delivery_timeframe4"
+                      =f.radio_button :delivery_timeframe, "20:00-23:00", hidden: true, id: "delivery_timeframe4"
                       %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 20:00 - 23:00
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "Любое", hidden: true, id: "delivery_timeframe5"
+                      %label{id: "delivery_timeframe5", :for => "delivery_timeframe5"} Любое
                   %span.stretch
             .row
               .col-md-5
@@ -230,20 +234,24 @@
                 #delivery-container
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "9:00 - 12:00", hidden: true, id: "delivery_timeframe1"
+                      =f.radio_button :delivery_timeframe, "9:00-12:00", hidden: true, id: "delivery_timeframe1"
                       %label{id: "delivery_timeframe1", :for => "delivery_timeframe1"} 9:00 - 12:00
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "11:00 - 14:00", hidden: true, id: "delivery_timeframe2"
+                      =f.radio_button :delivery_timeframe, "11:00-14:00", hidden: true, id: "delivery_timeframe2"
                       %label{id: "delivery_timeframe2", :for => "delivery_timeframe2"} 11:00 - 14:00
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "17:00 - 20:00", hidden: true, id: "delivery_timeframe3"
+                      =f.radio_button :delivery_timeframe, "17:00-20:00", hidden: true, id: "delivery_timeframe3"
                       %label{id: "delivery_timeframe3", :for => "delivery_timeframe3"} 17:00 - 20:00
                   .radio-wrapper
                     .uzhin_rb_menus
-                      =f.radio_button :delivery_timeframe, "20:00 - 23:00", hidden: true, id: "delivery_timeframe4"
+                      =f.radio_button :delivery_timeframe, "20:00-23:00", hidden: true, id: "delivery_timeframe4"
                       %label{id: "delivery_timeframe4", :for => "delivery_timeframe4"} 20:00 - 23:00
+                  .radio-wrapper
+                    .uzhin_rb_menus
+                      =f.radio_button :delivery_timeframe, "Любое", hidden: true, id: "delivery_timeframe5"
+                      %label{id: "delivery_timeframe5", :for => "delivery_timeframe5"} Любое
                   %span.stretch
 
             .row
