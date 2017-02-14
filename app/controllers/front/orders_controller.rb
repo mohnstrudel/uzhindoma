@@ -574,9 +574,9 @@ class Front::OrdersController < FrontController
 			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
 			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
 			
-			logger.log "Using phone: #{current_phone}"
-			logger.log "Searching for user using this URL: "
-			logger.log url
+			logger.debug "Using phone: #{current_phone}"
+			logger.debug "Searching for user using this URL: "
+			logger.debug url
 
 
 			doc = Nokogiri::HTML(open(url))
