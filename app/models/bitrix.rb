@@ -178,6 +178,7 @@ class Bitrix < ActiveRecord::Base
 		phone = phone_input.scan(/\d+/).join("")
 
 		output_phone[0] = phone
+		# первый анпак генерирует "7900-123-88-22" 
 		output_phone[1] = phone.unpack('A4A3A2A2').join('-')
 		output_phone[2] = phone.unpack('A1A3A3A2A2').join('-')
 		output_phone[3] = phone.unpack('A1A3A3A2A2').join(' ')
@@ -188,6 +189,8 @@ class Bitrix < ActiveRecord::Base
 		output_phone[8] = phone.unpack('A1A10').join('-').unpack('A5A10').join(' ')
 		output_phone[9] = phone.unpack('A1A10').join('-').unpack('A5A3A2A2').join(' ')
 		output_phone[10] = phone.unpack('A1A10').join(' ').unpack('A5A3A2A2').join('-')
+		# Тут нам нужен 7 (925) 700-6838
+		output_phone[11] = phone.unpack('A1A10').join(' (').unpack('A6A7').join(') ').unpack('A11A4').join('-')
 
 		# now we need exactly the same with '8' at the beginning
 

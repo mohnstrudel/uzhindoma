@@ -184,7 +184,9 @@ class Front::OrdersController < FrontController
 		check_token
 
 		phone = params[:order][:phone]
+		logger.debug "Chechking if user exists"
 		user = check_if_user_exists(phone)
+		logger.debug "User returned with params: #{user}"
 		# Here we either create a new deal for existing user or create new lead
 		# with given data
 
@@ -574,16 +576,26 @@ class Front::OrdersController < FrontController
 			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
 			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
 			
-			logger.debug "Using phone: #{current_phone}"
-			logger.debug "Searching for user using this URL: "
-			logger.debug url
+			# logger.debug "Using phone: #{current_phone}"
+			# logger.debug "Searching for user using this URL: "
+			# logger.debug url
 
 
 			doc = Nokogiri::HTML(open(url))
-			client_data = JSON.parse(doc)
-			unless client_data["result"].empty?
+			client_data = JSON.parse(doc)["result"]
+
+			unless client_data.empty?
 				# Here we return the found client's ID
-				return client_data["result"][0]["ID"]
+				# используем -1, что бы, если результатов больше одного, то мы получали последний
+				# Также проверяем, если результатов больше 1, то шлем письмецо
+				logger.debug "Client data:"
+				p client_data
+				logger.debug "Result length: #{client_data.length}"
+
+				if client_data.length > 1
+					ApplicationMailer.notify_if_multiple_bitrix_users(phone, client_data).deliver_now
+				end
+				return client_data[-1]["ID"]
 			end
 		end
 		# If no user found we return nil
