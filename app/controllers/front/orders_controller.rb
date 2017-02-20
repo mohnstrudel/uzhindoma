@@ -389,7 +389,7 @@ class Front::OrdersController < FrontController
 			# Прописываем все доп. параметры урла в соответствии с данными заказа
 			# для СДЕЛКИ
 			address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
-			add_address_fields = "&fields[UF_CRM_56B8878D39A41]=#{add_address}"
+			add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
 
 			logger.info "Creating a new DEAL with params: user_id - #{user_id}, comment - #{commentary}, title - #{title}"
 			fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"

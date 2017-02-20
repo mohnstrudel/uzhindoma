@@ -38,16 +38,34 @@ class Menu < ActiveRecord::Base
   def calculate_price(menu, params)
     price = menu.price
 
+    person_params = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2] || params[:person_amount]
+    # Тут мы получаем такой массив в виде стринга
+    # "[4, 1600]"
+    # первая цифра - кол-во персон. Вторая - надбавка для кол-ва персон
+
+    # Получаем кол-во персон
+    person_amount = person_params.split(",")[0].gsub("[","").to_i
+
     menu_amount = params[:menu_amount_0] || params[:menu_amount_1] || params[:menu_amount_2] || params[:menu_amount]
     # Мы получаем вот такой массив в виде стринга
-    # "[150, 20000]", соответсвенно нужно сплитунть на запятой и убрать пробел + скобку
-    # (цена всегда на втором месте стоит)
-    menu_price_change = menu_amount.split(",")[1].gsub(" ","").gsub("]",'')
+    # "[5, 1000, 600]", соответсвенно нужно сплитунть на запятой и убрать пробел + скобку
+    # на первом месте стоит кол-во дней, на втором месте цена (надбавка) для двоих,
+    # на третьем - цена (надбавка на четверых (эта надбавка идет к первой))
+    menu_price_change_two = menu_amount.split(",")[1].gsub(" ","").gsub("]",'')
+    menu_price_change_four = menu_amount.split(",")[2].gsub(" ","").gsub("]","")
 
-    price += menu_price_change.to_f
+    # Если кол-во персон == 2, то прибавляем только второе значение из массива
+    # если кол-во == 4, то нужно прибавить обе надбавки
+    if person_amount == 2
+      price += menu_price_change_two.to_f
+    elsif person_amount == 4
+      price += (menu_price_change_two.to_f + menu_price_change_four.to_f)
+    else
+      price = price
+    end
 
-    person_amount = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2] || params[:person_amount]
-    person_price_change = person_amount.split(",")[1].gsub(" ","").gsub("]",'')
+    
+    person_price_change = person_params.split(",")[1].gsub(" ","").gsub("]",'')
 
     price += person_price_change.to_f
 
