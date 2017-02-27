@@ -9,21 +9,35 @@
 
 //= require_tree ../../../vendor/assets/javascripts/admin/plugins/moment/.
 
-//= require jquery
+//= require admin/jquery/jquery-1.11.1.min
+//= require admin/jquery_ui/jquery-ui.min
+
+
+
+// ADMIN DATEPICKER
+//= require admin/plugins/admin-forms/jquery-ui-monthpicker.min
+//= require admin/plugins/admin-forms/jquery-ui-datepicker.min
+//= require admin/plugins/admin-forms/jquery.spectrum.min
+//= require admin/plugins/admin-forms/jquery.stepper.min
+
 //= require jquery_ujs
+
 
 //= require_tree ../../../vendor/assets/javascripts/admin/plugins/.
 //= require_tree ../../../vendor/assets/javascripts/admin/daterange/.
 //= require_tree ../../../vendor/assets/javascripts/admin/utility/.
 
-//= require_tree ../../../vendor/assets/javascripts/admin/demo/.
 
+// THEME JAVASCRIPT
+//= require admin/utility
+//= require admin/demo
 //= require admin/main
+
+
 
 //= require_self
 //= require_tree ../../../app/assets/javascripts/admin/.
 
-//= require turbolinks
 
 
 

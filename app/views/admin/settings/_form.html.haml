@@ -55,23 +55,25 @@
                 %strong почту
                 будут приходить уведомления о новых заказах.
             
+          / end section
         .section.row
           .col-md-6
             .alert.alert-micro.alert-border-left.alert-info
               %i.fa.fa-info.pr10
-              В этот день списки на этой неделе закроются
-            %label.field.select{:for => "out_of_order_begin"}
-              =f.select :out_of_order_begin, options_for_select(Rails.application.config.days_of_week.collect{ |u| [u[1], u[0].to_i]}, @setting.out_of_order_begin.to_i)
-              %i.arrow.double
-          / end section
+              Списки закроются с этого момента
+            %label.field.prepend-icon{:for => "datetimepicker_begin"}
+              =f.text_field :out_of_order_begin, id: "datetimepicker_begin", class: "gui-input", placeholder: "Закрытие списков (начало)"
+              %label.field-icon
+                %i.fa.fa-calendar-o
           .col-md-6
             .alert.alert-micro.alert-border-left.alert-info
               %i.fa.fa-info.pr10
-              Списки будут закрыты до этого дня (включительно этого дня)
-            %label.field.select{:for => "out_of_order_begin"}
-              =f.select :out_of_order_end, options_for_select(Rails.application.config.days_of_week.collect{ |u| [u[1], u[0].to_i]}, @setting.out_of_order_end.to_i)
-              %i.arrow.double
-          / end section
+              Списки будут закрыты до этого момента
+            %label.field.prepend-icon{:for => "datetimepicker_end"}
+              =f.text_field :out_of_order_end, id: "datetimepicker_end", class: "gui-input", placeholder: "Закрытие списков (конец)"
+              %label.field-icon
+                %i.fa.fa-calendar-o
+
 
 
 

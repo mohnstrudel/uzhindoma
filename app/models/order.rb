@@ -35,15 +35,23 @@ class Order < ActiveRecord::Base
 
 	def self.check_order_day(current_date)
 		setting = Setting.first
-		if Rails.env.production?
-			days_to_check = (setting.out_of_order_begin..setting.out_of_order_end).to_a
-			# семерку нужно заменить на ноль, так как 0 - это воскресенье для рельс
-			days_to_check.map!{ |x| x == 7 ? x=0 : x } 
+		if Rails.env.development?
+			# Парсим дату начала и конца
+			# e = s.out_of_order_end
+ 			# => "27-02-2017 11:24" 
+			# DateTime.parse(b)
+ 			# => Mon, 27 Feb 2017 11:24:00 +0000 
+			begin_date_to_check = DateTime.parse(setting.out_of_order_begin).change(offset: "+0300")
+			end_date_to_check = DateTime.parse(setting.out_of_order_end).change(offset: "+0300")
+			# change(offset: "+0300") для того, что бы было +03:00 наравне с Московским временем
+
+			# Проверяем, лежит ли присланная дата между началом и концом
+			result = current_date.between?(begin_date_to_check, end_date_to_check)
 		else
 			# Нам не нужно проверять страницу каждый раз в девелопменте
-			days_to_check = []
+			# т.е. всегда возвращаем фолс
+			result = false
 		end
-		result = days_to_check.include?(current_date.wday)
 		# Результат содержит тру или фолс в зависимости от того, находится ли
 		# текущий день между четвергом и воскресеньем (включительно)
 		# Т.е. если мы в пятницу вызываем этот метод, он возвращает тру

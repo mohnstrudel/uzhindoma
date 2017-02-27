@@ -1,7 +1,7 @@
 class Front::OrdersController < FrontController
 
 	before_action :find_order, only: [:show, :edit, :update]
-	before_filter :get_tokens
+	before_action :get_tokens
 
 
 	def new
@@ -23,7 +23,7 @@ class Front::OrdersController < FrontController
 
 			# Тут проверяем, какой день сегодня - с четверга по воскресенье отключаем
 			# Возможность заказать набор
-			if Order.check_order_day(Date.today)
+			if Order.check_order_day(DateTime.now)
 				if user_signed_in?
 					session[:phone] = @cu.phone
 				else

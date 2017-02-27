@@ -3,10 +3,10 @@
 %html
 %head
   %title Uzhindoma
-  = stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track' => true
+  = stylesheet_link_tag    'admin', media: 'all'
   = csrf_meta_tags
 
-%body.ecommerce-page
+%body{class: "admin-widgets-page ecommerce-page #{controller_name} #{action_name}", data: { "spy" => "scroll", "target" => "#nav-spy", "offset" => "300" } }
   / Start: Main
   #main
     =render 'admin/navigation/header'
@@ -20,4 +20,4 @@
         / begin: .tray-center
         =yield
 
-= javascript_include_tag 'admin', 'data-turbolinks-track' => true
+= javascript_include_tag 'admin'
