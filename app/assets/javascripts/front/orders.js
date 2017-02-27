@@ -25,13 +25,13 @@ $(document).ready(function(){
             // Если интервал доставки выбран, то все чики пуки, ничего не делаем
             // Но если мы до этого нажали на отправить и все-таки выбрали интервал и нажали снова,
             // то удаляем ошибку и текст
-            $('#delivery-container').children("p").remove();
+            $('#delivery-container').children(".text-danger").remove();
         } else {
             // Удаляем возможные предыдущие статусы
-            $('#delivery-container').children("p").remove();
+            $('#delivery-container').children(".text-danger").remove();
             // Если не выбран, то не даем заказать
             e.preventDefault();
-            $('#delivery-container').append("<p><b>Необходимо выбрать интервал доставки!<b></p>");
+            $('#delivery-container').append("<div class='text-danger'><p><b>Необходимо выбрать интервал доставки!<b></p></div>");
         }
         // Проверяем также на обязательное заполнение полей НОВОГО адреса, но только
         // если данная опция выбрана, т.е. если эти поля ВИДНЫ
@@ -45,15 +45,15 @@ $(document).ready(function(){
             if ($("input[name='order[delivery_region]']:checked").length > 0) {
                 // Тут проверяем город
                 // console.log("Регион выбран!");
-                $('#region_input').children("p").remove();
+                $('#region_input').children(".text-danger").remove();
                 // console.log("Значение региона - " + $("input[name='order[delivery_region]']:checked").val());
                 if ($("input[name='order[delivery_region]']:checked").val() == "Московская область"){
                     // console.log("Регион доставки выбран: Московская область.")
-                    if ($('#city_input input').val().length === 0)
+                    if ($('#city').val().length === 0)
                     {   
                         // console.log("Улица пустая! - " + $('#street_input input').val());
-                        $('#city_input').children("p").remove();
-                        $('#city_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                        $('#city_input').children(".text-danger").remove();
+                        $('#city_input').append("<div class='text-danger'><p><b>Необходимо заполнить данное поле!<b></p></div>");
                         e.preventDefault();  
                         // console.log("Не заполнен ГОРОД, не даю нажать дальше!");  
                     }
@@ -63,46 +63,46 @@ $(document).ready(function(){
             } else {
                 // console.log("Город не выбран!");
                 // Удаляем возможные предыдущие статусы
-                $('#region_input').children("p").remove();
+                $('#region_input').children(".text-danger").remove();
                 // Если не выбран, то не даем заказать
-                $('#region_input').append("<p><b>Необходимо выбрать регион доставки!<b></p>");
+                $('#region_input').append("<div class='text-danger'><p><b>Необходимо выбрать регион доставки!<b></p></div>");
                 e.preventDefault();
                 // console.log("Не заполнен РЕГИОН, не даю нажать дальше!");  
             }
 
             console.log('Optional new address is visible');
             // Тут устраиваем проверку на заполненность полей
-            if ($('#street_input input').val().length === 0)
+            if ($('#street').val().length === 0)
             {   
                 // console.log("Улица пустая! - " + $('#street_input input').val());
-                $('#street_input').children("p").remove();
-                $('#street_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                $('#street_input').children(".text-danger").remove();
+                $('#street_input').append("<div class='text-danger'><p><b>Необходимо заполнить данное поле!<b></p></div>");
                 e.preventDefault();    
                 // console.log("Не заполнена УЛИЦА, не даю нажать дальше!");  
             }
-            if ($('#house_input input').val().length === 0)
+            if ($('#house_number').val().length === 0)
             {
-                $('#house_input').children("p").remove();
-                $('#house_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+                $('#house_input').children(".text-danger").remove();
+                $('#house_input').append("<div class='text-danger'><p><b>Необходимо заполнить данное поле!<b></p></div>");
                 e.preventDefault();    
                 // console.log("Не заполнен ДОМ, не даю нажать дальше!");  
             }
 
-            if ($('#flat_input input').val().length === 0)
-            {
-                $('#flat_input').children("p").remove();
-                $('#flat_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
-                e.preventDefault();    
-                // console.log("Не заполнена КВАРТИРА, не даю нажать дальше!");  
-            }
+            // if ($('#flat_number').val().length === 0)
+            // {
+            //     $('#flat_input').children("p").remove();
+            //     $('#flat_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+            //     e.preventDefault();    
+            //     // console.log("Не заполнена КВАРТИРА, не даю нажать дальше!");  
+            // }
 
-            if ($('#add_address_input input').val().length === 0)
-            {
-                $('#add_address_input').children("p").remove();
-                $('#add_address_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
-                e.preventDefault(); 
-                // console.log("Не заполнен ДОП.АДРЕС, не даю нажать дальше!");     
-            }
+            // if ($('#add_address').val().length === 0)
+            // {
+            //     $('#add_address_input').children("p").remove();
+            //     $('#add_address_input').append("<p><b>Необходимо заполнить данное поле!<b></p>");
+            //     e.preventDefault(); 
+            //     // console.log("Не заполнен ДОП.АДРЕС, не даю нажать дальше!");     
+            // }
 
             
 
