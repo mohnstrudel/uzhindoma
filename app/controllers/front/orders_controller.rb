@@ -61,9 +61,19 @@ class Front::OrdersController < FrontController
 		
 		# Here happens some Bitrix magic (see methods below)
 
-		user_id = create_user_if_not_exists_yet(params)
+		logger.debug "Benchmarking 'create_user_if_not_exists_yet'"
+		Benchmark.bm do |x|
+			x.report do
+				@user_id = create_user_if_not_exists_yet(params)
+			end
+		end
 		
-		action_upon_order_creation(@order)
+		logger.debug "Benchmarking 'action_upon_order_creation' - creating lead or deal inside Bitrix"
+		Benchmark.bm do |x|
+			x.report do
+				action_upon_order_creation(@order)
+			end
+		end
 
 		# Меняем стоимость набора с учетом скидки, если такая есть		
 		
@@ -81,7 +91,7 @@ class Front::OrdersController < FrontController
 			end
 		end
 
-		@order[:user_id] = user_id
+		@order[:user_id] = @user_id
 
 		if @order.save
 			if apply_promocode(@order[:pcode])
@@ -122,9 +132,9 @@ class Front::OrdersController < FrontController
 			end
 
 			unless params[:order_type] == "fast"
-				OrderNotifier.received(@order).deliver_now
+				OrderNotifier.delay.received(@order)
 			end
-			OrderNotifier.notifyShop(@order).deliver_now
+			OrderNotifier.delay.notifyShop(@order)
 		else
 			render "new"
 		end
@@ -181,19 +191,24 @@ class Front::OrdersController < FrontController
 
 	def action_upon_order_creation(order)
 
-		check_token
+		logger.debug "Calling Bitrix.check_token"
+		result = Bitrix.check_token
+		# logger.debug "Result of check_token is: #{result}"
 
 		phone = params[:order][:phone]
-		logger.debug "Chechking if user exists"
-		user = check_if_user_exists(phone)
-		logger.debug "User returned with params: #{user}"
+		logger.debug "Chechking if user exists. Benchmarking aswell."
+		Benchmark.bm do |x|
+			x.report { @user = check_if_user_exists(phone) }
+		end
+		
+		logger.debug "User returned with params: #{@user}"
 		# Here we either create a new deal for existing user or create new lead
 		# with given data
 
-		if user
+		if @user
 			# create_new_bitrix_deal(user, order)
-			create_new_bitrix_lead_or_deal("deal", order, user)
-			logger.debug "User with id #{user} found, creating a new deal inside Bitrix."
+			create_new_bitrix_lead_or_deal("deal", order, @user)
+			logger.debug "User with id #{@user} found, creating a new deal inside Bitrix."
 		else
 			# create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery, order)
 			create_new_bitrix_lead_or_deal("lead", order)
@@ -371,195 +386,55 @@ class Front::OrdersController < FrontController
 		case type
 		when "deal"
 			# Тут уникальная ерунда для СДЕЛКИ
-			stage_id = "NEW"
-			opportunity = order[:order_price] if order[:order_price]
-			# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
-			if order[:payed_online]
-				payment_fields = "&fields[UF_CRM_1467563310]=#{opportunity}&fields[UF_CRM_1459692590]=#{opportunity}"
-			else
-				payment_fields = ""
-			end
+			# stage_id = "NEW"
+			# opportunity = order[:order_price] if order[:order_price]
+			# # Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле сделки
+			# if order[:payed_online]
+			# 	payment_fields = "&fields[UF_CRM_1467563310]=#{opportunity}&fields[UF_CRM_1459692590]=#{opportunity}"
+			# else
+			# 	payment_fields = ""
+			# end
 
-			# Интервал доставки
-			timeframe_fields = ""
-			if !timeframe.blank?
-				timeframe_fields = "&fields[UF_CRM_1455025743]=#{timeframe}"
-			end
+			# # Интервал доставки
+			# timeframe_fields = ""
+			# if !timeframe.blank?
+			# 	timeframe_fields = "&fields[UF_CRM_1455025743]=#{timeframe}"
+			# end
 
-			# Прописываем все доп. параметры урла в соответствии с данными заказа
-			# для СДЕЛКИ
-			address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
-			add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
+			# # Прописываем все доп. параметры урла в соответствии с данными заказа
+			# # для СДЕЛКИ
+			# address_fields = "&fields[UF_CRM_56B8878D149C3]=#{address}"
+			# add_address_fields = "&fields[UF_CRM_56B8878D6482A]=#{add_address}"
 
-			logger.info "Creating a new DEAL with params: user_id - #{user_id}, comment - #{commentary}, title - #{title}"
-			fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
+			# logger.info "Creating a new DEAL with params: user_id - #{user_id}, comment - #{commentary}, title - #{title}"
+			# fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
 			
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
+			# url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
-			doc = Nokogiri::HTML(open(url))
+			# Предыдущее пока комментирую, мбе понадобится. Суть в том, что с 11/03/2017
+			# нужно и сделку передавать в лид с разницой в одно только поле "Существующий клиент"
 
-			response = JSON.parse(doc)
-			deal_id = response["result"]
+			url = Bitrix.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id)
 
-			found_product = find_product_for_order(order)
-
-
-			# Если промокод указан верно, то discount будет true
-			logger.debug "Creating deal with promocode: #{order[:promocode]}"
-			discount = apply_promocode(order[:promocode])
-			
-			answer = format_id_and_prices(found_product, order[:add_dessert], discount)
-			product_id = answer[0]
-			product_price = answer[1]
-			dessert_id = answer[2]
-			dessert_price = answer[3]
-			# Скидка
-			discount_id = answer[4]
-			discount_price = answer[5]
-
-			# Добавляем все товары из Битрикса в битриксовую сделку
-			add_products_to_order(type, deal_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+			logger.info "Benchmarking Bitrix.write_to_crm"
+			Benchmark.bm do |x|
+				x.report { Bitrix.write_to_crm(url, order, type) }
+			end
+			# ------------
 
 		when "lead"
 
-			address_fields = "&fields[UF_CRM_1454918385]=#{address}"
-			add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
-
-			# Интервал доставки
-			timeframe_fields = ""
-			if !timeframe.blank?
-				timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
-			end
-
-			logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
-			fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
-			
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
-			
-			logger.debug "Calling url: #{url}"
+			url = Bitrix.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id)
 
 			# long url example
 			# auth=bo00krlcimz2k3fggnzzxfusg2rhk3d3&&fields[TITLE]=%D0%98%D0%9F%20%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[NAME]=%D0%93%D0%BB%D0%B5%D0%B1&fields[SECOND_NAME]=%D0%95%D0%B3%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87&fields[LAST_NAME]=%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[STATUS_ID]=NEW&fields[OPENED]=Y&fields[ASSIGNED_BY_ID]=1&fields[CURRENCY_ID]=USD&fields[OPPORTUNITY]=12500&&fields[PHONE][0][VALUE]=555888&fields[PHONE][0][VALUE_TYPE]=WORK&params[REGISTER_SONET_EVENT]=Y
 
-			doc = Nokogiri::HTML(open(url))
-			response = JSON.parse(doc)
-
-			lead_id = response["result"]
-
-			found_product = find_product_for_order(order)
-
-			# Если промокод указан верно, то discount будет true
-			discount = apply_promocode(order[:promocode])
-			
-			answer = format_id_and_prices(found_product, order[:add_dessert], discount)
-			product_id = answer[0]
-			product_price = answer[1]
-			dessert_id = answer[2]
-			dessert_price = answer[3]
-			# Скидка
-			discount_id = answer[4]
-			discount_price = answer[5]
-
-
-			# Добавляем все товары из Битрикса в битриксовый лид
-			add_products_to_order(type, lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
-			# @response = JSON.parse(doc)
-		end
-	end
-
-	def format_id_and_prices(found_product, dessert, discount)
-		
-		# Добавить десерт, если в заказе выбрано
-		dessert_id = nil
-		dessert_price = nil
-
-		# Дефолтные nil-значения для скидки
-		discount_id = nil
-		discount_price = nil
-
-		if dessert
-			dessert_name = Menu.current_dessert[0].recipes[0][:name]
-			found_dessert = find_product("Десерт")
-			dessert_id = found_dessert[0]
-			dessert_price = found_dessert[1]
-		end
-
-		if discount
-			found_discount = find_product("Скидка")
-			discount_id = found_discount[0]
-			discount_price = found_discount[1]
-		end
-		product_id = found_product[0]
-		product_price = found_product[1]
-
-		return product_id, product_price, dessert_id, dessert_price, discount_id, discount_price
-	end
-
-	def find_product(name)
-		bitrix = Bitrix.first
-		# Меняем с вариабельного имени на "Десерт", потому что ребята всегда добавляют один и тот же битриксовый товар.
-		name = URI.escape(name)
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name}"
-		doc = Nokogiri::HTML(open(url))
-		response = JSON.parse(doc)
-
-		return response["result"][0]["ID"], response["result"][0]["PRICE"]
-	end
-
-	def find_product_for_order(order)
-		if order[:order_type] == "fast"
-			menu_type = order[:menu_type]
-			person_amount = 2
-			menu_amount = 5
-		else
-			menu_id = order[:menu_id]
-			menu_type = Menu.find(menu_id).category.name
-
-			person_amount = order[:person_amount]
-			menu_amount = order[:menu_amount]
-		end
-		
-		bitrix = Bitrix.first
-
-		logger.debug "\n"
-		logger.debug order
-		logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}"
-		logger.debug "\n"
-
-		name_to_search = URI.escape("#{menu_type} #{menu_amount}х#{person_amount}")
-
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name_to_search}"
-		doc = Nokogiri::HTML(open(url))
-		response = JSON.parse(doc)
-
-		begin
-			product_id = response["result"][0]["ID"]
-			product_price = response["result"][0]["PRICE"]
-		rescue Exception => e
-			logger.fatal "No product with name - #{URI.encode(name_to_search)} inside Bitrix found!"
-			flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
-			# redirect_to dinner_index_path
-		end
-
-		return product_id, product_price
-	end
-
-	def add_products_to_order(order_type, deal_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
-		bitrix = Bitrix.first
-		fields_string = "&id=#{deal_id}&&rows[0][PRODUCT_ID]=#{product_id}&rows[0][PRICE]=#{product_price}&rows[0][QUANTITY]=1"
-		dessert_string = ""
-		discount_string = ""
-		if dessert_id
-			dessert_string = "&rows[1][PRODUCT_ID]=#{dessert_id}&rows[1][PRICE]=#{dessert_price}&rows[1][QUANTITY]=1"
-			if discount_id
-				discount_string = "&rows[2][PRODUCT_ID]=#{discount_id}&rows[2][PRICE]=#{discount_price}&rows[2][QUANTITY]=1"
+			logger.info "Benchmarking Bitrix.write_to_crm"
+			Benchmark.bm do |x|
+				x.report { Bitrix.write_to_crm(url, order, type) }
 			end
-		elsif !dessert_id && discount_id
-			discount_string = "&rows[1][PRODUCT_ID]=#{discount_id}&rows[1][PRICE]=#{discount_price}&rows[1][QUANTITY]=1"
+			# ------------
 		end
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}#{discount_string}"
-
-		doc = Nokogiri::HTML(open(url))
 	end
 
 	def check_if_user_exists(phone)

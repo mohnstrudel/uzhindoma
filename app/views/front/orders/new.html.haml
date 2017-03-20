@@ -58,7 +58,7 @@
             .row.margin-top-30
               .col-md-8.text-right
                 .submit-order
-                  =f.submit "Перейти к оплате", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                  =f.submit "Перейти к оплате", data: { "disable-with" => "Подождите немного, оформляем ваш заказ"}, class: "btn btn-success-mod-uzhindoma margin-bottom-60"
                         
 
 -else
@@ -122,5 +122,5 @@
             .row
               .col-md-6.text-right
                 .submit-order
-                  =f.submit "Перейти к оплате", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                  =f.submit "Перейти к оплате", data: { "disable-with" => "Подождите немного, оформляем ваш заказ"}, class: "btn btn-success-mod-uzhindoma margin-bottom-60"
                         

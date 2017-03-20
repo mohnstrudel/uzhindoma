@@ -1,16 +1,45 @@
 class Bitrix < ActiveRecord::Base
 
+  refresh_token = ""
+  url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{@client_id}&client_secret=#{@client_secret}&refresh_token=#{refresh_token}"
+  @client_id = "local.57a61102d0b562.81576057"
+  @client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
+  @redirect_uri = "http://uzhindoma.eve-trader.net"
+  @portal_name = "uzhin-doma"
+  @scope = "crm"
+
 	require 'open-uri'
 	# require 'curb'
 
-	
-	refresh_token = ""
-	url = "https://oauth.bitrix.info/oauth/token/?grant_type=refresh_token&client_id=#{@client_id}&client_secret=#{@client_secret}&refresh_token=#{refresh_token}"
-	@client_id = "local.57a61102d0b562.81576057"
-	@client_secret = "0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq"
-	@redirect_uri = "http://uzhindoma.eve-trader.net"
-	@portal_name = "uzhin-doma"
-	@scope = "crm"
+	def self.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id)
+		
+		bitrix = first
+
+		case type
+		when "deal"
+			deal_specific_fields = "fields[UF_CRM_1488879411]=#{user_id}"
+		when "lead"
+			lead_specific_fields = ""
+		end
+
+		address_fields = "&fields[UF_CRM_1454918385]=#{address}"
+		add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
+
+		# Интервал доставки
+		timeframe_fields = ""
+		if !timeframe.blank?
+			timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
+		end
+
+		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
+		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}"
+		
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
+		
+		logger.debug "Calling url: #{url}"
+
+		return url
+	end
 
 	def initialize
 		# Метод деприкейтед
@@ -70,9 +99,145 @@ class Bitrix < ActiveRecord::Base
 
 		# First of all we need to check if there is a simple request possible
 		# If not, then we need to update our refresh_token or access_token
-
-
 	end
+
+  def self.write_to_crm(url, order, type)
+    doc = Nokogiri::HTML(open(url))
+
+    response = JSON.parse(doc)
+    deal_or_lead_id = response["result"]
+
+    found_product = Bitrix.find_product_for_order(order)
+
+    # Если промокод указан верно, то discount будет true
+    logger.debug "Creating deal with promocode: #{order[:promocode]}"
+    discount = Bitrix.apply_promocode(order[:promocode])
+    
+    answer = Bitrix.format_id_and_prices(found_product, order[:add_dessert], discount)
+    product_id = answer[0]
+    product_price = answer[1]
+    dessert_id = answer[2]
+    dessert_price = answer[3]
+    # Скидка
+    discount_id = answer[4]
+    discount_price = answer[5]
+
+    # Добавляем все товары из Битрикса в битриксовую сделку
+    Bitrix.add_products_to_order(type, deal_or_lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+  end
+
+  def self.find_product_for_order(order)
+    if order[:order_type] == "fast"
+      menu_type = order[:menu_type]
+      person_amount = 2
+      menu_amount = 5
+    else
+      menu_id = order[:menu_id]
+      menu_type = Menu.find(menu_id).category.name
+
+      person_amount = order[:person_amount]
+      menu_amount = order[:menu_amount]
+    end
+    
+    bitrix = first
+
+    logger.debug "\n"
+    logger.debug order
+    logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}"
+    logger.debug "\n"
+
+    name_to_search = URI.escape("#{menu_type} #{menu_amount}х#{person_amount}")
+
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name_to_search}"
+    doc = Nokogiri::HTML(open(url))
+    response = JSON.parse(doc)
+
+    begin
+      product_id = response["result"][0]["ID"]
+      product_price = response["result"][0]["PRICE"]
+    rescue Exception => e
+      logger.fatal "No product with name - #{URI.encode(name_to_search)} inside Bitrix found!"
+      flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
+      # redirect_to dinner_index_path
+    end
+
+    return product_id, product_price
+  end
+
+  def self.apply_promocode(code)
+    # Проверяем по базе, есть ли такой промокод и не был ли он уже использован
+    promocode_valid = !Promocode.not_used_yet.where(value: code)[0].blank?
+    logger.debug "Requested promocode: #{code} is #{promocode_valid}"
+    return promocode_valid
+  end
+
+  def self.format_id_and_prices(found_product, dessert, discount)
+    
+    # Добавить десерт, если в заказе выбрано
+    dessert_id = nil
+    dessert_price = nil
+
+    # Дефолтные nil-значения для скидки
+    discount_id = nil
+    discount_price = nil
+
+    if dessert
+      dessert_name = Menu.current_dessert[0].recipes[0][:name]
+      found_dessert = find_product("Десерт")
+      dessert_id = found_dessert[0]
+      dessert_price = found_dessert[1]
+    end
+
+    if discount
+      found_discount = find_product("Скидка")
+      discount_id = found_discount[0]
+      discount_price = found_discount[1]
+    end
+    product_id = found_product[0]
+    product_price = found_product[1]
+
+    return product_id, product_price, dessert_id, dessert_price, discount_id, discount_price
+  end
+
+  def self.find_product(name)
+    bitrix = first
+    # Меняем с вариабельного имени на "Десерт", потому что ребята всегда добавляют один и тот же битриксовый товар.
+    name = URI.escape(name)
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name}"
+    doc = Nokogiri::HTML(open(url))
+    response = JSON.parse(doc)
+
+    return response["result"][0]["ID"], response["result"][0]["PRICE"]
+  end
+
+  def self.add_products_to_order(order_type, deal_or_lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+    bitrix = first
+    fields_string = "&id=#{deal_or_lead_id}&&rows[0][PRODUCT_ID]=#{product_id}&rows[0][PRICE]=#{product_price}&rows[0][QUANTITY]=1"
+    dessert_string = ""
+    discount_string = ""
+    if dessert_id
+      dessert_string = "&rows[1][PRODUCT_ID]=#{dessert_id}&rows[1][PRICE]=#{dessert_price}&rows[1][QUANTITY]=1"
+      if discount_id
+        discount_string = "&rows[2][PRODUCT_ID]=#{discount_id}&rows[2][PRICE]=#{discount_price}&rows[2][QUANTITY]=1"
+      end
+    elsif !dessert_id && discount_id
+      discount_string = "&rows[1][PRODUCT_ID]=#{discount_id}&rows[1][PRICE]=#{discount_price}&rows[1][QUANTITY]=1"
+    end
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}#{discount_string}"
+
+    doc = Nokogiri::HTML(open(url))
+  end
+
+  def self.check_token
+    bitrix = find(1)
+    # logger.debug "Inside check_token now with bitrix"
+    # logger.debug "Refresh token is: #{bitrix.refresh_token}"
+    # logger.debug "Access token is: #{bitrix.access_token}"
+    if (Time.now - bitrix.updated_at) >= 3599
+      Bitrix.get_refresh_token
+      logger.info "Tokens updated!"
+    end
+  end
 
 	def self.get_refresh_token
 		

@@ -21,6 +21,10 @@ $(document).ready(function(){
     // });
 
     $('.submit-order').on('click', function(e){
+        // Удаляем все оповещения при новом клике
+        var success = true;
+        $("div.text-danger").remove();
+
         if ($("input[name='order[delivery_timeframe]']:checked").length > 0) {
             // Если интервал доставки выбран, то все чики пуки, ничего не делаем
             // Но если мы до этого нажали на отправить и все-таки выбрали интервал и нажали снова,
@@ -30,6 +34,7 @@ $(document).ready(function(){
             // Удаляем возможные предыдущие статусы
             $('#delivery-container').children(".text-danger").remove();
             // Если не выбран, то не даем заказать
+            success = false;
             e.preventDefault();
             $('#delivery-container').append("<div class='text-danger'><p><b>Необходимо выбрать интервал доставки!<b></p></div>");
         }
@@ -55,6 +60,7 @@ $(document).ready(function(){
                         $('#city_input').children(".text-danger").remove();
                         $('#city_input').append("<div class='text-danger'><p><b>Необходимо заполнить данное поле!<b></p></div>");
                         e.preventDefault();  
+                        success = false;
                         // console.log("Не заполнен ГОРОД, не даю нажать дальше!");  
                     }
                 } else {
@@ -67,6 +73,7 @@ $(document).ready(function(){
                 // Если не выбран, то не даем заказать
                 $('#region_input').append("<div class='text-danger'><p><b>Необходимо выбрать регион доставки!<b></p></div>");
                 e.preventDefault();
+                success = false;
                 // console.log("Не заполнен РЕГИОН, не даю нажать дальше!");  
             }
 
@@ -77,14 +84,16 @@ $(document).ready(function(){
                 // console.log("Улица пустая! - " + $('#street_input input').val());
                 $('#street_input').children(".text-danger").remove();
                 $('#street_input').append("<div class='text-danger'><p><b>Необходимо заполнить данное поле!<b></p></div>");
-                e.preventDefault();    
+                e.preventDefault();   
+                success = false; 
                 // console.log("Не заполнена УЛИЦА, не даю нажать дальше!");  
             }
             if ($('#house_number').val().length === 0)
             {
                 $('#house_input').children(".text-danger").remove();
                 $('#house_input').append("<div class='text-danger'><p><b>Необходимо заполнить данное поле!<b></p></div>");
-                e.preventDefault();    
+                e.preventDefault(); 
+                success = false;   
                 // console.log("Не заполнен ДОМ, не даю нажать дальше!");  
             }
 
@@ -113,6 +122,15 @@ $(document).ready(function(){
         {
             // console.log('Optional new address is NOT visible');
             // ничего не делаем
+        }
+
+
+        if (success === true) {
+            // Если нажатие успешное и не было ни одного preventDefault, то показываем
+            // загрузочный экран.
+            // e.preventDefault();
+            // $('.submit-order').find('input').val('Подождите немного, регистрируем заказ');
+
         }
         
 
