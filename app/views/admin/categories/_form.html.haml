@@ -20,6 +20,14 @@
                 =f.number_field :sortable, id: "name3", class: "event-name gui-input br-light light", placeholder: 'Соритровка категории (чем меньше число, тем левее будет отображаться)'
                 %label.field-icon{:for => "name3"}
                   %i.fa.fa-tag
+        .section.row.mbn
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "description"}
+                =f.text_area :description, id: "description", class: "event-name gui-input br-light light", placeholder: 'Описание категории (например "Для легких ужинов после 18:00")', style: "height: 100px;"
+                %label.field-icon{:for => "name3"}
+                  %i.fa.fa-book
+        .section.row.mbn
           .col-md-12.pl15
             .section.mb10
               %label.field.option.mt10

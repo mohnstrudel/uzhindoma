@@ -12,7 +12,7 @@
       .g-week-menu__desc
         -@current_menus.each_with_index do |menu, index|
           %span.g-week-menu__desc-item{"data-type" => index+1}
-            =menu.description
+            =menu.category.description
       -@current_menus.each_with_index do |menu, index|
         %ul.g-week-menu__list{"data-type" => index+1}
           -menu.recipes.each_with_index do |recipe, rec_index|

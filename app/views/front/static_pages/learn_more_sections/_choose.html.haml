@@ -1,0 +1,35 @@
+%section.g-section.h-section.h-section_choose
+  .g-wrapper
+    %h2.g-title.g-title_small
+      %span.g-title__text Выбирайте своё меню
+    %ul.h-choose
+      %li.h-choose__item
+        .h-choose__img-wrapper
+          =image_tag "learn_more/choose_1.png", class: "h-choose__img"
+        %h3.h-choose__title Стандарт
+        %p.h-choose__text Классическое меню для всей семьи.
+        %p.h-choose__subtext Сытные порции и любимые сочетания.
+      %li.h-choose__item
+        .h-choose__img-wrapper
+          =image_tag "learn_more/choose_2.png", class: "h-choose__img"
+        %h3.h-choose__title Лайф
+        %p.h-choose__text Легкое, но сытное меню для активных людей.
+        %p.h-choose__subtext Диетические продукты, много овощей и белка.
+      %li.h-choose__item
+        .h-choose__img-wrapper
+          =image_tag "learn_more/choose_3.png", class: "h-choose__img"
+        %h3.h-choose__title Десерт
+        %p.h-choose__text Набор для умопомрачительного десерта.
+        %p.h-choose__subtext Закажите дополнительно к любому меню
+      %li.h-choose__item
+        .h-choose__img-wrapper
+          =image_tag "learn_more/choose_4.png", class: "h-choose__img"
+        %h3.h-choose__title Для двоих и для большой семьи
+        %p.h-choose__text Выбирайте набор для 2-х или 4-х персон.
+      %li.h-choose__item
+        .h-choose__img-wrapper
+          =image_tag "learn_more/choose_5.png", class: "h-choose__img"
+        %h3.h-choose__title Выбирайте количество ужинов
+        %p.h-choose__text Вы можете заказать набор на 5, 4 или 3 ужина.
+    .h-choose-btn
+      =link_to 'Хочу набор!', dinner_index_path, class: "g-btn g-btn_blue"
