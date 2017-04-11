@@ -17,7 +17,7 @@ class Bitrix < ActiveRecord::Base
 
 		case type
 		when "deal"
-			deal_specific_fields = "fields[UF_CRM_1488879411]=#{user_id}"
+			deal_specific_fields = "&fields[UF_CRM_1488879411]=#{user_id}"
 		when "lead"
 			lead_specific_fields = ""
 		end
