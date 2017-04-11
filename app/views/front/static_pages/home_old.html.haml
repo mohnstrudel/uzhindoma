@@ -1,0 +1,83 @@
+%section.section
+	.container
+		%h2.zero-letter-spacing Что такое ужин дома
+		.row.margin-top-30
+			.col-xs-4.text-right
+				=image_tag "custom_images/lena-portrait.png", width: 180
+			.col-xs-8.text-left.padding-top-35
+				=image_tag "custom_images/hello_v3.png"
+
+		.row.clearleft-custom.flow-offset-1.offset-1
+			.media-mod-3
+				.col-xs-12.col-sm-8.col-lg-8
+					.media-left
+						.embed-container
+							=embed("https://www.youtube.com/watch?v=TrSWB6AYNKM", width: 784, height: 441)
+						/ =video_tag "https://www.youtube.com/watch?v=v8B5AOljhsY", :size => "320x240", :controls => true
+						/ =image_tag "placeholder_images/lena.jpg", width: 400
+						
+				.col-xs-12.col-sm-4.col-lg-4
+					.media-body.text-sm-left
+						.uzhindoma-list
+							%ul
+								%li
+									Каждую неделю мы создаем меню
+									%br на 5 уникальных ужинов
+								%li
+									Вы получаете набор свежих продуктов
+									%br и проверенные рецепты
+								%li
+									Готовьте ужин дома, как в ресторане,
+									%br всего за 30 минут!
+							%br
+							%h6.zero-letter-spacing.margin-left-25
+								С нами готовят уже тысячи семей.
+								%br Это действительно удобно!
+
+.uzhindoma-hr
+
+%section.section.section-inset-2.section-padding-top.section-padding-bottom
+	.container
+		%h2.zero-letter-spacing.text-center Меню на эту неделю 
+		.row.margin-top-20
+			-if @current_menus.empty?
+				.col-xs-12.col-sm-12.col-lg-12
+					.thumbnail.thumbnail-mod-1
+						%span.icon.icon-success.icon-lg.icon-mod-1.fa-cutlery
+						.caption.text_center
+							%h4
+								Извините!
+							%p Что-то пошло не так и меню текущей неделе потерялось на нашей кухне. Мы очень быстро это поправим, обещаем :)
+			-else
+				.responsive-tabs.horizontal-tabs.offset-5
+					%ul.resp-tabs-list
+						-@current_menus.each do |menu|
+							%li.btn.btn-success-mod-uzhindoma
+								=menu.category.name
+					.resp-tabs-container
+						-@current_menus.each_with_index do |menu, index|
+							.text-sm-left.fadeIn.animated
+								#demo
+									.container
+										.row
+											.span12
+												=content_tag(:div, id: "owl-demo-#{index}", class: "owl-carousel") do
+													-menu.recipes.each do |recipe|
+														.item
+															.owl-item
+																.row
+																	%a.fancybox{"data-caption" => recipe.description, "data-fancybox-group" => "gallery", :href => recipe.pictures.first.image.url, :title => recipe.name}
+																		=image_tag recipe.pictures.first.image.url
+																		/ =image_or_default_tag(recipe, "pictures", "image")
+																.flow-offset-1.text-center.uzhindoma-home-pic-description
+																	=recipe.description
+				=link_to 'Хочу набор!', dinner_index_path, method: :get, class: "btn btn-success-mod-uzhindoma btn-success-mod-uzhindoma-margin"
+
+.uzhindoma-hr
+
+%section.section.section-inset-2.section-padding-top
+	.container-fluid
+		%h2.zero-letter-spacing.text-center Тысячи честных отзывов
+		.row
+			.ud_ml_mr_20
+				=render "front/static_pages/instagram_reviews"

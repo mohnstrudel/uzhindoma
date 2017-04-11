@@ -1,73 +1,21 @@
--if request.fullpath == "/"
-  -@div = "rd-navbar-wrap bg-transparent rd-navbar-wrap-mod-1"
--else
-  -@div = "rd-navbar-wrap bg-transparent"
-#ud-site-header
-  .ud-custom-logo
-    =link_to root_path, class: 'brand-name', method: :get do
-      .logo-large
-        =image_tag "custom_images/logo_full_v2.png"
+%header.g-header
+  .g-wrapper.g-header__wrapper
+    %a.g-logo{:href => "/"}
+      =image_tag "header/logo.png", class: "g-logo__img"
+    #menu-button.g-menu-button
+      .g-menu-button__line
+    #menu.g-menu-wrapper
+      %nav.g-menu
+        =link_to "Главная", root_path, class: "g-menu__link"
 
-=content_tag(:div, class: @div) do
-  %nav.rd-navbar{"data-layout" => "rd-navbar-fixed", "data-lg-layout" => "rd-navbar-static", "data-md-layout" => "rd-navbar-fullwidth", "data-sm-layout" => "rd-navbar-fullwidth"}
-    / (data-layout='rd-navbar-fixed',data-sm-layout='rd-navbar-fullwidth', data-lg-layout='#{rd_navbar_data_ajuster}' )
-    .rd-navbar-top-panel.bg-primary
-      .rd-navbar-inner
-        %button.rd-navbar-collapse-toggle{"data-rd-navbar-toggle" => ".list-inline", :type => "submit"}
-          %span
-        %a.fa-envelope{:href => "mailto:#"} info@demolink.org
-        %a.fa-mobile-phone.preffix-2{:href => "callto:#"} 1-800-1234-567
-        %ul.list-inline.pull-right
-          %li
-            %a.fa-facebook{:href => "#"}
-          %li
-            %a.fa-twitter{:href => "#"}
-          %li
-            %a.fa-pinterest-p{:href => "#"}
-          %li
-            %a.fa-vimeo{:href => "#"}
-          %li
-            %a.fa-google-plus{:href => "#"}
-          %li
-            %a.fa-rss{:href => "#"}
-          %li.text-left
-            %a.fa-envelope{:href => "mailto:#"} info@demolink.org
-          %li.text-left
-            %a.fa-mobile-phone{:href => "callto:#"} 1-800-1234-567
-    .rd-navbar-inner
-      / RD Navbar Panel
-      .rd-navbar-panel
-        / RD Navbar Toggle
-        %button.rd-navbar-toggle{"data-rd-navbar-toggle" => ".rd-navbar-nav-wrap", :type => "submit"}
-          %span
-        / RD Navbar Brand
-        .ud-custom-logo
+        =link_to "Узнать больше", uznat_bolshe_path, class: "g-menu__link"
 
-      .rd-navbar-nav-wrap
+        =link_to "Новое меню", dinner_index_path, class: "g-menu__link"
+
+      %nav.g-menu.g-menu_social
+        =link_to Setting.first.instagram, class: "g-menu__link" do
+          %i.g-icon.g-icon_inst
+        =link_to edit_user_registration_path, class: "g-menu__link" do
+          %i.g-icon.g-icon_login
         -if user_signed_in?
-          -start = 1
-        -else
-          -start = 0
-        / RD Navbar Search
-        =link_to Setting.first.instagram do
-          =content_tag(:div, class: "ud-custom-icon ud-right-#{50*(start+1)}") do
-            =image_tag "custom_images/ig.png"
-          
-        =link_to edit_user_registration_path, method: :get do
-          =content_tag(:div, class: "ud-custom-icon ud-right-#{50*(start+0)}") do
-            =image_tag "custom_images/lk.png"
-        -if user_signed_in?
-          .ud-custom-icon.ud-right-0.profile-name
-            =link_to current_user.first_name, edit_user_registration_path, method: :get
-        %ul.rd-navbar-nav
-          %li
-            =nav_link 'ГЛАВНАЯ', root_path
-          %li
-            =nav_link 'УЗНАТЬ БОЛЬШЕ', uznat_bolshe_path
-          %li
-            =nav_link "НОВОЕ МЕНЮ", dinner_index_path
-          / %li#uzhindoma-fast-order-button
-          /   =link_to 'БЫСТРЫЙ ЗАКАЗ', "#", data: {target: '#myModal', toggle: 'modal'}
-          / RD Navbar Dropdown
-
-
+          =link_to current_user.first_name, edit_user_registration_path

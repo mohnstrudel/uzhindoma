@@ -1,0 +1,26 @@
+%section.g-section.g-section_menu
+  .g-wrapper
+    %h2.g-title.g-title_small
+      %span.g-title__text Меню на эту неделю
+    .g-week-menu{"data-view" => "1"}
+      .g-week-menu__toggle
+        -@current_menus.each_with_index do |menu, index|
+          %a{"data-var" => index+1, :href => "javascript:void(0)", class: "g-week-menu__var #{'g-week-menu__var_active' if index == 0}"}
+            %span.g-week-menu__var-text 
+              =menu.category.name
+
+      .g-week-menu__desc
+        -@current_menus.each_with_index do |menu, index|
+          %span.g-week-menu__desc-item{"data-type" => index+1}
+            =menu.description
+      -@current_menus.each_with_index do |menu, index|
+        %ul.g-week-menu__list{"data-type" => index+1}
+          -menu.recipes.each_with_index do |recipe, rec_index|
+            %li.g-week-menu__item{:style => "background-image: url(#{recipe.pictures.first.image.url})"}
+              .g-week-menu__item-wrapper
+                %span.g-week-menu__day
+                  =Rails.application.config.days_of_week[(rec_index+1).to_s]
+                %span.g-week-menu__name 
+                  =recipe.description
+      .g-week-menu__btn
+        =link_to 'Хочу набор!', dinner_index_path, class: "g-btn g-btn_blue"

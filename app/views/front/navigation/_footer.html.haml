@@ -1,77 +1,33 @@
-.uzhindoma-hr
-%footer.page-foot.section-inset-4.uzhindoma-footer
-  %section.footer-content
-    .container
-      .row.text-left.clearleft-custom
-        .col-xs-12.col-sm-6.col-lg-4.text-black
-          .row
-            %i
-              =image_tag "custom_images/wa_v2_64.png"
-
-          .row
-            %p.text-black Напишите нам в WhatsApp!
-            .text-black Мы на связи с 9 до 22
-            %h4.text-uzhindoma-blue
-              =Setting.first.phone
-            
-
-          / %ul.well6.offset-5
-          /   %li
-          /     =link_to Setting.first.facebook, class: 'text-gray small' do
-          /       %span.icon.icon-xs.icon-info-2.fa-facebook.postfix-1>
-          /       Мы на Facebook
-          /   %li
-          /     =link_to Setting.first.vkontakte, class: 'text-gray small' do
-          /       %span.icon.icon-xs.icon-info-2.fa-vk.postfix-1>
-          /       Мы вконтакте
-          /   %li
-          /     =link_to Setting.first.instagram, class: 'text-gray small' do
-          /       %span.icon.icon-xs.icon-warning.fa-instagram.postfix-1>
-          /       Мы в инстаграме
-
-        .col-xs-12.col-sm-6.col-lg-4
-          .uzhindoma-footer-links
-            .white-link
-              =link_to 'Вопрос-ответ', uznat_bolshe_path
-            .white-link
-              =link_to "Вакансии", "https://hh.ru/employer/1642130"
-            .white-link
-              =link_to 'Сотрудничество', '#'
-            .white-link
-              =link_to 'Доставка и оплата', uznat_bolshe_path
-            .white-link
-              =link_to 'Информация для клиента', policy_path
-
-          .row.padding-top-70
-            .pull-sm-center.text-black.text-center
-              .col-xs-8.col-xs-offset-0
-                %ul.list-inline
-                  %li
-                    =link_to Setting.first.instagram do
-                      =image_tag "custom_images/ig_64.png", width: 42
-                  %li
-                    =link_to Setting.first.vkontakte do
-                      =image_tag "custom_images/vk_64.png", width: 42
-                  %li
-                    =link_to Setting.first.facebook do
-                      =image_tag "custom_images/fb_64.png", width: 42
-
-
-
-        .col-xs-12.col-sm-6.col-lg-4
-          %p.text-black Напишите нам, как мы можем улучшить наш сервис.
-          / RD Mailform
-          =form_tag "#" do
-            .row
-              .col-xs-6
-                =text_field_tag "name", "", class: "uzhindoma-universal-input", placeholder: "Имя"
-              .col-xs-6
-                =email_field_tag "email", "", class: "uzhindoma-universal-input", placeholder: "Почта"
-            .row
-              .col-xs-12
-                =text_area_tag "complaint", "", class: "", placeholder: "Ваш отзыв", rows: 5
-            .row
-              .col-md-8.col-md-offset-2.text-center
-                =submit_tag "Отправить", class: "btn btn-success-mod-uzhindoma"
-        
-    / {%FOOTER_LINK}
+%footer.g-footer
+  .g-wrapper
+    .g-footer__whats-up
+      %a{:href => "tel:79161704385"}
+        %i.g-icon.g-icon_whats-up
+      %p.g-footer__text
+        Напишите нам в WhatsApp!
+        %br>/
+        Мы на связи с 9 до 22
+      %a.g-footer__phone{:href => "tel:79161704385"} +7 916 170 43 85
+    .g-footer__links
+      %a.g-footer__link{:href => "more-info.html"} Вопрос-ответ
+      %br/
+      %a.g-footer__link{:href => "hh.ru"} Вакансии
+      %br/
+      %a.g-footer__link{:href => "#"} Информация для клиента
+      %br/
+      %a.g-footer__link{:href => "#"} Контакты
+      .g-footer__social
+        %a.g-footer__social-link{:href => "#"}
+          %i.g-icon.g-icon_inst
+        %a.g-footer__social-link{:href => "#"}
+          %i.g-icon.g-icon_vk
+        %a.g-footer__social-link{:href => "#"}
+          %i.g-icon.g-icon_fb
+    .g-footer__form
+      %h3.g-footer__title Хотите оставить отзыв?
+      %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
+      %from.g-form{:action => "#", :method => "post"}
+        %input.g-form__input{:name => "name", :placeholder => "Имя", :required => "", :type => "text"}/
+        %input.g-form__input{:name => "email", :placeholder => "Почта", :required => "", :type => "email"}/
+        %textarea.g-form__input.g-form__input_textarea{:name => "message", :placeholder => "Ваш отзыв"}
+        %input.g-btn.g-btn_blue.g-form__submit{:type => "submit", :value => "отправить"}/

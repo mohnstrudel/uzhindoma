@@ -1,0 +1,8 @@
+%section.g-section.g-section_reviews
+  .g-wrapper
+    %h2.g-title.g-title_small
+      %span.g-title__text Тысячи честных отзывов
+    .g-reviews
+      -@instagram.each_with_index do |instagram, index|
+        .g-reviews__item
+          .g-reviews__wrapper{:style => "background-image: url(#{instagram.src_image.instagram_thumb.url})"}

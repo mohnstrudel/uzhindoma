@@ -9,14 +9,24 @@
   = javascript_include_tag "https://widget.cloudpayments.ru/bundles/cloudpayments"
   = csrf_meta_tags
 
-%body{class: "#{controller_name} #{action_name} g-body"}
-  .g-content
-    =render 'front/navigation/header'
-    / Rendering errors
-    %section
+%body{class: "#{controller_name} #{action_name}"}
+  .page.text-center
+    -if request.fullpath == '/'
+      %header.page-head.undefined
+        =render 'front/navigation/header'
+        =render 'front/navigation/sub_header' 
+    -elsif request.fullpath == '/uznat-bolshe'
+      %header.page-head
+        =render 'front/navigation/header'
+        =image_tag "backgrounds/how_it_works_hd.jpg"
+    -else
+      %header.page-head.ud-default-header-bg
+        =render 'front/navigation/header'
+        =render 'front/navigation/sub_header' 
+    %main.page-content
       -flash.each do |name, msg|
         =content_tag(:div, msg, class: "alert alert-#{name}")
-    =yield
+      =yield
     =render 'front/navigation/footer'
   
 
