@@ -1,11 +1,9 @@
 module FrontHelper
 
 	def nav_link(link_text, link_path)
-      class_name = current_page?(link_path) ? 'active' : ''
+      class_name = current_page?(link_path) ? 'g-menu__link_active' : ''
 
-  		content_tag(:li, :class => class_name) do
-    		link_to link_text, link_path, method: :get
-  		end
+    	link_to link_text, link_path, class: "g-menu__link #{class_name}"
 	end
 
 	def embed(youtube_url, options = {})
@@ -29,5 +27,12 @@ module FrontHelper
     doc = Nokogiri::HTML(open(url))
   end
 
+  def settings_helper
+    if Setting.first
+      return Setting.first
+    else
+      raise "No setting found. Please create on in the admin panel."
+    end
+  end
 
 end

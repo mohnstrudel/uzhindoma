@@ -4,5 +4,19 @@
       %span.g-title__text Тысячи честных отзывов
     .g-reviews
       -@instagram.each_with_index do |instagram, index|
-        .g-reviews__item
+        .g-reviews__item.js-review{"data-picture" => instagram.src_image.url}
           .g-reviews__wrapper{:style => "background-image: url(#{instagram.src_image.instagram_thumb.url})"}
+          .g-reviews__info
+            %span.g-reviews__info-block
+              %i.fa.fa-comment{"aria-hidden" => "true"}
+              %span.g-reviews__comments
+                =instagram.comments
+            %span.g-reviews__info-block.g-reviews__info-block_likes
+              %i.fa.fa-heart{"aria-hidden" => "true"}
+              %span.g-reviews__likes
+                =instagram.likes
+            %ul.g-comments
+              %li.g-comments__item
+                %span.g-comments__author
+                  =link_to instagram.author, instagram.url
+                =instagram.description

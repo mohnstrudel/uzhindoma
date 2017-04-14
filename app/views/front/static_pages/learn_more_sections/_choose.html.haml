@@ -2,34 +2,35 @@
   .g-wrapper
     %h2.g-title.g-title_small
       %span.g-title__text Выбирайте своё меню
-    %ul.h-choose
+    %ul#choose-slider.h-choose
       %li.h-choose__item
         .h-choose__img-wrapper
-          =image_tag "learn_more/choose_1.png", class: "h-choose__img"
+          =image_set_tag 'learn_more/standart_5.jpg', { 'learn_more/standart_5.jpg' => '640w', 'learn_more/standart_5@2x.jpg' => '1024w' }, sizes: '100vw', class: 'h-choose__img'
         %h3.h-choose__title Стандарт
         %p.h-choose__text Классическое меню для всей семьи.
         %p.h-choose__subtext Сытные порции и любимые сочетания.
       %li.h-choose__item
         .h-choose__img-wrapper
-          =image_tag "learn_more/choose_2.png", class: "h-choose__img"
+          =image_set_tag 'learn_more/standart_4.jpg', { 'learn_more/standart_4.jpg' => '640w', 'learn_more/standart_4@2x.jpg' => '1024w' }, sizes: '100vw', class: 'h-choose__img'
         %h3.h-choose__title Лайф
         %p.h-choose__text Легкое, но сытное меню для активных людей.
         %p.h-choose__subtext Диетические продукты, много овощей и белка.
       %li.h-choose__item
         .h-choose__img-wrapper
-          =image_tag "learn_more/choose_3.png", class: "h-choose__img"
+          =image_set_tag 'learn_more/standart_d.jpg', { 'learn_more/standart_d.jpg' => '640w', 'learn_more/standart_d@2x.jpg' => '1024w' }, sizes: '100vw', class: 'h-choose__img'
         %h3.h-choose__title Десерт
         %p.h-choose__text Набор для умопомрачительного десерта.
         %p.h-choose__subtext Закажите дополнительно к любому меню
       %li.h-choose__item
         .h-choose__img-wrapper
-          =image_tag "learn_more/choose_4.png", class: "h-choose__img"
+          =image_set_tag 'learn_more/choose_4.jpg', { 'learn_more/choose_4.jpg' => '640w', 'learn_more/choose_4@2x.jpg' => '1024w' }, sizes: '100vw', class: 'h-choose__img'
         %h3.h-choose__title Для двоих и для большой семьи
         %p.h-choose__text Выбирайте набор для 2-х или 4-х персон.
       %li.h-choose__item
         .h-choose__img-wrapper
-          =image_tag "learn_more/choose_5.png", class: "h-choose__img"
+          =image_set_tag 'learn_more/choose_5.jpg', { 'learn_more/choose_5.jpg' => '640w', 'learn_more/choose_5@2x.jpg' => '1024w' }, sizes: '100vw', class: 'h-choose__img'
         %h3.h-choose__title Выбирайте количество ужинов
         %p.h-choose__text Вы можете заказать набор на 5, 4 или 3 ужина.
     .h-choose-btn
       =link_to 'Хочу набор!', dinner_index_path, class: "g-btn g-btn_blue"
+

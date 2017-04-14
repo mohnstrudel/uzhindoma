@@ -2,4 +2,12 @@
   .g-wrapper
     %h2.g-title.g-title_small
       %span.g-title__text Наша команда
-    =image_tag "learn_more/team.png", class: "h-command"
+    #command-slider.h-command
+      .h-command__slide
+        =image_tag "learn_more/team.jpg", class: "h-command__img"
+      .h-command__slide
+        =image_tag "team/team2_medium.jpg", class: "h-command__img"
+      .h-command__slide
+        =image_tag "team/team3_medium.jpg", class: "h-command__img"
+      .h-command__slide
+        =image_tag "team/team4_medium.jpg", class: "h-command__img"

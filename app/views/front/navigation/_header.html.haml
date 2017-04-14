@@ -1,21 +1,23 @@
-%header.g-header
-  .g-wrapper.g-header__wrapper
-    %a.g-logo{:href => "/"}
-      =image_tag "header/logo.png", class: "g-logo__img"
-    #menu-button.g-menu-button
-      .g-menu-button__line
-    #menu.g-menu-wrapper
-      %nav.g-menu
-        =link_to "Главная", root_path, class: "g-menu__link"
-
-        =link_to "Узнать больше", uznat_bolshe_path, class: "g-menu__link"
-
-        =link_to "Новое меню", dinner_index_path, class: "g-menu__link"
-
-      %nav.g-menu.g-menu_social
-        =link_to Setting.first.instagram, class: "g-menu__link" do
-          %i.g-icon.g-icon_inst
-        =link_to edit_user_registration_path, class: "g-menu__link" do
+%body
+  %header.g-header
+    .g-wrapper.g-header__wrapper
+      %a.g-logo{:href => "/"}
+        =image_tag "header/logo.png", class: "g-logo__img"
+      .g-mobile-controls.g-mobile
+        %a.g-menu__link.g-menu__link_nomargin{:href => "#"}
           %i.g-icon.g-icon_login
-        -if user_signed_in?
-          =link_to current_user.first_name, edit_user_registration_path
+        #menu-button.g-menu-button
+          .g-menu-button__line
+      #menu.g-menu-wrapper.g-mobile-hide
+        %nav.g-menu
+          =nav_link "Главная", root_path 
+          =nav_link "Узнать больше", uznat_bolshe_path
+          =nav_link "Новое меню", dinner_index_path 
+
+        %nav.g-menu.g-menu_social
+          =link_to Setting.first.instagram, class: "g-menu__link" do
+            %i.g-icon.g-icon_inst
+          =link_to edit_user_registration_path, class: "g-menu__link" do
+            %i.g-icon.g-icon_login
+          -if user_signed_in?
+            =link_to current_user.first_name, edit_user_registration_path

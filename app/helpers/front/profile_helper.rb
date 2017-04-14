@@ -1,2 +1,0 @@
-module Front::ProfileHelper
-end

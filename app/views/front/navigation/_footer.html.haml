@@ -1,15 +1,21 @@
 %footer.g-footer
   .g-wrapper
     .g-footer__whats-up
-      %a{:href => "tel:79161704385"}
+      -if Setting.first
+        %a{:href => "tel:#{Setting.first.phone}"}
+      -else
+        %a{:href => "tel:"}
         %i.g-icon.g-icon_whats-up
       %p.g-footer__text
         Напишите нам в WhatsApp!
         %br>/
         Мы на связи с 9 до 22
-      %a.g-footer__phone{:href => "tel:79161704385"} +7 916 170 43 85
+      -if Setting.first
+        %a.g-footer__phone{:href => "tel:#{Setting.first.phone}"}=Setting.first.phone
+      -else
+        %a.g-footer__phone{:href => "tel:"} Нет телефона
     .g-footer__links
-      %a.g-footer__link{:href => "more-info.html"} Вопрос-ответ
+      %a.g-footer__link{:href => "/uznat-bolshe"} Вопрос-ответ
       %br/
       %a.g-footer__link{:href => "hh.ru"} Вакансии
       %br/
@@ -17,17 +23,58 @@
       %br/
       %a.g-footer__link{:href => "#"} Контакты
       .g-footer__social
-        %a.g-footer__social-link{:href => "#"}
+        %a.g-footer__social-link{:href => Setting.first ? Setting.first.instagram : ''}
           %i.g-icon.g-icon_inst
-        %a.g-footer__social-link{:href => "#"}
+        %a.g-footer__social-link{:href => Setting.first ? Setting.first.vkontakte : ''}
           %i.g-icon.g-icon_vk
-        %a.g-footer__social-link{:href => "#"}
+        %a.g-footer__social-link{:href => Setting.first ? Setting.first.facebook : ''}
           %i.g-icon.g-icon_fb
     .g-footer__form
-      %h3.g-footer__title Хотите оставить отзыв?
-      %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
-      %from.g-form{:action => "#", :method => "post"}
-        %input.g-form__input{:name => "name", :placeholder => "Имя", :required => "", :type => "text"}/
-        %input.g-form__input{:name => "email", :placeholder => "Почта", :required => "", :type => "email"}/
-        %textarea.g-form__input.g-form__input_textarea{:name => "message", :placeholder => "Ваш отзыв"}
-        %input.g-btn.g-btn_blue.g-form__submit{:type => "submit", :value => "отправить"}/
+      %h3.g-footer__title.g-mobile-hide Хотите оставить отзыв?
+      %h3#toggle-form.g-footer__title.g-mobile
+        %span.g-footer__title-style Хотите оставить отзыв?
+      #footer-form-wrapper.g-footer__form-wrapper
+        %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
+        %from.g-form{:action => "#", :method => "post"}
+          %fieldset.g-form__rating
+            %input#star5{:name => "rating", :type => "radio", :value => "5"}/
+            %label.full{:for => "star5", :title => "Awesome - 5 stars"}
+            %input#star4half{:name => "rating", :type => "radio", :value => "4 and a half"}/
+            %label.half{:for => "star4half", :title => "Pretty good - 4.5 stars"}
+            %input#star4{:name => "rating", :type => "radio", :value => "4"}/
+            %label.full{:for => "star4", :title => "Pretty good - 4 stars"}
+            %input#star3half{:name => "rating", :type => "radio", :value => "3 and a half"}/
+            %label.half{:for => "star3half", :title => "Meh - 3.5 stars"}
+            %input#star3{:name => "rating", :type => "radio", :value => "3"}/
+            %label.full{:for => "star3", :title => "Meh - 3 stars"}
+            %input#star2half{:name => "rating", :type => "radio", :value => "2 and a half"}/
+            %label.half{:for => "star2half", :title => "Kinda bad - 2.5 stars"}
+            %input#star2{:name => "rating", :type => "radio", :value => "2"}/
+            %label.full{:for => "star2", :title => "Kinda bad - 2 stars"}
+            %input#star1half{:name => "rating", :type => "radio", :value => "1 and a half"}/
+            %label.half{:for => "star1half", :title => "Meh - 1.5 stars"}
+            %input#star1{:name => "rating", :type => "radio", :value => "1"}/
+            %label.full{:for => "star1", :title => "Sucks big time - 1 star"}
+            %input#starhalf{:name => "rating", :type => "radio", :value => "half"}/
+            %label.half{:for => "starhalf", :title => "Sucks big time - 0.5 stars"}
+          %input.g-form__input{:name => "name", :placeholder => "Имя", :required => "", :type => "text"}/
+          %input.g-form__input{:name => "email", :placeholder => "Почта", :required => "", :type => "email"}/
+          %textarea.g-form__input.g-form__input_textarea{:name => "message", :placeholder => "Ваш отзыв"}
+          %input.g-btn.g-btn_blue.g-form__submit{:type => "submit", :value => "отправить"}/
+
+
+
+#review-popup.g-popup-reviews
+  %a.g-popup-reviews__close
+    %i.fa.fa-times{"aria-hidden" => "true"}
+  .g-popup-reviews__content
+    .g-popup-reviews__data
+      .g-popup-reviews__info
+        .g-popup-reviews__counter
+          %i.fa.fa-heart-o{"aria-hidden" => "true"}
+          %span#likes.g-popup-reviews__count
+        .g-popup-reviews__counter
+          %i.fa.fa-comment-o{"aria-hidden" => "true"}
+          %span#comments.g-popup-reviews__count
+        #comment-list.g-popup-reviews__comments
+    #img-block.g-popup-reviews__img-wrapper
