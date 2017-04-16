@@ -3,7 +3,7 @@
 
 
 %section.g-section.m-section_top-controls
-  .g-wrapper.g-menu-block{"data-show" => "1"}
+  .g-wrapper.g-menu-block{"data-show" => @current_menus.first.id}
     %h2.g-title
       %span.g-title__text Новое меню
     .g-menu-toggle.g-menu-toggle_blue
@@ -11,7 +11,7 @@
       -@current_menus.each_with_index do |current_menu, index|
 
         / ПЕРЕКЛЮЧАТЕЛЬ МЕЖДУ НАЗВАНИЯМИ НАБОРОВ 
-        %a{"data-var" => index+1, :href => "javascript:void(0)", class: "g-menu-toggle__var js-main-menu #{'g-menu-toggle__var_active' if index == 0}"}
+        %a{"data-var" => current_menu.id, :href => "javascript:void(0)", class: "g-menu-toggle__var js-main-menu #{'g-menu-toggle__var_active' if index == 0}"}
           %span.g-menu-toggle__var-text=current_menu.category.name
     
     #menu-items.m-menu-items

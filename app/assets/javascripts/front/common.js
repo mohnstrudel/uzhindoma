@@ -1,26 +1,22 @@
 (function($){
-
     function validateEmail(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
     $(document).ready(function(){
-        var number_text = ["один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одинадцать", "двенадцать"],
-          persons_text = ["одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одинадцать", "двенадцать"],
-          all_text = "Все ";
-
+      var number_text = ["один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одинадцать", "двенадцать"],
+            persons_text = ["одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одинадцать", "двенадцать"],
+        all_text = "Все ";
         function showPopup($content){
             $(".g-popup-wrapper").fadeOut(100, function(){
-              $content.fadeIn(300);    
-            });
+                $content.fadeIn(300);    
+            });            
         }
         $(".g-popup-wrapper").on("click", function(e){
             var $popup = $(this);
-
             if($(e.target).closest(".g-popup").length == 0 || $(e.target).closest(".g-popup__close").length == 1)
-              $popup.fadeOut(200);
+                $popup.fadeOut(200);
         });
-
         $("#menu-button").click(function(){
             $(this).toggleClass("g-menu-button_open");
             $("#menu").fadeToggle(300);
@@ -29,44 +25,41 @@
             $(this).toggleClass("g-footer__title_open");
             $("#footer-form-wrapper").fadeToggle(300);
         });
-
         $(".g-input").on("focus", function(){
-          $(this).removeClass("g-input_error");
+            $(this).removeClass("g-input_error");
         });
         $(".g-input").on("blur", function(){
             var val = $(this).val();
             if(val.length == 0) return;
-  
             if($(this).attr("type") == "tel" && val.replace(/\D+/g,"").length < 11)
-              $(this).addClass("g-input_error");
+                $(this).addClass("g-input_error");
             else if($(this).attr("name") == "email" && val != "" && !validateEmail(val))
-              $(this).addClass("g-input_error");   
-            });
-
-            $("#review-form").on("submit", function(e){
-                e.preventDefault();
-                var $form = $(this),
-                    $name_input = $form.find("input[name='name']"),
-                    name = $name_input.val(),
-                    $email_input = $form.find("input[name='email']"),
-                    email = $email_input.val(),
-                    $message_input = $form.find("textarea[name='message']"),
-                    message = $message_input.val(),
-                      error = false;
-                      if(name == ""){
-                          $name_input.addClass("g-input_error");
-                          error = true;
-                      }
-                      if(!validateEmail(email)){
-                      $email_input.addClass("g-input_error");
-                      error = true;
-                        }
-                      if(message == ""){
-                          $message_input.addClass("g-input_error");
-                          error = true;
-                      }
-                      console.log($("[name='rating']:checked").val());
-                      if(!error){
+                $(this).addClass("g-input_error");
+        });
+        $("#review-form").on("submit", function(e){
+            e.preventDefault();
+            var $form = $(this),
+                $name_input = $form.find("input[name='name']"),
+                name = $name_input.val(),
+                $email_input = $form.find("input[name='email']"),
+                email = $email_input.val(),
+                $message_input = $form.find("textarea[name='message']"),
+                message = $message_input.val(),
+                error = false;
+                if(name == ""){
+                    $name_input.addClass("g-input_error");
+                    error = true;
+                }
+                if(!validateEmail(email)){
+                    $email_input.addClass("g-input_error");
+                    error = true;
+                }
+                if(message == ""){
+                    $message_input.addClass("g-input_error");
+                    error = true;
+                }
+            console.log($("[name='rating']:checked").val());
+            if(!error){
 //                      $.ajax({
 //                        data: $(this).serialize(),
 //                        url: "",
@@ -80,12 +73,10 @@
 //                        }
 //                    });                
             }
-                return false;
-                
+            return false;
         });
         if($("input[type='tel']") > 0)
             $("input[type='tel']").inputmask("+9 (999) 999-99-99");
-        
         if($("body").hasClass("learn_more")){
             mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1YWZiZGFiZDk1Zjk5NGUifQ.ueMMb8kMdWxrP5N4iqx67Q';
             var map = new mapboxgl.Map({
@@ -97,7 +88,7 @@
                 interactive: false
             });
 
-            var nav = new mapboxgl.NavigationControl();
+                        var nav = new mapboxgl.NavigationControl();
             // Add zoom and rotation controls to the map.
             map.on('load', function () {
               map.addControl(nav, 'top-left');
@@ -183,8 +174,6 @@
               });
               // Those we keep
             });
-
-
         } else if($("body").hasClass("home")){
             $(".js-main-menu").on("click", function(e){
                 e.preventDefault();
@@ -216,8 +205,7 @@
                 return false;
             });
         } else if($("body").hasClass("dinner")){
-
-              $("#sms-form").on("submit", function(e){
+            $("#sms-form").on("submit", function(e){
                 e.preventDefault();
                 var error = false,
                     $pass = $(this).find("#sms-pass"),
@@ -240,76 +228,71 @@
                 }
                 return false;  
             });
-
-
-            
             $("#menu-form").on("submit", function(e){
                 e.preventDefault();
                 var error = false,
                     $phone = $(this).find("#phone-input"),
                     val = $phone.val().replace(/\D+/g,"");
-                    // quantity = 5;
                 if(val.length < 11){
                     $phone.addClass("g-input_error");
                     error = true;
                 }
                 if(!error){
-
-                    $.ajax({
-                      url: "/process_order",
-                      type: "GET",
-                      data: $(this).serialize(),
-                      // data: {phone: val, quantity: quantity },
-                      success: function (data) {
-                        $phone.val("");
-                        showPopup($("#send-popup"));
-                      }
-                    });
+//                    $.ajax({
+//                        data: $(this).serialize(),
+//                        url: "",
+//                        method: "POST",
+//                        success: function(){
+                            $phone.val("");
+                            showPopup($("#send-popup"));        
+//                        }
+//                    });
+                    
                 }
                 
                 return false;
             });
+            
             var $menu_node = $(".g-menu-block");
+            
             function calculate(menu_toggle = false){
               var current_type = $menu_node.data("show"),
                     $current_list = $menu_node.find(".m-menu-items__list[data-type='" + current_type + "']");
-
-                    var price_changes = [];
-                    $current_list.data("price-changes").split("|").forEach(function(e,i){
-                        var reg = new RegExp(/^(\d*)\{([\d\:\,]*)\}/),
-                            res = e.match(reg),
-                            object = {
-                                person: res[1],
-                                changes: [],
-                                counts: []
-                            };
-                        res[2].split(",").forEach(function(num,i){
-                            object.changes.push(parseInt(num.split(":")[1]));
-                            object.counts.push(num.split(":")[0]);
-                        });
-                        price_changes.push(object);
+                var price_changes = [];
+                $current_list.data("price-changes").split("|").forEach(function(e,i){
+                    var reg = new RegExp(/^(\d*)\{([\d\:\,]*)\}/),
+                        res = e.match(reg),
+                        object = {
+                            person: res[1],
+                            changes: [],
+                            counts: []
+                        };
+                    res[2].split(",").forEach(function(num,i){
+                        object.changes.push(parseInt(num.split(":")[1]));
+                        object.counts.push(num.split(":")[0]);
                     });
-
-                    if(menu_toggle){
-                      $menu_node.find("#menu-id").val(current_type);
-                      var $counts_node = $menu_node.find("#dinner_counts").html(""),
-                              $persons_count = $menu_node.find("#persons_count").html(""),
-                              $dessert_node = $menu_node.find("#has-dessert").html(""),
-                              has_dessert = $current_list.data("hasdessert");
-                        price_changes[0].counts.forEach(function(num, index){
-                          $("<input/>",{
-                            class: "js-menu-input m-menu-form__hide",
-                            value: num,
-                            id: "quantity_" + num,
-                            type: "radio",
-                            name: "quantity"
-                          }).prop("checked", price_changes[0].counts.length - 1 == index).appendTo($counts_node);
-                          $("<label/>",{
-                            for: "quantity_" + num,
-                          class: "m-menu-form__radio",
-                          text: (index == 0)? all_text + number_text[num - 1]: number_text[num - 1]
-                          }).appendTo($counts_node);
-                        });
+                    price_changes.push(object);
+                });
+              if(menu_toggle){
+                        $menu_node.find("#menu-id").val(current_type);
+                var $counts_node = $menu_node.find("#dinner_counts").html(""),
+                        $persons_count = $menu_node.find("#persons_count").html(""),
+                        $dessert_node = $menu_node.find("#has-dessert").html(""),
+                  has_dessert = $current_list.data("hasdessert");
+                  price_changes[0].counts.forEach(function(num, index){
+                    $("<input/>",{
+                      class: "js-menu-input m-menu-form__hide",
+                      value: num,
+                      id: "quantity_" + num,
+                      type: "radio",
+                      name: "quantity"
+                    }).prop("checked", price_changes[0].counts.length - 1 == index).appendTo($counts_node);
+                    $("<label/>",{
+                      for: "quantity_" + num,
+                    class: "m-menu-form__radio",
+                    text: (index == 0)? all_text + number_text[num - 1]: number_text[num - 1]
+                    }).appendTo($counts_node);
+                  });
                         price_changes.forEach(function(num,index){
                             $("<input/>",{
                                 class: "js-menu-input m-menu-form__hide",
@@ -324,35 +307,35 @@
                                 text: persons_text[num.person - 1]
                             }).appendTo($persons_count);
                         });
-
                         if(has_dessert){
-                          $("<input/>",{
-                              type: "checkbox",
-                              name: "dessert",
-                              id: "dessert",
-                              class: "js-menu-input g-checkbox m-menu-form__hide"
-                          }).appendTo($dessert_node);
-                          $("<label/>",{
-                              for: "dessert",
-                              class: "g-checkbox-label m-menu-form__checkbox",
-                              text: "Добавить десерт"
-                          }).appendTo($dessert_node);
+                            $("<input/>",{
+                                type: "checkbox",
+                                name: "dessert",
+                                id: "dessert",
+                                class: "js-menu-input g-checkbox m-menu-form__hide"
+                            }).appendTo($dessert_node);
+                            $("<label/>",{
+                                for: "dessert",
+                                class: "g-checkbox-label m-menu-form__checkbox",
+                                text: "Добавить десерт"
+                            }).appendTo($dessert_node);
                         }
                         $menu_node.find("#date").text($current_list.data("date"));
-                    }
+              }
                 var $eat = $current_list.find(".m-menu-items__item[data-product='eat']"),
-                      $dessert = $current_list.find(".m-menu-items__item[data-product='dessert']"),
-                      quantity = $menu_node.find("input[name=quantity]:checked").val(),
-                      quantity_index,
-                      person = $menu_node.find("input[name=people]:checked").val(),
-                      dessert = $menu_node.find("input[name=dessert]:checked").val(),
-                      total_price = 0,
-                      current_person;
-                    price_changes.forEach(function(el,i){
-                        if(person == el.person)
-                            current_person = i;
-                    });
-                    quantity_index = price_changes[current_person].counts.indexOf(quantity);
+                    $dessert = $current_list.find(".m-menu-items__item[data-product='dessert']"),
+                    quantity = $menu_node.find("input[name=quantity]:checked").val(),
+                    quantity_index,
+                    person = $menu_node.find("input[name=people]:checked").val(),
+                    dessert = $menu_node.find("input[name=dessert]:checked").val(),
+                    total_price = 0,
+                    current_person;
+                price_changes.forEach(function(el,i){
+                    if(person == el.person)
+                        current_person = i;
+                });
+                quantity_index = price_changes[current_person].counts.indexOf(quantity);
+                
                 $eat.removeClass("m-menu-items__item_disabled").each(function(i, el){
                     var $el = $(el);
                     if($el.data("package") > quantity[0])
@@ -361,16 +344,13 @@
                 $dessert.removeClass("m-menu-items__item_disabled");
                 if(typeof dessert == 'undefined')
                     $dessert.addClass("m-menu-items__item_disabled");
-
                 else
                     total_price += parseInt($dessert.data("price"));
                 total_price += parseInt($current_list.data("price")) + price_changes[current_person].changes[quantity_index];
-
                 $menu_node.find("#total_price").text(total_price);
             }
             
             calculate(true);
-
             $(".js-main-menu").on("click", function(e){
                 e.preventDefault();
                 if($(this).data("var") == $menu_node.data("view")) return false;
@@ -386,8 +366,8 @@
         }
         
         var rem;
-	    var isTablet = window.matchMedia("(max-width: 1024px)");
-	    var isMobile = window.matchMedia("(max-width: 650px)");
+      var isTablet = window.matchMedia("(max-width: 1024px)");
+      var isMobile = window.matchMedia("(max-width: 650px)");
         var commandSlider,
             partnersSlider,
             chooseSlider,
@@ -419,11 +399,10 @@
                 });   
             } else if($("body").hasClass("dinner")){
                 $("#menu-items").mCustomScrollbar({
-                  axis:"x",
-                  theme:"light-3",
-                  advanced:{autoExpandHorizontalScroll:true}
-                });
-                
+          axis:"x",
+          theme:"light-3",
+          advanced:{autoExpandHorizontalScroll:true}
+        });
             }
         }
         function tablet(){
@@ -473,25 +452,25 @@
         }
         function reset() {
             if(commandSlider){
-				commandSliderSlide = commandSlider.getCurrentSlide();
-				commandSlider.destroySlider();
-			}
+        commandSliderSlide = commandSlider.getCurrentSlide();
+        commandSlider.destroySlider();
+      }
         }
         function run() {
-			rem = parseFloat(getComputedStyle($("html")[0]).fontSize);
-			if (isMobile.matches) {
-				mobile();
-			} else if (isTablet.matches) {
-				tablet();
-			} else {
-				desktop();
-			}
-		}
-		run();
+      rem = parseFloat(getComputedStyle($("html")[0]).fontSize);
+      if (isMobile.matches) {
+        mobile();
+      } else if (isTablet.matches) {
+        tablet();
+      } else {
+        desktop();
+      }
+    }
+    run();
         $(window).on('resize', function () {
-			reset();
-			run();
-		});
+      reset();
+      run();
+    });
         
     });
 })(jQuery)
