@@ -255,7 +255,7 @@
             
             var $menu_node = $(".g-menu-block");
             
-            function calculate(menu_toggle = false){
+            function calculate(menu_toggle){
               var current_type = $menu_node.data("show"),
                     $current_list = $menu_node.find(".m-menu-items__list[data-type='" + current_type + "']");
                 var price_changes = [];
