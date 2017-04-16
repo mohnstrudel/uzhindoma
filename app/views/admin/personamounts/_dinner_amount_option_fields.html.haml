@@ -1,0 +1,18 @@
+.col-md-5.pl15
+  .section.mb10
+    %label.field.prepend-icon{:for => "dinner_amount_number"}
+      =f.number_field :day_number, id: "dinner_amount_number", class: "event-name gui-input br-light light", placeholder: 'Указать кол-во ужинов для данного кол-ва персон'
+      %label.field-icon{:for => "dinner_amount_number"}
+        %i.fa.fa-cutlery
+
+.col-md-5.pl15
+  .section.mb10
+    %label.field.prepend-icon{:for => "dinner_amount_pricechange"}
+      =f.number_field :pricechange, id: "dinner_amount_pricechange", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится (базовая) цена набора, если пользователь выберет данную опцию'
+      %label.field-icon{:for => "dinner_amount_pricechange"}
+        %i.fa.fa-rub
+.col-md-2.pl15
+  .section.md10
+    %label.field.prepend-icon
+      Удалить?
+    =f.check_box :_destroy

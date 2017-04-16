@@ -20,7 +20,7 @@
 
         / ОДНО МЕНЮ
         / тут нужен перечень дней для конкретного меню (current_menu.days.order(:sortable))
-        .m-menu-items__list{"data-price-changes" => get_price_matrix(current_menu), "data-date" => "20.04.2017", "data-hasdessert" => current_menu.has_dessert.to_s, "data-type" => index+1, "data-menu-id" => current_menu.id, "data-price" => current_menu.price}
+        .m-menu-items__list{"data-price-changes" => get_price_matrix(current_menu), "data-date" => "20.04.2017", "data-hasdessert" => current_menu.has_dessert.to_s, "data-type" => current_menu.id, "data-price" => current_menu.price}
 
           -current_menu.recipes.each_with_index do |recipe, rec_index|
               
