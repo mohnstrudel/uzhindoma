@@ -35,7 +35,9 @@
         %span.g-footer__title-style Хотите оставить отзыв?
       #footer-form-wrapper.g-footer__form-wrapper
         %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
-        %from.g-form{:action => "#", :method => "post"}
+        
+        / ФОРМА ДЛЯ ОБРАТНОЙ СВЯЗИ
+        %form#review-form.g-form{:action => "#", :method => "post"}
           %fieldset.g-form__rating
             %input#star5{:name => "rating", :type => "radio", :value => "5"}/
             %label.full{:for => "star5", :title => "Awesome - 5 stars"}
@@ -57,9 +59,12 @@
             %label.full{:for => "star1", :title => "Sucks big time - 1 star"}
             %input#starhalf{:name => "rating", :type => "radio", :value => "half"}/
             %label.half{:for => "starhalf", :title => "Sucks big time - 0.5 stars"}
-          %input.g-form__input{:name => "name", :placeholder => "Имя", :required => "", :type => "text"}/
-          %input.g-form__input{:name => "email", :placeholder => "Почта", :required => "", :type => "email"}/
-          %textarea.g-form__input.g-form__input_textarea{:name => "message", :placeholder => "Ваш отзыв"}
+          
+          %input.g-input.g-form__input{:name => "name", :placeholder => "Имя", :type => "text"}/
+          %input.g-input.g-form__input{:name => "email", :placeholder => "Почта", :type => "text"}/
+          %textarea.g-input.g-form__input.g-form__input_textarea{:name => "message", :placeholder => "Ваш отзыв"}
+
+
           %input.g-btn.g-btn_blue.g-form__submit{:type => "submit", :value => "отправить"}/
 
 
@@ -78,16 +83,17 @@
           %span#comments.g-popup-reviews__count
         #comment-list.g-popup-reviews__comments
     #img-block.g-popup-reviews__img-wrapper
-
-#exist-acc.g-popup-wrapper
-  .g-popup
-    %a.g-popup__close{:href => "javascript:void(0)"}
-    .g-popup__content
-      %p.g-popup__text У вас уже есть аккаунт в нашей системе. Мы пришлем вам смс с паролем, и вы сможете продолжить оформление заказа
-      %a#send-pass.g-btn.g-btn_blue{:href => "javascript:void(0)"} Выслать пароль
+    
 #send-popup.g-popup-wrapper
   .g-popup
     %a.g-popup__close{:href => "javascript:void(0)"}
     .g-popup__content
       =render partial: '/front/users/login_partial'
+
+#success-review.g-popup-wrapper
+  .g-popup
+    %a.g-popup__close{:href => "javascript:void(0)"}
+    .g-popup__content
+      %h2.g-popup__title Спасибо за ваш отзыв
+
       

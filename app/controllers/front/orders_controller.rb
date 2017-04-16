@@ -6,10 +6,11 @@ class Front::OrdersController < FrontController
 	def process_order
 		phone = params['phone']
     # logger.debug("Phone is: #{phone}")
+    length = phone.length
 
     
 
-    if phone.length == 11
+    if phone.length == 18
 
       password = User.generate_password_code
       user = User.where(phone: phone)[0]
@@ -27,7 +28,7 @@ class Front::OrdersController < FrontController
 
       
       
-      # stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
+      stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
       encoded_phone = URI.escape(phone)
       encoded_message = URI.escape("Ваш новый пароль - #{password}.")
       logger.debug("New password for user #{phone} - #{password}")
@@ -36,6 +37,7 @@ class Front::OrdersController < FrontController
     end
 		puts "---------"
     puts "SMS sent to #{params['phone']}!"
+    puts "PHONE length is: #{length}"
     puts 
 	end
 

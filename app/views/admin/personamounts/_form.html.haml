@@ -29,19 +29,18 @@
                 =f.text_field :wordvalue, id: "name2", class: "event-name gui-input br-light light", placeholder: 'Кол-во в словах (например - две, четыре...)'
                 %label.field-icon{:for => "name2"}
                   %i.fa.fa-tag
-          .col-md-12.pl15
-            .section.mb10
-              %label.field.prepend-icon{:for => "name2"}
-                =f.number_field :pricechange, id: "name3", class: "event-name gui-input br-light light", placeholder: 'На столько увеличится цена для СТАНДАРТ набора, если пользователь выберет данную опцию'
-                %label.field-icon{:for => "name3"}
-                  %i.fa.fa-rub
-
           .col-md-6.pl15
             .section.mb10
               %label.field.prepend-icon{:for => "name4"}
                 =f.number_field :sortable, id: "name4", class: "event-name gui-input br-light light", placeholder: 'Сортировка кол-ва людей. Чем меньше цифра, тем левее будет кнопка.'
                 %label.field-icon{:for => "name4"}
                   %i.fa.fa-sort
+        .section.row.mbn
+          / ТУТ указываем на сколько меняется цена для определенного кол-ва ужинов
+          =f.fields_for :dinner_amount_options do |da_builder|
+            =render partial: 'dinner_amount_option_fields', locals: { f: da_builder }
+          =link_to_add_fields 'Добавить опцию', f, :dinner_amount_options
+          
 
           / end section
         / end section row section

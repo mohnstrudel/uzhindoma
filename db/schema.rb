@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411110457) do
+ActiveRecord::Schema.define(version: 20170416201541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,15 @@ ActiveRecord::Schema.define(version: 20170411110457) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  end
+
+  create_table "dinner_amount_options", force: :cascade do |t|
+    t.integer  "day_number"
+    t.float    "pricechange"
+    t.integer  "personamount_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["personamount_id"], name: "index_dinner_amount_options_on_personamount_id", using: :btree
   end
 
   create_table "employees", force: :cascade do |t|
@@ -322,6 +331,7 @@ ActiveRecord::Schema.define(version: 20170411110457) do
 
   add_foreign_key "accounts", "users"
   add_foreign_key "addresses", "users"
+  add_foreign_key "dinner_amount_options", "personamounts"
   add_foreign_key "employees", "jobtitles"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "menus"

@@ -4,6 +4,7 @@ class Admin::PersonamountsController < AdminController
 
 	def new
 		@personamount = Personamount.new
+    @personamount.dinner_amount_options.build
 	end
 
 	def index
@@ -11,6 +12,9 @@ class Admin::PersonamountsController < AdminController
 	end
 
 	def edit
+    if @personamount.dinner_amount_options.blank?
+      @personamount.dinner_amount_options.build
+    end
 	end
 
 	def destroy
@@ -53,7 +57,8 @@ class Admin::PersonamountsController < AdminController
 
 
 	def personamount_params
-		params.require(:personamount).permit(:value, :wordvalue, :pricechange, :title, :pricechange_life, :sortable)
+		params.require(:personamount).permit(:value, :wordvalue, :pricechange, :title, :pricechange_life, :sortable,
+      dinner_amount_options_attributes: [:day_number, :pricechange, :personamount_id, :id, :_destroy])
 	end
 
 	def find_personamount

@@ -1,8 +1,8 @@
 %h2.g-popup__title Введите код из СМС
 / ="Your param is: #{params['phone']}"
-=form_tag new_user_session_path(phone: params['phone'], some_other: 'some_other') do |f|
+=form_tag(new_user_session_path(phone: params['phone'], some_other: 'some_other'), { class: "g-sms-form g-form g-form_center", id: "sms-form"}) do |f|
   %fieldset.g-fieldset
-    =password_field_tag 'pass', "", autocomplete: "off", class: "g-input g-input_center"
+    =password_field_tag 'pass', "", autocomplete: "off", class: "g-input g-input_center", id: "sms-pass"
     / %input.g-input.g-input_center{:name => "pass", :placeholder => "СМС пароль", :type => "text"}/
   %a.g-link Повторно выслать пароль
   %fieldset.g-fieldset
