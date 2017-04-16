@@ -1,0 +1,11 @@
+%h2.g-popup__title Введите код из СМС
+/ ="Your param is: #{params['phone']}"
+=form_tag new_user_session_path(phone: params['phone'], some_other: 'some_other') do |f|
+  %fieldset.g-fieldset
+    =password_field_tag 'pass', "", autocomplete: "off", class: "g-input g-input_center"
+    / %input.g-input.g-input_center{:name => "pass", :placeholder => "СМС пароль", :type => "text"}/
+  %a.g-link Повторно выслать пароль
+  %fieldset.g-fieldset
+    %input#dessert2.js-menu-input.g-checkbox.m-menu-form__hide{:name => "dessert", :type => "checkbox"}/
+    %label.g-checkbox-label.m-menu-form__checkbox{:for => "dessert2"} Запомнить меня
+  =submit_tag "Продолжить", class: "g-btn g-btn_blue"

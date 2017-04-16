@@ -5,46 +5,10 @@ class Front::Users::SessionsController < Devise::SessionsController
 
   # GET /resource/sign_in
   def new
-    if params[:reset]
-      phone = params[:user][:phone]
-      # logger.debug("Phone is: #{phone}")
-
       
+      # helpers.send_sms(encoded_phone, encoded_message)
 
-      if phone.length == 17
-
-        password = User.generate_password_code
-        user = User.where(phone: phone)[0]
-
-        # Если не находим пользователя, то сразу его создаем
-        if not user
-          User.create(phone: phone, password: password)
-        else
-          if user.update(password: password)
-            logger.debug("New password for user #{user.email} successfully updated")
-          else
-            logger.debug("Password failed to update")
-          end
-        end
-
-        
-        
-        stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
-        encoded_phone = URI.escape(stripped_phone)
-        encoded_message = URI.escape("Ваш новый пароль - #{password}.")
-        logger.debug("New password for user #{phone} - #{password}")
-        
-        helpers.send_sms(encoded_phone, encoded_message)
-
-        flash[:success] = "Пароль успешно выслан."
-        redirect_to new_user_session_path(phone: phone, menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
-      else
-        flash[:danger] = "Телефон введен не верно"
-        redirect_to new_user_session_path(menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
-      end
-    else
-      super
-    end
+    super
   end
 
   # POST /resource/sign_in
@@ -66,10 +30,15 @@ class Front::Users::SessionsController < Devise::SessionsController
   # end
 
   def after_sign_in_path_for(resource)
-    if params[:user][:menu_id].blank?
-      edit_user_registration_path
-    else
-      new_order_path(menu_id: params[:user][:menu_id], person_amount: params[:user][:person_amount], menu_amount: params[:user][:menu_amount], add_dessert: params[:user][:add_dessert])
-    end
+    puts "#--------------#"
+    puts "User successfully logged in!"
+    puts "#--------------#"
+    new_order_path
+    # Тут перенаправляем на страницу заказа
+    # if params[:menu_id].blank?
+    #   edit_user_registration_path
+    # else
+    #   new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], menu_amount: params[:menu_amount], add_dessert: params[:add_dessert])
+    # end
   end
 end

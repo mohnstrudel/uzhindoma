@@ -1,0 +1,111 @@
+#myTabs
+	/ Nav tabs
+	.row.margin-top-30
+		.text-center
+			%h2.zero-letter-spacing Новое меню
+	.row.uzhindoma-tabs-row
+		.col-md-2
+		.col-md-8
+			%ul{:role => "tablist"}
+				-@current_menus.each_with_index do |current_menu, index|
+					%li{role: "presentation", class: "uzhindoma_tabs"}
+						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "", id: "dinner-tab-#{index}"
+		.col-md-2
+	.uzhindoma-hr
+	
+	/ Tab panes
+	.tab-content
+		-@current_menus.each_with_index do |current_menu, index|
+			=content_tag(:div, id: "tab-#{index}", role: "tabpanel", class: "tab-pane") do
+				-if current_menu.category.purchasable?
+					=form_tag new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], dinner_amount: params[:dinner_amount], change: params[:change], add_dessert: params[:add_dessert]), method: 'get' do
+
+						=hidden_field_tag :menu_id, current_menu.id
+						.container-fluid{style: "margin-top:20px;"}
+							.row
+								-col_value = 6
+								-col_value = 4 if current_menu.has_dessert
+								=content_tag(:div, class: "col-md-#{col_value}") do
+									%h6.zero-letter-spacing 
+										Сколько ужинов?
+									-current_menu.days.order(:sortable).each_with_index do |d_amount, d_index|
+										.radio-wrapper
+											.uzhin_rb_menus
+												%input{id: "radio1-da-#{d_index}-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange, d_amount.pricechange_four] }/
+												%label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
+													=d_amount.wordvalue
+
+								=content_tag(:div, class: "col-md-#{col_value}") do
+									%h6.zero-letter-spacing
+										На сколько персон?
+									-current_menu.personamounts.order(:sortable).each_with_index do |p_amount, p_index|
+										.radio-wrapper
+											.uzhin_rb_persons
+												%input{id: "radio2-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: [p_amount.value, p_amount.pricechange] }/
+												%label{id: "radio2-pa-#{p_index}-#{index}", :for => "radio2-pa-#{p_index}-#{index}"}
+													=p_amount.wordvalue
+								-if current_menu.has_dessert && !@dessert.nil?
+									=content_tag(:div, class: "col-md-#{col_value}") do
+										%h6.zero-letter-spacing
+											Добавить десерт?
+										.radio-wrapper
+											.uzhin_rb_dessert
+												%input{id: "radio8-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: @dessert.price}/
+												%label{id: "radio8-#{index}", :for => "radio8-#{index}"} Да
+										.radio-wrapper
+											.uzhin_rb_dessert
+												%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
+												%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
+							.row
+								.col-md-6.col-xs-12.padding-top-10
+									.col-md-6
+										%span.h6.zero-letter-spacing
+											="ДОСТАВКА: #{current_menu.daterange.split("-")[1]}"
+									
+									.col-md-6
+										.text-center
+											.price-container
+												%span.h6.zero-letter-spacing СУММА К ОПЛАТЕ:
+												=content_tag(:span, id: "uzhin_price_#{index}", class: "h6") do
+													=render 'front/menus/show_price'
+												%span.h6.zero-letter-spacing РУБ.
+												/ %i.fa-rub
+								.col-md-6.col-xs-12
+									.col-md-7.text-right
+										-unless user_signed_in?
+											Ваш номер телефона:
+											=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone_#{index}", required: "", class: "menu-phone-input"
+									.col-md-5.text-left
+										=button_tag(type: "submit", class: "btn btn-xs-small btn-success-mod-uzhindoma", id: "create_new_order") do
+											%span.icon.icon-xs.fa-shopping-cart
+											Заказать набор
+
+				.uzhindoma-hr.margin-top-30
+				
+				%section.grid
+					.uzhindoma-container-fluid
+						.uzhindoma-row
+							.gal
+								-current_menu.recipes.sort_by {|menurecipe| menurecipe.created_at }.reverse.each_with_index do |recipe, index|
+									.item
+										.description
+											%h3.zero-letter-spacing
+												=recipe.name
+											%p
+												=recipe.description
+										=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
+											=image_tag recipe.pictures.first.image.medium_thumb.url
+								-if current_menu.has_dessert && !@dessert.nil?
+									.item
+										.description
+											%h3.zero-letter-spacing
+												=@dessert.recipes.first.name
+											%p
+												=@dessert.recipes.first.description
+										-if !@dessert.hotpic.blank?
+											=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+												=image_tag @dessert.hotpic.medium_thumb.url		
+										-else
+											=link_to @dessert.recipes.first.pictures.first.image.medium_thumb.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
+												=image_tag @dessert.recipes.first.pictures.first.image.medium_thumb.url
+

@@ -78,3 +78,16 @@
           %span#comments.g-popup-reviews__count
         #comment-list.g-popup-reviews__comments
     #img-block.g-popup-reviews__img-wrapper
+
+#exist-acc.g-popup-wrapper
+  .g-popup
+    %a.g-popup__close{:href => "javascript:void(0)"}
+    .g-popup__content
+      %p.g-popup__text У вас уже есть аккаунт в нашей системе. Мы пришлем вам смс с паролем, и вы сможете продолжить оформление заказа
+      %a#send-pass.g-btn.g-btn_blue{:href => "javascript:void(0)"} Выслать пароль
+#send-popup.g-popup-wrapper
+  .g-popup
+    %a.g-popup__close{:href => "javascript:void(0)"}
+    .g-popup__content
+      =render partial: '/front/users/login_partial'
+      

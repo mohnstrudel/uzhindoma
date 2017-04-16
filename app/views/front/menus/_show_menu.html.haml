@@ -1,111 +1,86 @@
-#myTabs
-	/ Nav tabs
-	.row.margin-top-30
-		.text-center
-			%h2.zero-letter-spacing Новое меню
-	.row.uzhindoma-tabs-row
-		.col-md-2
-		.col-md-8
-			%ul{:role => "tablist"}
-				-@current_menus.each_with_index do |current_menu, index|
-					%li{role: "presentation", class: "uzhindoma_tabs"}
-						=link_to current_menu.category.name, "#tab-#{index}", "aria-controls" => "home", "data-toggle" => "tab", class: "", id: "dinner-tab-#{index}"
-		.col-md-2
-	.uzhindoma-hr
-	
-	/ Tab panes
-	.tab-content
-		-@current_menus.each_with_index do |current_menu, index|
-			=content_tag(:div, id: "tab-#{index}", role: "tabpanel", class: "tab-pane") do
-				-if current_menu.category.purchasable?
-					=form_tag new_order_path(menu_id: params[:menu_id], person_amount: params[:person_amount], dinner_amount: params[:dinner_amount], change: params[:change], add_dessert: params[:add_dessert]), method: 'get' do
+%section.g-section.m-section.m-section_top-bg
+  .g-wrapper
 
-						=hidden_field_tag :menu_id, current_menu.id
-						.container-fluid{style: "margin-top:20px;"}
-							.row
-								-col_value = 6
-								-col_value = 4 if current_menu.has_dessert
-								=content_tag(:div, class: "col-md-#{col_value}") do
-									%h6.zero-letter-spacing 
-										Сколько ужинов?
-									-current_menu.days.order(:sortable).each_with_index do |d_amount, d_index|
-										.radio-wrapper
-											.uzhin_rb_menus
-												%input{id: "radio1-da-#{d_index}-#{index}", :hidden => "", :name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange, d_amount.pricechange_four] }/
-												%label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
-													=d_amount.wordvalue
 
-								=content_tag(:div, class: "col-md-#{col_value}") do
-									%h6.zero-letter-spacing
-										На сколько персон?
-									-current_menu.personamounts.order(:sortable).each_with_index do |p_amount, p_index|
-										.radio-wrapper
-											.uzhin_rb_persons
-												%input{id: "radio2-pa-#{p_index}-#{index}", :hidden => "", :name => "person_amount_#{index}", :type => "Radio", value: [p_amount.value, p_amount.pricechange] }/
-												%label{id: "radio2-pa-#{p_index}-#{index}", :for => "radio2-pa-#{p_index}-#{index}"}
-													=p_amount.wordvalue
-								-if current_menu.has_dessert && !@dessert.nil?
-									=content_tag(:div, class: "col-md-#{col_value}") do
-										%h6.zero-letter-spacing
-											Добавить десерт?
-										.radio-wrapper
-											.uzhin_rb_dessert
-												%input{id: "radio8-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: @dessert.price}/
-												%label{id: "radio8-#{index}", :for => "radio8-#{index}"} Да
-										.radio-wrapper
-											.uzhin_rb_dessert
-												%input{id: "radio9-#{index}", :hidden => "", :name => "add_dessert_#{index}", :type => "Radio", value: 0}/
-												%label{id: "radio9-#{index}", :for => "radio9-#{index}"} Нет
-							.row
-								.col-md-6.col-xs-12.padding-top-10
-									.col-md-6
-										%span.h6.zero-letter-spacing
-											="ДОСТАВКА: #{current_menu.daterange.split("-")[1]}"
-									
-									.col-md-6
-										.text-center
-											.price-container
-												%span.h6.zero-letter-spacing СУММА К ОПЛАТЕ:
-												=content_tag(:span, id: "uzhin_price_#{index}", class: "h6") do
-													=render 'front/menus/show_price'
-												%span.h6.zero-letter-spacing РУБ.
-												/ %i.fa-rub
-								.col-md-6.col-xs-12
-									.col-md-7.text-right
-										-unless user_signed_in?
-											Ваш номер телефона:
-											=text_field_tag :phone,"", data: { constraints: "@Phone"}, id: "standard_order_phone_#{index}", required: "", class: "menu-phone-input"
-									.col-md-5.text-left
-										=button_tag(type: "submit", class: "btn btn-xs-small btn-success-mod-uzhindoma", id: "create_new_order") do
-											%span.icon.icon-xs.fa-shopping-cart
-											Заказать набор
+%section.g-section.m-section_top-controls
+  .g-wrapper.g-menu-block{"data-show" => "1"}
+    %h2.g-title
+      %span.g-title__text Новое меню
+    .g-menu-toggle.g-menu-toggle_blue
 
-				.uzhindoma-hr.margin-top-30
-				
-				%section.grid
-					.uzhindoma-container-fluid
-						.uzhindoma-row
-							.gal
-								-current_menu.recipes.sort_by {|menurecipe| menurecipe.created_at }.reverse.each_with_index do |recipe, index|
-									.item
-										.description
-											%h3.zero-letter-spacing
-												=recipe.name
-											%p
-												=recipe.description
-										=link_to recipe.pictures.first.image.url, data: {lightbox: "gallery", title: "#{recipe.name} - #{recipe.description}"} do
-											=image_tag recipe.pictures.first.image.medium_thumb.url
-								-if current_menu.has_dessert && !@dessert.nil?
-									.item
-										.description
-											%h3.zero-letter-spacing
-												=@dessert.recipes.first.name
-											%p
-												=@dessert.recipes.first.description
-										-if !@dessert.hotpic.blank?
-											=link_to @dessert.hotpic.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
-												=image_tag @dessert.hotpic.medium_thumb.url		
-										-else
-											=link_to @dessert.recipes.first.pictures.first.image.medium_thumb.url, data: {lightbox: "gallery", title: "#{@dessert.recipes.first.name} - #{@dessert.recipes.first.description}"} do
-												=image_tag @dessert.recipes.first.pictures.first.image.medium_thumb.url
+      -@current_menus.each_with_index do |current_menu, index|
+        / =link_to "/something", class: "g-menu-toggle__var js-main-menu #{'g-menu-toggle__var_active' if index == 0}", data: { var: index + 1} do
+        /   %span.g-menu-toggle__var-text=current_menu.category.name
+        %a{"data-var" => index+1, :href => "javascript:void(0)", class: "g-menu-toggle__var js-main-menu #{'g-menu-toggle__var_active' if index == 0}"}
+          %span.g-menu-toggle__var-text=current_menu.category.name
+    #menu-items.m-menu-items
+      -@current_menus.each_with_index do |current_menu, index|
+        .m-menu-items__list{"data-type" => index+1}
+          -current_menu.recipes.each_with_index do |recipe, rec_index|
+            %a.m-menu-items__item{"data-lightbox" => "menu_#{index+1}", "data-package" => rec_index+1, "data-price" => "300", "data-product" => "eat", "data-title" => recipe.description, :href => recipe.pictures.first.image.url}
+              .m-menu-items__img-wrapper
+                %img.m-menu-items__img{:src => recipe.pictures.first.image.url, :srcset => "#{recipe.pictures.first.image.url} 1x, #{recipe.pictures.first.image.medium_thumb.url} 2x"}/
+              %p.m-menu-items__description
+                =recipe.description
+          -if current_menu.has_dessert && !@dessert.nil?
+            -if !@dessert.hotpic.blank?
+              %a.m-menu-items__item{"data-lightbox" => "menu_#{index+1}", "data-price" => "300", "data-product" => "dessert", "data-title" => @dessert.recipes.first.description, :href => @dessert.hotpic.url}
+                .m-menu-items__img-wrapper
+                  %img.m-menu-items__img{:src => @dessert.hotpic.url, :srcset => "#{@dessert.hotpic.url} 1x, #{@dessert.hotpic.medium_thumb.url} 2x"}/
+                %p.m-menu-items__description
+                  =@dessert.recipes.first.description
+            -else
+              %a.m-menu-items__item{"data-lightbox" => "menu_#{index+1}", "data-price" => "300", "data-product" => "dessert", "data-title" => @dessert.recipes.first.description, :href => @dessert.recipes.first.pictures.first.image.url}
+                .m-menu-items__img-wrapper
+                  %img.m-menu-items__img{:src => @dessert.recipes.first.pictures.first.image.url, :srcset => "#{@dessert.recipes.first.pictures.first.image.url} 1x, #{@dessert.recipes.first.pictures.first.image.medium_thumb.url} 2x"}/
+                %p.m-menu-items__description
+                  =@dessert.recipes.first.description
 
+    =form_tag process_order_path, method: :get, class: "m-menu-form g-form", id: "menu-form", remote: true do
+      %fieldset.m-menu-form__fieldset.m-menu-form__fieldset_type
+        %input.m-menu-form__type{:name => "type", :type => "radio", :val => "standart"}/
+        %input.m-menu-form__type{:name => "type", :type => "radio", :val => "lite"}/
+      
+      / КОЛИЧЕСТВО УЖИНОВ
+      %fieldset.m-menu-form__fieldset
+        %h3.m-menu-form__field-desc Сколько ужинов?
+
+        / -current_menu.days.order(:sortable).each_with_index do |d_amount, d_index|
+        /   %input{id: "quantity_#{d_index}", class: 'js-menu-input m-menu-form__hide',:name => "menu_amount_#{index}", :type => "Radio", value: [d_amount.value, d_amount.pricechange, d_amount.pricechange_four] }/
+        /   %label{id: "radio1-da-#{d_index}-#{index}", :for => "radio1-da-#{d_index}-#{index}"}
+        /     =d_amount.wordvalue
+
+
+
+        %input#quantity_5.js-menu-input.m-menu-form__hide{:name => "quantity", :type => "radio", :value => "5"}/
+        / =radio_button_tag 'quantity', value: 5, id: "quantity_5", class: "js-menu-input m-menu-form__hide"
+        %label.m-menu-form__radio{:for => "quantity_5"} Все пять
+
+        %input#quantity_4.js-menu-input.m-menu-form__hide{:name => "quantity", :type => "radio", :value => "4"}/
+        %label.m-menu-form__radio{:for => "quantity_4"} Четыре
+        %input#quantity_3.js-menu-input.m-menu-form__hide{:checked => "checked", :name => "quantity", :type => "radio", :value => "3"}/
+        %label.m-menu-form__radio{:for => "quantity_3"} Три
+        %input#quantity_3.js-menu-input.m-menu-form__hide{:checked => "checked", :name => "quantity", :type => "radio", :value => "3"}/
+        %label.m-menu-form__radio{:for => "quantity_3"} Десять
+
+      / КОЛЧИЧЕСТВО ПЕРСОН
+      %fieldset.m-menu-form__fieldset
+        %h3.m-menu-form__field-desc На сколько персон?
+        %input#people_2.js-menu-input.m-menu-form__hide{:checked => "checked", :name => "people", :type => "radio", :value => "2"}/
+        %label.m-menu-form__radio{:for => "people_2"} Две
+        %input#people_4.js-menu-input.m-menu-form__hide{:name => "people", :type => "radio", :value => "4"}/
+        %label.m-menu-form__radio{:for => "people_4"} Четыре
+      %fieldset.m-menu-form__fieldset
+        %input#dessert.js-menu-input.g-checkbox.m-menu-form__hide{:name => "dessert", :type => "checkbox"}/
+        %label.g-checkbox-label.m-menu-form__checkbox{:for => "dessert"} Добавить десерт
+      %fieldset.m-menu-form__fieldset
+        %input#phone-input.g-input.m-menu-form__input{:name => "phone", :placeholder => "Ваш номер телефона", :type => "tel"}/
+
+        / =telephone_field_tag "phone", placeholder: "Ваш номер телефона", class: "g-input m-menu-form__input", id: "#phone-input"
+      .m-menu-form__result
+        %span.m-menu-form__result-desc Доставка
+        %span.m-menu-form__result-val 21.02.2017
+      .m-menu-form__result
+        %span.m-menu-form__result-desc Сумма к оплате
+        %span#total_price.m-menu-form__result-val.m-menu-form__result-val_price.g-rub
+      =submit_tag "Заказать набор", class: "g-btn g-btn_blue m-menu-form__submit"
