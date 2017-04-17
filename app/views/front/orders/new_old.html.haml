@@ -1,0 +1,118 @@
+-@order.errors.full_messages.each do |message|
+  =content_tag(:div, message, class: "alert alert-danger")
+
+-if user_signed_in?
+  %main.page-content
+    =form_for @order do |f|
+      .row
+        %section
+          %h3.zero-letter-spacing Оформление заказа
+          .col-xs-12.col-md-10.col-md-offset-1
+            %h5.zero-letter-spacing.text-left.margin-top-30.extra-small
+              ="Здравствуйте, #{@cu.first_name}"
+            %h5.zero-letter-spacing.text-left.margin-top-30.extra-small
+              Куда доставляем заказ?
+            .row
+              .col-md-5
+                =select_tag :delivery_address, options_for_select([[@order.address, "current"]] + Order.get_addresses(current_user) + [["Добавить новый адрес", "new"]]), class: 'form-control'
+                / =f.text_field :address, placeholder: "Текущий адрес", class: "uzhindoma-universal-input"
+            =render partial: "front/orders/form_fields", locals: { f: f, form_class: "hidden" }
+            
+
+            / Some hidden fields to set up order values
+            =f.hidden_field :menu_id, value: @menu.id
+            =f.hidden_field :menu_type, value: @menu.category.name
+            =f.hidden_field :order_price, value: @menu_price
+            =f.hidden_field :order_type, value: "normal"
+            =f.hidden_field :payed_online, value: false
+            =f.hidden_field :phone, value: @cu.phone
+            =f.hidden_field :email, value: @cu.email
+            =f.hidden_field :address, value: @cu.address
+            =f.hidden_field :additional_address, value: @cu.additional_address
+            =f.hidden_field :first_name, value: @cu.first_name
+            =f.hidden_field :person_amount, value: params[:people]
+            =f.hidden_field :menu_amount, value: params[:quantity]
+            
+            
+            -if params[:dessert] == "on"
+              =f.hidden_field :add_dessert, value: params[:dessert]
+            -else
+              =f.hidden_field :add_dessert, value: false
+            =f.hidden_field :change, value: params[:change]
+            
+            .row.margin-top-30
+              .col-md-8.text-right
+                .submit-order
+                  =f.submit "Перейти к оплате", data: { "disable-with" => "Подождите немного, оформляем ваш заказ"}, class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+                        
+
+-else
+  %main.page-content
+    =form_for @order do |f|
+      .row
+        %section
+          %h3.zero-letter-spacing Оформление заказа
+          .col-md-10.col-md-offset-1.margin-top-30
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "first_name"} Имя
+                  .uzhindoma-input
+                    =f.text_field :first_name, data: { constraints: "@NotEmpty"}, id: "first_name", required: ""
+
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "second_name"} Фамилия
+                  .uzhindoma-input
+                    =f.text_field :second_name, data: { constraints: "@NotEmpty"}, id: "second_name", required: ""
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "email"} E-mail
+                  .uzhindoma-input
+                    =f.text_field :email, data: { constraints: "@NotEmpty @Email"}, id: "email", required: ""
+            .row
+              .col-md-6
+                .text-wrapper
+                  %label.h5.zero-letter-spacing.text-left.extra-small{:for => "standard_order_phone"} Телефон
+                  .uzhindoma-input
+                    =f.text_field :phone, data: { constraints: "@Phone"}, id: "standard_order_phone", required: "", value: params[:phone]
+            =render partial: "front/orders/form_fields", locals: { f: f, form_class: "" }
+            .row
+              .col-md-6.text-left
+                Для Вашего удобства с введенными данными мы создадим для Вас учетную запись на нашем сайте. При последующих заказах вы сможете войти в систему, введя свой телефон (пароль придет по смс на указанный номер).
+
+            / Some hidden fields to set up order values
+            =f.hidden_field :menu_id, value: @menu.id
+            =f.hidden_field :menu_type, value: @menu.category.name
+            =f.hidden_field :order_price, value: @menu_price
+            =f.hidden_field :order_type, value: "normal"
+            / =f.hidden_field :payed_online, value: false
+            
+            -if params[:person_amount_0]
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_0])
+            -elsif params[:person_amount_1]
+              =f.hidden_field :person_amount, value: parse_checkbox_array_params(params[:person_amount_1])
+            
+            -if params[:menu_amount_0]
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_0]))
+            -elsif params[:menu_amount_1]
+              =f.hidden_field(:menu_amount, value: parse_checkbox_array_params(params[:menu_amount_1]))
+            / =f.hidden_field(:menu_amount, value: params[:menu_amount_1].to_i) unless params[:menu_amount_1].empty?
+
+            =f.hidden_field :add_dessert, value: params[:add_dessert_0]
+            =f.hidden_field :change, value: params[:change]
+            
+            .row
+              .col-md-6.text-right
+                .submit-order
+                  =f.submit "Перейти к оплате", data: { "disable-with" => "Подождите немного, оформляем ваш заказ"}, class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+
+
+
+        %select#adress_select.g-select{:name => "adress_id"}
+          %option{:value => "1"} Москва, ул. проспект 60-летия Октября 10/1/55
+          %option{:value => "2"} Москва, ул. проспект 50-летия Октября 10/1/55
+          %option{:value => "new"} Новый адрес
+                        

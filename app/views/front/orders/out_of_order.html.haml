@@ -1,9 +1,19 @@
-%main.page-content
-  .row
-    %section
-      %h3.zero-letter-spacing Списки закрыты :(
-      .col-xs-12.col-md-10.col-md-offset-1
-        %h5.zero-letter-spacing.text-left.margin-top-30
-          На этой неделе мы уже закрыли списки заказов. 
-        %h5.zero-letter-spacing.text-left.margin-top-30.small
-          Но мы записали ваш телефон и если появится свободный набор, то менеджер свяжется с вами. Мы такжи поставили вас в очередь на набор следующей недели.
+%section.g-section.m-section.m-section_top-bg
+  .g-wrapper
+%section.g-section
+  .g-wrapper.g-info
+    %h2.g-title
+      %span.g-title__text Ой, все наборы закончились!
+    .g-info__wrapper
+      %p.g-info-text.g-bolder
+        Ксения, спасибо за ваш заказ!
+      %p.g-info-text К сожалению, все наборы на эту неделю уже разобрали. Мы свяжемся с вами, если у нас появится свободный набор.
+      %p.g-info-text
+        Если у вас есть вопросы, свяжитесь с нами:
+        %a.g-info-link.g-bolder{:href => "tel:89161704385"} 8 (916) 170-43-85
+        (WhatsApp).
+        %br>/
+        Новое меню появится на сайте в понедельник.
+        %br>/
+        Не пропустите, количество наборов всегда ограниченно.
+    %a.g-btn.g-btn_transparent{:href => "/"} На главную

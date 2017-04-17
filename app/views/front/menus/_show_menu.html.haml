@@ -51,8 +51,7 @@
     -if not user_signed_in?
       =form_tag process_order_path, method: :get, class: "m-menu-form g-form", id: "menu-form", remote: true do
         %fieldset.m-menu-form__fieldset.m-menu-form__fieldset_type
-          %input.m-menu-form__type{:name => "type", :type => "radio", :val => "1"}/
-          %input.m-menu-form__type{:name => "type", :type => "radio", :val => "2"}/
+          %input#menu-id.m-menu-form__type{:name => "type", :type => "text"}/
         
         / КОЛИЧЕСТВО УЖИНОВ
         %h3.m-menu-form__field-desc Сколько ужинов?
@@ -82,7 +81,7 @@
       =form_tag new_order_path, method: 'get', class: "m-menu-form g-form", id: "menu-form-logged-in" do
 
         %fieldset.m-menu-form__fieldset.m-menu-form__fieldset_type
-          %input.m-menu-form__type#menu-id{name: "type"}
+          %input#menu-id.m-menu-form__type{:name => "type", :type => "text"}/
         
         / КОЛИЧЕСТВО УЖИНОВ
         %h3.m-menu-form__field-desc Сколько ужинов?

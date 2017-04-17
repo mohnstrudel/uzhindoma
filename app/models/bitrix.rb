@@ -102,6 +102,9 @@ class Bitrix < ActiveRecord::Base
 	end
 
   def self.write_to_crm(url, order, type)
+
+    logger.debug "+_+_+_+___+__+_+_+_+_+"
+    logger.debug "Writing to crm with params: #{url}, order: #{order.inspect}, type: #{type}"
     doc = Nokogiri::HTML(open(url))
 
     response = JSON.parse(doc)
@@ -172,7 +175,8 @@ class Bitrix < ActiveRecord::Base
   end
 
   def self.format_id_and_prices(found_product, dessert, discount)
-    
+    logger.debug "INSPECTING FORMAT ID AND PRICES PARAMS"
+    logger.debug "found_product - #{found_product}, dessert - #{dessert}, discount - #{discount}"
     # Добавить десерт, если в заказе выбрано
     dessert_id = nil
     dessert_price = nil
@@ -182,6 +186,8 @@ class Bitrix < ActiveRecord::Base
     discount_price = nil
 
     if dessert
+      p "0000000000"
+      logger.debug "DESSERT FOUND! ADDING!"
       dessert_name = Menu.current_dessert[0].recipes[0][:name]
       found_dessert = find_product("Десерт")
       dessert_id = found_dessert[0]
@@ -211,6 +217,10 @@ class Bitrix < ActiveRecord::Base
   end
 
   def self.add_products_to_order(order_type, deal_or_lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+    # С новых пор это всегда лид
+    order_type = "lead"
+    # Лид
+
     bitrix = first
     fields_string = "&id=#{deal_or_lead_id}&&rows[0][PRODUCT_ID]=#{product_id}&rows[0][PRICE]=#{product_price}&rows[0][QUANTITY]=1"
     dessert_string = ""
@@ -223,8 +233,9 @@ class Bitrix < ActiveRecord::Base
     elsif !dessert_id && discount_id
       discount_string = "&rows[1][PRODUCT_ID]=#{discount_id}&rows[1][PRICE]=#{discount_price}&rows[1][QUANTITY]=1"
     end
-    url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}#{discount_string}"
 
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}#{discount_string}"
+    logger.debug("Adding products to order with url: #{url}")
     doc = Nokogiri::HTML(open(url))
   end
 
@@ -282,17 +293,17 @@ class Bitrix < ActiveRecord::Base
 
 		access_token = find(1).access_token
 
-		parsed_phone.each do |current_phone|
-			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{access_token}&#{fields_string}"
 
-			doc = Nokogiri::HTML(open(url))
-			client_data = JSON.parse(doc)
-			unless client_data["result"].empty?
-				# Here we return the found client's ID
-				return client_data["result"][0]["ID"]
-			end
+		fields_string = "filter[PHONE]=#{parsed_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{access_token}&#{fields_string}"
+
+		doc = Nokogiri::HTML(open(url))
+		client_data = JSON.parse(doc)
+		unless client_data["result"].empty?
+			# Here we return the found client's ID
+			return client_data["result"][0]["ID"]
 		end
+
 		# If no user found we return nil
 		return nil
 	end
@@ -324,6 +335,9 @@ class Bitrix < ActiveRecord::Base
 	def self.parse_phone(phone_input)
 		output_phone = Array.new
 		eight_phone = Array.new
+
+    # на данный момент в битриксе все телефоны с такой маской:
+    # 89687121212
 		# we receive a randomly inputted phone number, like +7 968-712 12-12
 		# we strip out only digits and then transform into 
 		# all possible outcomes for Bitrix phone input
@@ -339,36 +353,14 @@ class Bitrix < ActiveRecord::Base
 		# 7 900-123-88-22
 
 		# Output is an array of all phone number possibilities
-
+    # Скан делает из "+7 (968) 714-47-17" "79687144717" 
 		phone = phone_input.scan(/\d+/).join("")
 
-		output_phone[0] = phone
-		# первый анпак генерирует "7900-123-88-22" 
-		output_phone[1] = phone.unpack('A4A3A2A2').join('-')
-		output_phone[2] = phone.unpack('A1A3A3A2A2').join('-')
-		output_phone[3] = phone.unpack('A1A3A3A2A2').join(' ')
-		output_phone[4] = phone.unpack('A1A3A7').join('-')
-		output_phone[5] = phone.unpack('A1A3A7').join(' ')
-		output_phone[6] = phone.unpack('A1A10').join(' ')
-		output_phone[7] = phone.unpack('A1A10').join('-')
-		output_phone[8] = phone.unpack('A1A10').join('-').unpack('A5A10').join(' ')
-		output_phone[9] = phone.unpack('A1A10').join('-').unpack('A5A3A2A2').join(' ')
-		output_phone[10] = phone.unpack('A1A10').join(' ').unpack('A5A3A2A2').join('-')
-		# Тут нам нужен 7 (925) 700-6838
-		output_phone[11] = phone.unpack('A1A10').join(' (').unpack('A6A7').join(') ').unpack('A11A4').join('-')
+    # Заменяем первую цифру на восмерку
+    phone[0] = "8"
+    # Теперь у нас единственный и идеальный вариант для битрикса
+    # т.е. "89687144717" 
 
-		# now we need exactly the same with '8' at the beginning
-
-		output_phone.each_with_index do |o_phone, index|
-			eight_phone << o_phone.sub('7', '8')
-		end
-
-		phone_chain = output_phone.concat(eight_phone)
-
-		phone_chain.each do |element|
-			element.gsub! ' ', '%20'
-		end
-
-		return phone_chain
+		return phone
 	end
 end

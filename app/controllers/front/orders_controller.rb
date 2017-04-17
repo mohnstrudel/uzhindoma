@@ -8,16 +8,23 @@ class Front::OrdersController < FrontController
     # logger.debug("Phone is: #{phone}")
     length = phone.length
 
-    
+    # Сохраняем для нового пользователя настройки набора в сессии
+    session[:menu_id] = params['type']
+    session[:quantity] = params['quantity']
+    session[:people] = params['people']
+    if params['dessert'] == "on"
+    	session[:dessert] = true
+    end
 
     if phone.length == 18
 
       password = User.generate_password_code
-      user = User.where(phone: phone)[0]
+      user = User.where(phone: phone).first
 
       # Если не находим пользователя, то сразу его создаем
       if not user
         User.create(phone: phone, password: password)
+        logger.debug("New user with phone - #{phone} created!")
       else
         if user.update(password: password)
           logger.debug("New password for user #{user.email} successfully updated")
@@ -42,44 +49,32 @@ class Front::OrdersController < FrontController
 	end
 
 	def new
-		# Перенаправляем пользователя на форму логина, если он уже есть в системе, но не авторизован
-		if !User.where(phone: params[:phone]).blank? && !user_signed_in?
-			# Пробрасываем в новую сессию значения заказа, потому что нам надо будет вернуться потом на страницу нового
-			# заказа с этими же значениями
-			# Так как у нас параметры с разными названиями приходят, нужно их обработать (как на странице orders#new)
-			# Обычно меню только два, но проверяем на всякий случай три меню (с запасом)
-			person_amount = params[:person_amount_0] || params[:person_amount_1] || params[:person_amount_2]
-			menu_amount = params[:menu_amount_0] || params[:menu_amount_1] || params[:menu_amount_2]
-			add_dessert = params[:add_dessert_0] || params[:add_dessert_1] || params[:add_dessert_2]
-			redirect_to new_user_session_path(phone: params[:phone], menu_id: params[:menu_id], person_amount: person_amount, menu_amount: menu_amount, add_dessert: add_dessert)
-			flash[:info] = "У вас уже есть аккаунт в нашей системе, пожалуйста, авторизуйтесь перед оформлением заказа."
-			# перенаправление end
-		else
 			logger.debug "Нажато на создание нового заказа"
 			@cu = current_user
 
 			# Тут проверяем, какой день сегодня - с четверга по воскресенье отключаем
 			# Возможность заказать набор
 			if Order.check_order_day(DateTime.now)
-				if user_signed_in?
-					session[:phone] = @cu.phone
-				else
-					session[:phone] = params[:phone]
-				end
+				# У нас всегда есть пользователь, потому что мы всегда попадаем
+				# на страницу new через авторизацию
+				session[:phone] = @cu.phone
+				
 				logger.debug "Out of order called with phone: #{session[:phone]}"
+				
 				redirect_to out_of_order_path
 				# Оповещаем админа сайта, что есть заказ в день, когда списки закрыты
 				OrderNotifier.out_of_order(session[:phone]).deliver_now
 			else	
-				if user_signed_in?
-					@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
-				else
-					@order = Order.new
-				end
-				@menu = Menu.find(params[:menu_id])
-				@menu_price = @menu.calculate_price(@menu, params)
+				# Если набор открыт, то следуем дальше логике приложения
+				@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
+				menu_param = params[:type] || session[:menu_id]
+				persons = params[:people] || session[:people]
+				quantity = params[:quantity] || session[:quantity]
+				dessert = params[:dessert] || session[:dessert]
+				
+				@menu = Menu.find(menu_param)
+				@menu_price = @menu.calculate_price(@menu, persons, quantity, dessert)
 			end
-		end
 	end
 
 	def create
@@ -98,10 +93,12 @@ class Front::OrdersController < FrontController
 		
 		# Here happens some Bitrix magic (see methods below)
 
-		logger.debug "Benchmarking 'create_user_if_not_exists_yet'"
-		Benchmark.bm do |x|
-			x.report do
-				@user_id = create_user_if_not_exists_yet(params)
+		if current_user.orders.count == 0
+			logger.debug "Benchmarking 'update_fresh_user_with_order_params'"
+			Benchmark.bm do |x|
+				x.report do
+					update_fresh_user_with_order_params(params, current_user)
+				end
 			end
 		end
 		
@@ -128,7 +125,7 @@ class Front::OrdersController < FrontController
 			end
 		end
 
-		@order[:user_id] = @user_id
+		@order[:user_id] = current_user.id
 
 		if @order.save
 			if apply_promocode(@order[:pcode])
@@ -150,6 +147,12 @@ class Front::OrdersController < FrontController
 		else
 			render "new"
 		end
+
+		# Удаляем сессии, что бы они не перезаписали что-нибудь
+		session.delete(:menu_id)
+		session.delete(:people)
+		session.delete(:quantity)
+		session.delete(:dessert)
 	end
 
 	def show
@@ -182,37 +185,25 @@ class Front::OrdersController < FrontController
 
 	private
 
-	def create_user_if_not_exists_yet(params)
+	def update_fresh_user_with_order_params(order_params, user)
 		email = params[:order][:email] || ""
 		phone = params[:order][:phone]
-		logger.info "Inside creating new user with user params: #{email}"
-		if (User.where(phone: phone)[0].nil?)
-			# Вытаскиваем параметры только если пользователя ещё нет в системе
-			# что бы зря не нагружать контроллер
-			
-			first_name = params[:order][:first_name] || ""
-			second_name = params[:order][:second_name] || ""
-			phone = params[:order][:phone] || ""
-			# email = params[:order][:email]
-			street = params[:order][:street] || ""
-			delivery_region = params[:order][:delivery_region]
-			house_number = params[:order][:house_number]
-			flat_number = params[:order][:flat_number]
-			additional_address = params[:order][:additional_address]
-			password = User.generate_password_code
+		logger.info "Inside updating fresh user with user params: #{phone}"
 		
-			user = User.create(phone: phone, password: password, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
-			logger.info "After creating order a complete new user #{first_name} with phone: #{phone} was created."
-			message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
+		first_name = params[:order][:first_name] || ""
+		second_name = params[:order][:second_name] || ""
+		phone = params[:order][:phone] || ""
+		# email = params[:order][:email]
+		street = params[:order][:street] || ""
+		delivery_region = params[:order][:delivery_region]
+		house_number = params[:order][:house_number]
+		flat_number = params[:order][:flat_number]
+		additional_address = params[:order][:additional_address]
+	
+		user.update(phone: phone, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
+		logger.info "After creating order a fresh user #{first_name} with phone: #{phone} was updated!"
+		# message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
 			
-			helpers.send_sms(phone, message)
-
-			return user.id
-		else
-			user = User.where(phone: phone)[0]
-			user_id = user.id
-			return user_id
-		end
 	end
 
 	def find_promocode(code)
@@ -294,7 +285,8 @@ class Front::OrdersController < FrontController
 		type_id = URI.escape("Сайт")
 		
 		# Проверяем сначала, нам данные из профиля пользователя брать или из формы
-		if @cu = current_user
+		# Т.е. пользователь должен быть старым и совершить хотя бы один заказ
+		if current_user.orders.count > 1
 
 			# Логика под пользователя, у которого уже есть профиль
 			
@@ -306,10 +298,10 @@ class Front::OrdersController < FrontController
 			if params[:delivery_address] == "new"
 				# Тут логика для опции "Добавить новый адрес"
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-				if order[:delivery_region] == "Москва"
-					city = order[:delivery_region]
+				if order[:delivery_region] == "false"
+					city = "Москва"
 				else
-					city = "#{order[:delivery_region]}, #{order[:city]}"
+					city = "Московская область, #{order[:city]}"
 				end
 
 				# Получаем поля адреса из параметров
@@ -388,6 +380,9 @@ class Front::OrdersController < FrontController
 			# Здесь логика под совсем нового пользователя, т.е. которого нет ни в битриксе
 			# ни на сайте
 
+			logger.debug("+++++++=============++++++++")
+			logger.debug("Creating order for absolutely new user with params: #{order.inspect}")
+
 			# Если payed_online ==  true, то ставим сумму оплаты в соответствующее поле лида
 			email = order[:email] || ""
 			payment_fields = ""
@@ -396,10 +391,10 @@ class Front::OrdersController < FrontController
 			phone = params[:order][:phone]
 
 			# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-			if order[:delivery_region] == "Москва"
-				city = order[:delivery_region]
+			if order[:delivery_region] == "false"
+				city = "Москва"
 			else
-				city = "#{order[:delivery_region]}, #{order[:city]}"
+				city = "Московская область, #{order[:city]}"
 			end
 
 			# Получаем поля адреса из параметров
@@ -484,31 +479,29 @@ class Front::OrdersController < FrontController
 		bitrix = Bitrix.first
 		parsed_phone = Bitrix.parse_phone(phone)
 
-		parsed_phone.each do |current_phone|
-			fields_string = "filter[PHONE]=#{current_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-			url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
-			
-			# logger.debug "Using phone: #{current_phone}"
-			# logger.debug "Searching for user using this URL: "
-			# logger.debug url
+		fields_string = "filter[PHONE]=#{parsed_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
+		url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
+		
+		# logger.debug "Using phone: #{current_phone}"
+		# logger.debug "Searching for user using this URL: "
+		# logger.debug url
 
 
-			doc = Nokogiri::HTML(open(url))
-			client_data = JSON.parse(doc)["result"]
+		doc = Nokogiri::HTML(open(url))
+		client_data = JSON.parse(doc)["result"]
 
-			unless client_data.empty?
-				# Here we return the found client's ID
-				# используем -1, что бы, если результатов больше одного, то мы получали последний
-				# Также проверяем, если результатов больше 1, то шлем письмецо
-				logger.debug "Client data:"
-				p client_data
-				logger.debug "Result length: #{client_data.length}"
+		unless client_data.empty?
+			# Here we return the found client's ID
+			# используем -1, что бы, если результатов больше одного, то мы получали последний
+			# Также проверяем, если результатов больше 1, то шлем письмецо
+			logger.debug "Client data:"
+			p client_data
+			logger.debug "Result length: #{client_data.length}"
 
-				if client_data.length > 1
-					ApplicationMailer.notify_if_multiple_bitrix_users(phone, client_data).deliver_now
-				end
-				return client_data[-1]["ID"]
+			if client_data.length > 1
+				ApplicationMailer.notify_if_multiple_bitrix_users(phone, client_data).deliver_now
 			end
+			return client_data[-1]["ID"]
 		end
 		# If no user found we return nil
 		return nil

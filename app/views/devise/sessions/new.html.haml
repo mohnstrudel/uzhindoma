@@ -8,7 +8,7 @@
 						.row.flow-offset-6.text-center
 							#signin_phone{class: ("hidden" unless params[:phone].blank?)}
 								.col-xs-12.col-sm-12.margin-bottom-30
-									=f.text_field :phone, placeholder: "Номер телефона", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone", class: "menu-phone-input", value: params[:phone]
+									=f.text_field :phone, placeholder: "Номер телефона ФАКА", data: { constraints: "@NotEmpty" }, autofocus: true, id: "standard_order_phone", class: "menu-phone-input", value: params[:phone]
 							#signin_password.hidden
 								.col-xs-12.col-sm-12
 									=f.password_field :password, placeholder: "Пароль", data: { constraints: "@Password" }, class: "form-input", autocomplete: "off", class: "uzhindoma-universal-input"

@@ -1,38 +1,23 @@
-%main.page-content
-  %section.bg-light.section-lg
-    %ol.breadcrumb
-      %li
-        =link_to 'Главная', root_path
-      %li.active Оплата заказа
-  .section
-    =form_for @order do |f|
-      =hidden_field_tag "order_id", @order.id
-      =hidden_field_tag "order_price", @order.order_price
-      =f.hidden_field :payed_online, value: false
-      .container
-        .row
-          .col-xs-12.col-md-12
-            %section.section-inset-1
-              %h2.zero-letter-spacing Оплата заказа
-              %p.text-sm-center
-                ="Итоговая сумма заказа - #{@order.order_price} рублей"
-              .row
-                .col-md-12
-                  %h4.zero-letter-spacing.text-center.margin-top-30 Тип оплаты
-                  .margin-top-15
-                  .col-md-6.no-left-padding-margin.text-right
-                    .radio-wrapper
-                      .uzhin_rb_menus
-                        =f.radio_button :pay_type, "Наличными курьеру", hidden: true, id: "courier_cash"
-                        %label{id: "courier_cash", :for => "courier_cash"} Наличными курьеру
-                  .col-md-6.no-right-padding-margin.text-left
-                    .radio-wrapper
-                      .uzhin_rb_menus
-                        =f.radio_button :pay_type, "Картой онлайн", hidden: true, id: "card_online", class: "payment-button-padding"
-                        %label{id: "card_online", :for => "card_online", style: "padding-right: 31px; padding-left: 31px;"} Картой онлайн
-              .row
-                .col-md-12.text-center
-                  #payment_status
-              .row
-                .col-md-12.text-center
-                  =f.submit "Завершить заказ", class: "btn btn-success-mod-uzhindoma margin-bottom-60"
+%section.g-section.m-section.m-section_top-bg
+  .g-wrapper
+%section.g-section
+  .g-wrapper.g-info
+    %h2.g-title
+      %span.g-title__text Оплата заказа
+    .g-info__wrapper
+      %p.g-info-text
+        Итоговая сумма заказа
+      %p.g-price.g-rub
+        =@order.order_price
+      %h3.g-price-title Тип оплаты
+      =form_for @order, html: { class: "g-form g-form_checkout" } do |f|
+        =f.hidden_field :payed_online, value: false
+        %fieldset.g-fieldset
+          =f.radio_button :pay_type, "Наличными курьеру", id: "cash", class: "g-input_hide"
+          %label.g-input-radio{:for => "cash"} Наличными курьеру
+
+          =f.radio_button :pay_type, "Картой онлайн", id: "transfer", class: "g-input_hide"
+          %label.g-input-radio{:for => "transfer"} Картой онлайн
+        %fieldset.g-fieldset.g-fieldset_buttons
+          %a.g-btn.g-btn_gray.g-btn_gray_clear{:href => "/dinner"} Отменить заказ
+          =f.submit "Оплатить", class: "g-btn g-btn_blue"

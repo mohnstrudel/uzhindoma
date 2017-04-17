@@ -1,23 +1,24 @@
-%main.page-content
-	%section.bg-light.section-lg
-		%ol.breadcrumb
-			%li
-				=link_to 'Главная', root_path
-			%li.active Заказ оформлен
-	.section
-		.container
-			.row
-				.col-xs-12.col-md-8.col-md-offset-2
-					%section.section-inset-1
-						%h2.zero-letter-spacing Спасибо за ваш заказ!
-						%p.text-sm-left.offset-7
-							-if @order.name.blank?
-								-name = @order.first_name
-							-else 
-								-name = @order.name
-							="Уважаемый/ая #{name}. Ваш заказ №#{@order.id} принят и наш менеджер обработает его в кратчайшие сроки. При возникновении вопросов мы свяжемся с вами по указанному в заказе телефону #{@order.phone}." 
-						-unless @order.order_type == "fast"
-							%p.text-sm-left
-								="Мы отправили вам письмо с подтверждением заказа на адрес #{@order.email}"
-							%p.text-sm-left
-								="Время доставки выбрано - #{@order.delivery_timeframe}."
+%section.g-section.m-section.m-section_top-bg
+  .g-wrapper
+%section.g-section
+  .g-wrapper.g-info
+    %h2.g-title
+      %span.g-title__text Спасибо, ваш заказ принят
+    .g-info__wrapper
+      %p.g-info-text
+        ="Мы отправили вам письмо с подтверждением заказа на адрес #{@order.email}"
+      %p.g-info-text
+        Если вы не получили письмо, пожалуйста, проверьте папку «cпам».
+        %br>/
+        Номер вашего заказа:
+        = succeed "." do
+          %span.g-bolder=@order.id
+      %p.g-info-text
+        ="Время доставки выбрано - #{@order.delivery_timeframe}."
+      %p.g-info-text
+        В субботу вы получите смс с подтверждением времени доставки.
+        %br>/
+        Если у вас есть вопросы, свяжитесь с нами:
+        %a.g-info-link.g-bolder{:href => "tel:#{Setting.first.phone}"}=Setting.first.phone
+        (WhatsApp).
+    %a.g-btn.g-btn_transparent{:href => "/"} На главную

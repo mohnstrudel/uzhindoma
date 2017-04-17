@@ -75,7 +75,7 @@
             }
             return false;
         });
-        if($("input[type='tel']") > 0)
+        if($("input[type='tel']").length > 0)
             $("input[type='tel']").inputmask("+9 (999) 999-99-99");
         if($("body").hasClass("learn_more")){
             mapboxgl.accessToken = 'pk.eyJ1Ijoic2NobmliYmEiLCJhIjoiMWEwYWI4YTA3YTAwYjVhYTY1YWZiZGFiZDk1Zjk5NGUifQ.ueMMb8kMdWxrP5N4iqx67Q';
@@ -204,6 +204,101 @@
                 $review_popup.fadeIn(300);
                 return false;
             });
+            } else if($("body").hasClass("orders new")){
+            var $form = $("#checkout-form");
+            if($form.find("[name='is-exist']").val() == "true"){
+                $(".g-select").select2();
+                $(".js-add-adress").hide();
+                $("#adress_select").on("change",function(){
+                    if($(this).val() == "new")
+                        $(".js-add-adress").fadeIn(300);
+                    else
+                        $(".js-add-adress, #region").fadeOut(100);
+                });
+            }
+            $(".js-show-region").on("change", function(){
+                if($(this).val() == 'true')
+                    $form.find("#region").fadeIn(300);
+                else
+                    $form.find("#region").fadeOut(300).find("input").val("")
+            });
+            $(".js-input_number").inputmask("9{1,4}");
+            
+            $form.on("submit", function(e){
+                e.preventDefault();
+                
+                var $name_input = $form.find("[name='order[first_name]']"),
+                    name = $name_input.val(),
+                    $email_input = $form.find("[name='order[email]']"),
+                    email = $email_input.val(),
+                    $lastname_input = $form.find("[name='order[second_name]']"),
+                    lastname = $lastname_input.val(),
+                    $phone_input = $form.find("[name='order[phone]']"),
+                    phone = $phone_input.val().replace(/\D+/g,""),
+                    $street_input = $form.find("[name='order[street]']"),
+                    street = $street_input.val(),
+                    $house_input = $form.find("[name='order[house]']"),
+                    house = $house_input.val(),
+                    is_region = $form.find("[name='order[delivery_region]']:checked").val() == "true",
+                    $city_input = $form.find("[name='order[city]']"),
+                    city = $city_input.val(),
+                    error = false;
+                
+                if($form.find("[name='is-exist']").val() == "true"){
+                    if($form.find("#adress_select").val() == "new"){
+                        if(is_region && city == ""){
+                            $city_input.addClass("g-input_error");
+                            error = true;
+                        }
+                        if(street == ""){
+                            $street_input.addClass("g-input_error");
+                            error = true;
+                        }
+                        if(house == ""){
+                            $house_input.addClass("g-input_error");
+                            error = true;
+                        }                       
+                    }
+                } else {
+                    if(name == ""){
+                        $name_input.addClass("g-input_error");
+                        error = true;
+                    }
+                    if(!validateEmail(email)){
+                        $email_input.addClass("g-input_error");
+                        error = true;
+                    }
+                    if(is_region && city == ""){
+                        $city_input.addClass("g-input_error");
+                        error = true;
+                    }
+                    if(street == ""){
+                        $street_input.addClass("g-input_error");
+                        error = true;
+                    }
+                    if(house == ""){
+                        $house_input.addClass("g-input_error");
+                        error = true;
+                    }
+                    if(phone.length < 11){
+                        $phone_input.addClass("g-input_error");
+                        error = true;
+                    }
+                    
+                }
+                if(!error){
+                     $.ajax({
+                       data: $(this).serialize(),
+                       url: "/orders",
+                       method: "POST",
+                       success: function(response){
+                            // location.href = "success.html";
+                            console.log(eval(response));
+                       }
+                   });
+                }                  
+                return false;
+            });
         } else if($("body").hasClass("dinner")){
             $("#sms-form").on("submit", function(e){
                 e.preventDefault();
@@ -216,15 +311,15 @@
                 }
                 
                 if(!error){
-//                      $.ajax({
-//                        data: $(this).serialize(),
-//                        url: "",
-//                        method: "POST",
-//                        success: function(){
+                     // $.ajax({
+                     //   data: $(this).serialize(),
+                     //   url: "/something",
+                     //   method: "GET",
+                     //   success: function(){
                             $pass.val("");
                             $(".g-popup-wrapper").fadeOut(200);
-//                        }
-//                    });
+                   //     }
+                   // });
                 }
                 return false;  
             });
@@ -238,15 +333,15 @@
                     error = true;
                 }
                 if(!error){
-//                    $.ajax({
-//                        data: $(this).serialize(),
-//                        url: "",
-//                        method: "POST",
-//                        success: function(){
+                   $.ajax({
+                       data: $(this).serialize(),
+                       url: "/process_order",
+                       method: "GET",
+                       success: function(){
                             $phone.val("");
                             showPopup($("#send-popup"));        
-//                        }
-//                    });
+                       }
+                   });
                     
                 }
                 
