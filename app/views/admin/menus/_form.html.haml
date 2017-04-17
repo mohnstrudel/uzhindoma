@@ -40,23 +40,25 @@
                 %label.field-icon{:for => "product-price"}
                   %i.fa.fa-calendar
                 
-            / Select recipes for this menu
+            / Выбрать рецепты для данного меню
             .section.row
-              %label.field.prepend-field
+              %label.field.prepend-icon{:for => "recipe_ids"} 
                 =f.collection_select(:recipe_ids, Recipe.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @menu.recipes.map(&:id)}, { class: 'select2-multiple form-control select-info select-recipes', :multiple => true})
+                
+            .section.row
+              / Указать для рецептов их сортировку
+              =f.fields_for :menurecipes do |s|
+                =render partial: 'admin/menus/menu_recipes', locals: { f: s }
+
+
+
             .row
-              .col-md-5
+              .col-md-12
                 / Select for how many persons this menu can be bought for
                 .section.row
                   %label.field.prepend-field
                     =f.collection_select(:personamount_ids, Personamount.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-personamount', :multiple => true})
                 
-              .col-md-2
-              .col-md-5
-                / Выбор кол-ва дней на набор (обычно 3,4,5)
-                .section.row
-                  %label.field.prepend-field
-                    =f.collection_select(:day_ids, Day.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.days.map(&:id)}, { class: 'select2-multiple form-control select-info select-days', :multiple => true})
             .section.row
               %label.field.option.mt10
                 =f.check_box :has_dessert

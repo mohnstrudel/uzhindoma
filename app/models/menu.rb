@@ -16,6 +16,7 @@ class Menu < ActiveRecord::Base
 
   has_many :menurecipes, dependent: :destroy
   has_many :recipes, through: :menurecipes
+  accepts_nested_attributes_for :menurecipes, allow_destroy: true
 
   has_many :menupersonamounts, dependent: :destroy
   has_many :personamounts, through: :menupersonamounts

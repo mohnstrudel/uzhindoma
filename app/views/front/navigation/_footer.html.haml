@@ -96,4 +96,16 @@
     .g-popup__content
       %h2.g-popup__title Спасибо за ваш отзыв
 
+#successful_payment.g-popup-wrapper
+  .g-popup
+    %a.g-popup__close{:href => "javascript:void(0)"}
+    .g-popup__content
+      %h2.g-popup__title Оплата прошла успешно!
+
+#unsuccessful_payment.g-popup-wrapper
+  .g-popup
+    %a.g-popup__close{:href => "javascript:void(0)"}
+    .g-popup__content
+      %h2.g-popup__title К сожалению, оплата не прошла!
+
       

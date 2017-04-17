@@ -11,6 +11,7 @@ class Admin::MenusController < AdminController
 	end
 
 	def edit
+
 	end
 
 	def destroy
@@ -47,7 +48,8 @@ class Admin::MenusController < AdminController
 	def menu_params
 		params.require(:menu).permit(:category_id, :price, :daterange, :hotpic, :remove_hotpic,
 			{ recipe_ids: [] }, { personamount_ids: [] }, { day_ids: [] }, :change_from, 
-			:change_to, :description, :has_dessert)
+			:change_to, :description, :has_dessert,
+      menurecipes_attributes: [:id, :sortable, :menu_id, :recipe_id, :_destroy, recipe_attributes: [:id, :_destroy]])
 	end
 
 	def find_menu

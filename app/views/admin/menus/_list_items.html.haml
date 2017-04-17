@@ -53,8 +53,9 @@
               %td.w100
                 -if menu.hotpic?
                   =image_tag menu.hotpic, class: 'img-responsive mw40 ib mr10', title: menu.daterange
-                -elsif menu.recipes.first.pictures.any?
-                  =image_tag menu.recipes.first.pictures.first.image.url, class: 'img-responsive mw40 ib mr10'
+                -elsif menu.recipes.any?
+                  -if menu.recipes.first.pictures.any?
+                    =image_tag menu.recipes.first.pictures.first.image.url, class: 'img-responsive mw40 ib mr10'
                 -else
                   =placeholdit_image_tag "50x50", text: 'Нет картинки', class: 'img-responsive mw40 ib mr10'
               %td

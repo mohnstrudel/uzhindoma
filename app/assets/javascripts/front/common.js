@@ -300,6 +300,7 @@
                 return false;
             });
         } else if($("body").hasClass("dinner")){
+            $(".m-menu-items__list[data-type=" + $(".g-menu-block").data("show") + "]").fadeIn(300);
             $("#sms-form").on("submit", function(e){
                 e.preventDefault();
                 var error = false,

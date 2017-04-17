@@ -1,0 +1,11 @@
+.section.row
+  .col-md-6
+    %label.field.prepend-field
+      =f.collection_select :recipe_id, Recipe.all, :id, :name, { prompt: 'Выбрать подкатегорию' }, class: 'select2-multiple form-control select-info select-recipes'
+      / =f.collection_select(:recipe_id, Recipe.all, :id, :name}, { class: 'select2-multiple form-control select-info select-recipes', :multiple => false})
+  .col-md-3
+    %label.field.prepend-field
+      =f.number_field :sortable, class: "form-control"
+  .col-md-3
+    =f.label :_destroy, "Удалить"
+    =f.check_box :_destroy
