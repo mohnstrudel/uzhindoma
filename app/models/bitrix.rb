@@ -127,6 +127,8 @@ class Bitrix < ActiveRecord::Base
 
     # Добавляем все товары из Битрикса в битриксовую сделку
     Bitrix.add_products_to_order(type, deal_or_lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+    
+    return deal_or_lead_id
   end
 
   def self.find_product_for_order(order)

@@ -174,7 +174,83 @@
               });
               // Those we keep
             });
-        } else if($("body").hasClass("home")){
+
+        } else if($("body").hasClass("registrations edit")){
+            var $form = $("#personal-form");
+            // $("#add-adress").on("click", function(){
+            //     $form.find(".g-adress-block").append($("#adress-wrapper").find(".g-fieldset").clone());
+            // });
+            $("body").on("click", ".g-adress-remove", function(){
+                $(this).parent().remove();
+            });
+
+            $(".g-table__rating").each(function(){
+                var val = $(this).data("val");
+                for(var i = 1; i <= 5; i++)
+                    $(this).append($("<i/>",{
+                                        class: "i-star " + ((i <= val)? "" : "i-star_blank")
+                                     }));
+            });
+            $(".js-estimate").on("click", function(){
+                var $popup = $("#rating-popup");
+                $popup.find("input[name='order_id']").val($(this).parents("tr").data("id"));
+                $popup.find("#number").text($(this).parents("tr").find("td:nth-child(2)").text());
+                $popup.find("#date").text($(this).parents("tr").find("td:nth-child(1)").text());
+                showPopup($popup);
+            });
+            
+            $("#rating_form").on("submit", function(e){
+                e.preventDefault();
+                var $rating_form = $(this);
+//                      $.ajax({
+//                        data: $(this).serialize(),
+//                        url: "",
+//                        method: "POST",
+//                        success: function(){
+                            var communication = $rating_form.find("input[name='communication']:checked").val(),
+                                delivery = $rating_form.find("input[name='delivery']:checked").val(),
+                                quality = $rating_form.find("input[name='quality']:checked").val(),
+                                recipesrecipes = $rating_form.find("input[name='recipes']:checked").val(),
+                                id = $rating_form.find("input[name='order_id']").val();
+                
+                            if(typeof communication == 'undefined') communication = 0;
+                            if(typeof delivery == 'undefined') delivery = 0;
+                            if(typeof quality == 'undefined') quality = 0;
+                            if(typeof recipesrecipes == 'undefined') recipesrecipes = 0;
+                
+                            communication = parseFloat(communication);
+                            delivery = parseFloat(delivery);
+                            quality = parseFloat(quality);
+                            recipesrecipes = parseFloat(recipesrecipes);
+                            var sum = parseInt((communication + delivery + quality + recipesrecipes)/4),
+                                $rating_td = $("#orders_table").find("tr[data-id=" + id + "] td:last-child");
+                            $rating_td.html("");
+                            for(var i = 1; i <= 5; i++)
+                                $rating_td.append($("<i/>",{
+                                        class: "i-star " + ((i <= sum)? "" : "i-star_blank")
+                                     }));
+                            
+                            $("#rating-popup").fadeOut(300);
+//                        }
+//                    });          
+                return false;
+            });
+
+            $(".js-personal-toggle").on("click", function(){
+                var id = $(this).data("id"),
+                    $container = $("#personal-wrapper");
+                if($container.find("#"+id+":visible").length > 0) return false;
+                $(this).parent().find(".js-personal-toggle").removeClass("g-menu-toggle__var_active");
+                $(this).addClass("g-menu-toggle__var_active");
+                $container.find(".g-personal-block").fadeOut(100,function(){
+                    $container.find("#"+id).fadeIn(300);
+                });
+                
+            });
+
+          }
+        else if($("body").hasClass("home")){
+            $(".g-week-menu__list[data-type=" + $(".g-menu-block").data("view") + "]").fadeIn(300);
             // ПОКА временный хак
             $('*[data-type="2"]').css({ display: "none"})
             // Хак

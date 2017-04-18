@@ -9,7 +9,19 @@ class OrderNotifier < ApplicationMailer
   def received(order)
     @order = order
 
+    
+    if order.menu_amount == 5
+      @amount_word = "ужинов"
+    elsif order.menu_amount == 4
+      @amount_word = "ужина"
+    else
+      @amount_word = "ужин"
+    end
+
+    @type = Menu.find(order.menu_id).category.name
+
     mail to: order.email, subject: "Ваш заказ Ужин Дома"
+
   end
 
   def notifyShop(order)

@@ -66,7 +66,12 @@ class Front::OrdersController < FrontController
 				OrderNotifier.out_of_order(session[:phone]).deliver_now
 			else	
 				# Если набор открыт, то следуем дальше логике приложения
-				@order = Order.new phone: @cu.phone, address: "#{@cu.delivery_region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
+				if @cu.delivery_region == "true"
+					region = "Московская область"
+				else
+					region = "Москва"
+				end
+				@order = Order.new phone: @cu.phone, address: "#{region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
 				menu_param = params[:type] || session[:menu_id]
 				persons = params[:people] || session[:people]
 				quantity = params[:quantity] || session[:quantity]
@@ -105,9 +110,11 @@ class Front::OrdersController < FrontController
 		logger.debug "Benchmarking 'action_upon_order_creation' - creating lead or deal inside Bitrix"
 		Benchmark.bm do |x|
 			x.report do
-				action_upon_order_creation(@order)
+				@bitrix_order_id = action_upon_order_creation(@order)
 			end
 		end
+
+		@order.bitrix_order_id = @bitrix_order_id
 
 		# Меняем стоимость набора с учетом скидки, если такая есть		
 		
@@ -172,9 +179,7 @@ class Front::OrdersController < FrontController
 				format.html { redirect_to order_path(@order) }
 			end
 
-			unless params[:order_type] == "fast"
-				OrderNotifier.received(@order).deliver_now
-			end
+			OrderNotifier.received(@order).deliver_now
 			OrderNotifier.notifyShop(@order).deliver_now
 		else
 			render "new"
@@ -199,7 +204,7 @@ class Front::OrdersController < FrontController
 		street = params[:order][:street] || ""
 		delivery_region = params[:order][:delivery_region]
 		if delivery_region == "true"
-			region = "Московская облать"
+			region = "Московская область"
 		else
 			region = "Москва"
 		end
@@ -242,13 +247,15 @@ class Front::OrdersController < FrontController
 
 		if @user
 			# create_new_bitrix_deal(user, order)
-			create_new_bitrix_lead_or_deal("deal", order, @user)
+			id = create_new_bitrix_lead_or_deal("deal", order, @user)
 			logger.debug "User with id #{@user} found, creating a new deal inside Bitrix."
 		else
 			# create_new_bitrix_lead(phone, name, menu_type, address, comment, delivery, order)
-			create_new_bitrix_lead_or_deal("lead", order)
+			id = create_new_bitrix_lead_or_deal("lead", order)
 			logger.debug "No user with phone number: #{phone} found. Creating a new lead inside Bitrix."
 		end
+
+		return id
 
 	end
 
@@ -267,7 +274,8 @@ class Front::OrdersController < FrontController
 			:delivery_region, :city, :additional_address, :pcode, :address,
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
-			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id)
+			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id,
+			:bitrix_order_id)
 	end
 
 	def find_order
@@ -457,7 +465,9 @@ class Front::OrdersController < FrontController
 
 			logger.info "Benchmarking Bitrix.write_to_crm"
 			Benchmark.bm do |x|
-				x.report { Bitrix.write_to_crm(url, order, type) }
+				x.report { 
+					@id = Bitrix.write_to_crm(url, order, type) 
+				}
 			end
 			# ------------
 
@@ -470,10 +480,14 @@ class Front::OrdersController < FrontController
 
 			logger.info "Benchmarking Bitrix.write_to_crm"
 			Benchmark.bm do |x|
-				x.report { Bitrix.write_to_crm(url, order, type) }
+				x.report { 
+					@id = Bitrix.write_to_crm(url, order, type) 
+				}
 			end
 			# ------------
 		end
+
+		return @id
 	end
 
 	def check_if_user_exists(phone)

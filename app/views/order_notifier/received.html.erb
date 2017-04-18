@@ -117,7 +117,7 @@
                             <td valign='top' align='center'>
                               <div class="contentEditableContainer contentImageEditable">
                                 <div class="contentEditable">
-                                  <img src="http://uzhindoma.eve-trader.net/assets/custom_images/logo_small.png" width='64' height='64' alt='' data-default="placeholder" data-max-width="560">
+                                  <img src="https://image.ibb.co/k9noFk/logo_4bfb52c7b5263f676808cf620ee583bead11e1034592c80d31b0ec0659633e8b.png" width='147' height='83' alt='' data-default="placeholder" data-max-width="560">
                                 </div>
                               </div>
                             </td>
@@ -147,10 +147,11 @@
                               <div class="contentEditableContainer contentTextEditable">
                                 <div class="contentEditable" align='center'>
                                   <p  style='text-align:left;color:#999999;font-size:14px;font-weight:normal;line-height:19px;'>
-                                    <%= "Уважаемый/ая #{@order.name}, мы приняли ваш заказ и наш менеджер обработает его в кратчайшие сроки. При возникновении вопросов мы свяжемся с вами по указанному в заказе телефону #{@order.phone}."%>
+                                    
+                                    <%= "#{@order.first_name}, мы приняли ваш заказ! Наш менеджер обработает его в кратчайшие сроки. Если у вас будут какие-то вопросы или пожелания к заказу, пожалуйста, свяжитесь с нами по номеру #{Setting.first.phone}." %>
                                     <br>
                                     <br>
-                                    <%= "Ваш заказ включает в себя #{@order.menu_amount} ужин/а/ов на #{@order.person_amount} персон, стоимостью #{@order.order_price} рублей." %>
+                                    <%= "Проверьте правильность своего заказа: #{@order.menu_amount} #{@amount_word} '#{@type}' на #{@order.person_amount} персоны. Общая стоимость #{@order.order_price} рублей. Доставка #{@order.delivery_timeframe}" %>
                                     <br>
                                     <br>
                                     С наилучшими пожеланиями,
@@ -212,7 +213,7 @@
                                   <td valign='top' width='52'>
                                     <div class="contentEditableContainer contentFacebookEditable">
                                       <div class="contentEditable">
-                                        <a target='_blank' href="#"><img src="http://uzhindoma.eve-trader.net/assets/custom_images/fb.png" width='52' height='53' alt='facebook icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
+                                        <a target='_blank' href="<%=Setting.first.facebook%>"><img src="https://image.ibb.co/fbD61Q/facebook.png" width='52' height='53' alt='facebook icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
                                       </div>
                                     </div>
                                   </td>
@@ -222,7 +223,7 @@
                                   <td valign='top' width='52'>
                                     <div class="contentEditableContainer contentTwitterEditable">
                                       <div class="contentEditable">
-                                        <a target='_blank' href="#"><img src="http://uzhindoma.eve-trader.net/assets/custom_images/ig.png" width='52' height='53' alt='twitter icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
+                                        <a target='_blank' href="<%= Setting.first.instagram %>"><img src="https://image.ibb.co/dAVavk/instagram.png" width='52' height='53' alt='twitter icon' data-default="placeholder" data-max-width="52" data-customIcon="true"></a>
                                       </div>
                                     </div>
                                   </td>

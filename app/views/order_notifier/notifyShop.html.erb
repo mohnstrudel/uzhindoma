@@ -1,20 +1,32 @@
-<h1> Привет, это я, робот Ужина Дома!</h1>
-<%- if @order.order_type == "fast" %>
-	<%= "#{@order.first_name} оставил/а заявку на заказ набора #{@order.menu_type}." %>
-	<p>
-		
-		<%= "Перезвоните по телефону: #{@order.phone} как можно быстрее!" %>
-	</p> 
-
+<h1>Новый заказ</h1>
+<p>Номер на сайте - <%= @order.id%></p>
+<p>Номер на в битриксе - <%= @order.bitrix_order_id%></p>
+<p>Имя Фамилия: <%= @order.first_name %> <%= @order.second_name%></p>
+<p>Номер телефона: <%= @order.phone %></p>
+<%- if @order.delivery_region == "true" %>
+	<p>Адрес: Московская область, г. <%= @order.city %>, ул. <%= @order.street %>, д. <%= @order.house_number%>, кв. <%= @order.flat_number%> </p>
 <%- else %>
-	<%= "#{@order.first_name} оставил/а заказ на нашем сайте." %>
-	<p>
-		Заказ включает в себя:
-		<%= "Набор #{Menu.find(@order.menu_id).category.name } на #{@order.person_amount} персон/ы" %>
-	</p>
-	<p>
-		Телефон клиента на всякий случай: <%= @order.phone %>
-	</p>
-<%- end %> 
+	<p>Адрес: Москва, ул. <%= @order.street %>, д. <%= @order.house_number %>, кв. <%= @order.flat_number %> </p>
+<%- end %>
+<p>Дополнительная информация по адресу: <%= @order.additional_address %>
+<p>Комментарий к заказу: <%= @order.comment %>
 
-<small>Я убежал)</small>
+<p>Состав заказа:</p>
+<p>Тип ужина: <%= Menu.find(@order.menu_id).category.name %></p>
+<p>Кол-во ужинов: <%= @order.menu_amount %></p>
+<p>Кол-во персон: <%= @order.person_amount %></p>
+<p>время доставки: <%= @order.delivery_timeframe %></p>
+
+<p><%- if @order.add_dessert %>
+	десерт: да
+<%- else %>
+	десерт: нет
+<%- end %>
+</p>
+<p>
+<%- if @order.payed_online %>
+	Оплата была произведена онлайн!
+<%- else %>
+	Оплата наличными курьеру
+<%- end %>
+</p>

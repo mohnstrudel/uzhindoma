@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417171842) do
+ActiveRecord::Schema.define(version: 20170418185751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,7 @@ ActiveRecord::Schema.define(version: 20170417171842) do
     t.string   "additional_address"
     t.string   "pcode"
     t.integer  "promocode_id"
+    t.integer  "bitrix_order_id"
     t.index ["category_id"], name: "index_orders_on_category_id", using: :btree
     t.index ["menu_id"], name: "index_orders_on_menu_id", using: :btree
     t.index ["promocode_id"], name: "index_orders_on_promocode_id", using: :btree

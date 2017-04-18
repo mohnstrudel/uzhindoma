@@ -27,7 +27,13 @@
       =f.hidden_field :order_price, value: @menu_price
       =f.hidden_field :order_type, value: "normal"
       =f.hidden_field :payed_online, value: false
-      =f.hidden_field :address, value: @cu.address
+      
+      / ПОЛЯ ДЛЯ АДРЕСА
+      =f.hidden_field :delivery_region, value: @cu.delivery_region
+      =f.hidden_field :city, value: @cu.city
+      =f.hidden_field :street, value: @cu.street
+      =f.hidden_field :house_number, value: @cu.house_number
+      =f.hidden_field :flat_number, value: @cu.flat_number
       =f.hidden_field :additional_address, value: @cu.additional_address
 
       =f.hidden_field :person_amount, value: params[:people] || session[:people]
