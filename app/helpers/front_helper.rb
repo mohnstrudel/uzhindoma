@@ -3,7 +3,7 @@ module FrontHelper
 	def nav_link(link_text, link_path)
       class_name = current_page?(link_path) ? 'g-menu__link_active' : ''
 
-    	link_to link_text, link_path, class: "g-menu__link #{class_name}"
+    	link_to link_text, link_path, class: "g-menu__link #{class_name}", method: :get
 	end
 
 	def embed(youtube_url, options = {})
