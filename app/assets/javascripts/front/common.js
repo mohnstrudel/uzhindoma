@@ -176,7 +176,7 @@
             });
         } else if($("body").hasClass("home")){
             // ПОКА временный хак
-            $('*[data-type="2"]').css({ display: "none";})
+            $('*[data-type="2"]').css({ display: "none"})
             // Хак
             $(".js-main-menu").on("click", function(e){
                 e.preventDefault();
