@@ -3,7 +3,7 @@
 %html
 %head
   %title Uzhindoma - Front
-  = stylesheet_link_tag    'front', media: 'all'
+  = stylesheet_link_tag    'front', media: 'all', 'data-turbolinks-track' => true
   = stylesheet_link_tag "https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css", :rel => "stylesheet"
   = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700", :rel => "stylesheet"
   = csrf_meta_tags
@@ -20,6 +20,6 @@
   
 
 = javascript_include_tag "https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js"
-= javascript_include_tag 'front'
+= javascript_include_tag 'front', 'data-turbolinks-track' => true
 = javascript_include_tag "https://widget.cloudpayments.ru/bundles/cloudpayments"
 
