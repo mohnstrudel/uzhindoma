@@ -1,0 +1,1 @@
+$('#delivery_5').prop('checked', true);

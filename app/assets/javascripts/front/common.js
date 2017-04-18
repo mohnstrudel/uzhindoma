@@ -230,6 +230,8 @@
             $form.on("submit", function(e){
                 e.preventDefault();
                 
+                $("input[name=commit]").val("Оформляем...")
+
                 var $name_input = $form.find("[name='order[first_name]']"),
                     name = $name_input.val(),
                     $email_input = $form.find("[name='order[email]']"),
@@ -296,7 +298,8 @@
                        method: "POST",
                        success: function(response){
                             // location.href = "success.html";
-                            console.log(eval(response));
+                            // console.log(eval(response));
+
                        }
                    });
                 }                  
@@ -385,7 +388,7 @@
                       id: "quantity_" + num,
                       type: "radio",
                       name: "quantity"
-                    }).prop("checked", price_changes[0].counts.length - 1 == index).appendTo($counts_node);
+                    }).prop("checked", 0 == index).appendTo($counts_node);
                     $("<label/>",{
                       for: "quantity_" + num,
                     class: "m-menu-form__radio",
@@ -399,7 +402,7 @@
                                 name: "people",
                                 value: num.person,
                                 id: "people_" + num.person
-                           }).prop("checked", price_changes.length - 1 == index).appendTo($persons_count);
+                           }).prop("checked", 0 == index).appendTo($persons_count);
                             $("<label/>",{
                                 for: "people_" + num.person,
                                 class: "m-menu-form__radio",

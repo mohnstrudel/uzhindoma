@@ -8,7 +8,10 @@
       / для не существующего пользователя
 
       %h2.g-form__title
-        ="Здравствуйте#{@cu.first_name ? @cu : ''}! Куда доставляем заказ?"
+        -if @cu.orders.count == 0
+          ="Здравствуйте! Куда доставляем заказ?"
+        -else
+          ="Здравствуйте, #{@cu.first_name}! Куда доставляем заказ?"
 
       %fieldset.g-fieldset{:style => "#{'display:none' ? current_user.orders.count > 1 : ''}"}
         =f.text_field :first_name, placeholder: "Имя", value: @cu.first_name, class: "g-input"
@@ -63,4 +66,4 @@
 
       %fieldset.g-fieldset.g-fieldset_buttons
         %a.g-btn.g-btn_gray{:href => "/dinner"} вЕРНУТЬСЯ к меню
-        =f.submit "Перейти к оплате", class: "g-btn g-btn_blue"
+        =f.submit "Перейти к оплате", data: { "disable-with" => "Оформляем" }, class: "g-btn g-btn_blue"

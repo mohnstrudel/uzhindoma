@@ -189,6 +189,7 @@ class Front::OrdersController < FrontController
 	def update_fresh_user_with_order_params(order_params, user)
 		email = params[:order][:email] || ""
 		phone = params[:order][:phone]
+		city = params[:order][:city] || ""
 		logger.info "Inside updating fresh user with user params: #{phone}"
 		
 		first_name = params[:order][:first_name] || ""
@@ -197,11 +198,16 @@ class Front::OrdersController < FrontController
 		# email = params[:order][:email]
 		street = params[:order][:street] || ""
 		delivery_region = params[:order][:delivery_region]
+		if delivery_region == "true"
+			region = "Московская облать"
+		else
+			region = "Москва"
+		end
 		house_number = params[:order][:house_number]
 		flat_number = params[:order][:flat_number]
 		additional_address = params[:order][:additional_address]
 	
-		user.update(phone: phone, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
+		user.update(phone: phone, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: region, city: city, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
 		logger.info "After creating order a fresh user #{first_name} with phone: #{phone} was updated!"
 		# message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
 			
@@ -291,9 +297,9 @@ class Front::OrdersController < FrontController
 
 			# Логика под пользователя, у которого уже есть профиль
 			
-			email = @cu.email || ""
-			name = URI.escape("#{@cu.first_name} #{@cu.second_name}")
-			phone = @cu.phone
+			email = current_user.email || ""
+			name = URI.escape("#{current_user.first_name} #{current_user.second_name}")
+			phone = current_user.phone
 
 			# Проверяем, ввел ли он новый адрес или использовал старый
 			if params[:delivery_address] == "new"
@@ -327,21 +333,21 @@ class Front::OrdersController < FrontController
 				# в доп. адресах (т.е. это user.street, а не user.addresses.first.street)
 
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-				city = Order.check_delivery_region(@cu)
+				city = Order.check_delivery_region(current_user)
 
 				# Получаем поля адреса из параметров
-				address = URI.escape("#{city}, улица #{@cu.street}, дом #{@cu.house_number}")
+				address = URI.escape("#{city}, улица #{current_user.street}, дом #{current_user.house_number}")
 
 				# Получаем допник для адреса
 				# В поле "дополнительная часть" прописываем:
 				# номер дома, квартиру, подъезд, этаж
 				add_address_fields = ""
 				
-				unless @cu.flat_number.blank?
-					add_address = URI.escape("кв. #{@cu.flat_number}")
+				unless current_user.flat_number.blank?
+					add_address = URI.escape("кв. #{current_user.flat_number}")
 					
-					unless @cu.additional_address.blank?
-						rest_address = URI.escape(@cu.additional_address)
+					unless current_user.additional_address.blank?
+						rest_address = URI.escape(current_user.additional_address)
 						add_address = "#{add_address}, #{rest_address}"
 					end
 					# оригинал, сохраняем для бэкапа
