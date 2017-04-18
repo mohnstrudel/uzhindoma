@@ -141,6 +141,7 @@ class Front::OrdersController < FrontController
 					logger.debug "Promocode updated with proper order id"
 				end
 			end
+
 			respond_to do |format|
 				format.html { redirect_to edit_order_path(@order) }
 			end
@@ -172,9 +173,9 @@ class Front::OrdersController < FrontController
 			end
 
 			unless params[:order_type] == "fast"
-				OrderNotifier.delay.received(@order)
+				OrderNotifier.received(@order).deliver_now
 			end
-			OrderNotifier.delay.notifyShop(@order)
+			OrderNotifier.notifyShop(@order).deliver_now
 		else
 			render "new"
 		end
