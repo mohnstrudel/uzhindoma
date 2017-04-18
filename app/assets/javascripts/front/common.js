@@ -175,6 +175,9 @@
               // Those we keep
             });
         } else if($("body").hasClass("home")){
+            // ПОКА временный хак
+            $('*[data-type="2"]').css({ display: "none";})
+            // Хак
             $(".js-main-menu").on("click", function(e){
                 e.preventDefault();
                 var $node = $(this).parents(".g-menu-block");
