@@ -32,6 +32,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Nifty gem for placeholder images
 gem 'placeholdit'
 
+# Pagination
+gem 'will_paginate'
+
 # Try this gem for cloudpayments payments
 
 # Perform delayed jobs, like connecting to Bitrix

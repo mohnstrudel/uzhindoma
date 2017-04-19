@@ -8,7 +8,7 @@ class Admin::OrdersController < AdminController
 	end
 
 	def index
-		@orders = Order.order(created_at: :desc)
+		@orders = Order.order(id: :desc).paginate(:page => params[:page], :per_page => 30)
 	end
 
 	def edit

@@ -38,6 +38,8 @@
             %th.text-center Select
             %th Номер заказа
             %th Покупатель
+            %th Сумма
+            %th Оплата
             %th Телефон 
             %th Эл. почта
             %th Дата создания
@@ -53,13 +55,21 @@
               %td
                 =link_to order.id.to_s.rjust(6, '0'), edit_admin_order_path(order) 
               %td
-                =order.name
+                ="#{order.first_name} #{order.second_name}"
+              %td
+                =order.order_price
+              %td
+                / ОПЛАТА
+                -if order.payed_online
+                  ="Успешно оплачено картой"
+                -else
+                  ="Наличные" 
               %td
                 =order.phone
               %td
                 =order.email
               %td
-                =order.created_at
+                =order.created_at.strftime("%d.%m.%Y - %H:%M")
               %td.text-right
                 .btn-group.text-right
                   %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
@@ -72,3 +82,4 @@
                     %li
                       =link_to 'Удалить', admin_order_path(order.id), method: :delete, data: {confirm: 'Действительно удалить?'}
           
+  =will_paginate @orders
