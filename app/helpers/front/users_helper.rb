@@ -16,11 +16,11 @@ module Front::UsersHelper
     end
 
     if block_given?
-      link_to('#', class: 'add_address_fields g-form__add-adress', id: "add-adress", data: {id: id, fields: fields.gsub("\n", "")}) do
+      link_to('javascript:void(0)', class: 'add_address_fields g-form__add-adress', id: "add-adress", data: {id: id, fields: fields.gsub("\n", "")}) do
         block.call
       end
     else
-      link_to(name, '#', class: 'add_address_fields g-form__add-adress', id: "add-adress", data: {id: id, fields: fields.gsub("\n", "")})
+      link_to(name, 'javascript:void(0)', class: 'add_address_fields g-form__add-adress', id: "add-adress", data: {id: id, fields: fields.gsub("\n", "")})
     end
   end
 end

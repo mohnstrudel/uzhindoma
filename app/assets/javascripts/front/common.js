@@ -181,7 +181,10 @@
             //     $form.find(".g-adress-block").append($("#adress-wrapper").find(".g-fieldset").clone());
             // });
             $("body").on("click", ".g-adress-remove", function(){
-                $(this).parent().remove();
+                // $(this).parent().remove();
+                // Если мы ремувим, то не получается ставить чекбокс для удаления на тру, так
+                // как чекбокса-то уже нет!
+                // Див мы прячем и так в profile.js по клику на ссылку
             });
 
             $(".g-table__rating").each(function(){

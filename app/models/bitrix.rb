@@ -317,7 +317,8 @@ class Bitrix < ActiveRecord::Base
 		access_token = first.access_token
 		# This method returns all orders with date and price made by a specific user
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.list.json?&auth=#{access_token}&filter[CONTACT_ID]=#{user_id}"
-		doc = Nokogiri::HTML(open(url))
+		logger.debug "Calling get_users_orders with url: #{url}"
+    doc = Nokogiri::HTML(open(url))
 		result = JSON.parse(doc)
 	end
 

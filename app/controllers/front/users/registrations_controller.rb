@@ -33,9 +33,13 @@ before_action :configure_account_update_params, only: [:update]
         current_user.update(bitrix_id: bitrix_id)
       end
 
+    elsif current_user.orders_updated == false
+      current_user.update_orders_from_bitrix(current_user.bitrix_id)
+      @orders = current_user.orders.order('created_at DESC')
+
     else
-      orders = Bitrix.get_users_orders(current_user.bitrix_id)
-      @orders = orders["result"].reverse
+      # orders = Bitrix.get_users_orders(current_user.bitrix_id)
+      @orders = current_user.orders.order('created_at DESC')
     end
       # @address = current_user.addresses.build
 
@@ -83,7 +87,7 @@ before_action :configure_account_update_params, only: [:update]
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :second_name, :phone, :street, :house_number,
       :flat_number, :delivery_region, :email, :city, :additional_address,
-      addresses_attributes: [:id, :title, :street, :house_number, :flat_number, :delivery_region, :city, :additional_address, :_destroy, :user_id, :main]
+      addresses_attributes: [:title, :street, :house_number, :flat_number, :delivery_region, :city, :additional_address, :user_id, :main, :id, :_destroy]
       ])
   end
 

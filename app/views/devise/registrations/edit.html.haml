@@ -51,7 +51,7 @@
         /   %span.g-form__add-adress-text Добавить адрес
         =f.fields_for :addresses do |builder|
           =render 'front/users/registrations/address_fields', f: builder
-        =link_to_add_address_fields 'Добавить адрес', f, :addresses do
+        =link_to_add_address_fields '', f, :addresses do
           %span.g-form__add-adress-text Добавить адрес
 
         .g-pass-change
