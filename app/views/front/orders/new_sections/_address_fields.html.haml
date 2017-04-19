@@ -14,7 +14,7 @@
   
   %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
     =f.text_field :street, class: "g-input g-input_half", placeholder: "Улица"
-    =f.text_field :house_number, class: "g-input g-input_small js-input_number", placeholder: "Дом"
+    =f.text_field :house_number, class: "g-input g-input_small", placeholder: "Дом"
     =f.text_field :flat_number, class: "g-input g-input_small g-input_small_nomargin js-input_number", placeholder: "Кв."
     =f.text_field :additional_address, class: "g-input", placeholder: "Подъезд, этаж, код домофона"
 
@@ -27,14 +27,17 @@
 
   / для существующего пользователя
   %fieldset.g-fieldset.js-add-adress
-    %input#region_true.g-input_hide.js-show-region{:checked => "checked", :name => "region", :type => "radio", :value => "false"}/
+    =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
     %label.g-input-radio{:for => "region_true"} Москва
-    %input#region_false.g-input_hide.js-show-region{:name => "region", :type => "radio", :value => "true"}/
+
+    =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
     %label.g-input-radio{:for => "region_false"} Московская область
+
   %fieldset#region.g-fieldset.g-fieldset_hidden
-    %input.g-input{:name => "city", :placeholder => "Город", :type => "text"}/
+    =f.text_field :city, class: "g-input", placeholder: "Город"
+  
   %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
-    %input.g-input.g-input_half{:name => "street", :placeholder => "Улица", :type => "text"}/
-    %input.g-input.g-input_small.js-input_number{:name => "house", :placeholder => "Дом", :type => "text"}/
-    %input.g-input.g-input_small.g-input_small_nomargin.js-input_number{:name => "apartment", :placeholder => "Кв", :type => "text"}/
-    %input.g-input{:name => "adress_desc", :placeholder => "Подъезд, этаж, код домофона", :type => "text"}/
+    =f.text_field :street, class: "g-input g-input_half", placeholder: "Улица"
+    =f.text_field :house_number, class: "g-input g-input_small", placeholder: "Дом"
+    =f.text_field :flat_number, class: "g-input g-input_small g-input_small_nomargin js-input_number", placeholder: "Кв."
+    =f.text_field :additional_address, class: "g-input", placeholder: "Подъезд, этаж, код домофона"

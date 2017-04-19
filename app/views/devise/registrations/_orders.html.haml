@@ -18,22 +18,25 @@
       %td.g-table__price.g-rub Стоимость,
       %td.g-table__review Оценка
   %tbody
-    -orders.each_with_index do |order, index|
-      %tr{"data-id" => index+1}
-        %td
-          =(DateTime.strptime(order.created_at.to_s, '%Y-%m-%d')).strftime("%d.%m.%Y")
-        %td
-          =order.bitrix_order_id
-        %td
-          / Тут мы получаем массив типа ["Стандарт 5х2", "Сладкий подарок", "Тирамису"]
-          -if order.name
-            =order.name.split(";").join("<br/>").html_safe
-          -else
-            =order.menu_type
-        %td
-          =order.order_price
-        %td
-          %a.g-link-styled.js-estimate{:href => "javascript:void(0)"} Оценить заказ
+    -if orders
+      -orders.each_with_index do |order, index|
+        %tr{"data-id" => index+1}
+          %td
+            =(DateTime.strptime(order.created_at.to_s, '%Y-%m-%d')).strftime("%d.%m.%Y")
+          %td
+            =order.bitrix_order_id
+          %td
+            / Тут мы получаем массив типа ["Стандарт 5х2", "Сладкий подарок", "Тирамису"]
+            -if order.name
+              =order.name.split(";").join("<br/>").html_safe
+            -else
+              =order.menu_type
+          %td
+            =order.order_price
+          %td
+            %a.g-link-styled.js-estimate{:href => "javascript:void(0)"} Оценить заказ
+    -else
+      На данный момент заказов нет
     / %tr{"data-id" => "2"}
     /   %td 16.02.2017
     /   %td 198368

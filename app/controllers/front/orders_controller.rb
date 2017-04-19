@@ -66,12 +66,12 @@ class Front::OrdersController < FrontController
 				OrderNotifier.out_of_order(session[:phone]).deliver_now
 			else	
 				# Если набор открыт, то следуем дальше логике приложения
-				if @cu.delivery_region == "true"
-					region = "Московская область"
+				if (@cu.delivery_region == "true" || @cu.delivery_region == "Московская область")
+					region = "Московская область, #{@cu.city}"
 				else
 					region = "Москва"
 				end
-				@order = Order.new phone: @cu.phone, address: "#{region}, город #{@cu.city}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
+				@order = Order.new phone: @cu.phone, address: "#{region}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
 				menu_param = params[:type] || session[:menu_id]
 				persons = params[:people] || session[:people]
 				quantity = params[:quantity] || session[:quantity]
@@ -203,16 +203,16 @@ class Front::OrdersController < FrontController
 		# email = params[:order][:email]
 		street = params[:order][:street] || ""
 		delivery_region = params[:order][:delivery_region]
-		if delivery_region == "true"
-			region = "Московская область"
-		else
-			region = "Москва"
-		end
+		# if delivery_region == "true" || "Московская область"
+		# 	region = "Московская область"
+		# else
+		# 	region = "Москва"
+		# end
 		house_number = params[:order][:house_number]
 		flat_number = params[:order][:flat_number]
 		additional_address = params[:order][:additional_address]
 	
-		user.update(phone: phone, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: region, city: city, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
+		user.update(phone: phone, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, city: city, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
 		logger.info "After creating order a fresh user #{first_name} with phone: #{phone} was updated!"
 		# message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
 			
@@ -313,10 +313,10 @@ class Front::OrdersController < FrontController
 			if params[:delivery_address] == "new"
 				# Тут логика для опции "Добавить новый адрес"
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-				if order[:delivery_region] == "false"
-					city = "Москва"
-				else
+				if (order[:delivery_region] == "true" || order[:delivery_region] == "Московская область")
 					city = "Московская область, #{order[:city]}"
+				else
+					city = "Москва"
 				end
 
 				# Получаем поля адреса из параметров
@@ -341,7 +341,12 @@ class Front::OrdersController < FrontController
 				# в доп. адресах (т.е. это user.street, а не user.addresses.first.street)
 
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+				logger.debug("DDDDDDD======= CURRENT MIDDLE ADDRESS ==========DDDDDD")
+				
 				city = Order.check_delivery_region(current_user)
+				
+
+				
 
 				# Получаем поля адреса из параметров
 				address = URI.escape("#{city}, улица #{current_user.street}, дом #{current_user.house_number}")
@@ -368,9 +373,10 @@ class Front::OrdersController < FrontController
 
 				# В данном случае мы подставляем поля выбранного дополнительного адреса
 				found_address = Address.find(params[:delivery_address].to_i)
-
+				logger.debug("DDDDDDD======= MIDDLE ADDRESS ==========DDDDDD")
+				logger.debug("Address: #{found_address}")
 				city = Order.check_delivery_region(found_address)
-
+				logger.debug("City: #{found_address}")
 				# Получаем поля адреса из параметров
 				address = URI.escape("#{city}, улица #{found_address.street}, дом #{found_address.house_number}")
 

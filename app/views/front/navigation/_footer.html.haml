@@ -3,6 +3,7 @@
     .g-footer__whats-up
       -if Setting.first
         %a{:href => "tel:#{Setting.first.phone}"}
+        %i.g-icon.g-icon_whats-up
       -else
         %a{:href => "tel:"}
         %i.g-icon.g-icon_whats-up

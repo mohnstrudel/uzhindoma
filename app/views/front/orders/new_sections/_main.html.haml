@@ -20,7 +20,7 @@
         =f.telephone_field :phone, value: @cu.phone, class: "g-input"
       / для не существующего пользователя
 
-      / ДЛЯ СУЩЕСТВУЮЩЕГО ПОЛЬЗОВАТЕЛЯ
+      / ОБЩИЕ ПОЛЯ
       / Some hidden fields to set up order values
       =f.hidden_field :menu_id, value: @menu.id
       =f.hidden_field :menu_type, value: @menu.category.name
@@ -28,16 +28,9 @@
       =f.hidden_field :order_type, value: "normal"
       =f.hidden_field :payed_online, value: false
       
-      / ПОЛЯ ДЛЯ АДРЕСА
-      =f.hidden_field :delivery_region, value: @cu.delivery_region
-      =f.hidden_field :city, value: @cu.city
-      =f.hidden_field :street, value: @cu.street
-      =f.hidden_field :house_number, value: @cu.house_number
-      =f.hidden_field :flat_number, value: @cu.flat_number
-      =f.hidden_field :additional_address, value: @cu.additional_address
 
-      =f.hidden_field :person_amount, value: params[:people] || session[:people]
-      =f.hidden_field :menu_amount, value: params[:quantity] || session[:quantity]
+      =f.hidden_field :person_amount, value: (params[:people] || session[:people])
+      =f.hidden_field :menu_amount, value: (params[:quantity] || session[:quantity])
       -if params[:dessert] == "on"
         =f.hidden_field :add_dessert, value: true
       -else

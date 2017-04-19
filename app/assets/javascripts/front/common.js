@@ -309,7 +309,7 @@
             $form.on("submit", function(e){
                 e.preventDefault();
                 
-                $("input[name=commit]").val("Оформляем...")
+                $("input[name=commit]").val("Оформляем...");
 
                 var $name_input = $form.find("[name='order[first_name]']"),
                     name = $name_input.val(),
@@ -370,7 +370,12 @@
                     }
                     
                 }
+
+                if (error){
+                  $("input[name=commit]").val("Ошибки...");
+                }
                 if(!error){
+                  $("input[name=commit]").val("Оформляем...");
                      $.ajax({
                        data: $(this).serialize(),
                        url: "/orders",

@@ -8,24 +8,29 @@ class Order < ActiveRecord::Base
 	# validates :delivery_timeframe, presence: true
 
 	def self.check_delivery_region(object)
-		if object.delivery_region == "Москва"
-			city = object.delivery_region
+		if (object.delivery_region == "true" || object.delivery_region == "Московская область")
+			logger.debug("Object.delivery_region is: #{object.delivery_region}")
+			logger.debug("Object is: #{object.inspect}")
+			logger.debug("Is object true?: #{object.delivery_region == 'true'}")
+			
+			combined_city = "Московская область, #{object.city}"
 		else
-			city = "#{object.delivery_region}, #{object.city}"
+			combined_city = "Москва"
 		end
 		# переменная город содержит в себе либо просто "Москва", либо
 		# "Московская область, Железнодорожный"
-		return city
+		logger.debug("Combined city is: #{combined_city}")
+		return combined_city
 	end
 
 	def self.get_addresses(user)
 		puts "Debugging order.rb"
 		result = Array.new
 		user.addresses.each do |adr|
-			if adr.delivery_region == "Москва"
+			if adr.delivery_region == "false"
 				city = "Москва"
 			else
-				city = "#{adr.delivery_region}, город #{adr.city}"
+				city = "Московская область, город #{adr.city}"
 			end
 			result << ["#{city}, улица #{adr.street}, #{adr.house_number}/#{adr.flat_number}", adr.id]
 		end

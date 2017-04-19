@@ -66,6 +66,9 @@
               %label.g-form__label Повторите новый пароль
               =f.password_field :password_confirmation, placeholder: 'Повторите новый пароль', class: "g-input", autocomplete: "off"
         =f.submit "Сохранить изменения", class: "g-btn g-btn_blue"
+        =link_to "Выйти", destroy_user_session_path, class: "g-btn g-btn_gray g-btn_gray_clear", method: :delete
+        
         
     #orders.g-personal-block.g-personal-block_hidden
       =render partial: 'devise/registrations/orders', locals: {orders: @orders}
+

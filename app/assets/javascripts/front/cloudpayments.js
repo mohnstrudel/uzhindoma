@@ -4,8 +4,8 @@ var email = $("#email").val();
 var order_id = $("#order_id").val();
 var amount = parseFloat($("#order_price").val());
 widget.charge({ // options
-        publicId: 'pk_35b1b441a2f142c5317bdf2810e16',  //id из личного кабинета
-        description: 'Оплата заказа', //назначение
+        publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета
+        description: 'Оплата заказа Ужин Дома', //назначение
         amount: amount, //сумма
         currency: 'RUB', //валюта
         invoiceId: order_id, //номер заказа  (необязательно)

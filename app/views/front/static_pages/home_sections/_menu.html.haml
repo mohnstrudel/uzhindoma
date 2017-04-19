@@ -21,7 +21,7 @@
                 %span.g-week-menu__day
                   =Rails.application.config.days_of_week[(rec_index+1).to_s]
                 %span.g-week-menu__name
-                  =recipe.description
+                  =recipe.name
       .g-week-menu__btn
         =link_to 'Хочу набор!', dinner_index_path, class: "g-btn g-btn_blue"
           
