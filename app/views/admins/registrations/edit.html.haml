@@ -1,0 +1,33 @@
+%section.g-section.m-section.m-section_top-bg
+  .g-wrapper
+%section.g-section.c-section
+  .g-wrapper
+    / html: {class: "g-sms-form g-form g-form_center"}
+    =form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "g-form g-form_personal" }) do |f|
+      =devise_error_messages!
+      %h2.g-form__title-center Профиль
+      %fieldset.g-fieldset
+        .g-input-wrapper.g-input-wrapper_clear
+          %label.g-form__label Эл. почта
+          =f.email_field :email, autofocus: true, class: "g-input", placeholder: "Эл. почта"
+        .g-input-wrapper.g-input-wrapper_clear
+          %label.g-form__label Новый пароль
+          %i (оставить пустым, если не хочешь менять)
+          =f.password_field :password, autocomplete: "off", class: "g-input", placeholder: "Пароль (#{@minimum_password_length} знаков минимум)"
+        .g-input-wrapper.g-input-wrapper_clear
+          %label.g-form__label Повторить новый пароль
+          =f.password_field :password_confirmation, autocomplete: "off", class: "g-input", placeholder: "Пароль (#{@minimum_password_length} знаков минимум)"
+
+        .g-input-wrapper.g-input-wrapper_clear
+          %label.g-form__label Указать старый пароль
+          %i (он необходим, что бы внести изменения)
+          %br
+          = f.password_field :current_password, autocomplete: "off", class: "g-input", placeholder: "Старый пароль"
+
+      =f.submit "Обновить", class: "g-btn g-btn_blue"
+      =link_to "Выйти", destroy_admin_session_path, class: "g-btn g-btn_gray g-btn_gray_clear", method: :delete
+  .g-wrapper
+    =render "admins/shared/links"
+  %p
+  ="Удалить аккаунт?"
+  =button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete

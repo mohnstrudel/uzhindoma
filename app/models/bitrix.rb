@@ -19,7 +19,7 @@ class Bitrix < ActiveRecord::Base
 		when "deal"
 			deal_specific_fields = "&fields[UF_CRM_1488879411]=#{user_id}"
 		when "lead"
-			lead_specific_fields = ""
+			lead_specific_fields = "&fields[UF_CRM_1488879411]=0"
 		end
 
 		address_fields = "&fields[UF_CRM_1454918385]=#{address}"
@@ -30,6 +30,10 @@ class Bitrix < ActiveRecord::Base
 		if !timeframe.blank?
 			timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
 		end
+
+    # Тут мы можем получать какой угодно телефон, мы их все
+    # приводим в вид 8хххуууаабб этим методом
+    phone = Bitrix.parse_phone(phone)
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
 		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}"

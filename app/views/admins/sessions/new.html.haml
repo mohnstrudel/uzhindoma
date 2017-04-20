@@ -1,0 +1,18 @@
+%section.g-section.m-section.m-section_top-bg
+  .g-wrapper
+%section.g-section.c-section
+  .g-wrapper
+    / html: {class: "g-sms-form g-form g-form_center"}
+    =form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "g-form g-form_personal" }) do |f|
+      %h2.g-form__title-center Войти
+      %fieldset.g-fieldset
+        .g-input-wrapper.g-input-wrapper_clear
+          %label.g-form__label Эл. почта
+          =f.email_field :email, autofocus: true, class: "g-input", placeholder: "Эл, почта"
+        .g-input-wrapper.g-input-wrapper_clear
+          %label.g-form__label Пароль
+          =f.password_field :password, autocomplete: "off", class: "g-input", placeholder: "Пароль"
+      =f.submit "Войти", class: "g-btn g-btn_blue"
+  .g-wrapper
+    %fieldset.g-fieldset
+      =render "admins/shared/links"

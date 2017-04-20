@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :admins, 
+        controllers: {
+          sessions: 'front/admins/sessions',
+          registrations: 'front/admins/registrations'
+        }
   # namespace :front do
   # get 'users/profile'
   # end

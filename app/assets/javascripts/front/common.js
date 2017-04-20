@@ -180,6 +180,21 @@
             // $("#add-adress").on("click", function(){
             //     $form.find(".g-adress-block").append($("#adress-wrapper").find(".g-fieldset").clone());
             // });
+
+            // New on 20/04
+            var $adress = $("#adress-wrapper").find(".g-fieldset_adress").clone(),
+                    index = $form.find(".g-adress-block").find(".g-fieldset_adress").length;
+                    $checkboxes = $adress.find(".js-show-region");
+                console.log($adress);
+                $checkboxes.each(function(){
+  
+                    var id = $(this).attr("id");
+                    $(this).attr("id", id + index).attr("name", "region_" + index);
+                    $(this).next().attr("for", id + index);
+                });
+                $form.find(".g-adress-block").append($adress);
+            });
+            // New on 20.04 end
             $("body").on("click", ".g-adress-remove", function(){
                 // $(this).parent().remove();
                 // Если мы ремувим, то не получается ставить чекбокс для удаления на тру, так
@@ -201,6 +216,16 @@
                 $popup.find("#date").text($(this).parents("tr").find("td:nth-child(1)").text());
                 showPopup($popup);
             });
+            
+            $("body").on("change", ".js-show-region", function(){
+                var region = $(this).parent().find("input[type='radio']:checked").val();
+                console.log("asd");
+                if(region == 'true')
+                    $(this).parents(".g-fieldset_adress").find(".g-input-wrapper_region").fadeIn(300);
+                else
+                    $(this).parents(".g-fieldset_adress").find(".g-input-wrapper_region").fadeOut(300);
+                    
+            })
             
             $("#rating_form").on("submit", function(e){
                 e.preventDefault();
