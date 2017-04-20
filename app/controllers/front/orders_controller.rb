@@ -203,11 +203,9 @@ class Front::OrdersController < FrontController
 		# email = params[:order][:email]
 		street = params[:order][:street] || ""
 		delivery_region = params[:order][:delivery_region]
-		# if delivery_region == "true" || "Московская область"
-		# 	region = "Московская область"
-		# else
-		# 	region = "Москва"
-		# end
+		if delivery_region == "false"
+			city = "Москва"
+		end
 		house_number = params[:order][:house_number]
 		flat_number = params[:order][:flat_number]
 		additional_address = params[:order][:additional_address]
@@ -275,7 +273,7 @@ class Front::OrdersController < FrontController
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id,
-			:bitrix_order_id)
+			:bitrix_order_id, :cloudpayment)
 	end
 
 	def find_order

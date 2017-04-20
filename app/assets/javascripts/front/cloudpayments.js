@@ -4,7 +4,8 @@ var email = $("#email").val();
 var order_id = $("#order_id").val();
 var amount = parseFloat($("#order_price").val());
 widget.charge({ // options
-        publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета
+        // publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
+        publicId: 'pk_35b1b441a2f142c5317bdf2810e16', // ДЕВЕЛОПМЕНТ
         description: 'Оплата заказа Ужин Дома', //назначение
         amount: amount, //сумма
         currency: 'RUB', //валюта
@@ -20,9 +21,23 @@ widget.charge({ // options
         $("#courier_cash").prop('disabled', true);
         // $('#notifications')
         // %p.g-info-text
-        //   Оплата прошла успешно!
+        
+        $.ajax({
+            type: "PUT",
+            dataType: "json",
+            url: '/orders/'+order_id,
+            contentType: 'application/json',
+            data: JSON.stringify({order: {cloudpayment: true}}),
+            success: function(response){
+                //действие при успешной оплате
+                
+            }
+        }).done(function( msg )
+        {
+            
+        });
         $("#successful_payment").fadeIn(300);
-        //действие при успешной оплате
+        
     },
     function (reason, options) { // fail
         $("#unsuccessful_payment").fadeIn(300);

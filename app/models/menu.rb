@@ -58,7 +58,7 @@ class Menu < ActiveRecord::Base
 
     pricechange = result.pricechange
 
-    if dessert == "on"
+    if (dessert == "on" || dessert == true)
       price += dessert_price
     end
 

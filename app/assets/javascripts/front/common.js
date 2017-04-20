@@ -311,6 +311,9 @@
                 $review_popup.fadeIn(300);
                 return false;
             });
+              $("#scroll-arrow").on("click", function(){
+                $('html, body').animate({scrollTop: $($(this).attr("href")).offset().top - 60}, 500);
+            })
             } else if($("body").hasClass("orders new")){
             var $form = $("#checkout-form");
             if($form.find("[name='is-exist']").val() == "true"){
@@ -346,8 +349,10 @@
                     phone = $phone_input.val().replace(/\D+/g,""),
                     $street_input = $form.find("[name='order[street]']"),
                     street = $street_input.val(),
-                    $house_input = $form.find("[name='order[house]']"),
+                    $house_input = $form.find("[name='order[house_number]']"),
                     house = $house_input.val(),
+                    $flat_input = $form.find("[name='order[flat_number]']"),
+                    flat = $flat_input.val(),
                     is_region = $form.find("[name='order[delivery_region]']:checked").val() == "true",
                     $city_input = $form.find("[name='order[city]']"),
                     city = $city_input.val(),
@@ -366,7 +371,11 @@
                         if(house == ""){
                             $house_input.addClass("g-input_error");
                             error = true;
-                        }                       
+                        }  
+                        if(flat == ""){
+                            $flat_input.addClass("g-input_error");
+                            error = true;
+                        }                        
                     }
                 } else {
                     if(name == ""){
@@ -389,6 +398,10 @@
                         $house_input.addClass("g-input_error");
                         error = true;
                     }
+                    if(flat == ""){
+                            $flat_input.addClass("g-input_error");
+                            error = true;
+                        }   
                     if(phone.length < 11){
                         $phone_input.addClass("g-input_error");
                         error = true;
@@ -398,6 +411,10 @@
 
                 if (error){
                   $("input[name=commit]").val("Ошибки...");
+                  setTimeout(function(){
+                    $("input[name=commit]").val("Перейти к оплате");
+                  }, 1500);
+
                 }
                 if(!error){
                   $("input[name=commit]").val("Оформляем...");
