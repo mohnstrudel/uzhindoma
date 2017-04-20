@@ -177,7 +177,7 @@
 
         } else if($("body").hasClass("registrations edit")){
             var $form = $("#personal-form");
-            // $("#add-adress").on("click", function(){
+            $("#add-adress").on("click", function(){
             //     $form.find(".g-adress-block").append($("#adress-wrapper").find(".g-fieldset").clone());
             // });
 
