@@ -60,8 +60,10 @@
                 =order.order_price
               %td
                 / ОПЛАТА
-                -if order.payed_online
+                -if order.cloudpayment
                   ="Успешно оплачено картой"
+                -elsif order.payed_online
+                  ="Карта (старое значение)"
                 -else
                   ="Наличные" 
               %td
