@@ -22,7 +22,20 @@ widget.charge({ // options
         // $('#notifications')
         // %p.g-info-text
         
-
+        $.ajax({
+            type: "PUT",
+            dataType: "json",
+            url: '/orders/'+order_id,
+            contentType: 'application/json',
+            data: JSON.stringify({order: {cloudpayment: true}}),
+            success: function(response){
+                //действие при успешной оплате
+                
+            }
+        }).done(function( msg )
+        {
+            
+        });
         $("#successful_payment").fadeIn(300);
         
     },
