@@ -42,6 +42,10 @@ gem 'will_paginate'
 
 # Perform delayed jobs, like connecting to Bitrix
 gem 'delayed_job_active_record'
+gem 'capistrano3-delayed-job'
+gem 'delayed_job_web'
+# As of now required to bypass the error
+gem 'sinatra', '>= 2.0.0.beta2'
 
 
 # Managing users

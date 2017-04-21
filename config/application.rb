@@ -18,5 +18,6 @@ module Uzhindoma
 							"5" => "Пятница",
 							"6" => "Суббота",
 							"7" => "Воскресенье"}
+    config.active_job.queue_adapter = :delayed_job
   end
 end

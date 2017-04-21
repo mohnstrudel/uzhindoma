@@ -6,6 +6,8 @@ class OrderNotifier < ApplicationMailer
   #
   #   en.order_notifier.received.subject
   #
+
+
   def received(order)
     @order = order
 

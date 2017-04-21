@@ -10,9 +10,10 @@
 <%- end %>
 <p>Дополнительная информация по адресу: <%= @order.additional_address %>
 <p>Комментарий к заказу: <%= @order.comment %>
-
-<p>Состав заказа:</p>
+<hr>
+<h2>Состав заказа:</h2>
 <p>Тип ужина: <%= Menu.find(@order.menu_id).category.name %></p>
+<p>Стоимость ужина: <%= @order.order_price %>
 <p>Кол-во ужинов: <%= @order.menu_amount %></p>
 <p>Кол-во персон: <%= @order.person_amount %></p>
 <p>время доставки: <%= @order.delivery_timeframe %></p>
@@ -24,7 +25,7 @@
 <%- end %>
 </p>
 <p>
-<%- if @order.payed_online %>
+<%- if @order.cloudpayment %>
 	Оплата была произведена онлайн!
 <%- else %>
 	Оплата наличными курьеру
