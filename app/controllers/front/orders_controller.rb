@@ -64,7 +64,7 @@ class Front::OrdersController < FrontController
 				redirect_to out_of_order_path
 				# Оповещаем админа сайта, что есть заказ в день, когда списки закрыты
 				# OrderNotifier.out_of_order(session[:phone]).deliver_now
-				OrderNotifier.delay.out_of_order(session[:phone])
+				OrderNotifier.delay(queue: "no_orders").out_of_order(session[:phone])
 			else	
 				# Если набор открыт, то следуем дальше логике приложения
 				if (@cu.delivery_region == "true" || @cu.delivery_region == "Московская область")
@@ -180,8 +180,8 @@ class Front::OrdersController < FrontController
 				format.html { redirect_to order_path(@order) }
 			end
 
-			OrderNotifier.delay(priority: 0).received(@order)
-			OrderNotifier.delay(priority: 20).notifyShop(@order)
+			OrderNotifier.delay(queue: "orders", priority: 0).received(@order)
+			OrderNotifier.delay(queue: "orders", priority: 20).notifyShop(@order)
 		else
 			render "new"
 		end
@@ -525,7 +525,7 @@ class Front::OrdersController < FrontController
 			logger.debug "Result length: #{client_data.length}"
 
 			if client_data.length > 1
-				ApplicationMailer.delay.notify_if_multiple_bitrix_users(phone, client_data)
+				ApplicationMailer.delay(queue: "users").notify_if_multiple_bitrix_users(phone, client_data)
 			end
 			return client_data[-1]["ID"]
 		end
