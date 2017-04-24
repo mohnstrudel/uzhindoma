@@ -42,23 +42,8 @@
 
       =render partial: 'front/orders/new_sections/address_fields', locals: { f: f }
       
-      %h2.g-form__title
-        Интервал доставки
-      %fieldset.g-fieldset
-        =f.radio_button :delivery_timeframe, "9:00-12:00", hidden: true, id: "delivery_1", class: "g-input_hide"
-        %label.g-input-label{:for => "delivery_1"} 9:00-12:00
-
-        =f.radio_button :delivery_timeframe, "11:00-14:00", hidden: true, id: "delivery_2", class: "g-input_hide"
-        %label.g-input-label{:for => "delivery_2"} 11:00-14:00
-
-        =f.radio_button :delivery_timeframe, "17:00-20:00", hidden: true, id: "delivery_3", class: "g-input_hide"
-        %label.g-input-label{:for => "delivery_3"} 17:00-20:00
-
-        =f.radio_button :delivery_timeframe, "20:00-23:00", hidden: true, id: "delivery_4", class: "g-input_hide"
-        %label.g-input-label{:for => "delivery_4"} 20:00-23:00
-
-        =f.radio_button :delivery_timeframe, "Любое", hidden: true, id: "delivery_5", class: "g-input_hide"
-        %label.g-input-label{:for => "delivery_5"} Любое
+      =render partial: 'front/orders/new_sections/delivery_intervals', locals: { f: f } 
+      
 
       %fieldset.g-fieldset
         =f.text_area :comment, id: "area", class: "g-input g-input_textarea", placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"

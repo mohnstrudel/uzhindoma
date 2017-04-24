@@ -19,9 +19,10 @@ class Admin::CategoriesController < AdminController
 		@category = Category.new(category_params)
 		if @category.save
   			redirect_to admin_categories_path
-      		flash[:success] = "Успешно создано"
+      	flash[:success] = "Успешно создано"
   		else
-  			render 'new'
+        flash[:danger] = "Ошибки при создании"
+  			render :new
   		end
 	end
 
