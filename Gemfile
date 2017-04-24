@@ -44,6 +44,7 @@ gem 'will_paginate'
 gem 'delayed_job_active_record'
 gem 'capistrano3-delayed-job'
 gem 'delayed_job_web'
+gem 'delayed-web'
 # As of now required to bypass the error
 gem 'sinatra', '>= 2.0.0.beta2'
 

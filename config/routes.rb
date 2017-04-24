@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  
+  authenticated :admin, -> admin { admin.has_rights? } do
+    mount Delayed::Web::Engine, at: '/jobs'
+  end
+  # mount Delayed::Web::Engine, at: '/jobs'
   devise_for :admins, 
         controllers: {
           sessions: 'front/admins/sessions',
@@ -62,9 +67,9 @@ Rails.application.routes.draw do
     get 'bitrix/new' => 'bitrix#create_new_order', :as => :new_bitrix_order
   end
 
-  authenticated :admin, -> admin { admin.roles{:admin} }  do
-    mount DelayedJobWeb, at: "/delayed_job"
-  end
+  # authenticated :admin, -> admin { admin.roles{:admin} }  do
+  #   mount DelayedJobWeb, at: "/delayed_job"
+  # end
 
 
   # The priority is based upon order of creation: first created -> highest priority.
