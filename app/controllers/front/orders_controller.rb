@@ -2,6 +2,7 @@ class Front::OrdersController < FrontController
 
 	before_action :find_order, only: [:show, :edit, :update]
 	before_action :get_tokens
+	before_action :verify_owner, only: [:edit, :show]
 
 	def process_order
 		phone = params['phone']
@@ -118,38 +119,18 @@ class Front::OrdersController < FrontController
 		@order.bitrix_order_id = @bitrix_order_id
 
 		# Меняем стоимость набора с учетом скидки, если такая есть		
-		
-		if apply_promocode(@order[:pcode])
-			logger.debug "Applying promocode discount for #{@order[:pcode]}"
-			@order[:order_price] += find_product("Скидка")[1].to_i
 
-			p_code = find_promocode(@order[:pcode])
-			logger.debug "Found p_code: #{p_code.id}"
-			@order[:promocode_id] = p_code.id
-			p_code_model = Promocode.find(p_code.id)
-			logger.debug "Found p_code model: #{p_code_model.id}, trying to update with #{@order[:id]}"
-			if p_code_model.update(order_id: @order[:id])
-				logger.debug "Promocode updated with proper order id"
-			end
+		# Сначала проверяем, валидный ли промокод
+		promocode_object = Promocode.is_valid?(@order[:pcode])
+
+		if promocode_object
+			logger.debug "Applying promocode discount using #{promocode_object.inspect}"
+			@order.apply_promocode(promocode_object)
 		end
 
 		@order[:user_id] = current_user.id
 
 		if @order.save
-			if apply_promocode(@order[:pcode])
-				logger.debug "Applying promocode discount for #{@order[:pcode]}"
-				@order[:order_price] += find_product("Скидка")[1].to_i
-
-				p_code = find_promocode(@order[:pcode])
-				logger.debug "Found p_code: #{p_code.id}"
-				@order[:promocode_id] = p_code.id
-				p_code_model = Promocode.find(p_code.id)
-				logger.debug "Found p_code model: #{p_code_model.id}, trying to update with #{@order.id}"
-				if p_code_model.update(order_id: @order.id)
-					logger.debug "Promocode updated with proper order id"
-				end
-			end
-
 			respond_to do |format|
 				format.html { redirect_to edit_order_path(@order) }
 			end
@@ -537,6 +518,13 @@ class Front::OrdersController < FrontController
 		@bitrix = Bitrix.find(1)
 		@access_token = @bitrix.access_token
 		@refresh_token = @bitrix.refresh_token
+	end
+
+	def verify_owner
+		@order = Order.find(params[:id])
+		unless @order.user_id == current_user.id
+			redirect_to root_path
+		end
 	end
 
 end

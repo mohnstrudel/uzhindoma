@@ -7,6 +7,18 @@ class Order < ActiveRecord::Base
 
 	# validates :delivery_timeframe, presence: true
 
+
+	def apply_promocode(promocode_object)
+		logger.debug "Applying СКиДКА to order"
+		self.order_price += Bitrix.find_product("Скидка")[1].to_i
+		logger.debug "Setting promocode id to #{promocode_object.id}"
+		self.promocode_id = promocode_object.id
+
+		logger.debug "Updating promocode order id for order #{self.id} (or plain id? #{id})"
+		promocode_object.update_order(self.id)
+
+	end
+
 	def self.check_delivery_region(object)
 		if (object.delivery_region == "true" || object.delivery_region == "Московская область")
 			logger.debug("Object.delivery_region is: #{object.delivery_region}")

@@ -20,5 +20,7 @@ module Uzhindoma
 							"6" => "Суббота",
 							"7" => "Воскресенье"}
     config.active_job.queue_adapter = :delayed_job
+
+    config.time_zone = 'Moscow'
   end
 end

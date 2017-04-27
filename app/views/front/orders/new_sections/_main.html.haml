@@ -47,6 +47,8 @@
 
       %fieldset.g-fieldset
         =f.text_area :comment, id: "area", class: "g-input g-input_textarea", placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
+      %fieldset.g-fieldset
+        =f.text_field :pcode, class: "g-input", placeholder: "Ваш промокод (уточняйте у менеджера)"
 
       %fieldset.g-fieldset.g-fieldset_buttons
         %a.g-btn.g-btn_gray{:href => "/dinner"} вЕРНУТЬСЯ к меню

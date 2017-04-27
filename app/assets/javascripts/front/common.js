@@ -337,7 +337,9 @@
             $form.on("submit", function(e){
                 e.preventDefault();
                 
-                $("input[name=commit]").val("Оформляем...");
+                var submit_button = $("input[name=commit]");
+                submit_button.val("Оформляем...");
+                submit_button.attr('disabled','disabled');
 
                 var $name_input = $form.find("[name='order[first_name]']"),
                     name = $name_input.val(),
@@ -417,7 +419,9 @@
 
                 }
                 if(!error){
-                  $("input[name=commit]").val("Оформляем...");
+                  var submit_button = $("input[name=commit]");
+                  submit_button.val("Оформляем...");
+                  submit_button.attr('disabled','disabled');
                      $.ajax({
                        data: $(this).serialize(),
                        url: "/orders",
