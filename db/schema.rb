@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420131149) do
+ActiveRecord::Schema.define(version: 20170428174757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,15 @@ ActiveRecord::Schema.define(version: 20170420131149) do
     t.index ["jobtitle_id"], name: "index_employees_on_jobtitle_id", using: :btree
   end
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.float    "rating"
+    t.string   "name"
+    t.string   "email"
+    t.string   "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "igrams", force: :cascade do |t|
     t.string   "url"
     t.string   "author"
@@ -248,6 +257,9 @@ ActiveRecord::Schema.define(version: 20170420131149) do
     t.integer  "promocode_id"
     t.integer  "bitrix_order_id"
     t.boolean  "cloudpayment"
+    t.index "lower((first_name)::text) varchar_pattern_ops", name: "orders_lower_first_name", using: :btree
+    t.index "lower((phone)::text) varchar_pattern_ops", name: "orders_lower_phone", using: :btree
+    t.index "lower((second_name)::text) varchar_pattern_ops", name: "orders_lower_second_name", using: :btree
     t.index ["category_id"], name: "index_orders_on_category_id", using: :btree
     t.index ["menu_id"], name: "index_orders_on_menu_id", using: :btree
     t.index ["promocode_id"], name: "index_orders_on_promocode_id", using: :btree

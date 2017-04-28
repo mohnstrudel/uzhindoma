@@ -1,0 +1,22 @@
+.panel.mb25.mt5
+  .panel-heading
+    %span.panel-title.hidden-xs
+      ="#{controller.action_name.capitalize} #{object.class.name}"
+    %ul.nav.panel-tabs-border.panel-tabs
+      %li.active
+        %a{"data-toggle" => "tab", :href => "#tab1_1"} Отзыв
+  .panel-body.p20.pb10
+    .tab-content.pn.br-n.admin-form
+      .section.row.mbn
+        .col-md-12.pl15
+          .section.mb10
+            Имя клиента:
+            =object.name
+
+          .section.mb10
+            Отзыв:
+            =object.body
+
+          .section.mb10
+            Оценка:
+            =object.rating

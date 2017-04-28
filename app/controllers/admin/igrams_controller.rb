@@ -63,15 +63,18 @@ class Admin::IgramsController < AdminController
   def get_instagram_data
   	url = "#{@igram.url}?__a=1"
   	doc = Nokogiri::HTML(open(url))
-	instagram_data = JSON.parse(doc)
+  	instagram_data = JSON.parse(doc)
 
-	author = instagram_data["media"]["owner"]["username"]
-	description = instagram_data["media"]["caption"]
-	likes = instagram_data["media"]["likes"]["count"]
-	comments = instagram_data["media"]["comments"]["count"]
-	@igram.remote_src_image_url = instagram_data["media"]["display_src"]
-	@igram.remote_userpic_url = instagram_data["media"]["owner"]["profile_pic_url"]
-	
-	@igram.update(author: author, description: description, likes: likes, comments: comments)
+  	author = instagram_data["media"]["owner"]["username"]
+  	
+    # description = instagram_data["media"]["caption"]
+    # Changed as of 27/04/2017 because of internal Instagram changes
+    description = instagram_data["graphql"]["shortcode_media"]["edge_media_to_caption"]["edges"][0]["node"]["text"]
+  	likes = instagram_data["media"]["likes"]["count"]
+  	comments = instagram_data["media"]["comments"]["count"]
+  	@igram.remote_src_image_url = instagram_data["graphql"]["shortcode_media"]["display_url"]
+  	@igram.remote_userpic_url = instagram_data["media"]["owner"]["profile_pic_url"]
+  	
+  	@igram.update(author: author, description: description, likes: likes, comments: comments)
   end
 end

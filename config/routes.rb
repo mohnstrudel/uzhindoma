@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   authenticated :admin, -> admin { admin.has_rights? } do
     mount Delayed::Web::Engine, at: '/jobs'
   end
@@ -47,6 +47,7 @@ Rails.application.routes.draw do
     resources :personamounts
     resources :days
     resources :promocodes
+    resources :feedbacks, only: [:show, :index]
   end
 
 
@@ -62,6 +63,7 @@ Rails.application.routes.draw do
     resources :dinner
     resources :orders
     resources :payments
+    resources :feedbacks, only: [:create, :new]
     
     get 'bitrix', to: 'bitrix#index'
     get 'bitrix/new' => 'bitrix#create_new_order', :as => :new_bitrix_order

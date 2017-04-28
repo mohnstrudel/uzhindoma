@@ -1,0 +1,85 @@
+/ recent orders table
+.panel
+  .panel-menu.p12.admin-form.theme-primary
+    .row
+      .col-md-5
+        %label.field.select
+          %select#filter-category{:name => "filter-category"}
+            %option{:value => "0"} Filter by Category
+            %option{:value => "1"} Smart Phones
+            %option{:value => "2"} Smart Watches
+            %option{:value => "3"} Notebooks
+            %option{:value => "4"} Desktops
+            %option{:value => "5"} Music Players
+          %i.arrow
+      .col-md-5
+        %label.field.select
+          %select#filter-status{:name => "filter-status"}
+            %option{:value => "0"} Filter by Status
+            %option{:value => "1"} Active
+            %option{:value => "2"} Inactive
+            %option{:value => "3"} Low Stock
+            %option{:value => "4"} Out of Stock
+          %i.arrow
+      .col-md-2
+        %label.field.select
+          %select#bulk-action{:name => "bulk-action"}
+            %option{:value => "0"} Actions
+            %option{:value => "1"} Edit
+            %option{:value => "2"} Delete
+            %option{:value => "3"} Active
+            %option{:value => "4"} Inactive
+          %i.arrow.double
+  .panel-body.pn
+    .table-responsive
+      %table.table.admin-form.theme-warning.tc-checkbox-1.fs13
+        %thead
+          %tr.bg-light
+            %th.text-center Select
+            -if object.has_attribute? :name
+              %th Имя
+            -if object.has_attribute? :rating
+              %th Оценка
+            -if object.has_attribute? :email
+              %th Почта
+            -if object.has_attribute? :body
+              %th Текст 
+            %th.text-right Статус
+        %tbody
+          -object.each do |obj|
+            %tr
+              %td.text-center
+                %label.option.block.mn
+                  %input{:name => "mobileos", :type => "checkbox", :value => "FR"}
+                    %span.checkbox.mn
+              -if object.has_attribute? :name
+                %td.w100
+                  =obj.name
+              -if object.has_attribute? :rating
+                %td
+                  =obj.rating
+              -if object.has_attribute? :email
+                %td
+                  =obj.email
+              -if object.has_attribute? :body
+                %td
+                  =truncate(obj.body, length: 60)
+                
+                
+              %td.text-right
+                .btn-group.text-right
+                  %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+                    Действия
+                    %span.caret.ml5
+                  %ul.dropdown-menu{:role => "menu"}
+                    %li
+                      =link_to "Просмотр", send("admin_#{local_assigns[:namespace]}#{object_name(object)}_path", obj)
+                    %li
+                      / =link_to 'Редактировать', edit_admin_menu_path(menu)
+                    %li.divider
+                    %li
+                      / =link_to 'Удалить', admin_menu_path(menu.id), method: :delete, data: {confirm: 'Действительно удалить?'}
+
+=will_paginate object
+
+

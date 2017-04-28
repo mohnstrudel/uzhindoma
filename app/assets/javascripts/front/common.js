@@ -60,18 +60,18 @@
                 }
             console.log($("[name='rating']:checked").val());
             if(!error){
-//                      $.ajax({
-//                        data: $(this).serialize(),
-//                        url: "",
-//                        method: "POST",
-//                        success: function(){
+                     $.ajax({
+                       data: $(this).serialize(),
+                       url: "/feedbacks",
+                       method: "POST",
+                       success: function(){
                             $name_input.val("");
                             $email_input.val("");
                             $message_input.val("");
                             $("[name='rating']:checked").prop("checked", false);
                             $("#success-review").fadeIn(200);
-//                        }
-//                    });                
+                       }
+                   });                
             }
             return false;
         });

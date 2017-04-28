@@ -10,7 +10,7 @@
       %p.g-footer__text
         Напишите нам в WhatsApp!
         %br>/
-        Мы на связи с 9 до 22
+        Мы на связи с 10 до 22
       -if Setting.first
         %a.g-footer__phone{:href => "tel:#{Setting.first.phone}"}=Setting.first.phone
       -else
@@ -18,7 +18,7 @@
     .g-footer__links
       %a.g-footer__link{:href => "/uznat-bolshe"} Вопрос-ответ
       %br/
-      %a.g-footer__link{:href => "https://hh.ru/employer/1642130"} Вакансии
+      %a.g-footer__link{:target => "_blank", :href => "https://hh.ru/employer/1642130"} Вакансии
       %br/
       %a.g-footer__link{:href => "#"} Информация для клиента
       %br/
@@ -38,35 +38,44 @@
         %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
         
         / ФОРМА ДЛЯ ОБРАТНОЙ СВЯЗИ
-        %form#review-form.g-form{:action => "#", :method => "post"}
+        =form_for Feedback.new, id: "review-form", class: "g-form", remote: true do |f|
+          / %form#review-form.g-form{:action => "#", :method => "post"}
           %fieldset.g-form__rating
-            %input#star5{:name => "rating", :type => "radio", :value => "5"}/
+            =f.radio_button :rating, 5, id: "star5"
             %label.full{:for => "star5", :title => "Awesome - 5 stars"}
-            %input#star4half{:name => "rating", :type => "radio", :value => "4 and a half"}/
+
+            =f.radio_button :rating, 4.5, id: "star4half"
             %label.half{:for => "star4half", :title => "Pretty good - 4.5 stars"}
-            %input#star4{:name => "rating", :type => "radio", :value => "4"}/
+
+            =f.radio_button :rating, 4, id: "star4"
             %label.full{:for => "star4", :title => "Pretty good - 4 stars"}
-            %input#star3half{:name => "rating", :type => "radio", :value => "3 and a half"}/
+
+            =f.radio_button :rating, 3.5, id: "star3half"
             %label.half{:for => "star3half", :title => "Meh - 3.5 stars"}
-            %input#star3{:name => "rating", :type => "radio", :value => "3"}/
+
+            =f.radio_button :rating, 3, id: "star3"
             %label.full{:for => "star3", :title => "Meh - 3 stars"}
-            %input#star2half{:name => "rating", :type => "radio", :value => "2 and a half"}/
+
+            =f.radio_button :rating, 2.5, id: "star2half"
             %label.half{:for => "star2half", :title => "Kinda bad - 2.5 stars"}
-            %input#star2{:name => "rating", :type => "radio", :value => "2"}/
+
+            =f.radio_button :rating, 2, id: "star2"
             %label.full{:for => "star2", :title => "Kinda bad - 2 stars"}
-            %input#star1half{:name => "rating", :type => "radio", :value => "1 and a half"}/
+
+            =f.radio_button :rating, 1.5, id: "star1half"
             %label.half{:for => "star1half", :title => "Meh - 1.5 stars"}
-            %input#star1{:name => "rating", :type => "radio", :value => "1"}/
+
+            =f.radio_button :rating, 1, id: "star1"
             %label.full{:for => "star1", :title => "Sucks big time - 1 star"}
-            %input#starhalf{:name => "rating", :type => "radio", :value => "half"}/
+
+            =f.radio_button :rating, 0.5, id: "starhalf"
             %label.half{:for => "starhalf", :title => "Sucks big time - 0.5 stars"}
           
-          %input.g-input.g-form__input{:name => "name", :placeholder => "Имя", :type => "text"}/
-          %input.g-input.g-form__input{:name => "email", :placeholder => "Почта", :type => "text"}/
-          %textarea.g-input.g-form__input.g-form__input_textarea{:name => "message", :placeholder => "Ваш отзыв"}
-
-
-          %input.g-btn.g-btn_blue.g-form__submit{:type => "submit", :value => "отправить"}/
+          =f.text_field :name, class: "g-input g-form__input", placeholder: "Имя", value: current_user ? current_user.first_name : nil
+          =f.text_field :email, class: "g-input g-form__input", placeholder: "Почта", value: current_user ? current_user.email : nil
+          =f.text_area :body, class: "g-input g-form__input g-form__input_textarea", placeholder: "Ваш отзыв"
+          
+          =f.submit "Отправить", class: "g-btn g-btn_blue g-form__submit"
 
 
 

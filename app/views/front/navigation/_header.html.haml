@@ -15,7 +15,7 @@
           =nav_link "Новое меню", dinner_index_path 
 
         %nav.g-menu.g-menu_social
-          =link_to Setting.first.instagram, class: "g-menu__link" do
+          =link_to Setting.first.instagram, target: "_blank", class: "g-menu__link" do
             %i.g-icon.g-icon_inst
           -if user_signed_in?
             =link_to "#{current_user.first_name} #{current_user.second_name}", edit_user_registration_path, class: "g-menu__link g-menu__link_text g-menu__link_personal"

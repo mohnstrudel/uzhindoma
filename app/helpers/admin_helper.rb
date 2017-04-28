@@ -18,6 +18,14 @@ module AdminHelper
 
 	end
 
+	def object_name(object)
+    if object.is_a?(ActiveRecord::Relation)
+      return object.model.name.underscore
+    else
+      return object.class.name.underscore
+    end
+  end
+
 
 	def link_to_add_fields(name, f, association)
 		new_object = f.object.send(association).klass.new

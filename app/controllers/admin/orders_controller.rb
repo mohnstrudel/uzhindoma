@@ -8,7 +8,17 @@ class Admin::OrdersController < AdminController
 	end
 
 	def index
-		@orders = Order.order(id: :desc).paginate(:page => params[:page], :per_page => 30)
+		if params[:keywords].present?
+				@keywords = params[:keywords]
+				order_search_term = OrderSearchTerm.new(@keywords)
+				@orders = Order.where(
+					order_search_term.where_clause,
+					order_search_term.where_args).
+				order(order_search_term.order).
+				paginate(:page => params[:page], :per_page => 30)
+		else
+			@orders = Order.order(id: :desc).paginate(:page => params[:page], :per_page => 30)
+		end
 	end
 
 	def edit

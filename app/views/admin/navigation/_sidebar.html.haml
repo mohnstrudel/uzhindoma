@@ -61,34 +61,46 @@
         =link_to admin_orders_path, method: :get do
           %span.fa.fa-columns
           %span.sidebar-title Заказы
+      / %li
+      /   =link_to admin_partners_path, method: :get do
+      /     %span.fa.fa-truck
+      /     %span.sidebar-title Партнеры
+      
       %li
-        =link_to admin_partners_path, method: :get do
-          %span.fa.fa-truck
-          %span.sidebar-title Партнеры
-      %li
-        =link_to edit_admin_setting_path(1), method: :get do
-          %span.glyphicon.glyphicon-fire
+        %a.accordion-toggle{:href => "#"}
+          %span.glyphicon.glyphicon-check
           %span.sidebar-title Настройки
-      %li
-        =link_to admin_employees_path, method: :get do
-          %span.glyphicon.glyphicon-check
-          %span.sidebar-title Внутренние пользователи
-      %li
-        =link_to admin_jobtitles_path, method: :get do
-          %span.glyphicon.glyphicon-check
-          %span.sidebar-title Настройки внутренних пользователей
-      %li
-        =link_to admin_igrams_path, method: :get do
-          %span.fa.fa-instagram
-          %span.sidebar-title Настройки ИГ постов
-      %li
-        =link_to admin_personamounts_path, method: :get do
-          %span.fa.fa-cogs
-          %span.sidebar-title Количества людей
+          %span.caret
+        %ul.nav.sub-nav
+          %li
+            =link_to edit_admin_setting_path(1), method: :get do
+              %span.glyphicon.glyphicon-fire
+              %span.sidebar-title Общие
+          %li
+            =link_to admin_employees_path, method: :get do
+              %span.glyphicon.glyphicon-check
+              %span.sidebar-title Сотрудника компании
+          %li
+            =link_to admin_jobtitles_path, method: :get do
+              %span.glyphicon.glyphicon-check
+              %span.sidebar-title Должности сотрудников
+          %li
+            =link_to admin_igrams_path, method: :get do
+              %span.fa.fa-instagram
+              %span.sidebar-title Отзывы в Инстаграм
+          %li
+            =link_to admin_personamounts_path, method: :get do
+              %span.fa.fa-cogs
+              %span.sidebar-title Количества людей для наборов
+
       %li
         =link_to admin_promocodes_path, method: :get do
           %span.fa.fa-tags
           %span.sidebar-title Промокоды
+      %li
+        =link_to admin_feedbacks_path, method: :get do
+          %span.fa.fa-comments-o
+          %span.sidebar-title Обратная связь
           
       / %li.sidebar-label.pt25.pb10 User Stats
       / %li.sidebar-stat
