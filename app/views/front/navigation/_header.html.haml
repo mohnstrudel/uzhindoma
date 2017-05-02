@@ -1,8 +1,8 @@
 %body
   %header.g-header
     .g-wrapper.g-header__wrapper
-      %a.g-logo{:href => "/"}
-        =image_tag "header/logo.png", method: :get, class: "g-logo__img"
+      =link_to root_path, class: 'g-logo', method: :get do
+        =image_tag "header/logo.png", class: "g-logo__img"
       .g-mobile-controls.g-mobile
         %a.g-menu__link.g-menu__link_nomargin{:href => "#"}
           %i.g-icon.g-icon_login
