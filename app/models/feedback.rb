@@ -4,7 +4,6 @@ class Feedback < ApplicationRecord
     ary = all.map{|item| item.rating}
     ary = ary.compact
     if ary.length > 0
-      debug
       mean = ary.sum / ary.length
       return mean
     else
