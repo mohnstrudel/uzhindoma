@@ -16,3 +16,16 @@
     $(this).before($(this).data('fields').replace(regexp, time));
     event.preventDefault();
     });
+
+  $('#send_sms_link').on('click', function(event){
+    event.preventDefault();
+    // console.log("Link clicked!");
+
+    $.ajax({
+      data: $(this).serialize(),
+      url: "/send_sms",
+      method: "GET",
+      success: function(){
+      }
+    });
+  });
