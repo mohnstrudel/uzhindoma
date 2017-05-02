@@ -22,11 +22,6 @@ module FrontHelper
     value = array_as_string.split(",")[0].gsub(" ","").gsub("[",'').to_i
   end
 
-  def send_sms(phone, message)
-    url = "https://sms.e-vostok.ru/smsout.php?login=uzhin&password=PvlIjlL0&service=23964&space_force=1&space=UzhinDoma&subno=#{phone}&text=#{message}"
-    doc = Nokogiri::HTML(open(url))
-  end
-
   def settings_helper
     if Setting.first
       return Setting.first

@@ -4,5 +4,7 @@ class Front::ProfileController < FrontController
 		logger.debug "This is Patrick with params: #{params}"
 	end
 
-
+  def generate_password
+    User.password_recovery_via_sms(params[:phone])
+  end
 end

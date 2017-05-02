@@ -17,36 +17,8 @@ class Front::OrdersController < FrontController
     	session[:dessert] = true
     end
 
-    if phone.length == 18
-
-      password = User.generate_password_code
-      user = User.where(phone: phone).first
-
-      # Если не находим пользователя, то сразу его создаем
-      if not user
-        User.create(phone: phone, password: password)
-        logger.debug("New user with phone - #{phone} created!")
-      else
-        if user.update(password: password)
-          logger.debug("New password for user #{user.email} successfully updated")
-        else
-          logger.debug("Password failed to update")
-        end
-      end
-
-      
-      
-      stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
-      encoded_phone = URI.escape(phone)
-      encoded_message = URI.escape("Ваш новый пароль - #{password}.")
-      logger.debug("New password for user #{phone} - #{password}")
-
-      helpers.send_sms(encoded_phone, encoded_message)
-    end
-		puts "---------"
-    puts "SMS sent to #{params['phone']}!"
-    puts "PHONE length is: #{length}"
-    puts 
+    # Метод находится в классе user.rb
+    User.password_recovery_via_sms(phone)
 	end
 
 	def new

@@ -8,11 +8,11 @@
       %fieldset.g-fieldset
         .g-input-wrapper.g-input-wrapper_clear
           %label.g-form__label Номер телефона
-          =f.phone_field :phone, placeholder: "Введите номер телефона", class: "g-input"
+          =f.phone_field :phone, placeholder: "Введите номер телефона", class: "g-input", id: "phone_input"
           / %input.g-input{:name => "pass_old", :placeholder => "Старый пароль", :type => "password"}/
         .g-input-wrapper.g-input-wrapper_clear
           %label.g-form__label Ваш пароль
           =f.password_field :password, placeholder: "Введите пароль", class: "g-input"
           / %input.g-input{:name => "pass_new", :placeholder => "Новый пароль", :type => "password"}/
         %a#send_sms_link.g-link Выслать пароль по СМС
-      %input.g-btn.g-btn_blue{:type => "submit", :value => "Войти"}/
+      =f.submit "Войти", class: "g-btn g-btn_blue"

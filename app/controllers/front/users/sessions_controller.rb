@@ -5,9 +5,6 @@ class Front::Users::SessionsController < Devise::SessionsController
 
   # GET /resource/sign_in
   def new
-      
-      # helpers.send_sms(encoded_phone, encoded_message)
-
     super
   end
 
@@ -33,7 +30,11 @@ class Front::Users::SessionsController < Devise::SessionsController
     puts "#--------------#"
     puts "User successfully logged in!"
     puts "#--------------#"
-    new_order_path
+    if session[:menu_id]
+      new_order_path
+    else
+      edit_user_registration_path
+    end
     # Тут перенаправляем на страницу заказа
     # if params[:menu_id].blank?
     #   edit_user_registration_path

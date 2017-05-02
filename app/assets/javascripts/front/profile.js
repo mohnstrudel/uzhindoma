@@ -19,10 +19,18 @@
 
   $('#send_sms_link').on('click', function(event){
     event.preventDefault();
-    // console.log("Link clicked!");
+    var current_this = $(this);
+    current_this.html("Повторить можно через 45 секунд").addClass('disabled');
+    setTimeout(function(){
+      current_this.html("Выслать пароль по СМС").removeClass('disabled');
+    }, 45000);
 
+    console.log("Link clicked: " + current_this.val());
+
+    var phone = $('#phone_input').val();
+    // console.log("Data: " + $(this).serialize());
     $.ajax({
-      data: $(this).serialize(),
+      data: { phone: phone },
       url: "/send_sms",
       method: "GET",
       success: function(){

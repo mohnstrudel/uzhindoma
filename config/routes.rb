@@ -59,6 +59,8 @@ Rails.application.routes.draw do
 
     get 'process_order', to: 'orders#process_order'
 
+    get 'send_sms', to: 'profile#generate_password'
+
     resources :menus
     resources :dinner
     resources :orders

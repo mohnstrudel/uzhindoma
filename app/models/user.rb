@@ -30,6 +30,36 @@ class User < ActiveRecord::Base
     false
   end
 
+  def self.password_recovery_via_sms(phone)
+
+    if phone.length == 18
+
+      password = self.generate_password_code
+      user = self.where(phone: phone).first
+
+      # Если не находим пользователя, то сразу его создаем
+      if not user
+        self.create(phone: phone, password: password)
+        logger.debug("New user with phone - #{phone} created!")
+      else
+        if user.update(password: password)
+          logger.debug("New password for user #{user.email} successfully updated")
+        else
+          logger.debug("Password failed to update")
+        end
+      end
+      
+      stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
+      encoded_phone = URI.escape(phone)
+      encoded_message = URI.escape("Ваш новый пароль - #{password}.")
+      logger.debug("New password for user #{phone} - #{password}")
+
+      Sms.sms_deliver(encoded_phone, encoded_message)
+    end
+    puts "---------"
+    puts "SMS sent to #{phone}!"
+  end
+
   def update_orders_from_bitrix(bitrix_id)
     b_orders = Bitrix.get_users_orders(bitrix_id)["result"]
 
