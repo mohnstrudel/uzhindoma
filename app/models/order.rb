@@ -7,6 +7,10 @@ class Order < ActiveRecord::Base
 
 	# validates :delivery_timeframe, presence: true
 
+	def update_bitrix_lead
+		Bitrix.update_lead(self.bitrix_order_id, self.cloudpayment, self.order_price)
+	end
+
 
 	def apply_promocode(promocode_object)
 		logger.debug "Applying СКиДКА to order"

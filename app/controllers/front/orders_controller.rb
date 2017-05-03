@@ -128,6 +128,9 @@ class Front::OrdersController < FrontController
 
 	def update
 
+		# Обновляем данные лида
+		@order.update_bitrix_lead
+
 		if @order.update(order_params)
 			respond_to do |format|
 				format.html { redirect_to order_path(@order) }
@@ -272,7 +275,7 @@ class Front::OrdersController < FrontController
 				end
 
 				# Получаем поля адреса из параметров
-				address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
+				address = URI.escape("#{city}, #{order[:street]}, дом #{order[:house_number]}")
 				
 				# В поле "дополнительная часть" прописываем:
 				# номер дома, квартиру, подъезд, этаж
@@ -301,7 +304,7 @@ class Front::OrdersController < FrontController
 				
 
 				# Получаем поля адреса из параметров
-				address = URI.escape("#{city}, улица #{current_user.street}, дом #{current_user.house_number}")
+				address = URI.escape("#{city}, #{current_user.street}, дом #{current_user.house_number}")
 
 				# Получаем допник для адреса
 				# В поле "дополнительная часть" прописываем:
@@ -330,7 +333,7 @@ class Front::OrdersController < FrontController
 				city = Order.check_delivery_region(found_address)
 				logger.debug("City: #{found_address}")
 				# Получаем поля адреса из параметров
-				address = URI.escape("#{city}, улица #{found_address.street}, дом #{found_address.house_number}")
+				address = URI.escape("#{city}, #{found_address.street}, дом #{found_address.house_number}")
 
 				# Получаем допник для адреса
 				# В поле "дополнительная часть" прописываем:

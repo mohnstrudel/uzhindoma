@@ -28,15 +28,20 @@ class Bitrix < ActiveRecord::Base
 		# Интервал доставки
 		timeframe_fields = ""
 		if !timeframe.blank?
-			timeframe_fields = "&fields[UF_CRM_1484728934]=#{timeframe}"
+			timeframe_fields = "&fields[COMMENTS]=#{timeframe}"
 		end
+
+    # поле "Дожать" - при создании нового заказа всегда ставим 0
+    # только если клиент редактирует заказ (==завершает)
+    # то ставим 1
+    complete_order_fields = "&fields[UF_CRM_1492756981]=0"
 
     # Тут мы можем получать какой угодно телефон, мы их все
     # приводим в вид 8хххуууаабб этим методом
     phone = Bitrix.parse_phone(phone)
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
-		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}"
+		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}&fields[PHONE][0][VALUE]=#{phone}&fields[EMAIL][0][VALUE]=#{email}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}#{complete_order_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		
@@ -104,6 +109,33 @@ class Bitrix < ActiveRecord::Base
 		# First of all we need to check if there is a simple request possible
 		# If not, then we need to update our refresh_token or access_token
 	end
+
+  def self.update_lead(lead_id, cloudpayment, payment_amount)
+    Bitrix.check_token
+    # Мы получаем: айдишник лида для апдейта
+    # оплатил ли клиент через клаудпейментс (тру/фолс)
+    # сколько оплатил (сумма)
+    bitrix = first
+    complete_order_fields = "&fields[UF_CRM_1492756981]=1"
+
+    # Ставим дефолт
+    payment_fields = ""
+    
+    if cloudpayment
+      # эта проверка значит, что картой
+      payment_fields = "&fields[UF_CRM_1493722363]=#{payment_amount}"
+    else
+      # наличные
+      payment_fields = "&fields[UF_CRM_1493722305]=#{payment_amount}"
+    end
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.update.json?&auth=#{bitrix.access_token}&id=#{lead_id}#{complete_order_fields}#{payment_fields}"
+    doc = Nokogiri::HTML(open(url))
+
+    # Для логирования
+    response = JSON.parse(doc)
+    logger.info "Lead updated with response:"
+    logger.info response
+  end
 
   def self.write_to_crm(url, order, type)
 
