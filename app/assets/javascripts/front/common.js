@@ -293,12 +293,10 @@
             });
             var $review_popup = $("#review-popup");
             $review_popup.on("click", function(e){
-                e.preventDefault();
-                if($(e.target).closest(".g-popup-reviews__content").length > 0) return false;
-                $review_popup.fadeOut(200, function(){
-                    $review_popup.find("#comments, #likes, #comment-list, #img-block").html("");    
+                if($(e.target).closest(".g-popup-reviews__content").length <= 0)
+                    $review_popup.fadeOut(200, function(){
+                        $review_popup.find("#comments, #likes, #comment-list, #img-block").html("");    
                 });
-                return false;
             });
             $(".js-review").on("click", function(e){
                 e.preventDefault();
