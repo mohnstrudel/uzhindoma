@@ -4,8 +4,8 @@ var email = $("#email").val();
 var order_id = $("#order_id").val();
 var amount = parseFloat($("#order_price").val());
 widget.charge({ // options
-        publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
-        // publicId: 'pk_35b1b441a2f142c5317bdf2810e16', // ДЕВЕЛОПМЕНТ
+        // publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
+        publicId: 'pk_8dc065172902e15e2e75fb43d2015', // ДЕВЕЛОПМЕНТ
         description: 'Оплата заказа Ужин Дома', //назначение
         amount: amount, //сумма
         currency: 'RUB', //валюта
@@ -24,6 +24,7 @@ widget.charge({ // options
         
         $.ajax({
             type: "PUT",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             dataType: "json",
             url: '/orders/'+order_id,
             contentType: 'application/json',

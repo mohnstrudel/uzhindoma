@@ -37,7 +37,7 @@
           %tr.bg-light
             %th.text-center Select
             %th Промокод
-            %th Использован в заказе
+            %th Скидка по промокоду (рубли)
             %th.text-right Статус
         %tbody
           -@promocodes.each do |promocode|
@@ -50,7 +50,7 @@
               %td
                 =link_to promocode.value, edit_admin_promocode_path(promocode) 
               %td
-                =promocode.order
+                =promocode.discount
 
               %td.text-right
                 .btn-group.text-right

@@ -128,10 +128,10 @@ class Front::OrdersController < FrontController
 
 	def update
 
-		# Обновляем данные лида
-		@order.update_bitrix_lead
-
 		if @order.update(order_params)
+			# Обновляем данные лида
+			@order.update_bitrix_lead
+			
 			respond_to do |format|
 				format.html { redirect_to order_path(@order) }
 			end

@@ -135,6 +135,8 @@ class Bitrix < ActiveRecord::Base
     response = JSON.parse(doc)
     logger.info "Lead updated with response:"
     logger.info response
+    logger.info "Url called was:"
+    logger.info url
   end
 
   def self.write_to_crm(url, order, type)

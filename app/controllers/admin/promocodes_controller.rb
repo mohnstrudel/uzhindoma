@@ -7,7 +7,7 @@ class Admin::PromocodesController < AdminController
 	end
 
 	def index
-		@promocodes = Promocode.order(created_at: :desc)
+		@promocodes = Promocode.not_used_yet.order(created_at: :desc)
 	end
 
 	def edit
@@ -22,7 +22,7 @@ class Admin::PromocodesController < AdminController
 			promocodes << Promocode.generate_code
 		end
 
-		if promocodes.map { |pcode| Promocode.new(value: pcode).save }
+		if promocodes.map { |pcode| Promocode.new(value: pcode, discount: params[:discount]).save }
 			redirect_to admin_promocodes_path
 			flash[:success] = "Успешно создано"
 		else
@@ -59,7 +59,7 @@ class Admin::PromocodesController < AdminController
 
 
 	def promocode_params
-		params.require(:promocode).permit(:value)
+		params.require(:promocode).permit(:value, :discount)
 	end
 
 	def find_promocode

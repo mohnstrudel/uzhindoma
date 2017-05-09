@@ -27,6 +27,8 @@
         });
         $(".g-input").on("focus", function(){
             $(this).removeClass("g-input_error");
+            if($(this).attr("name") == "promo")
+              $(this).parent().removeClass("g-fieldset_promo_error");
         });
         $(".g-input").on("blur", function(){
             var val = $(this).val();
@@ -313,7 +315,47 @@
                 $('html, body').animate({scrollTop: $($(this).attr("href")).offset().top - 60}, 500);
             })
             } else if($("body").hasClass("orders new")){
-            var $form = $("#checkout-form");
+              
+              // Начало
+              var $promo = $("#promo-input"),
+              $form = $("#checkout-form");
+            
+              $("#promo-input").inputmask("999aaa99a",{
+                  "onincomplete": function(){
+    
+                      if($promo.val() != ""){
+                          $form.find("input[type='submit']").prop("disabled", true).addClass("g-btn_disabled");
+                          $promo.addClass("g-input_error").parent().addClass("g-fieldset_promo_error");
+                      }
+                  },
+                  "oncomplete": function(){
+                      if(!$form.hasClass("g-form__send-promo")){
+                          var success = false;
+                          $form.addClass("g-form__send-promo");
+                          $form.find("input[type='submit']").prop("disabled", true).addClass("g-btn_disabled");
+                          
+                          //функцию в setTimeout обернуть в аякс, флаг success выпилить сверху, и спрашивать result аякс запроса.
+                          setTimeout(function(){
+                              if(success){
+                                  $form.removeClass("g-form__send-promo");
+                                  $promo.removeClass("g-input_error").parent().removeClass("g-fieldset_promo_error");
+                                  $form.find("input[type='submit']").prop("disabled", false).removeClass("g-btn_disabled");
+                              }
+                              else{
+                                  $form.removeClass("g-form__send-promo");
+                                  $promo.addClass("g-input_error").parent().addClass("g-fieldset_promo_error");
+                              }
+                          }, 1000);
+                      }
+                  },
+                  "oncleared":  function(){
+                      $form.removeClass("g-form__send-promo");
+                      $promo.removeClass("g-input_error").parent().removeClass("g-fieldset_promo_error");
+                      $form.find("input[type='submit']").prop("disabled", false).removeClass("g-btn_disabled");
+                  },
+              });
+              // Конец
+
             if($form.find("[name='is-exist']").val() == "true"){
                 $(".g-select").select2();
                 $(".js-add-adress").hide();
