@@ -5,6 +5,9 @@ class Front::OrdersController < FrontController
 	before_action :verify_owner, only: [:edit, :show]
 
 	def process_order
+		# Метод нужен для того, что бы при нажатии на кнопку "заказать"
+		# на странице наборов мы сначала могли залогинить пользователя
+		# Так как идет редирект, то данные набора сохраняем в сессии
 		phone = params['phone']
     # logger.debug("Phone is: #{phone}")
     length = phone.length
@@ -25,7 +28,7 @@ class Front::OrdersController < FrontController
 			logger.debug "Нажато на создание нового заказа"
 			@cu = current_user
 
-			# Тут проверяем, какой день сегодня - с четверга по воскресенье отключаем
+			# Тут проверяем, какой день сегодня - (например) с четверга по воскресенье отключаем
 			# Возможность заказать набор
 			if Order.check_order_day(DateTime.now)
 				# У нас всегда есть пользователь, потому что мы всегда попадаем
@@ -193,7 +196,7 @@ class Front::OrdersController < FrontController
 		phone = params[:order][:phone]
 		logger.debug "Chechking if user exists. Benchmarking aswell."
 		Benchmark.bm do |x|
-			x.report { @user = check_if_user_exists(phone) }
+			x.report { @user = Bitrix.check_if_user_exists(phone) }
 		end
 		
 		logger.debug "User returned with params: #{@user}"
@@ -256,7 +259,7 @@ class Front::OrdersController < FrontController
 		
 		# Проверяем сначала, нам данные из профиля пользователя брать или из формы
 		# Т.е. пользователь должен быть старым и совершить хотя бы один заказ
-		if current_user.orders.count > 1
+		if current_user.orders.count > 0
 
 			# Логика под пользователя, у которого уже есть профиль
 			
@@ -374,7 +377,7 @@ class Front::OrdersController < FrontController
 			end
 
 			# Получаем поля адреса из параметров
-			address = URI.escape("#{city}, улица #{order[:street]}, дом #{order[:house_number]}")
+			address = URI.escape("#{city}, #{order[:street]}, дом #{order[:house_number]}")
 			
 			# В поле "дополнительная часть" прописываем:
 			# номер дома, квартиру, подъезд, этаж
@@ -451,43 +454,6 @@ class Front::OrdersController < FrontController
 		return @id
 	end
 
-	def check_if_user_exists(phone)
-		# In this method we first search for user and, if found, create a deal or a lead
-
-		# Let's translate phone into something, that might be inside Bitrix
-		# method is in bitrix.rb model
-		# @client_data = Array.new
-
-		bitrix = Bitrix.first
-		parsed_phone = Bitrix.parse_phone(phone)
-
-		fields_string = "filter[PHONE]=#{parsed_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
-		
-		# logger.debug "Using phone: #{current_phone}"
-		# logger.debug "Searching for user using this URL: "
-		# logger.debug url
-
-
-		doc = Nokogiri::HTML(open(url))
-		client_data = JSON.parse(doc)["result"]
-
-		unless client_data.empty?
-			# Here we return the found client's ID
-			# используем -1, что бы, если результатов больше одного, то мы получали последний
-			# Также проверяем, если результатов больше 1, то шлем письмецо
-			logger.debug "Client data:"
-			p client_data
-			logger.debug "Result length: #{client_data.length}"
-
-			if client_data.length > 1
-				ApplicationMailer.delay(queue: "users").notify_if_multiple_bitrix_users(phone, client_data)
-			end
-			return client_data[-1]["ID"]
-		end
-		# If no user found we return nil
-		return nil
-	end
 
 	def get_tokens
 		@bitrix = Bitrix.find(1)

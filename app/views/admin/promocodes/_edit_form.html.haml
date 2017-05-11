@@ -1,0 +1,36 @@
+-@promocode.errors.full_messages.each do |message|
+  =content_tag(:div, message, class: "alert alert-danger")
+
+=form_for [:admin, @promocode] do |f|
+  .panel.mb25.mt5
+    .panel-heading
+      %span.panel-title.hidden-xs Редактирование промокода
+      %ul.nav.panel-tabs-border.panel-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание кол-ва ужинов
+    .panel-body.p20.pb10
+      .tab-content.pn.br-n.admin-form
+        .section.row.mbn
+          .col-md-6.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "value"}
+                =f.text_field :value, class: "event-name gui-input br-light light", placeholder: 'Значение промокода'
+                %label.field-icon{:for => "value"}
+                  %i.fa.fa-tag
+          .col-md-6.pl15
+            .section.mb10
+              %label.field.prepend-icon{:for => "discount"}
+                =f.number_field :discount, class: "event-name gui-input br-light light", placeholder: 'Скидка каждого из промокодов? (Например, 500)'
+                %label.field-icon{:for => "discount"}
+                  %i.fa.fa-rub
+          
+
+          / end section
+        / end section row section
+        %hr.short.alt
+          .section.row.mbn
+            .col-sm-8
+            .col-sm-4
+              %p.text-right
+                =f.submit "Сохранить", class: "btn btn-primary"
+          / end section

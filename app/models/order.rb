@@ -5,6 +5,9 @@ class Order < ActiveRecord::Base
 
 	has_one		:promocode
 
+	scope :current_weak, lambda { where('created_at > ?', Date.today.at_beginning_of_week)}
+	scope :last_weak, lambda { where('created_at > ? AND created_at < ?', (Date.today - 1.week).at_beginning_of_week, Date.today.at_beginning_of_week - 1.day)}
+
 	# validates :delivery_timeframe, presence: true
 
 	def update_bitrix_lead

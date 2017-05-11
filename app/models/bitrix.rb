@@ -115,7 +115,10 @@ class Bitrix < ActiveRecord::Base
     # Мы получаем: айдишник лида для апдейта
     # оплатил ли клиент через клаудпейментс (тру/фолс)
     # сколько оплатил (сумма)
+    
     bitrix = first
+    
+    # Поле "Дожать" - если мы обновляем, то это значит, что клиент точно завершил заказ
     complete_order_fields = "&fields[UF_CRM_1492756981]=1"
 
     # Ставим дефолт
@@ -324,28 +327,41 @@ class Bitrix < ActiveRecord::Base
 	end
 
 	def self.check_if_user_exists(phone)
-		# In this method we first search for user and, if found, create a deal or a lead
+    # In this method we first search for user and, if found, create a deal or a lead
 
-		# Let's translate phone into something, that might be inside Bitrix
-		# method is in bitrix.rb model
-		# @client_data = Array.new
-		parsed_phone = Bitrix.parse_phone(phone)
+    # Let's translate phone into something, that might be inside Bitrix
+    # method is in bitrix.rb model
+    # @client_data = Array.new
 
-		access_token = find(1).access_token
+    bitrix = first
+    parsed_phone = Bitrix.parse_phone(phone)
+
+    fields_string = "filter[UF_CRM_1489071594]=#{parsed_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{bitrix.access_token}&#{fields_string}"
+    
+    logger.debug "Using phone: #{phone}"
+    logger.debug "Searching for user using this URL: "
+    logger.debug url
 
 
-		fields_string = "filter[PHONE]=#{parsed_phone}&select[0]=ID&select[1]=NAME&select[2]=LAST_NAME"
-		url = "https://uzhin-doma.bitrix24.ru/rest/crm.contact.list.json?&auth=#{access_token}&#{fields_string}"
+    doc = Nokogiri::HTML(open(url))
+    client_data = JSON.parse(doc)["result"]
 
-		doc = Nokogiri::HTML(open(url))
-		client_data = JSON.parse(doc)
-		unless client_data["result"].empty?
-			# Here we return the found client's ID
-			return client_data["result"][0]["ID"]
-		end
+    unless client_data.empty?
+      # Here we return the found client's ID
+      # используем -1, что бы, если результатов больше одного, то мы получали последний
+      # Также проверяем, если результатов больше 1, то шлем письмецо
+      logger.debug "Client data:"
+      p client_data
+      logger.debug "Result length: #{client_data.length}"
 
-		# If no user found we return nil
-		return nil
+      if client_data.length > 1
+        ApplicationMailer.delay(queue: "users").notify_if_multiple_bitrix_users(phone, client_data)
+      end
+      return client_data[-1]["ID"]
+    end
+    # If no user found we return nil
+    return nil
 	end
 
 	def self.get_users_orders(user_id)

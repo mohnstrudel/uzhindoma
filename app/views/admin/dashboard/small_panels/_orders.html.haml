@@ -1,0 +1,9 @@
+.panel-body
+  %h1.fs30.mt5.mbn 
+    =@orders_current_weak.count
+  %h6.text-success 
+    ЗАКАЗЫ ЭТОЙ НЕДЕЛИ
+.panel-footer.br-t.p12
+  %span.fs11
+    =parse_percentage(@orders_current_weak.count, @orders_last_weak.count).html_safe
+    %b 1W НАЗАД

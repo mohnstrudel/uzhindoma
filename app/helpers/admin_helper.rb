@@ -18,6 +18,29 @@ module AdminHelper
 
 	end
 
+	def parse_percentage(current_period_value, last_period_value)
+		# Если заказов на этой неделе 6, а на прошлой было 12, то мы 
+		# должны получить на выходе -50% и слово "падение"
+		# если получаем позитивное число, то слово будет "рост"
+		result = ((current_period_value/last_period_value.to_f)*100) - 100
+		if result < 0
+			word = "Упадок"
+			c_tag_class = "fa fa-arrow-down pr5 text-danger"
+		elsif result == 0
+			word = "Стагнация"
+			c_tag_class = "fa fa-arrow-right pr5"
+		else
+			word = "Рост"
+			c_tag_class = "fa fa-arrow-up pr5 text-success"
+		end
+
+		c_tag = content_tag(:i, "", class: c_tag_class)
+		percentage = result.abs.round(2)
+		# Возвращаем процент (52% например) и слово ("рост" например)
+		return "#{c_tag}#{percentage}% #{word}"
+
+	end
+
 	def object_name(object)
     if object.is_a?(ActiveRecord::Relation)
       return object.model.name.underscore

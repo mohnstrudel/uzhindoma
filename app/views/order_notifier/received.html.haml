@@ -1,0 +1,41 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0", :name => "viewport"}/
+    %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700", :rel => "stylesheet"}/
+    %title
+  %body
+    %table{:style => "font-family: 'Open Sans', Arial, sans-serif; font-size: 16pt; font-weight: normal; line-height: 20pt;"}
+      %tbody
+        %tr
+          %td{:style => "padding-right: 28px;"}
+            %img{:src => "https://image.ibb.co/dK4Yqk/cat.png", :style => "width: 299px;height: auto;margin-top: 39px;"}/
+          %td
+            %h1{:style => "font-size: 20pt;margin: 0;padding-top: 27px;"} Спасибо, ваш заказ принят!
+            %p{:style => "margin: 0;padding-top: 31px;"} Пожалуйста, проверьте данные по вашему заказу:
+            %p{:style => "margin: 0;"}
+              %i 
+                ="Набор #{@type} #{@order.menu_amount}х#{@order.person_amount}#{@order.add_dessert ? "+ Десерт" : ""}"
+            %p{:style => "margin: 0;padding-top: 34px;"}
+              %b 
+                ="Номер вашего заказа: #{@order.id}"
+            %p{:style => "margin: 0;padding-top: 33px;"} Дата и время доставки:
+            / %p{:style => "margin: 0;"} 15.05.2017 добавить дату доставки!
+            %p{:style => "margin: 0;"} Ближайшее воскресенье
+            %p{:style => "margin: 0;"} 
+              =@order.delivery_timeframe
+        %tr
+          %td{:colspan => "2", :style => "padding-left: 20px;padding-top: 8px;"}
+            %p{:style => "margin: 0;"}
+              Мы не будем беспокоить вас дополнительными звонками.
+              %br/
+              Это письмо уже является подтверждением заказа.
+              %br/
+              В субботу вы получите смс с напоминанием о времени доставки.
+            %p{:style => "margin: 0;padding-top: 35px;"} Если у вас есть вопросы, напишите вашему персональному менеджеру в WhatsApp
+            %p{:style => "margin: 0;"}
+              %b +7 916 170-43-85
+            %p{:style => "margin: 0;padding-top: 33px;"} Уже очень скоро вас ждет вкусный Ужин Дома :)
