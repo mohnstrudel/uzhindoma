@@ -110,7 +110,7 @@ class Bitrix < ActiveRecord::Base
 		# If not, then we need to update our refresh_token or access_token
 	end
 
-  def self.update_lead(lead_id, cloudpayment, payment_amount)
+  def self.update_lead(lead_id, cloudpayment, payment_amount, promocode_value)
     Bitrix.check_token
     # Мы получаем: айдишник лида для апдейта
     # оплатил ли клиент через клаудпейментс (тру/фолс)
@@ -123,6 +123,7 @@ class Bitrix < ActiveRecord::Base
 
     # Ставим дефолт
     payment_fields = ""
+    promocode_fields = ""
     
     if cloudpayment
       # эта проверка значит, что картой
@@ -131,7 +132,9 @@ class Bitrix < ActiveRecord::Base
       # наличные
       payment_fields = "&fields[UF_CRM_1493722305]=#{payment_amount}"
     end
-    url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.update.json?&auth=#{bitrix.access_token}&id=#{lead_id}#{complete_order_fields}#{payment_fields}"
+
+    promocode_fields = promocode_value ? "&fields[UF_CRM_1493970171]=#{promocode_value}" : ""
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.update.json?&auth=#{bitrix.access_token}&id=#{lead_id}#{complete_order_fields}#{payment_fields}#{promocode_fields}"
     doc = Nokogiri::HTML(open(url))
 
     # Для логирования

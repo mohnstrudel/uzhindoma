@@ -55,6 +55,25 @@ class Admin::PromocodesController < AdminController
     	end
 	end
 
+  def check_promocode
+    order = params[:order]
+    promocode = order[:pcode]
+    
+    response = Promocode.is_valid?(promocode)
+    
+    respond_to do |format|
+      if response
+        format.json {
+          render json: response 
+        }
+      else
+        format.json { 
+          render json: response, status: :unprocessable_entity 
+        }
+      end
+    end
+  end
+
 	private
 
 

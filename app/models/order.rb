@@ -11,15 +11,18 @@ class Order < ActiveRecord::Base
 	# validates :delivery_timeframe, presence: true
 
 	def update_bitrix_lead
-		Bitrix.update_lead(self.bitrix_order_id, self.cloudpayment, self.order_price)
+		Bitrix.update_lead(self.bitrix_order_id, self.cloudpayment, self.order_price, self.pcode)
 	end
 
 
 	def apply_promocode(promocode_object)
+		logger.debug "Inside order object - #{self.inspect}"
 		logger.debug "Applying СКиДКА to order"
-		self.order_price += Bitrix.find_product("Скидка")[1].to_i
+		
+		discounted_price = self.order_price + (promocode_object.discount)*(-1)
+		
 		logger.debug "Setting promocode id to #{promocode_object.id}"
-		self.promocode_id = promocode_object.id
+		update_attributes(order_price: discounted_price, promocode_id: promocode_object.id)
 
 		logger.debug "Updating promocode order id for order #{self.id} (or plain id? #{id})"
 		promocode_object.update_order(self.id)

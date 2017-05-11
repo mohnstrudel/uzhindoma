@@ -27,7 +27,7 @@
         });
         $(".g-input").on("focus", function(){
             $(this).removeClass("g-input_error");
-            if($(this).attr("name") == "promo")
+            if($(this).attr("name") == "pcode")
               $(this).parent().removeClass("g-fieldset_promo_error");
         });
         $(".g-input").on("blur", function(){
@@ -334,18 +334,20 @@
                           $form.addClass("g-form__send-promo");
                           $form.find("input[type='submit']").prop("disabled", true).addClass("g-btn_disabled");
                           
-                          //функцию в setTimeout обернуть в аякс, флаг success выпилить сверху, и спрашивать result аякс запроса.
-                          setTimeout(function(){
-                              if(success){
-                                  $form.removeClass("g-form__send-promo");
-                                  $promo.removeClass("g-input_error").parent().removeClass("g-fieldset_promo_error");
-                                  $form.find("input[type='submit']").prop("disabled", false).removeClass("g-btn_disabled");
-                              }
-                              else{
-                                  $form.removeClass("g-form__send-promo");
-                                  $promo.addClass("g-input_error").parent().addClass("g-fieldset_promo_error");
-                              }
-                          }, 1000);
+                          $.ajax({
+                            data: $(this).serialize(),
+                            url: "/check_promocode",
+                            method: "GET",
+                            success: function(response){
+                              $form.removeClass("g-form__send-promo");
+                              $promo.removeClass("g-input_error").parent().removeClass("g-fieldset_promo_error");
+                              $form.find("input[type='submit']").prop("disabled", false).removeClass("g-btn_disabled");
+                            },
+                            error: function(response){
+                              $form.removeClass("g-form__send-promo");
+                              $promo.addClass("g-input_error").parent().addClass("g-fieldset_promo_error");
+                            }
+                          });
                       }
                   },
                   "oncleared":  function(){
@@ -379,7 +381,7 @@
                 
                 var submit_button = $("input[name=commit]");
                 submit_button.val("Оформляем...");
-                submit_button.attr('disabled','disabled');
+                $form.find("input[type='submit']").prop("disabled", true).addClass("g-btn_disabled");
 
                 var $name_input = $form.find("[name='order[first_name]']"),
                     name = $name_input.val(),

@@ -47,10 +47,10 @@
 
       %fieldset.g-fieldset
         =f.text_area :comment, id: "area", class: "g-input g-input_textarea", placeholder: "Напишите здесь, если хотите заменить свинину на курицу в стандартном меню.\n\rТакже здесь можно указать просьбу не звонить в дверь, дополнительный номер телефона, пожелания и вопросы к заказу"
-      / %fieldset.g-fieldset.g-fieldset_promo
-      /   %input#promo-input.g-input{:name => "promo", :placeholder => "Ваш промокод (уточняйте у менеджера)", :type => "text"}/
-      /   =image_tag 'general/preloader.gif', class: 'g-fieldset__preloader'
-      /   %span.g-fieldset__error Указан неверный промокод
+      %fieldset.g-fieldset.g-fieldset_promo
+        =f.text_field :pcode, class: 'g-input', id: 'promo-input', placeholder: "Ваш промокод (уточняйте у менеджера)"
+        =image_tag 'general/preloader.gif', class: 'g-fieldset__preloader'
+        %span.g-fieldset__error Указан неверный промокод
 
       / %fieldset.g-fieldset
       / =f.text_field :pcode, class: "g-input", placeholder: "Ваш промокод (уточняйте у менеджера)"

@@ -92,20 +92,21 @@ class Front::OrdersController < FrontController
 		end
 
 		@order.bitrix_order_id = @bitrix_order_id
-
-		# Меняем стоимость набора с учетом скидки, если такая есть		
-
-		# Сначала проверяем, валидный ли промокод
-		promocode_object = Promocode.is_valid?(@order[:pcode])
-
-		if promocode_object
-			logger.debug "Applying promocode discount using #{promocode_object.inspect}"
-			@order.apply_promocode(promocode_object)
-		end
-
 		@order[:user_id] = current_user.id
 
 		if @order.save
+
+			# Только после сохранения добавляем промокод, иначе у нас нет айди заказа
+			# Сначала проверяем, валидный ли промокод
+			promocode_object = Promocode.is_valid?(@order[:pcode])
+
+			if promocode_object
+				logger.debug "Applying promocode discount using #{promocode_object.inspect}"
+				# Меняем стоимость набора с учетом скидки, если такая есть
+				@order.apply_promocode(promocode_object)
+			end
+			# закончили добавлять промокод
+			
 			respond_to do |format|
 				format.html { redirect_to edit_order_path(@order) }
 			end
