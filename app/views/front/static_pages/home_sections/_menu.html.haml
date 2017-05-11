@@ -15,7 +15,8 @@
             =menu.category.description
       -@current_menus.each_with_index do |menu, index|
         .g-week-menu__list{"data-type" => index+1}
-          -menu.recipes.each_with_index do |recipe, rec_index|
+          -menu.menurecipes.sort_by { |item| item.sortable}.each_with_index do |menu_recipe, rec_index|
+            -recipe = Recipe.where(id: menu_recipe.recipe_id)[0]
             %a.g-week-menu__item{"data-lightbox" => "menu_#{index+1}", "data-title" => recipe.name, :href => "#{recipe.pictures.first.image.url}", :style => "background-image: url(#{recipe.pictures.first.image.url})"}
               .g-week-menu__item-wrapper
                 %span.g-week-menu__day
