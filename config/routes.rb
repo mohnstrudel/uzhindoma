@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   
   get 'reset_password', to: 'front/profile#change_password'
   get 'check_promocode', to: 'admin/promocodes#check_promocode'
+  get 'process_sms', to: 'front/sms#process_sms'
   
   namespace :admin do
     get '', to: 'dashboard#index', as: '/'
