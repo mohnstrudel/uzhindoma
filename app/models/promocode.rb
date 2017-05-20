@@ -4,6 +4,8 @@ class Promocode < ApplicationRecord
 
 	validates_uniqueness_of :value
 
+	validates :value, :discount, presence: true
+
 	# Лучше конечно { where("order_id IS NULL") }, но пока не получается так
 	# scope :not_used_yet, lambda { Order.where.not(promocode_ids: self.id) }
 	scope :not_used_yet, lambda { where("order_id IS NULL") }
