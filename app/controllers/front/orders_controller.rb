@@ -140,8 +140,19 @@ class Front::OrdersController < FrontController
 				format.html { redirect_to order_path(@order) }
 			end
 
-			OrderNotifier.delay(queue: "orders", priority: 0).received(@order)
-			OrderNotifier.delay(queue: "orders", priority: 20).notifyShop(@order)
+			begin
+				OrderNotifier.delay(queue: "orders", priority: 0).received(@order)
+				logger.info "Client notification for #{@order.phone} sent."
+			rescue => e
+				logger.critical "Client notification for #{@order.phone} failed. Error(s): #{e.message}"
+			end
+
+			begin
+				OrderNotifier.delay(queue: "orders", priority: 20).notifyShop(@order)
+				logger.info "Shop notification for #{@order.phone} sent."
+			rescue => e
+				logger.critical "Shop notification for #{@order.phone} failed. Error(s): #{e.message}"
+			end
 		else
 			render "new"
 		end

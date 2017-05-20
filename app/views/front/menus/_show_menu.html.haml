@@ -24,7 +24,7 @@
 
           / -current_menu.recipes.each_with_index do |recipe, rec_index|
           -current_menu.menurecipes.sort_by{|item| item.sortable}.each_with_index do |menu_recipe, rec_index|
-            -recipe = Recipe.where(id: menu_recipe.recipe_id)[0]
+            -recipe = Recipe.includes(:pictures).where(id: menu_recipe.recipe_id)[0]
             / ОДНО БЛЮДО
             %a.m-menu-items__item{"data-lightbox" => "menu_#{index+1}", "data-package" => rec_index+1, "data-product" => "eat", "data-title" => recipe.name, :href => recipe.pictures.first.image.url}
               .m-menu-items__img-wrapper

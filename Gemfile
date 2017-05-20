@@ -47,6 +47,8 @@ gem 'delayed_job_web'
 gem 'delayed-web'
 # As of now required to bypass the error
 gem 'sinatra', '>= 2.0.0.beta2'
+# To handle delayed_job errors
+gem 'exception_notification'
 
 
 # Managing users

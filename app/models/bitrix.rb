@@ -40,7 +40,7 @@ class Bitrix < ActiveRecord::Base
     # приводим в вид 8хххуууаабб этим методом
     phone = Bitrix.parse_phone(phone)
 
-    phone_fields = "&fields[UF_CRM_1489071594]=#{phone}"
+    phone_fields = "&fields[PHONE][0][VALUE]=#{phone}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[UF_CRM_1456818304]=#{phone}"
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
 		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}#{phone_fields}&fields[EMAIL][0][VALUE]=#{email}&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}#{complete_order_fields}"
