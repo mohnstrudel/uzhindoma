@@ -2,7 +2,17 @@ class Admin::UsersController < AdminController
 
 	before_action :find_user, only: [:edit, :update, :show]
 	def index
-		@users = User.all
+		if params[:keywords].present?
+        @keywords = params[:keywords]
+        order_search_term = OrderSearchTerm.new(@keywords)
+        @users = User.where(
+          order_search_term.where_clause,
+          order_search_term.where_args).
+        order(order_search_term.order).
+        paginate(:page => params[:page], :per_page => 30)
+    else
+      @users = User.order(id: :desc).paginate(:page => params[:page], :per_page => 30)
+    end
 	end
 
 	def new
@@ -46,6 +56,19 @@ class Admin::UsersController < AdminController
 			render 'edit'
 		end
 	end
+
+  def password_recovery
+    @user = User.find(params[:id])
+    password = User.generate_password_code
+    if @user.update(password: password)
+      redirect_to edit_admin_user_path(@user)
+      flash[:success] = "Пользователь обновлен с паролем - #{password}"
+    else
+      render :edit
+      flash[:danger] = "Обновить пароль не получилось"
+    end
+
+  end
 
 	private
 

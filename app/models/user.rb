@@ -50,10 +50,10 @@ class User < ActiveRecord::Base
       end
       
       stripped_phone = phone.gsub(/\s+/, "").gsub(/[()]/, "").gsub(/-/, "")
-      encoded_phone = URI.escape(phone)
-      encoded_message = URI.escape("Ваш новый пароль - #{password}.")
+      encoded_phone = CGI.escape(stripped_phone)
+      encoded_message = CGI.escape("Ваш новый пароль - #{password}.")
       logger.debug("New password for user #{phone} - #{password}")
-
+      logger.debug("Calling 'sms_deliver' with phone: #{encoded_phone} and message: #{encoded_message}")
       Sms.sms_deliver(encoded_phone, encoded_message)
     end
     puts "---------"

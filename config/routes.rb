@@ -50,6 +50,9 @@ Rails.application.routes.draw do
     resources :days
     resources :promocodes
     resources :feedbacks, only: [:show, :index]
+
+    # get "user_custom_recovery/:id" => "users#password_recovery"
+    get 'user_custom_recovery/:id', to: 'users#password_recovery', as: 'password_recovery'
   end
 
 

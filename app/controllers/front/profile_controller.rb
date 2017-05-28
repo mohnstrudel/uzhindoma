@@ -1,7 +1,7 @@
 class Front::ProfileController < FrontController
 
 	def change_password
-		logger.debug "This is Patrick with params: #{params}"
+		User.change_password
 	end
 
   def generate_password

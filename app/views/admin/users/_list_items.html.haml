@@ -1,67 +1,24 @@
 / recent orders table
 .panel
-  .panel-menu.p12.admin-form.theme-primary
-    .row
-      .col-md-5
-        %label.field.select
-          %select#filter-category{:name => "filter-category"}
-            %option{:value => "0"} Filter by Category
-            %option{:value => "1"} Smart Phones
-            %option{:value => "2"} Smart Watches
-            %option{:value => "3"} Notebooks
-            %option{:value => "4"} Desktops
-            %option{:value => "5"} Music Players
-          %i.arrow
-      .col-md-5
-        %label.field.select
-          %select#filter-status{:name => "filter-status"}
-            %option{:value => "0"} Filter by Status
-            %option{:value => "1"} Active
-            %option{:value => "2"} Inactive
-            %option{:value => "3"} Low Stock
-            %option{:value => "4"} Out of Stock
-          %i.arrow
-      .col-md-2
-        %label.field.select
-          %select#bulk-action{:name => "bulk-action"}
-            %option{:value => "0"} Actions
-            %option{:value => "1"} Edit
-            %option{:value => "2"} Delete
-            %option{:value => "3"} Active
-            %option{:value => "4"} Inactive
-          %i.arrow.double
   .panel-body.pn
     .table-responsive
       %table.table.admin-form.theme-warning.tc-checkbox-1.fs13
         %thead
           %tr.bg-light
-            %th.text-center Select
-            %th Изображение
+            / %th.text-center Select
             %th Имя
             %th Эл.почта
             %th Телефон
-            %th Адрес
-            %th Дата создания
             %th.text-right Статус
         %tbody
           -@users.each do |user|
             %tr
-              %td.text-center
-                %label.option.block.mn
-                  %input{:name => "mobileos", :type => "checkbox", :value => "FR"}
-                    %span.checkbox.mn
-              %td.w100
-                %img.img-responsive.mw40.ib.mr10{:src => "assets/img/stock/products/thumb_1.jpg", :title => "user"}
-              %td
-                =link_to user.name, edit_admin_user_path(user) 
+              %td.text-left
+                =link_to "#{user.first_name} #{user.second_name}", edit_admin_user_path(user) 
               %td
                 =user.email
               %td
                 =user.phone
-              %td
-                =user.address
-              %td
-                =user.created_at
               %td.text-right
                 .btn-group.text-right
                   %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
@@ -73,4 +30,4 @@
                     %li.divider
                     %li
                       =link_to 'Удалить', admin_user_path(user.id), method: :delete, data: {confirm: 'Действительно удалить?'}
-          
+  =will_paginate @users

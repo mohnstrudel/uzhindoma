@@ -29,8 +29,10 @@
 
     var phone = $('#phone_input').val();
     // console.log("Data: " + $(this).serialize());
+    var stripped_phone = phone.replace(/\s/g,'').replace(/-/g,'').replace(/[{()}]/g, '')
+    var encodedPhone = encodeURI(stripped_phone);
     $.ajax({
-      data: { phone: phone },
+      data: { phone: encodedPhone },
       url: "/send_sms",
       method: "GET",
       success: function(){

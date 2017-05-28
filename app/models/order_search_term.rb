@@ -19,6 +19,9 @@ class OrderSearchTerm
     @where_clause << " OR #{case_insensitive_search(:phone)}"
     @where_args[:phone] = starts_with(search_term)
 
+    @where_clause << " OR #{case_insensitive_search(:email)}"
+    @where_args[:email] = starts_with(search_term)
+
     @order = "created_at desc"
   end
 

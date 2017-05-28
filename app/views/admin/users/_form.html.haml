@@ -45,23 +45,19 @@
                 =f.text_field :phone, id: "phone", class: "event-name gui-input br-light light", placeholder: 'Телефон пользователя'
                 %label.field-icon{:for => "comment"}
                   %i.fa.fa-phone
+            .section.mb-10
+              .col-sm-4
+                %label.field.prepend-icon
+                  Сбросить пароль
+              .col-sm-8
+                =link_to "Сбросить", admin_password_recovery_path(@user.id), class: 'btn btn-primary'
 
-            .section.mb10
-              %label.field.prepend-icon
-                =f.text_area :address, id: "address", class: "gui-textarea br-light bg-light", placeholder: 'Адрес пользователя'
-                %label.field-icon{:for => "comment"}
-                  %i.fa.fa-phone
 
 
 
         %hr.short.alt
           .section.row.mbn
             .col-sm-8
-              %label.field.option.mt10
-                %input{:checked => "", :name => "info", :type => "checkbox"}
-                  %span.checkbox>
-                  Save Customer
-                  %em.small-text.text-muted - A Random Unique ID will be generated
             .col-sm-4
               %p.text-right
                 =f.submit "Сохранить", class: "btn btn-primary"

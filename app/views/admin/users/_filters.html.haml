@@ -1,65 +1,16 @@
 / begin: .tray-right
 %aside.tray.tray-right.tray290{"data-tray-height" => "match"}
   / menu quick links
-  .admin-form
-    %h4 Filter Products
-    %hr.short
-      .section.mb15
-        %label.field.prepend-icon{:for => "order-id"}
-          %input#order-id.gui-input{:name => "order-id", :placeholder => "Product SKU #", :type => "text"}
-            %label.field-icon{:for => "order-id"}
-              %i.fa.fa-tag
-      %h5
-        %small Price Range($)
-      .section.row.mb15
-        .col-md-6
-          %label.field.prepend-icon{:for => "price1"}
-            %input#price1.gui-input{:name => "price1", :placeholder => "0", :type => "text"}
-              %label.field-icon{:for => "price1"}
-                %i.fa.fa-usd
-        .col-md-6
-          %label.field.prepend-icon{:for => "price2"}
-            %input#price2.gui-input{:name => "price2", :placeholder => "1000", :type => "text"}
-              %label.field-icon{:for => "price2"}
-                %i.fa.fa-usd
-      %h5
-        %small Sales Date
-      .section.row
-        .col-md-6
-          %label.field.prepend-icon{:for => "date1"}
-            %input#date1.gui-input{:name => "date1", :placeholder => "01/01/15", :type => "text"}
-              %label.field-icon{:for => "date1"}
-                %i.fa.fa-calendar
-        .col-md-6
-          %label.field.prepend-icon{:for => "date2"}
-            %input#date2.gui-input{:name => "date2", :placeholder => "01/31/15", :type => "text"}
-              %label.field-icon{:for => "date2"}
-                %i.fa.fa-calendar
-      %h5
-        %small Search Categories
-      .section.mb15
-        %label.field.select
-          %select#filter-categories{:name => "filter-categories"}
-            %option{:selected => "selected", :value => "0"} Filter by Categories
-            %option{:value => "1"} Electronics
-            %option{:value => "2"} Software
-          %i.arrow.double
-      %h5
-        %small Search Customers
-      .section
-        %label.field.select
-          %select#filter-customers{:name => "filter-customers"}
-            %option{:selected => "selected", :value => "0"} Filter by Vendor
-            %option{:value => "1"} Michael
-            %option{:value => "2"} David
-            %option{:value => "3"} Sara
-            %option{:value => "4"} Tasha
-          %i.arrow.double
+  =form_for :users, method: :get do |f|
+    .admin-form
+      %h4 Поиск
       %hr.short
-        .section
-          %button.btn.btn-default.btn-sm.ph25{:type => "button"} Search
-          %label.field.option.ml15
-            %input{:name => "info", :type => "checkbox"}
-              %span.checkbox
-              %span.text-muted Save Search
-/ end: .tray-right
+        .section.mb15
+          %label.field.prepend-icon{:for => "user-search"}
+            =text_field_tag :keywords, nil, placeholder: "Имя, почту или телефон", class: "gui-input", id: "#user-search"
+            %label.field-icon{:for => "user-search"}
+              %i.fa.fa-search
+        %hr.short
+          .section
+            =submit_tag "Поиск", class: "btn btn-default btn-sm ph25"
+  / end: .tray-right

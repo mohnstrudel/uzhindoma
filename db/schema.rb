@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509134416) do
+ActiveRecord::Schema.define(version: 20170528175144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -366,6 +366,10 @@ ActiveRecord::Schema.define(version: 20170509134416) do
     t.string   "city"
     t.string   "additional_address"
     t.boolean  "orders_updated",         default: false
+    t.index "lower((email)::text) varchar_pattern_ops", name: "users_lower_email", using: :btree
+    t.index "lower((first_name)::text) varchar_pattern_ops", name: "users_lower_first_name", using: :btree
+    t.index "lower((phone)::text) varchar_pattern_ops", name: "users_lower_phone", using: :btree
+    t.index "lower((second_name)::text) varchar_pattern_ops", name: "users_lower_second_name", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
