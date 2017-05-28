@@ -63,6 +63,8 @@ Rails.application.routes.draw do
 
     get 'send_sms', to: 'profile#generate_password'
 
+    get 'process_sms', to: 'sms#process_sms'
+
     resources :menus
     resources :dinner
     resources :orders
