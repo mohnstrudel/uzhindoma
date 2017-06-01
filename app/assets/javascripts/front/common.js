@@ -7,6 +7,17 @@
       var number_text = ["один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одинадцать", "двенадцать"],
             persons_text = ["одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одинадцать", "двенадцать"],
         all_text = "Все ";
+
+        var rem;
+        var isTablet = window.matchMedia("(max-width: 1024px)");
+        var isMobile = window.matchMedia("(max-width: 650px)");
+        var commandSlider,
+            partnersSlider,
+            chooseSlider,
+            chooseSliderSlide,
+            partnersSliderSlide,
+            commandSliderSlide;
+
         function showPopup($content){
             $(".g-popup-wrapper").fadeOut(100, function(){
                 $content.fadeIn(300);    
@@ -314,6 +325,15 @@
               $("#scroll-arrow").on("click", function(){
                 $('html, body').animate({scrollTop: $($(this).attr("href")).offset().top - 60}, 500);
             })
+
+            } else if($("body").hasClass("blog")){
+             $(".g-select").select2();
+            if(isMobile.matches)
+                $(".g-blog-search__submit").on("click", function(e){
+                    e.preventDefault();
+                    $(this).parent().toggleClass("g-blog-search_open").find(".g-blog-search__input").val("");
+                    return false;
+                });
             } else if($("body").hasClass("orders new")){
               
               // Начало
@@ -639,15 +659,6 @@
             });
         }
         
-        var rem;
-      var isTablet = window.matchMedia("(max-width: 1024px)");
-      var isMobile = window.matchMedia("(max-width: 650px)");
-        var commandSlider,
-            partnersSlider,
-            chooseSlider,
-            chooseSliderSlide,
-            partnersSliderSlide,
-            commandSliderSlide;
         function mobile(){
             if($("body").hasClass("learn_more")){
                 commandSlider = $("#command-slider").bxSlider({

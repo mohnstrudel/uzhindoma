@@ -35,6 +35,9 @@ gem 'newrelic_rpm'
 # Nifty gem for placeholder images
 gem 'placeholdit'
 
+# WYSIWYG Editor bootsy
+gem 'bootsy'
+
 # Pagination
 gem 'will_paginate'
 

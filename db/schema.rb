@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528175144) do
+ActiveRecord::Schema.define(version: 20170601093944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,29 @@ ActiveRecord::Schema.define(version: 20170528175144) do
     t.string   "refresh_token"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "blog_categories", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "post_id"
+    t.index ["post_id"], name: "index_blog_categories_on_post_id", using: :btree
+  end
+
+  create_table "bootsy_image_galleries", force: :cascade do |t|
+    t.string   "bootsy_resource_type"
+    t.integer  "bootsy_resource_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bootsy_images", force: :cascade do |t|
+    t.string   "image_file"
+    t.integer  "image_gallery_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -305,6 +328,16 @@ ActiveRecord::Schema.define(version: 20170528175144) do
     t.index ["recipe_id"], name: "index_pictures_on_recipe_id", using: :btree
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "blog_category_id"
+    t.string   "logo"
+    t.index ["blog_category_id"], name: "index_posts_on_blog_category_id", using: :btree
+  end
+
   create_table "promocodes", force: :cascade do |t|
     t.string   "value"
     t.datetime "created_at", null: false
@@ -375,6 +408,7 @@ ActiveRecord::Schema.define(version: 20170528175144) do
 
   add_foreign_key "accounts", "users"
   add_foreign_key "addresses", "users"
+  add_foreign_key "blog_categories", "posts"
   add_foreign_key "dinner_amount_options", "personamounts"
   add_foreign_key "employees", "jobtitles"
   add_foreign_key "line_items", "carts"
@@ -392,5 +426,6 @@ ActiveRecord::Schema.define(version: 20170528175144) do
   add_foreign_key "orders", "promocodes"
   add_foreign_key "orders", "users"
   add_foreign_key "pictures", "recipes"
+  add_foreign_key "posts", "blog_categories"
   add_foreign_key "promocodes", "orders"
 end

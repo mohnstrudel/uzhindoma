@@ -383,7 +383,7 @@
   z-index: 20\9;
 }
 .admin-form .gui-textarea:focus {
-  height: 120px;
+  height: 420px;
 }
 .admin-form .select > select:focus {
   z-index: 10;

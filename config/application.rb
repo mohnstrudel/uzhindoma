@@ -22,5 +22,7 @@ module Uzhindoma
     config.active_job.queue_adapter = :delayed_job
 
     config.time_zone = 'Moscow'
+
+    config.page_size = 30
   end
 end

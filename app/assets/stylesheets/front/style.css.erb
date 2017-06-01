@@ -205,6 +205,170 @@ body {
     left: 0;
     background: -webkit-linear-gradient(bottom, #fff, transparent);
     background: linear-gradient(to top, #fff, transparent); }
+
+/* Blog insert */
+
+.g-section_blog {
+  background-image: url(<%= asset_path 'blog/blog_top_inscription.png' %>), url(<%= asset_path 'blog/blog_top.png' %>);
+  background-size: 52rem, cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-top: 21.3rem;
+  margin-top: 5.5rem; }
+
+.g-blog__top {
+  border-bottom: 1px dashed #c6d3e3;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.6rem 0 1.3rem; }
+
+.g-blog__title {
+  text-align: center;
+  margin-top: 7.5rem;
+  font-weight: 400; }
+
+.g-blog__posts {
+  padding-top: 5.8rem; }
+  .g-blog__posts:after {
+    content: "";
+    clear: both;
+    display: block; }
+
+.g-post {
+  position: relative;
+  height: 42.2rem;
+  overflow: hidden; }
+  .g-post-wrapper {
+    width: 30%;
+    float: left;
+    margin-right: 1%;
+    margin-bottom: 1rem; }
+    .g-post-wrapper_small {
+      width: 28.6%; }
+    .g-post-wrapper_wide {
+      width: 39.4%; }
+    .g-post-wrapper:nth-child(3n) {
+      margin-right: 0; }
+  .g-post__img {
+    position: absolute;
+    top: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+  .g-post__desc {
+    position: absolute;
+    bottom: 0;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.85);
+    width: 100%;
+    left: 0;
+    box-sizing: border-box;
+    padding: 2rem 1rem 2.3rem 2.6rem;
+    transition: background-color 250ms linear, color 250ms linear; }
+    .g-post__desc:hover {
+      cursor: pointer;
+      color: #fff;
+      background-color: rgba(60, 126, 182, 0.85); }
+  .g-post__title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem; }
+  .g-post__categories {
+    margin: 0;
+    font-size: 1.2rem;
+    margin-top: 1.4rem;
+    max-height: 20px;
+    overflow: hidden;
+    transition: max-height 250ms linear, margin-top 250ms linear; }
+  .g-post__meta {
+    margin: 0;
+    max-height: 0;
+    transition: max-height 250ms linear;
+    overflow: hidden;
+    font-size: 1.3rem;
+    line-height: 1.9rem; }
+  .g-post__more {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 250ms linear, margin-top 250ms linear;
+    color: #fff;
+    text-decoration: none;
+    margin-top: 0;
+    font-size: 1.23rem;
+    box-sizing: border-box;
+    padding-bottom: 0;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAHBAMAAAAlqwoUAAAAGFBMVEUAAAD///////////////////////////8jfp1fAAAAB3RSTlMAH95rwA/Bh1KThQAAACBJREFUCNdjAIMQAQYIYFZkgAIjAYZyCEiAi8DVwHUBAKExBTaiAEsEAAAAAElFTkSuQmCC");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 15px;
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 2.5rem;
+    line-height: 20px; }
+  .g-post__desc:hover .g-post__categories {
+    max-height: 0;
+    margin-top: 0; }
+  .g-post__desc:hover .g-post__meta {
+    max-height: 13.3rem;
+    padding-top: 1rem; }
+  .g-post__desc:hover .g-post__more {
+    max-height: 20px;
+    margin-top: 2.8rem; }
+  .g-post_small {
+    height: 20.6rem;
+    margin-bottom: 1rem; }
+    .g-post_small:last-child {
+      margin-bottom: 0; }
+  .g-post_small .g-post__desc:hover .g-post__meta {
+    max-height: 5.7rem; }
+
+.g-blog-search__input {
+  border: none;
+  height: 3rem;
+  display: block;
+  float: left; }
+  .g-blog-search__input:focus, .g-blog-search__input:active {
+    outline: none; }
+
+.g-blog-search__submit {
+  background-image: url(<%= asset_path 'general/search.png' %>);
+  width: 26px;
+  height: 3rem;
+  display: block;
+  float: left;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none; }
+  .g-blog-search__submit:active {
+    outline: none; }
+
+.g-categories__item {
+  float: left;
+  display: block;
+  color: #333;
+  text-decoration: none;
+  line-height: 3rem;
+  padding: 0 1.7rem;
+  font-size: 1.4rem;
+  border-radius: 1.4rem;
+  margin-right: 1.4rem;
+  transition: color 250ms linear, background-color 250ms linear; }
+
+  .g-categories__item_active {
+    color: #fff;
+    background-color: #3c7eb6; }
+
+.g-text-page {
+  margin-top: 5.5rem;
+  line-height: 1.4rem; }
+
+  .g-text-page h4 {
+    font-weight: 400;
+    font-size: 1.5rem; }
+
 .g-section_video .g-wrapper {
   background-color: #f5f7f9;
   border-radius: 10px; }
@@ -2019,7 +2183,14 @@ body {
       margin-right: 0; }
   .m-menu-form {
     width: 45%;
-    padding-left: 2.5rem; } }
+    padding-left: 2.5rem; }
+    .g-post-wrapper {
+    width: 49%;
+    margin-right: 2%; }
+    .g-post-wrapper:nth-child(3n) {
+      margin-right: 2%; }
+    .g-post-wrapper:nth-child(2n) {
+      margin-right: 0; } }
 @media screen and (max-width: 650px) {
   .h-command__text {
     display: none; }
@@ -2342,7 +2513,30 @@ body {
     width: calc(50% - 0.85rem); }
   .g-adress-remove {
     top: 20px;
-    right: 0; } }
+    right: 0; }
+  .g-blog__posts {
+    padding-top: 2rem; }
+  .g-blog-search {
+    position: relative; }
+    .g-blog-search__input {
+      position: absolute;
+      width: 0;
+      top: 0;
+      height: 4.2rem;
+      border: 1px solid #e9edf2;
+      right: 39px;
+      box-sizing: border-box;
+      transition: width 250ms linear; }
+    .g-blog-search__submit {
+      float: none;
+      height: 4.2rem; }
+    .g-blog-search_open .g-blog-search__input {
+      width: calc(100vw - 69px);
+      padding-left: 1rem; }
+  .g-categories-select {
+    width: calc(100% - 40px); }
+  .g-section_blog {
+    background-size: 90%, cover; } }
 
 @media screen and (max-width: 650px) and (orientation: portrait) {
   .g-table td:nth-child(2),
@@ -2360,5 +2554,10 @@ body {
   .g-form__rating-block .g-form__rating {
     float: none;
     display: inline-block;
-    text-align: center; } }
+    text-align: center; }
+  .g-post-wrapper {
+    width: 100%;
+    margin-right: 0; }
+    .g-post-wrapper:nth-child(3n) {
+      margin-right: 0; } }
 /*# sourceMappingURL=style.css.map */

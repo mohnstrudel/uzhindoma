@@ -1,0 +1,23 @@
+%section.g-section.g-section_blog.g-mobile-hide
+%section.g-section.g-blog
+  .g-wrapper
+    %h1.g-blog__title.g-mobile
+      Рецепты, которые
+      %br/
+      нас вдохновляют
+    .g-blog__top
+      .g-blog__categories.g-categories.g-mobile-hide
+        =link_to "Все", posts_path, class: "g-categories__item g-categories__item_active"
+        -@categories.each do |category|
+          =link_to category.title, blog_category_posts_path(category), class: "g-categories__item"
+      .g-blog__categories.g-categories-select.g-mobile
+        %select#adress_select.g-select{:name => "adress_id"}
+          %option Все
+          -@categories.each do |category|
+            %option=category.title
+      %form.g-blog-search
+        %input.g-blog-search__input{:placeholder => "Поиск по блогу", :type => "text"}/
+        %input.g-blog-search__submit{:type => "submit", :value => ""}/
+    .g-blog__posts
+      -@posts.in_groups_of(10).each_with_index do |group, index|
+        =render partial: 'front/posts/listing', locals: {group: group, index: index}

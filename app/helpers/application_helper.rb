@@ -13,7 +13,11 @@ module ApplicationHelper
 	        return placeholdit_image_tag "50x50", text: 'Нет картинки', class: options[:class]
 	      end
 	    else
-	      return image_tag(object.send())
+	    	if object.send(image_field_title).try(:url)
+	      	return image_tag(object.send(image_field_title).url(thumb), class: options[:class])
+	      else
+	      	return placeholdit_image_tag "50x50", text: 'Нет картинки', class: options[:class]
+	      end
 	    end
     end
 end

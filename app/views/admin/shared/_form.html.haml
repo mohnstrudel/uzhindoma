@@ -1,0 +1,79 @@
+.tray.tray-center
+  =render 'admin/navigation/flash'
+  
+  -if object.errors.any?
+    .panel.panel-warning
+      .panel-heading
+        %i.fa.fa-warning
+        Warning - Errors
+      .panel-body
+        %ul
+          -object.errors.each do |attribute, message| 
+            %li
+              ="#{object.class.human_attribute_name(attribute)} - #{message}"
+
+  =form_for [:admin, object] do |f|
+    .panel.mb25.mt5
+      .panel-heading
+        %span.panel-title.hidden-xs Добавить сущность
+        %ul.nav.panel-tabs-border.panel-tabs
+          %li.active
+            %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание сущности
+      .panel-body.p20.pb10
+        .tab-content.pn.br-n.admin-form
+
+          =render partial: 'admin/shared/form/posts/post_fields', locals: {object: object, f: f}
+
+          -if object.respond_to?(:title)
+            .section.row
+              .col-sm-12.pl15
+                .section.mb10
+                  %label.field.prepend-icon{:for => "name2"}
+                    =f.text_field :title, id: "title", class: "event-name gui-input br-light light", placeholder: 'Заголовок'
+                    %label.field-icon{:for => "title"}
+                      %i.fa.fa-tag
+          -if object.respond_to?(:body)
+            .section.row
+              .col-md-12.pl15
+                .section.mb10
+                  %label.field.prepend-icon{:for => "body"}
+                    =f.bootsy_area :body, class: "event-name gui-textarea br-light light", placeholder: 'Текст'
+
+          -if object.respond_to?(:description)
+            .section.row
+              .col-md-12.pl15
+                .section.mb10
+                  %label.field.prepend-icon{:for => "description"}
+                    =f.text_area :description, class: "event-name gui-textarea br-light light", placeholder: 'Описание'
+                    %label.field-icon{:for => "description"}
+                      %i.fa.fa-rub
+          -if object.respond_to?(:logo)
+            .section.row.mbn
+              .col-sm-12
+                .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+                  .fileupload-preview.thumbnail.mb20
+                    -if object.logo.url
+                      =image_tag object.logo.url(:horizontal)
+                    -else
+                      %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+                  .row
+                    .col-xs-7.pr5
+                      %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
+                        %label.field-icon{:for => "name2"}
+                    .col-xs-5
+                      %span.button.btn-system.btn-file.btn-block
+                        %span.fileupload-new Выбрать главную картинку
+                        %span.fileupload-exists Поменять
+                        =f.file_field :logo, id: 'fileupload'
+                        / %input{:type => "file", name: 'picture'}
+            
+
+            / end section
+          / end section row section
+          %hr.short.alt
+            .section.row.mbn
+              .col-sm-8
+              .col-sm-4
+                %p.text-right
+                  =f.submit "Сохранить", class: "btn btn-primary"
+            / end section

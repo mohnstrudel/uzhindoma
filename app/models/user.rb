@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
 
   def self.password_recovery_via_sms(phone)
 
-    if phone.length == 18
+    if(phone.length == 18 or phone.length == 12)
 
       password = self.generate_password_code
       user = self.where(phone: phone).first

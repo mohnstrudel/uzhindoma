@@ -55,6 +55,9 @@ GEM
     bootstrap-glyphicons (0.0.1)
       railties (>= 3.0)
       sass (>= 3.2)
+    bootsy (2.4.0)
+      carrierwave (~> 1.0)
+      mini_magick (~> 4.6)
     builder (3.2.3)
     byebug (9.0.6)
     capistrano (3.8.1)
@@ -302,6 +305,7 @@ DEPENDENCIES
   babosa
   better_errors
   bootstrap-glyphicons
+  bootsy
   byebug
   capistrano
   capistrano-bundler

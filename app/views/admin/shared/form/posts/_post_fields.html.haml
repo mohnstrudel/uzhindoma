@@ -1,0 +1,6 @@
+-if object.respond_to?(:blog_category_id)
+  .section.row
+    .col-sm-12.pl15
+      .section.mb10
+        %label.field.prepend-icon{:for => "name2"}
+          =f.collection_select(:blog_category_id, BlogCategory.all, :id, :title, {include_blank: false, :include_hidden => false}, { class: 'select2-single form-control select-info'})

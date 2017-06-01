@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  mount Bootsy::Engine => '/bootsy', as: 'bootsy'
+
   authenticated :admin, -> admin { admin.has_rights? } do
     mount Delayed::Web::Engine, at: '/jobs'
   end
@@ -50,6 +52,8 @@ Rails.application.routes.draw do
     resources :days
     resources :promocodes
     resources :feedbacks, only: [:show, :index]
+    resources :posts
+    resources :blog_categories
 
     # get "user_custom_recovery/:id" => "users#password_recovery"
     get 'user_custom_recovery/:id', to: 'users#password_recovery', as: 'password_recovery'
@@ -73,6 +77,10 @@ Rails.application.routes.draw do
     resources :orders
     resources :payments
     resources :feedbacks, only: [:create, :new]
+    resources :posts, only: [:index, :show]
+    resources :blog_categories, only: [:index, :show], path: '/category' do
+      resources :posts, only: [:index, :show]
+    end
     
     get 'bitrix', to: 'bitrix#index'
     get 'bitrix/new' => 'bitrix#create_new_order', :as => :new_bitrix_order

@@ -61,6 +61,25 @@
         =link_to admin_orders_path, method: :get do
           %span.fa.fa-columns
           %span.sidebar-title Заказы
+      %li
+        %a.accordion-toggle{href: '#'}
+          %span.fa.fa-book
+          %span.sidebar-title Блог
+          %span.caret
+
+        %ul.nav.sub-nav
+          %li
+            =link_to admin_posts_path, method: :get do
+              %span.fa.fa-rss
+              %span.sidebar-title Все посты
+          %li
+            =link_to new_admin_post_path, method: :get do
+              %span.fa.fa-rss
+              %span.sidebar-title Написать новый пост
+          %li
+            =link_to admin_blog_categories_path, method: :get do
+              %span.fa.fa-book
+              %span.sidebar-title Категории блога
       / %li
       /   =link_to admin_partners_path, method: :get do
       /     %span.fa.fa-truck
