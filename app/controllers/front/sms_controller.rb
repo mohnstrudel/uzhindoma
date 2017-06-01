@@ -5,6 +5,7 @@ class Front::SmsController < FrontController
       format.json {
         render json: params.inspect
       }
+    end
     logger.debug "Inspecting SMS params"
     logger.debug params.inspect
   end
