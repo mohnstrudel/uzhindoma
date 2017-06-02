@@ -2,7 +2,7 @@
   .g-wrapper
 %section.g-section.c-section
   .g-wrapper
-    =form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'g-form g-form_personal'}) do |f|
+    =form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'g-form g-form_personal'}, :authenticity_token => true) do |f|
       / %form.g-form.g-form_personal{:action => "#", :method => "post"}
       %h2.g-form__title-center Войти
       %fieldset.g-fieldset
