@@ -2,7 +2,7 @@ class Admin::IgramsController < AdminController
 
 	before_action :find_igram, only: [:edit, :update, :destroy]
 
-	after_filter :get_instagram_data, only: [:create, :update]
+	after_action :get_instagram_data, only: [:create, :update]
 
   def index
   	@igrams = Igram.all
