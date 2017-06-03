@@ -65,7 +65,7 @@ gem 'active_model_otp'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
-gem 'puma'
+gem 'puma', '~> 3.8.2'
 
 # Use HAML for a nice html markup
 gem "haml-rails"

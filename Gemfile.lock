@@ -192,7 +192,7 @@ GEM
     orm_adapter (0.5.0)
     pg (0.20.0)
     placeholdit (0.0.5)
-    puma (3.9.0)
+    puma (3.8.2)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
@@ -339,7 +339,7 @@ DEPENDENCIES
   nokogiri
   pg
   placeholdit
-  puma
+  puma (~> 3.8.2)
   rails
   rails-controller-testing
   rspec-rails
