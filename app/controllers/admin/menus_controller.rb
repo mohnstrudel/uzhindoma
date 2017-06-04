@@ -3,7 +3,7 @@ class Admin::MenusController < AdminController
 	before_action :find_menu, only: [:edit, :update, :destroy]
 
 	def index
-		@menus = Menu.all
+		@menus = Menu.all.order(end_time: :desc)
 	end
 
 	def new

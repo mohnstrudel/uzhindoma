@@ -1,36 +1,14 @@
-%section.g-section.g-single-top
+%section.g-section.g-single-top{:style => "background-image: url(#{@post.logo.url(:hd)});"}
   .g-wrapper
     .g-single-top__info
-      %a.g-single-top__category{:href => "#"} на завтрак
-      %h1.g-single-top__title Клафути с черешней
-      %p.g-single-top__meta
-        Клафути — это такой пирог, который как будто блинчик или почти омлет. Готовится очень просто. Всего-то и нужно три яйца, мука, молоко и черешня. И проснуться на часик пораньше, чтобы порадовать родных завтраком.
+      %a.g-single-top__category{:href => "#"}=@post.blog_category.title
+      %h1.g-single-top__title=@post.title
+      %p.g-single-top__meta=truncate(@post.body, length: 200)
 %section.g-section
   .g-wrapper.g-single
     .g-single__wrapper
-      %a.g-single__back{:href => "blog.html"} Вернуться ко всем записям
-      .g-single__content
-        %p
-          Клафути — это такой пирог, который как будто блинчик или почти омлет. Готовится очень просто. Всего-то и нужно три яйца, мука, молоко и черешня. И проснуться на часик пораньше, чтобы порадовать родных завтраком.
-        %h2
-          Ингридиенты
-        %p
-          Яйца — 3 шт.
-          %br/
-          Молоко — 200 мл.
-          %br/
-          Сливки жирные (22-33%) — 100 мл.
-          %br/
-          Сахар — 4 ст.л.
-          %br/
-          Ванильный сахар (по желанию) — 1 пакетик
-          %br/
-          Мука — 60 гр. Ягоды — 200-250 гр.
-        %h2 Рецепт
-        %p
-          Смешайте яйца со сливками и молоком, не взбивая. Добавьте сахар, перемешайте. Всыпьте муку и еще раз смешайте смесь, чтобы не было комочков. Ягоды помойте и очистите от косточек. Надо отметить, что в оригинальном рецепте клафути вишня кладется с косточками и даже черенками. Разогрейте духовку до 200 градусов. Форму смажьте маслом и присыпьте мукой. На дно выложите ягоды и вылейте тесто.
-        %p
-          Выпекайте около 10-15 минут при 200 градусов. Снизьте температуру до 180 градусов и пеките еще 25-30 минут. Тесто поднимется, но когда клафути будет остывать, оно опустится. Посыпьте сахарной пудрой и подавайте к столу. Есть рекомендуется ложкой.
+      =link_to "Вернуться ко всем записям", posts_path, class: "g-single__back"
+      .g-single__content=@post.body.html_safe
       .g-single__comments
         %h2.g-single__title-small Комментарии
         %form#comment-form.g-form.g-form_comment
@@ -53,12 +31,15 @@
             .g-comments-list__comment
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
       .g-controls
-        %a.g-controls__item.g-controls__item_prev
-          %img.g-controls__img{:src => "img/similar.png"}/
-          %span.g-controls__text Предыдущая запись
-        %a.g-controls__item.g-controls__item_next
-          %img.g-controls__img{:src => "img/similar.png"}/
-          %span.g-controls__text Следующая запись
+        -if @post.prev
+          =link_to post_path(@post.prev), class: "g-controls__item g-controls__item_prev", method: :get do
+            =image_tag @post.prev.logo.url(:mini), class: "g-controls__img"
+            %span.g-controls__text Предыдущая запись
+        -if @post.next
+          =link_to post_path(@post.next), class: "g-controls__item g-controls__item_next", method: :get do
+            =image_tag @post.next.logo.url(:mini), class: "g-controls__img"
+            %span.g-controls__text Следующая запись
+
     .g-single__sidebar.g-sidebar
       %h2.g-sidebar__title Поделитесь рецептом с друзьями
       .g-sidebar__social
@@ -68,13 +49,14 @@
         %input.g-blog-search__input{:placeholder => "Поиск по блогу", :type => "text"}/
         %input.g-blog-search__submit{:type => "submit", :value => ""}/
       .g-banner
-        %img.g-banner__img{:src => "img/banner.png"}/
+        =image_tag "blog/banner.png", class: "g-banner__img"
       .g-banner
         .g-subscribe
           %h2.g-subscribe__title
             Хотите получать новые рецепты на почту?
             %span.g-subscribe__title-bold Подпишитесь!
-          %img.g-subscribe__img{:src => "img/subscribe_icon.png"}/
+          =image_tag "blog/subscribe_icon.png", class: "g-subscribe__img"
+          / %img.g-subscribe__img{:src => "img/subscribe_icon.png"}/
           %form.g-form
             %fieldset.g-fieldset
               %input.g-input{:name => "email", :placeholder => "Ваш e-mail", :type => "text"}/
@@ -83,21 +65,10 @@
       .g-similar
         %h2.g-similar__title Похожие записи
         %ul.g-similar__list
-          %li.g-similar__item
-            %a.g-similar__link{:href => "#"}
-              %img.g-similar__img{:src => "img/similar.png"}/
-              .g-similar__info
-                %h2.g-similar__name Свежие травы VS сушеные
-                %p.g-similar__category На ужин
-          %li.g-similar__item
-            %a.g-similar__link{:href => "#"}
-              %img.g-similar__img{:src => "img/similar.png"}/
-              .g-similar__info
-                %h2.g-similar__name Воздушные вафли
-                %p.g-similar__category На завтрак | на обед
-          %li.g-similar__item
-            %a.g-similar__link{:href => "#"}
-              %img.g-similar__img{:src => "img/similar.png"}/
-              .g-similar__info
-                %h2.g-similar__name Пирожные с малиной
-                %p.g-similar__category На завтрак
+          -@post.similar.each do |similar_post|
+            %li.g-similar__item
+              =link_to post_path(similar_post), class: "g-similar__link" do
+                =image_tag similar_post.logo.url(:mini), class: "g-similar__img"
+                .g-similar__info
+                  %h2.g-similar__name=similar_post.title
+                  %p.g-similar__category=similar_post.blog_category.title

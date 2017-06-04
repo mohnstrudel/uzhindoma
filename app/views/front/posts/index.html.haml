@@ -21,3 +21,10 @@
     .g-blog__posts
       -@posts.in_groups_of(10).each_with_index do |group, index|
         =render partial: 'front/posts/listing', locals: {group: group, index: index}
+
+    .g-pagination
+      %a.g-pagination__item.g-pagination__item_left{:href => "#"}
+      %a.g-pagination__item.g-pagination__item_active{:href => "#"} 1
+      %a.g-pagination__item{:href => "#"} 2
+      %a.g-pagination__item{:href => "#"} 3
+      %a.g-pagination__item.g-pagination__item_right{:href => "#"}

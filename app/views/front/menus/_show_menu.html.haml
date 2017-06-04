@@ -103,3 +103,26 @@
           %span.m-menu-form__result-desc Сумма к оплате
           %span#total_price.m-menu-form__result-val.m-menu-form__result-val_price.g-rub
         =submit_tag "Заказать набор", class: "g-btn g-btn_blue m-menu-form__submit"
+
+#sales-new.g-popup-wrapper
+  .g-popup.g-info-block.g-info-block_popup
+    %a.g-popup__close{:href => "javascript:void(0)"}
+    %img.g-info-block__img{:src => "img/sale.png"}/
+    .g-info-block__text
+      %h2.g-info-block__title Первый раз?
+      %p.g-info-block__subtitle
+        Получите скидку 500 руб.
+        %br/
+        на первый заказ
+      %form.g-form.g-info-block__form
+        %p.g-info-block__form-text
+          Скидка действует на любой вид набора.
+          %br/
+          Просто введите свой номер телефона
+          %br/
+          и мы запишем ваш заказ
+        %fieldset.g-fieldset
+          %input.g-input{:name => "phone", :type => "tel"}/
+        %fieldset.g-fieldset
+          %input.g-btn.g-btn_blue{:type => "submit", :value => "Хочу скидку!"}/
+          %a.g-popup__close.g-popup__close_text{:href => "javascript:void(0)"} Нет, спасибо
