@@ -15,12 +15,17 @@
           %option Все
           -@categories.each do |category|
             %option=category.title
-      %form.g-blog-search
-        %input.g-blog-search__input{:placeholder => "Поиск по блогу", :type => "text"}/
-        %input.g-blog-search__submit{:type => "submit", :value => ""}/
+      =form_for :posts, class: "g-blog-search", method: :get do |f|
+        =text_field_tag :keywords, nil, placeholder: "Поиск по блогу", class: "g-blog-search__input"
+        =submit_tag "", class: "g-blog-search__submit"
+        / %input.g-blog-search__input{:placeholder => "Поиск по блогу", :type => "text"}/
+        / %input.g-blog-search__submit{:type => "submit", :value => ""}/
     .g-blog__posts
+      -if @result_text
+        %h2=@result_text
       -@posts.in_groups_of(10).each_with_index do |group, index|
         =render partial: 'front/posts/listing', locals: {group: group, index: index}
+    =will_paginate(@posts, class: "g-pagination")
 
     .g-pagination
       %a.g-pagination__item.g-pagination__item_left{:href => "#"}

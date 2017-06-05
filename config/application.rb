@@ -24,5 +24,7 @@ module Uzhindoma
     config.time_zone = 'Moscow'
 
     config.page_size = 30
+
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
