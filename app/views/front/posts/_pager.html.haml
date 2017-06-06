@@ -1,0 +1,8 @@
+.g-pagination
+
+  =link_to "", posts_path(keywords: keywords, page: page - 1), class: "g-pagination__item g-pagination__item_left #{page==1 ? 'disabled' : ''}", method: :get
+
+  -@pages_total.times do |page|
+    =link_to page+1, posts_path(keywords: keywords, page: page+1), class: "g-pagination__item #{(page+1)==params[:page].to_i ? 'g-pagination__item_active' : ''}", method: :get
+  
+  =link_to "", posts_path(keywords: keywords, page: page + 1), class: "g-pagination__item g-pagination__item_right #{page==@pages_total ? 'disabled' : ''}", method: :get

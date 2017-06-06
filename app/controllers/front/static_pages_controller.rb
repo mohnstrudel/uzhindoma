@@ -18,6 +18,9 @@ class Front::StaticPagesController < FrontController
   def policy
   end
 
+  def contacts
+  end
+
   private
 
   # Legacy code for learning purpose only

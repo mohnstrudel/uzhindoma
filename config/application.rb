@@ -26,5 +26,7 @@ module Uzhindoma
     config.page_size = 30
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    config.posts_pages = 20
   end
 end

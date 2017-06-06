@@ -20,9 +20,9 @@
       %br/
       %a.g-footer__link{:target => "_blank", :href => "https://hh.ru/employer/1642130"} Вакансии
       %br/
-      %a.g-footer__link{:href => "#"} Информация для клиента
+      =link_to "Информация для клиента", policy_path, class: "g-footer__link"
       %br/
-      %a.g-footer__link{:href => "#"} Контакты
+      =link_to "Контакты", contacts_path, class: "g-footer__link"
       .g-footer__social
         %a.g-footer__social-link{:href => Setting.first ? Setting.first.instagram : ''}
           %i.g-icon.g-icon_inst
