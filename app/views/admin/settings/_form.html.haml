@@ -4,76 +4,107 @@
       %span.panel-title.hidden-xs Изменить настройки
       %ul.nav.panel-tabs-border.panel-tabs
         %li.active
-          %a{"data-toggle" => "tab", :href => "#tab1_1"} Общие настройки
+          %a{"data-toggle" => "tab", :href => "#main_fields"} Общие настройки
+        %li
+          %a{"data-toggle" => "tab", :href => "#seo_fields"} SEO настроийки  
     .panel-body.p20.pb10
       .tab-content.pn.br-n.admin-form
-        .section.row.mbn
-          .col-md-4
-            .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
-              .fileupload-preview.thumbnail.mb20
-                %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
-              .row
-                .col-xs-7.pr5
-                  %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
-                    %label.field-icon{:for => "name2"}
-                .col-xs-5
-                  %span.button.btn-system.btn-file.btn-block
-                    %span.fileupload-new Select
-                    %span.fileupload-exists Change
-                    / =f.file_field :image, name: "pictures[]", id: 'fileupload', type: :file, multiple: true
-                    / %input{:type => "file", name: 'picture'}
-          .col-md-8.pl15
-            .section.mb10
-              %label.field.prepend-icon{:for => "name2"}
-                =f.text_field :facebook, id: "facebook", class: "event-name gui-input br-light light", placeholder: 'Мы на фейсбук'
-                %label.field-icon{:for => "name2"}
-                  %i.fa.fa-facebook
-                  
-            .section.mb10
-              %label.field.prepend-icon
-                =f.text_field :vkontakte, id: "vkontakte", class: "event-name gui-input br-light light", placeholder: 'Мы вконтакте'
-                %label.field-icon{:for => "comment"}
-                  %i.fa.fa-vk
-            .section.mb10
-              %label.field.prepend-icon
-                =f.text_field :instagram, id: "instagram", class: "event-name gui-input br-light light", placeholder: 'Мы в инстаграме'
-                %label.field-icon{:for => "comment"}
-                  %i.fa.fa-instagram
-            .section.mb10
-              %label.field.prepend-icon
-                =f.text_field :phone, id: "phone", class: "event-name gui-input br-light light", placeholder: 'Наш телефон (вотсап)'
-                %label.field-icon{:for => "comment"}
-                  %i.fa.fa-whatsapp
-            .section.mb10
-              %label.field.prepend-icon.mb10
-                =f.text_field :order_mail, id: "order_mail", class: "event-name gui-input br-light light", placeholder: 'Электронная почта для получения заказов'
-                %label.field-icon{:for => "comment"}
-                  %i.fa.fa-envelope
+        #main_fields.tab-pane.active
+          .section.row.mbn
+            .col-md-4
+              .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+                .fileupload-preview.thumbnail.mb20
+                  %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+                .row
+                  .col-xs-7.pr5
+                    %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
+                      %label.field-icon{:for => "name2"}
+                  .col-xs-5
+                    %span.button.btn-system.btn-file.btn-block
+                      %span.fileupload-new Select
+                      %span.fileupload-exists Change
+                      / =f.file_field :image, name: "pictures[]", id: 'fileupload', type: :file, multiple: true
+                      / %input{:type => "file", name: 'picture'}
+            .col-md-8.pl15
+              .section.mb10
+                %label.field.prepend-icon{:for => "name2"}
+                  =f.text_field :facebook, id: "facebook", class: "event-name gui-input br-light light", placeholder: 'Мы на фейсбук'
+                  %label.field-icon{:for => "name2"}
+                    %i.fa.fa-facebook
+                    
+              .section.mb10
+                %label.field.prepend-icon
+                  =f.text_field :vkontakte, id: "vkontakte", class: "event-name gui-input br-light light", placeholder: 'Мы вконтакте'
+                  %label.field-icon{:for => "comment"}
+                    %i.fa.fa-vk
+              .section.mb10
+                %label.field.prepend-icon
+                  =f.text_field :instagram, id: "instagram", class: "event-name gui-input br-light light", placeholder: 'Мы в инстаграме'
+                  %label.field-icon{:for => "comment"}
+                    %i.fa.fa-instagram
+              .section.mb10
+                %label.field.prepend-icon
+                  =f.text_field :phone, id: "phone", class: "event-name gui-input br-light light", placeholder: 'Наш телефон (вотсап)'
+                  %label.field-icon{:for => "comment"}
+                    %i.fa.fa-whatsapp
+              .section.mb10
+                %label.field.prepend-icon.mb10
+                  =f.text_field :order_mail, id: "order_mail", class: "event-name gui-input br-light light", placeholder: 'Электронная почта для получения заказов'
+                  %label.field-icon{:for => "comment"}
+                    %i.fa.fa-envelope
+                .alert.alert-micro.alert-border-left.alert-info
+                  %i.fa.fa-info.pr10
+                  На данную
+                  %strong почту
+                  будут приходить уведомления о новых заказах.
+              
+            / end section
+          .section.row
+            .col-md-6
               .alert.alert-micro.alert-border-left.alert-info
                 %i.fa.fa-info.pr10
-                На данную
-                %strong почту
-                будут приходить уведомления о новых заказах.
-            
-          / end section
-        .section.row
-          .col-md-6
-            .alert.alert-micro.alert-border-left.alert-info
-              %i.fa.fa-info.pr10
-              Списки закроются с этого момента
-            %label.field.prepend-icon{:for => "datetimepicker_begin"}
-              =f.text_field :out_of_order_begin, id: "datetimepicker_begin", class: "gui-input", placeholder: "Закрытие списков (начало)"
-              %label.field-icon
-                %i.fa.fa-calendar-o
-          .col-md-6
-            .alert.alert-micro.alert-border-left.alert-info
-              %i.fa.fa-info.pr10
-              Списки будут закрыты до этого момента
-            %label.field.prepend-icon{:for => "datetimepicker_end"}
-              =f.text_field :out_of_order_end, id: "datetimepicker_end", class: "gui-input", placeholder: "Закрытие списков (конец)"
-              %label.field-icon
-                %i.fa.fa-calendar-o
+                Списки закроются с этого момента
+              %label.field.prepend-icon{:for => "datetimepicker_begin"}
+                =f.text_field :out_of_order_begin, id: "datetimepicker_begin", class: "gui-input", placeholder: "Закрытие списков (начало)"
+                %label.field-icon
+                  %i.fa.fa-calendar-o
+            .col-md-6
+              .alert.alert-micro.alert-border-left.alert-info
+                %i.fa.fa-info.pr10
+                Списки будут закрыты до этого момента
+              %label.field.prepend-icon{:for => "datetimepicker_end"}
+                =f.text_field :out_of_order_end, id: "datetimepicker_end", class: "gui-input", placeholder: "Закрытие списков (конец)"
+                %label.field-icon
+                  %i.fa.fa-calendar-o
+        #seo_fields.tab-pane
+          .row
+            .section.mb10
+              %label.field.prepend-icon
+                =f.text_field :seo_title, id: "seo_title", class: "event-name gui-input br-light light", placeholder: 'SEO-title'
+                %label.field-icon{:for => "seo_title"}
+                  %i.fa.fa-tag
+              .alert.alert-micro.alert-border-left.alert-info
+                %i.fa.fa-info.pr10
+                Тайтл, которые будет отображаться на странице в самую первую очередь. Т.е. например это может быть Ужин Дома
+          .row
+            .section.mb10
+              %label.field.prepend-icon
+                =f.text_field :seo_keywords, id: "seo_keywords", class: "event-name gui-input br-light light", placeholder: 'SEO-keywords'
+                %label.field-icon{:for => "seo_keywords"}
+                  %i.fa.fa-tag
+              .alert.alert-micro.alert-border-left.alert-info
+                %i.fa.fa-info.pr10
+                Ключевые слова, которые будут отображаться на всех страницах (в дополнении к ключевым словам индивидуальных страниц).Вводить только через запятую!
 
+          .row
+            .section.mb10
+              %label.field.prepend-icon
+                =f.text_area :seo_description, id: "seo_description", class: "event-name gui-textarea br-light light", placeholder: 'SEO-description'
+                %label.field-icon{:for => "seo_description"}
+                  %i.fa.fa-tag
+              .alert.alert-micro.alert-border-left.alert-info
+                %i.fa.fa-info.pr10
+                Описание сайта, которое будет отображаться на всех страницах (в дополнении к описанию индивидуальных страниц)
 
 
 

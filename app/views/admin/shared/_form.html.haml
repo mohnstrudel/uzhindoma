@@ -18,54 +18,77 @@
         %span.panel-title.hidden-xs Добавить сущность
         %ul.nav.panel-tabs-border.panel-tabs
           %li.active
-            %a{"data-toggle" => "tab", :href => "#tab1_1"} Описание сущности
+            %a{"data-toggle" => "tab", :href => "#main_tab"} Основные поля
+          -if object.respond_to?(:seo_keywords)
+            %li
+              %a{"data-toggle" => "tab", :href => "#seo_tab"} SEO настройки
       .panel-body.p20.pb10
         .tab-content.pn.br-n.admin-form
+          #main_tab.tab-pane.active
+            =render partial: 'admin/shared/form/posts/post_fields', locals: {object: object, f: f}
 
-          =render partial: 'admin/shared/form/posts/post_fields', locals: {object: object, f: f}
+            -if object.respond_to?(:title)
+              .section.row
+                .col-sm-12.pl15
+                  .section.mb10
+                    %label.field.prepend-icon{:for => "name2"}
+                      =f.text_field :title, id: "title", class: "event-name gui-input br-light light", placeholder: 'Заголовок'
+                      %label.field-icon{:for => "title"}
+                        %i.fa.fa-tag
+            -if object.respond_to?(:body)
+              .section.row
+                .col-md-12.pl15
+                  .section.mb10
+                    %label.field.prepend-icon{:for => "body"}
+                      =f.bootsy_area :body, class: "event-name gui-textarea br-light light", placeholder: 'Текст'
 
-          -if object.respond_to?(:title)
-            .section.row
-              .col-sm-12.pl15
-                .section.mb10
-                  %label.field.prepend-icon{:for => "name2"}
-                    =f.text_field :title, id: "title", class: "event-name gui-input br-light light", placeholder: 'Заголовок'
-                    %label.field-icon{:for => "title"}
-                      %i.fa.fa-tag
-          -if object.respond_to?(:body)
-            .section.row
-              .col-md-12.pl15
-                .section.mb10
-                  %label.field.prepend-icon{:for => "body"}
-                    =f.bootsy_area :body, class: "event-name gui-textarea br-light light", placeholder: 'Текст'
+            -if object.respond_to?(:description)
+              .section.row
+                .col-md-12.pl15
+                  .section.mb10
+                    %label.field.prepend-icon{:for => "description"}
+                      =f.text_area :description, class: "event-name gui-textarea br-light light", placeholder: 'Описание'
+                      %label.field-icon{:for => "description"}
+                        %i.fa.fa-rub
+            -if object.respond_to?(:logo)
+              .section.row.mbn
+                .col-sm-12
+                  .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+                    .fileupload-preview.thumbnail.mb20
+                      -if object.logo.url
+                        =image_tag object.logo.url(:horizontal)
+                      -else
+                        %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+                    .row
+                      .col-xs-7.pr5
+                        %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
+                          %label.field-icon{:for => "name2"}
+                      .col-xs-5
+                        %span.button.btn-system.btn-file.btn-block
+                          %span.fileupload-new Выбрать главную картинку
+                          %span.fileupload-exists Поменять
+                          =f.file_field :logo, id: 'fileupload'
+                          / %input{:type => "file", name: 'picture'}
 
-          -if object.respond_to?(:description)
-            .section.row
-              .col-md-12.pl15
-                .section.mb10
-                  %label.field.prepend-icon{:for => "description"}
-                    =f.text_area :description, class: "event-name gui-textarea br-light light", placeholder: 'Описание'
-                    %label.field-icon{:for => "description"}
-                      %i.fa.fa-rub
-          -if object.respond_to?(:logo)
-            .section.row.mbn
-              .col-sm-12
-                .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
-                  .fileupload-preview.thumbnail.mb20
-                    -if object.logo.url
-                      =image_tag object.logo.url(:horizontal)
-                    -else
-                      %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
-                  .row
-                    .col-xs-7.pr5
-                      %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
-                        %label.field-icon{:for => "name2"}
-                    .col-xs-5
-                      %span.button.btn-system.btn-file.btn-block
-                        %span.fileupload-new Выбрать главную картинку
-                        %span.fileupload-exists Поменять
-                        =f.file_field :logo, id: 'fileupload'
-                        / %input{:type => "file", name: 'picture'}
+          -if object.respond_to?(:seo_keywords)
+            #seo_tab.tab-pane
+              .section.row
+                .col-sm-12.pl15
+                  .section.mb10
+                    %label.field.prepend-icon{:for => "seo_keywords"}
+                      =f.text_field :seo_keywords, id: "seo_keywords", class: "event-name gui-input br-light light", placeholder: 'Ключевые слова для поисковиков, вводить через запятую! Если ключевые слова не будут предоставлены, то программа возмет заголовок'
+                      %label.field-icon{:for => "seo_keywords"}
+                        %i.fa.fa-tag
+              -if object.respond_to?(:seo_description)
+                .section.row
+                  .col-md-12.pl15
+                    .section.mb10
+                      %label.field.prepend-icon{:for => "seo_description"}
+                        =f.text_area :seo_description, class: "event-name gui-textarea br-light light", placeholder: 'Описание для SEO (если описание не будет предоставлено, то в качестве SEO-описания программа возмет 150 знаков обычного описания)'
+                        %label.field-icon{:for => "seo_description"}
+                          %i.fa.fa-book
+          
+            
             
 
             / end section

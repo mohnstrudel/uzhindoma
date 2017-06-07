@@ -41,6 +41,9 @@ gem 'bootsy'
 # Pagination
 gem 'will_paginate'
 
+# Make the site SEO-friendly again!
+gem 'metamagic'
+
 # Try this gem for cloudpayments payments
 
 # Perform delayed jobs, like connecting to Bitrix

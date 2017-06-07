@@ -5,7 +5,7 @@
       %h3.g-post__title=group[0 + index*10].title
       %p.g-post__categories=group[0 + index * 10].blog_category.title
       %p.g-post__meta
-        =truncate(group[0 + index*10].body, length: 100)
+        =truncate(sanitize(group[0 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[0 + index*10]), class: "g-post__more"
 
 .g-post-wrapper.g-post-wrapper_small
@@ -16,8 +16,9 @@
         %h3.g-post__title=group[1 + index*10].title
         %p.g-post__categories=group[1 + index*10].blog_category.title
         %p.g-post__meta
-          =truncate(group[1 + index*10].body, length: 100)
+          =truncate(sanitize(group[1 + index*10].body), length: 100)
         =link_to "Читать далее", post_path(group[1 + index*10]), class: "g-post__more"
+
   -if group[2 + index * 10].present?
     .g-post.g-post_small
       =image_or_default_tag(group[2 + index*10], 'nil', 'logo', class: 'g-post__img')
@@ -25,7 +26,7 @@
         %h3.g-post__title=group[2 + index*10].title
         %p.g-post__categories=group[2 + index*10].blog_category.title
         %p.g-post__meta
-          =truncate(group[2 + index*10].body, length: 100)
+          =truncate(sanitize(group[2 + index*10].body), length: 100)
         =link_to "Читать далее", post_path(group[2 + index*10]), class: "g-post__more"
 
 -if group[3 + index * 10].present?
@@ -35,7 +36,7 @@
       %h3.g-post__title=group[3 + index*10].title
       %p.g-post__categories=group[3 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[3 + index*10].body, length: 100)
+        =truncate(sanitize(group[3 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[3 + index*10]), class: "g-post__more"
 / Первый ряд закончился
 
@@ -47,7 +48,7 @@
       %h3.g-post__title=group[4 + index*10].title
       %p.g-post__categories=group[4 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[4 + index*10].body, length: 100)
+        =truncate(sanitize(group[4 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[4 + index*10]), class: "g-post__more"
 
 -if group[5 + index * 10].present?
@@ -57,8 +58,9 @@
       %h3.g-post__title=group[5 + index*10].title
       %p.g-post__categories=group[5 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[4 + index*10].body, length: 100)
+        =truncate(sanitize(group[4 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[5 + index*10]), class: "g-post__more"
+
 -if group[6 + index * 10].present?
   .g-post.g-post-wrapper.g-post-wrapper_small
     =image_or_default_tag(group[6 + index*10], 'nil', 'logo', class: 'g-post__img')
@@ -66,7 +68,7 @@
       %h3.g-post__title=group[6 + index*10].title
       %p.g-post__categories=group[6 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[6 + index*10].body, length: 100)
+        =truncate(sanitize(group[6 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[6 + index*10]), class: "g-post__more"
 / Конец второго ряда
 
@@ -78,7 +80,7 @@
       %h3.g-post__title=group[7 + index*10].title
       %p.g-post__categories=group[7 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[7 + index*10].body, length: 100)
+        =truncate(sanitize(group[7 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[7 + index*10]), class: "g-post__more"
 
 -if group[8 + index * 10].present?
@@ -88,7 +90,7 @@
       %h3.g-post__title=group[8 + index*10].title
       %p.g-post__categories=group[8 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[8 + index*10].body, length: 100)
+        =truncate(sanitize(group[8 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[8 + index*10]), class: "g-post__more"
 
 -if group[9 + index * 10].present?
@@ -98,5 +100,5 @@
       %h3.g-post__title=group[8 + index*10].title
       %p.g-post__categories=group[8 + index*10].blog_category.title
       %p.g-post__meta
-        =truncate(group[8 + index*10].body, length: 100)
+        =truncate(sanitize(group[8 + index*10].body), length: 100)
       =link_to "Читать далее", post_path(group[8 + index*10]), class: "g-post__more"

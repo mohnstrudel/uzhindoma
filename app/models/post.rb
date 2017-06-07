@@ -19,4 +19,24 @@ class Post < ApplicationRecord
     Post.where("id < ?", self.id).last
   end
 
+  def to_description
+    if self.seo_description.present?
+      return self.seo_description
+    elsif self.respond_to?(:description)
+      return self.description.truncate(150)
+    else
+      return self.body.truncate(150)
+    end
+  end
+
+  def to_keywords
+    if self.seo_keywords.present?
+      keywords = self.seo_keywords.split(",")
+      return keywords
+    else
+      keywords = self.title.split(" ")
+      return keywords
+    end
+  end
+
 end

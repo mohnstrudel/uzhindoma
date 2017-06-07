@@ -30,4 +30,24 @@ module FrontHelper
     end
   end
 
+  def site_title
+    title = Setting.first.seo_title
+    if title.present?
+      return title
+    else
+      return "Ужин Дома"
+    end
+  end
+
+  def main_keywords
+    keywords = Setting.first.seo_keywords.split(",")
+    return keywords
+  end
+
+  def main_description
+    desc = Setting.first.seo_description
+
+    return desc
+  end
+
 end

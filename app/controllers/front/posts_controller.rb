@@ -1,6 +1,8 @@
 class Front::PostsController < FrontController
 
   def index
+    
+
     post_amount = Post.all.count
     posts_value = Rails.application.config.posts_pages
     @page = (params[:page] || 1).to_i
@@ -29,5 +31,11 @@ class Front::PostsController < FrontController
 
   def show
     @post = Post.find(params[:id])
+    @url = absolute_url
   end
+
+  private
+    def absolute_url
+      request.base_url + request.original_fullpath
+    end
 end

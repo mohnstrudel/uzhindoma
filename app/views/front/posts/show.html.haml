@@ -1,9 +1,16 @@
+- meta title: @post.title, description: @post.to_description, keywords: @post.to_keywords
+- og image: "#{request.protocol}#{request.host_with_port}#{@post.logo.url(:vertical)}"
+- og title: @post.title
+- og description: @post.seo_description
+- og url: @url
+- og type: "website"
+
 %section.g-section.g-single-top{:style => "background-image: url(#{@post.logo.url(:hd)});"}
   .g-wrapper
     .g-single-top__info
       %a.g-single-top__category{:href => "#"}=@post.blog_category.title
       %h1.g-single-top__title=@post.title
-      %p.g-single-top__meta=truncate(@post.body, length: 200)
+      %p.g-single-top__meta=truncate(@post.body.html_safe, length: 200)
 %section.g-section
   .g-wrapper.g-single
     .g-single__wrapper
@@ -43,11 +50,13 @@
     .g-single__sidebar.g-sidebar
       %h2.g-sidebar__title Поделитесь рецептом с друзьями
       .g-sidebar__social
-        %a.g-sidebar__social-link.g-sidebar__social-link_fb
-        %a.g-sidebar__social-link.g-sidebar__social-link_vk
-      %form.g-blog-search.g-blog-search_sidebar
-        %input.g-blog-search__input{:placeholder => "Поиск по блогу", :type => "text"}/
-        %input.g-blog-search__submit{:type => "submit", :value => ""}/
+        =link_to "", "http://www.facebook.com/sharer/sharer.php?u=#{@url}&title=#{@post.title}", target: "_blank", title: "Поделиться в Facebook", class: "g-sidebar__social-link g-sidebar__social-link_fb"
+        =link_to "", "http://vk.com/share.php?url=#{@url}", target: "_blank", title: "Поделиться в ВК", class: "g-sidebar__social-link g-sidebar__social-link_vk"
+
+      =form_for :posts, url: posts_path, html: {class: "g-blog-search g-blog-search_sidebar"}, method: :get do |f|
+        =text_field_tag :keywords, nil, class: "g-blog-search__input", placeholder: "Поиск по блогу"
+        =submit_tag "", class: "g-blog-search__submit"
+
       .g-banner
         =image_tag "blog/banner.png", class: "g-banner__img"
       .g-banner

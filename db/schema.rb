@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170605075306) do
+ActiveRecord::Schema.define(version: 20170607074524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,6 +335,8 @@ ActiveRecord::Schema.define(version: 20170605075306) do
     t.datetime "updated_at", null: false
     t.integer "blog_category_id"
     t.string "logo"
+    t.text "seo_description"
+    t.string "seo_keywords"
     t.index "lower((title)::text) varchar_pattern_ops", name: "posts_lower_title"
     t.index "lower(body) text_pattern_ops", name: "posts_lower_body"
     t.index ["blog_category_id"], name: "index_posts_on_blog_category_id"
@@ -369,6 +371,9 @@ ActiveRecord::Schema.define(version: 20170605075306) do
     t.string "order_mail"
     t.string "out_of_order_begin"
     t.string "out_of_order_end"
+    t.string "seo_title"
+    t.text "seo_description"
+    t.string "seo_keywords"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

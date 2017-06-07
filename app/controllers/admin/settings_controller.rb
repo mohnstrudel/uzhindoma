@@ -19,6 +19,6 @@ class Admin::SettingsController < AdminController
 
 	def settings_params
 		params.require(:setting).permit(:vkontakte, :facebook, :instagram, :phone, :order_mail, 
-			:out_of_order_begin, :out_of_order_end)
+			:out_of_order_begin, :out_of_order_end, :seo_title, :seo_keywords, :seo_description)
 	end
 end
