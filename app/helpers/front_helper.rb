@@ -40,8 +40,12 @@ module FrontHelper
   end
 
   def main_keywords
-    keywords = Setting.first.seo_keywords.split(",")
-    return keywords
+    keywords = Setting.first.seo_keywords
+    if keywords
+      return keywords.split(",")
+    else
+      return ""
+    end
   end
 
   def main_description
