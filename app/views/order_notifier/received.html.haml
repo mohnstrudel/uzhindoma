@@ -24,7 +24,7 @@
                 ="Номер вашего заказа: #{@order.id}"
             %p{:style => "margin: 0;padding-top: 33px;"} Дата и время доставки:
             / %p{:style => "margin: 0;"} 15.05.2017 добавить дату доставки!
-            %p{:style => "margin: 0;"} Ближайшее воскресенье
+            %p{:style => "margin: 0;"}=@delivery_date
             %p{:style => "margin: 0;"} 
               =@order.delivery_timeframe
         %tr

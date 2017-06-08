@@ -22,6 +22,12 @@ class OrderNotifier < ApplicationMailer
 
     @type = Menu.find(order.menu_id).category.name
 
+    if order.menu_type == "Дачное меню"
+      @delivery_date = "09/06/2017"
+    else
+      @delivery_date = "Ближайшее воскресенье"
+    end
+
     begin
       logger.info "Client confirmation mail to client: #{order.phone} successfully sent."
       mail to: order.email, subject: "Ваш заказ Ужин Дома"
