@@ -54,4 +54,14 @@ module FrontHelper
     return desc
   end
 
+  def navi_user_link_words(user)
+    if (user.first_name.present? && user.second_name.present?)
+      return "#{user.first_name} #{user.second_name}"
+    elsif user.first_name.present?
+      return "#{user.first_name}"
+    else
+      return "Пользователь"
+    end
+  end
+
 end

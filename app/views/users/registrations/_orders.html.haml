@@ -1,13 +1,3 @@
-/ %tr
-/   %td
-/     -Bitrix.get_productrows_for_order(order["ID"]).each do |productrow|
-/       =productrow["PRODUCT_NAME"]
-/       %br
-/   %td
-/     ="#{(DateTime.strptime(order['BEGINDATE'], '%Y-%m-%dT%H:%M:%S%z')).strftime("%d/%m/%Y")}"
-/   %td 
-/     =order["OPPORTUNITY"]
-
 %h2.g-title-center Ваши заказы
 %table#orders_table.g-table
   %thead
@@ -18,28 +8,22 @@
       %td.g-table__price.g-rub Стоимость,
       %td.g-table__review Оценка
   %tbody
-    -if orders
-      -orders.each_with_index do |order, index|
+    -if my_orders
+      -my_orders.each_with_index do |single_order, index|
         %tr{"data-id" => index+1}
           %td
-            =(DateTime.strptime(order.created_at.to_s, '%Y-%m-%d')).strftime("%d.%m.%Y")
+            =(DateTime.strptime(single_order.created_at.to_s, '%Y-%m-%d')).strftime("%d.%m.%Y")
           %td
-            =order.bitrix_order_id
+            =single_order.bitrix_order_id
           %td
             / Тут мы получаем массив типа ["Стандарт 5х2", "Сладкий подарок", "Тирамису"]
-            -if order.name
-              =order.name.split(";").join("<br/>").html_safe
+            -if single_order.name
+              =single_order.name.split(";").join("<br/>").html_safe
             -else
-              =order.menu_type
+              =single_order.menu_type
           %td
-            =order.order_price
+            =single_order.order_price
           %td
             %a.g-link-styled.js-estimate{:href => "javascript:void(0)"} Оценить заказ
     -else
       На данный момент заказов нет
-    / %tr{"data-id" => "2"}
-    /   %td 16.02.2017
-    /   %td 198368
-    /   %td Лайф 5x2
-    /   %td 5 000
-    /   %td.g-table__rating{"data-val" => "3"}

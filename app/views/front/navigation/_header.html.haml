@@ -18,7 +18,7 @@
           =link_to Setting.first.instagram, target: "_blank", class: "g-menu__link" do
             %i.g-icon.g-icon_inst
           -if user_signed_in?
-            =link_to "#{current_user.first_name} #{current_user.second_name}", edit_user_registration_path, method: :get, class: "g-menu__link g-menu__link_text g-menu__link_personal"
+            =link_to navi_user_link_words(current_user), edit_user_registration_path, method: :get, class: "g-menu__link g-menu__link_text g-menu__link_personal"
           -else
             =link_to edit_user_registration_path, method: :get, class: "g-menu__link" do
               %i.g-icon.g-icon_login            

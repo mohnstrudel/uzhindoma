@@ -39,7 +39,13 @@ before_action :configure_account_update_params, only: [:update]
 
     else
       # orders = Bitrix.get_users_orders(current_user.bitrix_id)
-      @orders = current_user.orders.order('created_at DESC')
+      begin
+        @orders = current_user.orders.order('created_at DESC')
+      rescue => e
+        @orders = nil
+        logger.info "Error for user orders"
+        logger.info "User - #{current_user}, error: #{e.message}"
+      end
     end
       # @address = current_user.addresses.build
 
