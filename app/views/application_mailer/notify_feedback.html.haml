@@ -1,0 +1,17 @@
+%h1 Пользователь отсавил отзыв на сайте
+
+%h3 Кто оставил:
+%p=@feedback.name
+
+%h3 Почта пользователья:
+%p=@feedback.email
+
+%h3 Оценка пользователья
+%p=@feedback.rating
+
+%h3 Текст отзыва:
+%p=@feedback.body
+
+%p
+  Данный отзыв вместе со всеми остальными можно посмотреть в админке по адресу
+  =link_to "#{admin_feedbacks_url}", admin_feedbacks_url
