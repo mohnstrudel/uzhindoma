@@ -49,14 +49,17 @@
             else if($(this).attr("name") == "email" && val != "" && !validateEmail(val))
                 $(this).addClass("g-input_error");
         });
-        $("#review-form").on("submit", function(e){
+        $("#new_feedback").on("submit", function(e){
             e.preventDefault();
+            
+                
             var $form = $(this),
-                $name_input = $form.find("input[name='name']"),
+                $submit_button = $form.find("input[type='submit']"),
+                $name_input = $form.find("input[name='feedback[name]']"),
                 name = $name_input.val(),
-                $email_input = $form.find("input[name='email']"),
+                $email_input = $form.find("input[name='feedback[email]']"),
                 email = $email_input.val(),
-                $message_input = $form.find("textarea[name='message']"),
+                $message_input = $form.find("textarea[name='feedback[body]']"),
                 message = $message_input.val(),
                 error = false;
                 if(name == ""){
@@ -71,6 +74,9 @@
                     $message_input.addClass("g-input_error");
                     error = true;
                 }
+
+            $submit_button.prop('disabled', true).addClass("g-btn_disabled");
+
             console.log($("[name='rating']:checked").val());
             if(!error){
                      $.ajax({
@@ -83,6 +89,7 @@
                             $message_input.val("");
                             $("[name='rating']:checked").prop("checked", false);
                             $("#success-review").fadeIn(200);
+
                        }
                    });                
             }
@@ -101,7 +108,7 @@
                 interactive: false
             });
 
-                        var nav = new mapboxgl.NavigationControl();
+            var nav = new mapboxgl.NavigationControl();
             // Add zoom and rotation controls to the map.
             map.on('load', function () {
               map.addControl(nav, 'top-left');
@@ -399,9 +406,9 @@
             $form.on("submit", function(e){
                 e.preventDefault();
                 
-                var submit_button = $("input[name=commit]");
-                submit_button.val("Оформляем...");
-                $form.find("input[type='submit']").prop("disabled", true).addClass("g-btn_disabled");
+                var submit_button = $form.find("input[name=commit]");
+                submit_button.val("Оформляем...").prop("disabled", true).addClass("g-btn_disabled");
+                
 
                 var $name_input = $form.find("[name='order[first_name]']"),
                     name = $name_input.val(),
@@ -474,26 +481,25 @@
                 }
 
                 if (error){
-                  $("input[name=commit]").val("Ошибки...");
+                  submit_button.val("Ошибки...");
                   setTimeout(function(){
                     $("input[name=commit]").val("Перейти к оплате");
+                    $("input[name=commit]").prop("disabled", false).removeClass("g-btn_disabled");
                   }, 1500);
 
                 }
                 if(!error){
-                  var submit_button = $("input[name=commit]");
-                  submit_button.val("Оформляем...");
-                  submit_button.attr('disabled','disabled');
+                  submit_button.val("Оформляем...").prop('disabled', true);
                      $.ajax({
                        data: $(this).serialize(),
-                       url: "/orders",
+                       url: location.protocol + '//' + location.host + '/' + '/orders'
                        method: "POST",
                        success: function(response){
                             // location.href = "success.html";
                             // console.log(eval(response));
 
-                       }
-                   });
+                         }
+                     });
                 }                  
                 return false;
             });
