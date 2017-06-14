@@ -492,7 +492,7 @@
                   submit_button.val("Оформляем...").prop('disabled', true);
                      $.ajax({
                        data: $(this).serialize(),
-                       url: location.protocol + '//' + location.host + '/' + '/orders'
+                       url: location.protocol + '//' + location.host + '/' + '/orders',
                        method: "POST",
                        success: function(response){
                             // location.href = "success.html";
