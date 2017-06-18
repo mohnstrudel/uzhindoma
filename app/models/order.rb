@@ -62,7 +62,7 @@ class Order < ActiveRecord::Base
 
 	def self.check_order_day(current_date)
 		setting = Setting.first
-		if Rails.env.production?
+		if Rails.env.production? || Rails.env.development?
 			# Парсим дату начала и конца
 			# e = s.out_of_order_end
  			# => "27-02-2017 11:24" 

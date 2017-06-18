@@ -6,7 +6,10 @@
       %span.g-title__text Ой, все наборы закончились!
     .g-info__wrapper
       %p.g-info-text.g-bolder
-        Ксения, спасибо за ваш заказ!
+        -if current_user.first_name.present?
+          ="#{current_user.first_name}, спасибо за ваш заказ!"
+        -else
+          Спасибо за ваш заказ!
       %p.g-info-text К сожалению, все наборы на эту неделю уже разобрали. Мы свяжемся с вами, если у нас появится свободный набор.
       %p.g-info-text
         Если у вас есть вопросы, свяжитесь с нами:
