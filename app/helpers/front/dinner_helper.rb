@@ -8,4 +8,12 @@ module Front::DinnerHelper
     end
   end
 
+  def add_breakfast_text(menu_name)
+    if menu_name == "Завтраки"
+      return "Завтраки дешевле при оформлении заказа вместе с ужином"
+    else
+      return "Чтобы заказать завтраки и ужины одновременно, напишите: 'Хочу завтрак' в комментарии к заказу"
+    end
+  end
+
 end

@@ -310,7 +310,7 @@
                 $node.find(".g-menu-toggle__var").removeClass("g-menu-toggle__var_active");
                 $(this).addClass("g-menu-toggle__var_active");
                 return false;
-            });
+            });ƒ
             var $review_popup = $("#review-popup");
             $review_popup.on("click", function(e){
                 if($(e.target).closest(".g-popup-reviews__content").length <= 0)
