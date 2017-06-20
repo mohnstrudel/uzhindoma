@@ -27,5 +27,6 @@
       /   =render partial: 'front/posts/listing', locals: {group: group, index: index}
 
       -@posts.each_with_index do |post, index|
+        -next if get_second_blog_element(index)
         =render partial: 'front/posts/listing_new', locals: {post: post, index: index}
     =render partial: "pager", locals: { keywords: @keywords, page: @page }
