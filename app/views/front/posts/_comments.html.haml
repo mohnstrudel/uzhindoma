@@ -1,0 +1,21 @@
+.g-single__comments
+  %h2.g-single__title-small Комментарии
+  %form#comment-form.g-form.g-form_comment
+    %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
+      %input.g-input{:name => "name", :placeholder => "Имя", :type => "text"}/
+      %input.g-input{:name => "email", :placeholder => "E-mail", :type => "text"}/
+    %fieldset.g-fieldset
+      %textarea.g-input.g-input_textarea{:name => "message", :placeholder => "Ваш комментарий"}
+    %fieldset.g-fieldset
+      %input.g-btn.g-btn_blue{:type => "submit", :value => "Отправить"}/
+  %ul.g-comments-list
+    %li.g-comments-list__item
+      %p.g-comments-list__name Ирина
+      %p.g-comments-list__date 29 апреля в 15:43
+      .g-comments-list__comment
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    %li.g-comments-list__item
+      %p.g-comments-list__name Олеся
+      %p.g-comments-list__date 28 марта 2017
+      .g-comments-list__comment
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat

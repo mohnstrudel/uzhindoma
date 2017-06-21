@@ -1,0 +1,9 @@
+%a{:href => "#", class: "g-sidebar__social-link g-sidebar__social-link_fb", :onclick => "window.open('http://www.facebook.com/sharer/sharer.php?u=#{@url}&title=#{@post.title}','Поделиться в Facebook','resizable,height=480,width=640'); return false;"}
+%noscript
+  Для того, что воспользоваться предыдущей ссылкой вам нужно включить JavaScript или используйте ссылку ниже
+  %a{:href => "http://www.facebook.com/sharer/sharer.php?u=#{@url}&title=#{@post.title}", :target => "_blank"} Поделиться
+
+%a{:href => "#", class: "g-sidebar__social-link g-sidebar__social-link_vk", :onclick => "window.open('http://vk.com/share.php?url=#{@url}','Поделиться в ВК','resizable,height=480,width=640'); return false;"}
+%noscript
+  Для того, что воспользоваться предыдущей ссылкой вам нужно включить JavaScript или используйте ссылку ниже
+  %a{:href => "http://vk.com/share.php?url=#{@url}", :target => "_blank"} Поделиться

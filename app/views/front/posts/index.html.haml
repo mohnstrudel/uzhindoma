@@ -1,4 +1,6 @@
 %section.g-section.g-section_blog.g-mobile-hide
+  %h1.g-blog-title Рецепты, которые нас вдохновляют
+  
 %section.g-section.g-blog
   .g-wrapper
     %h1.g-blog__title.g-mobile
@@ -9,7 +11,7 @@
       .g-blog__categories.g-categories.g-mobile-hide
         =link_to "Все", posts_path, class: "g-categories__item g-categories__item_active"
         -@categories.each do |category|
-          =link_to category.title, blog_category_posts_path(category), class: "g-categories__item"
+          =link_to category.title, blog_category_posts_path(category), class: "g-categories__item", method: :get
       .g-blog__categories.g-categories-select.g-mobile
         %select#adress_select.g-select{:name => "adress_id"}
           %option Все

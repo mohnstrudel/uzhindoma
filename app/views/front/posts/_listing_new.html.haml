@@ -4,26 +4,27 @@
     .g-post{:class => (get_inner_blog_class(index))}
       =image_or_default_tag(post, 'nil', 'logo', class: 'g-post__img')
       .g-post__desc
-        %h3.g-post__title=link_to post.title, post_path(post)
+        %h3.g-post__title=link_to post.title, post_path(post), method: :get
         %p.g-post__categories=post.blog_category.title
         %p.g-post__meta
-          =link_to truncate(sanitize(post.body), length: 100), post_path(post)
-        =link_to "Читать далее", post_path(post), class: "g-post__more"
-
-    .g-post{:class => (get_inner_blog_class(index))}
-      =image_or_default_tag(post.prev, 'nil', 'logo', class: 'g-post__img')
-      .g-post__desc
-        %h3.g-post__title=link_to post.prev.title, post_path(post.prev)
-        %p.g-post__categories=post.prev.blog_category.title
-        %p.g-post__meta
-          =link_to article_description(post.prev.body, 100), post_path(post.prev)
-        =link_to "Читать далее", post_path(post.prev), class: "g-post__more"
+          =link_to article_description(post.body, 100), post_path(post), method: :get
+        =link_to "Читать далее", post_path(post), class: "g-post__more", method: :get
+    -if post.prev
+      .g-post{:class => (get_inner_blog_class(index))}
+        =image_or_default_tag(post.prev, 'nil', 'logo', class: 'g-post__img')
+        .g-post__desc
+          %h3.g-post__title=link_to post.prev.title, post_path(post.prev)
+          %p.g-post__categories=post.prev.blog_category.title
+          %p.g-post__meta
+            =link_to article_description(post.prev.body, 100), post_path(post.prev)
+          =link_to "Читать далее", post_path(post.prev), class: "g-post__more"
 -else
-  .g-post{:class => (get_inner_blog_class(index))}
-    =image_or_default_tag(post, 'nil', 'logo', class: 'g-post__img')
-    .g-post__desc
-      %h3.g-post__title=link_to post.title, post_path(post)
-      %p.g-post__categories=post.blog_category.title
-      %p.g-post__meta
-        =link_to article_description(post.body, 100), post_path(post)
-      =link_to "Читать далее", post_path(post), class: "g-post__more"
+  -if post
+    .g-post{:class => (get_inner_blog_class(index))}
+      =image_or_default_tag(post, 'nil', 'logo', class: 'g-post__img')
+      .g-post__desc
+        %h3.g-post__title=link_to post.title, post_path(post), method: :get
+        %p.g-post__categories=post.blog_category.title
+        %p.g-post__meta
+          =link_to article_description(post.body, 100), post_path(post), method: :get
+        =link_to "Читать далее", post_path(post), class: "g-post__more", method: :get

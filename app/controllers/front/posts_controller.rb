@@ -31,7 +31,7 @@ class Front::PostsController < FrontController
 
   def show
     @post = Post.find(params[:id])
-    @url = absolute_url
+    @url = CGI.escape(absolute_url)
   end
 
   private

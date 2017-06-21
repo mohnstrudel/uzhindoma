@@ -10,33 +10,17 @@
     .g-single-top__info
       %a.g-single-top__category{:href => "#"}=@post.blog_category.title
       %h1.g-single-top__title=@post.title
-      %p.g-single-top__meta=truncate(@post.body.html_safe, length: 200)
+      %p.g-single-top__meta=article_description(@post.body, 100)
 %section.g-section
   .g-wrapper.g-single
     .g-single__wrapper
-      =link_to "Вернуться ко всем записям", posts_path, class: "g-single__back"
+      =link_to "Вернуться ко всем записям", posts_path, class: "g-single__back", method: :get
       .g-single__content=@post.body.html_safe
-      .g-single__comments
-        %h2.g-single__title-small Комментарии
-        %form#comment-form.g-form.g-form_comment
-          %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
-            %input.g-input{:name => "name", :placeholder => "Имя", :type => "text"}/
-            %input.g-input{:name => "email", :placeholder => "E-mail", :type => "text"}/
-          %fieldset.g-fieldset
-            %textarea.g-input.g-input_textarea{:name => "message", :placeholder => "Ваш комментарий"}
-          %fieldset.g-fieldset
-            %input.g-btn.g-btn_blue{:type => "submit", :value => "Отправить"}/
-        %ul.g-comments-list
-          %li.g-comments-list__item
-            %p.g-comments-list__name Ирина
-            %p.g-comments-list__date 29 апреля в 15:43
-            .g-comments-list__comment
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          %li.g-comments-list__item
-            %p.g-comments-list__name Олеся
-            %p.g-comments-list__date 28 марта 2017
-            .g-comments-list__comment
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      
+      / Render post comments begin
+      / =render partial: 'front/posts/comments'
+      / Render post comments end
+
       .g-controls
         -if @post.prev
           =link_to post_path(@post.prev), class: "g-controls__item g-controls__item_prev", method: :get do
@@ -50,8 +34,8 @@
     .g-single__sidebar.g-sidebar
       %h2.g-sidebar__title Поделитесь рецептом с друзьями
       .g-sidebar__social
-        =link_to "", "http://www.facebook.com/sharer/sharer.php?u=#{@url}&title=#{@post.title}", target: "_blank", title: "Поделиться в Facebook", class: "g-sidebar__social-link g-sidebar__social-link_fb"
-        =link_to "", "http://vk.com/share.php?url=#{@url}", target: "_blank", title: "Поделиться в ВК", class: "g-sidebar__social-link g-sidebar__social-link_vk"
+        =render partial: 'front/posts/social_share'
+        
 
       =form_for :posts, url: posts_path, html: {class: "g-blog-search g-blog-search_sidebar"}, method: :get do |f|
         =text_field_tag :keywords, nil, class: "g-blog-search__input", placeholder: "Поиск по блогу"

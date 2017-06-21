@@ -221,7 +221,8 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   padding-top: 31.73%;
-  margin-top: 5.5rem; }
+  margin-top: 5.5rem;
+  position: relative; }
 
 .g-similar {
   margin: 0; }
@@ -307,6 +308,16 @@ body {
     content: "\e900";
     right: -2.5rem; }
 
+.g-blog-title {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  margin: 0;
+  color: #3c7eb6;
+  font-size: 3.1rem;
+  font-weight: 400; }
+  
 .g-blog__top {
   border-bottom: 1px dashed #c6d3e3;
   display: flex;
@@ -453,6 +464,8 @@ body {
     line-height: 2.3rem; }
 
 .g-post {
+  display: block;
+  text-decoration: none;
   position: relative;
   height: 42.2rem;
   overflow: hidden; }

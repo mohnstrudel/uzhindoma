@@ -17,12 +17,12 @@
                   %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
                 .row
                   .col-xs-7.pr5
-                    %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
+                    %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Выбрать картинку для блога", :type => "text"}
                       %label.field-icon{:for => "name2"}
                   .col-xs-5
                     %span.button.btn-system.btn-file.btn-block
-                      %span.fileupload-new Select
-                      %span.fileupload-exists Change
+                      %span.fileupload-new Выбрать
+                      %span.fileupload-exists Поменять
                       / =f.file_field :image, name: "pictures[]", id: 'fileupload', type: :file, multiple: true
                       / %input{:type => "file", name: 'picture'}
             .col-md-8.pl15
