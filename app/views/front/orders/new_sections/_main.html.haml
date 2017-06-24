@@ -3,7 +3,7 @@
   .g-wrapper
     %h2.g-title
       %span.g-title__text Оформление заказа
-    =form_for @order, html: {id: "checkout-form", class: "g-form g-form_checkout"} do |f|
+    =form_for @order, html: {id: "checkout-form", class: "g-form g-form_checkout"}, data: {delivery: @delivery} do |f|
       / %form#checkout-form.g-form.g-form_checkout
       / для не существующего пользователя
 

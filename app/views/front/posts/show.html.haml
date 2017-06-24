@@ -53,6 +53,7 @@
           =form_for Subscriber.new, class: "g-form", id: "new_subscriber", remote: true do |f|
             %fieldset.g-fieldset
               =f.text_field :email, placeholder: "Ваш e-mail", class: 'g-input'
+              =f.hidden_field :post_referer, value: @referer
               
             %fieldset.g-fieldset
               =f.submit "Подписаться", class: 'g-btn g-btn_red'

@@ -22,10 +22,10 @@ class OrderNotifier < ApplicationMailer
 
     @type = Menu.find(order.menu_id).category.name
 
-    if order.menu_type == "Дачное меню"
-      @delivery_date = "09/06/2017"
-    else
-      @delivery_date = "Ближайшее воскресенье"
+    if order.delivery_timeframe
+      @delivery_date = "Ближайшее воскресенье - #{order.delivery_timeframe}"
+    elsif order.delivery_day && order.delivery_time
+      @delivery_date = "#{order.delivery_day} - #{order.delivery_time}"
     end
 
     begin
@@ -38,6 +38,13 @@ class OrderNotifier < ApplicationMailer
 
   def notifyShop(order)
     @order = order
+
+    if order.delivery_timeframe
+      @delivery_date = "Ближайшее воскресенье - #{order.delivery_timeframe}"
+    elsif order.delivery_day && order.delivery_time
+      @delivery_date = "#{order.delivery_day} - #{order.delivery_time}"
+    end
+    
     begin
       mail to: Setting.first.order_mail, subject: 'На сайте оставлен заказ'
       logger.info "Shop confirmation for order No. #{order.id} and client #{order.phone} successfully sent."

@@ -56,6 +56,12 @@ class Front::OrdersController < FrontController
 				
 				@menu = Menu.find(menu_param)
 				@menu_price = @menu.calculate_price(@menu, persons, quantity, dessert)
+
+				@delivery = @menu.deliveries.to_json(only: [:id, :name], include: { intervals: {only: [:id, :value]}})
+				puts "Delivery:"
+				puts @delivery.inspect
+
+			
 			end
 	end
 
@@ -66,6 +72,7 @@ class Front::OrdersController < FrontController
 			@order.delivery_timeframe = params[:delivery_timeframe]
 			logger.debug "Creating order with delivery timeframe - #{params[:delivery_timeframe]}"
 		end
+
 
 		if params[:menu_type]
 			@order.menu_type = params[:menu_type]
@@ -93,6 +100,7 @@ class Front::OrdersController < FrontController
 
 		@order.bitrix_order_id = @bitrix_order_id
 		@order[:user_id] = current_user.id
+
 
 		if @order.save
 
@@ -245,7 +253,7 @@ class Front::OrdersController < FrontController
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
 			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id,
-			:bitrix_order_id, :cloudpayment)
+			:bitrix_order_id, :cloudpayment, :delivery_day, :delivery_time)
 	end
 
 	def find_order
@@ -262,7 +270,13 @@ class Front::OrdersController < FrontController
 		title = Date.today.strftime("%d.%m.%y")
 
 		# Интервал доставки для всех типов присутствует
-		timeframe = URI.escape(order[:delivery_timeframe]) if order[:delivery_timeframe]
+		# Проверяем на "обычную доставку", т.е. если для набора НЕ указан день с интервалами
+		# и также проверяем на доставку, где указаны день и интервал
+		if order[:delivery_timeframe]
+			timeframe = URI.escape(order[:delivery_timeframe])
+		elsif order[:delivery_day] && order[:delivery_time]
+			timeframe = "#{URI.escape(order[:delivery_day])} #{URI.escape(order[:delivery_time])}"
+		end
 		# Комментарий также для всех присутствует
 		commentary = URI.escape(order[:comment])
 

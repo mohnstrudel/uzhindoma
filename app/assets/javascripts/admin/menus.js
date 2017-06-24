@@ -15,6 +15,11 @@ $('menus').ready(function(){
     allowClear: true
   });
 
+  $('.select-deliveries').select2({
+    placeholder: 'Выбрать доступные дни доставки',
+    allowClear: true
+  });
+
   $('.select-days').select2({
     placeholder: 'Выбрать кол-во ужинов для данного набора',
     allowClear: true

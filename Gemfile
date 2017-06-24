@@ -66,6 +66,9 @@ gem 'babosa'
 # This gem helps with two-factor-authentication. It is useful for sending passwords via sms
 gem 'active_model_otp'
 
+# AMS for nice JSON output
+gem 'active_model_serializers'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'puma', '~> 3.8.2'

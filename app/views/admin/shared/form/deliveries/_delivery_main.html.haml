@@ -1,0 +1,23 @@
+-if object.respond_to?(:name)
+  .form-group
+    %label.col-sm-2.control-label
+      Название для сайта
+    .col-sm-10
+      =f.text_field :name, class: 'form-control'
+      %span.help-block.m-b-none Название для сайта, например "Воскресенье"
+-if object.respond_to?(:admin_title)
+  .form-group
+    %label.col-sm-2.control-label
+      Название для админ-панели
+    .col-sm-10
+      =f.text_field :admin_title, class: 'form-control'
+      %span.help-block.m-b-none Название для администратора, что бы точно можно было разделять даты доставки. Например 'Воскресенье для дачного набора'
+-if object.respond_to?(:intervals)
+  .form-group
+    %label.col-sm-2.control-label
+      Интервалы доставки
+    .col-sm-6
+      =f.fields_for :intervals do |interval_builder|
+        =render partial: 'admin/shared/form/deliveries/interval_fields', locals: { f: interval_builder }
+      %span.help-block.m-b-none
+        =link_to_add_interval_fields "Добавить интервал доставки", f, :intervals, 'admin/shared/form/deliveries/interval_fields', class: 'btn btn-default'

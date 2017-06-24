@@ -27,6 +27,7 @@
           #main_tab.tab-pane.active
             =render partial: 'admin/shared/form/posts/post_fields', locals: {object: object, f: f}
             =render partial: 'admin/shared/form/subscribers/subscriber_fields', locals: {object: object, f: f}
+            =render partial: 'admin/shared/form/deliveries/delivery_main', locals: {object: object, f: f}
 
             -if object.respond_to?(:title)
               .section.row
@@ -36,6 +37,7 @@
                       =f.text_field :title, id: "title", class: "event-name gui-input br-light light", placeholder: 'Заголовок'
                       %label.field-icon{:for => "title"}
                         %i.fa.fa-tag
+                        
             -if object.respond_to?(:body)
               .section.row
                 .col-md-12.pl15
@@ -56,7 +58,7 @@
                 .col-sm-12
                   .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
                     .fileupload-preview.thumbnail.mb20
-                      -if object.logo.url
+                      -if object.logo.present?
                         =image_tag object.logo.url(:horizontal)
                       -else
                         %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
@@ -76,7 +78,7 @@
                 .col-sm-12
                   .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
                     .fileupload-preview.thumbnail.mb20
-                      -if object.preview_pic
+                      -if object.preview_pic.present?
                         =image_tag object.preview_pic.url
                       -else
                         %img{:alt => "holder", "data-src" => "holder.js/100%x140"}

@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     resources :posts
     resources :blog_categories
     resources :subscribers, except: [:show]
+    resources :deliveries, except: [:show]
 
     # get "user_custom_recovery/:id" => "users#password_recovery"
     get 'user_custom_recovery/:id', to: 'users#password_recovery', as: 'password_recovery'

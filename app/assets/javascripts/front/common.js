@@ -346,6 +346,70 @@
               // Начало
               var $promo = $("#promo-input"),
               $form = $("#checkout-form");
+
+              // Поля для выбора дня и времени начинаются
+
+              var ranges = window.timeRange;
+            $.each(ranges, function(index, val){
+                var $radio = $("<input>",{
+                            type: "radio",
+  
+                            class: "g-input_hide",
+                            // value: val.id,
+                            value: val.name,
+                            name: "[order]delivery_day",
+                            id:  "delivery_day_"+val.id,
+                            data_id: val.id
+                            
+                        }),
+                    $label = $("<label>",{
+                        for: "delivery_day_"+val.id,
+                        class: "g-input-label",
+                        text: val.name
+                    });
+                $radio.appendTo($("#days-range"));
+                $label.appendTo($("#days-range"));
+            });
+            $("#days-range").on("change", "input[name='[order]delivery_day']", function(){
+                var id = $(this).attr("data_id");
+                $.each(ranges, function(index, val){
+                    if(val.id != id) return;
+                    $("#time-range").html("");
+                    $.each(val.intervals, function(index, val){
+                        var $radio = $("<input>",{
+                            type: "radio",
+                            class: "g-input_hide",
+                            // value: val.id,
+                            value: val.value,
+                            name: "[order]delivery_time",
+                            id:  "delivery_time_"+val.id
+                            }),
+                        $label = $("<label>",{
+                            for: "delivery_time_"+val.id,
+                            class: "g-input-label",
+                            text: val.value
+                        });
+                        $radio.appendTo($("#time-range"));
+                        $label.appendTo($("#time-range"));
+                    });
+                    var $radio_any = $("<input>",{
+                            type: "radio",
+                            class: "g-input_hide",
+                            value: "any",
+                            name: "[order]delivery_time",
+                            id:  "delivery_time_any"
+                            }),
+                        $label_any = $("<label>",{
+                            for: "delivery_time_any",
+                            class: "g-input-label",
+                            text: "Любой"
+                        });
+                    $radio_any.appendTo($("#time-range"));
+                    $label_any.appendTo($("#time-range"));
+                });
+            });
+
+              // Поля для выбора дня и времени заканчиваются
             
               $("#promo-input").inputmask("999aaa99a",{
                   "onincomplete": function(){
@@ -578,7 +642,9 @@
                 var $counts_node = $menu_node.find("#dinner_counts").html(""),
                         $persons_count = $menu_node.find("#persons_count").html(""),
                         $dessert_node = $menu_node.find("#has-dessert").html(""),
-                  has_dessert = $current_list.data("hasdessert");
+                        $breakfast_node = $menu_node.find("#has-breakfast").html(""),
+                  has_dessert = $current_list.data("hasdessert"),
+                  has_breakfast = $current_list.data("hasbreakfast")
                   price_changes[0].counts.forEach(function(num, index){
                     $("<input/>",{
                       class: "js-menu-input m-menu-form__hide",
@@ -607,19 +673,37 @@
                                 text: persons_text[num.person - 1]
                             }).appendTo($persons_count);
                         });
+                        // Добавляем чекбокс "добавить дессерт, если такая опция есть в наборе"
                         if(has_dessert){
                             $("<input/>",{
                                 type: "checkbox",
                                 name: "dessert",
                                 id: "dessert",
                                 class: "js-menu-input g-checkbox m-menu-form__hide"
-                            }).appendTo($dessert_node);
+                            }).appendTo($breakfast_node);
                             $("<label/>",{
                                 for: "dessert",
                                 class: "g-checkbox-label m-menu-form__checkbox",
                                 text: "Добавить десерт"
+                            }).appendTo($breakfast_node);
+                        }
+                        // Конец десерта
+                        // Добавляем чекбокс "добавить дессерт, если такая опция есть в наборе"
+                        if(has_breakfast){
+                            $("<input/>",{
+                                type: "checkbox",
+                                name: "breakfast",
+                                id: "breakfast",
+                                class: "js-menu-input g-checkbox m-menu-form__hide"
+                            }).appendTo($dessert_node);
+                            $("<label/>",{
+                                for: "breakfast",
+                                class: "g-checkbox-label m-menu-form__checkbox",
+                                text: "Добавить завтрак"
                             }).appendTo($dessert_node);
                         }
+                        // Конец десерта
+
                         $menu_node.find("#date").text($current_list.data("date"));
               }
                 var $eat = $current_list.find(".m-menu-items__item[data-product='eat']"),

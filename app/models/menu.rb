@@ -22,6 +22,9 @@ class Menu < ActiveRecord::Base
   has_many :menupersonamounts, dependent: :destroy
   has_many :personamounts, through: :menupersonamounts
 
+  has_many :menudeliveries, dependent: :destroy
+  has_many :deliveries, through: :menudeliveries
+
   has_many :menudays, dependent: :destroy
   has_many :days, through: :menudays
 

@@ -58,6 +58,13 @@
                 .section.row
                   %label.field.prepend-field
                     =f.collection_select(:personamount_ids, Personamount.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-personamount', :multiple => true})
+
+            .row
+              .col-md-12
+                / Select for how many persons this menu can be bought for
+                .section.row
+                  %label.field.prepend-field
+                    =f.collection_select(:delivery_ids, Delivery.all, :id, :admin_title, {include_blank: false, :include_hidden => false, :selected => @menu.deliveries.map(&:id)}, { class: 'select2-multiple form-control select-info select-deliveries', :multiple => true})
                 
             .section.row
               %label.field.option.mt10

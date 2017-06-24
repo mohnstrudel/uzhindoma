@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170624102807) do
+ActiveRecord::Schema.define(version: 20170624204136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,13 @@ ActiveRecord::Schema.define(version: 20170624102807) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "deliveries", force: :cascade do |t|
+    t.string "name"
+    t.string "admin_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "dinner_amount_options", id: :serial, force: :cascade do |t|
     t.integer "day_number"
     t.float "pricechange"
@@ -184,6 +191,14 @@ ActiveRecord::Schema.define(version: 20170624102807) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "intervals", force: :cascade do |t|
+    t.string "value"
+    t.bigint "delivery_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_id"], name: "index_intervals_on_delivery_id"
+  end
+
   create_table "jobtitles", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -209,6 +224,15 @@ ActiveRecord::Schema.define(version: 20170624102807) do
     t.datetime "updated_at", null: false
     t.index ["day_id"], name: "index_menudays_on_day_id"
     t.index ["menu_id"], name: "index_menudays_on_menu_id"
+  end
+
+  create_table "menudeliveries", force: :cascade do |t|
+    t.bigint "menu_id"
+    t.bigint "delivery_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_id"], name: "index_menudeliveries_on_delivery_id"
+    t.index ["menu_id"], name: "index_menudeliveries_on_menu_id"
   end
 
   create_table "menupersonamounts", id: :serial, force: :cascade do |t|
@@ -280,6 +304,8 @@ ActiveRecord::Schema.define(version: 20170624102807) do
     t.integer "promocode_id"
     t.integer "bitrix_order_id"
     t.boolean "cloudpayment"
+    t.string "delivery_day"
+    t.string "delivery_time"
     t.index "lower((first_name)::text) varchar_pattern_ops", name: "orders_lower_first_name"
     t.index "lower((phone)::text) varchar_pattern_ops", name: "orders_lower_phone"
     t.index "lower((second_name)::text) varchar_pattern_ops", name: "orders_lower_second_name"
@@ -428,11 +454,14 @@ ActiveRecord::Schema.define(version: 20170624102807) do
   add_foreign_key "blog_categories", "posts"
   add_foreign_key "dinner_amount_options", "personamounts"
   add_foreign_key "employees", "jobtitles"
+  add_foreign_key "intervals", "deliveries"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "menus"
   add_foreign_key "line_items", "orders"
   add_foreign_key "menudays", "days"
   add_foreign_key "menudays", "menus"
+  add_foreign_key "menudeliveries", "deliveries"
+  add_foreign_key "menudeliveries", "menus"
   add_foreign_key "menupersonamounts", "menus"
   add_foreign_key "menupersonamounts", "personamounts"
   add_foreign_key "menurecipes", "menus"
