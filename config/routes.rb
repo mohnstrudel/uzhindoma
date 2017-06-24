@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     resources :feedbacks, only: [:show, :index]
     resources :posts
     resources :blog_categories
+    resources :subscribers, except: [:show]
 
     # get "user_custom_recovery/:id" => "users#password_recovery"
     get 'user_custom_recovery/:id', to: 'users#password_recovery', as: 'password_recovery'
@@ -78,6 +79,7 @@ Rails.application.routes.draw do
     resources :orders
     resources :payments
     resources :feedbacks, only: [:create, :new]
+    resources :subscribers, only: [:create, :new]
     resources :posts, only: [:index, :show]
     resources :blog_categories, only: [:index, :show], path: '/category' do
       resources :posts, only: [:index, :show]

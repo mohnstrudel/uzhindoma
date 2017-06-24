@@ -26,6 +26,7 @@
         .tab-content.pn.br-n.admin-form
           #main_tab.tab-pane.active
             =render partial: 'admin/shared/form/posts/post_fields', locals: {object: object, f: f}
+            =render partial: 'admin/shared/form/subscribers/subscriber_fields', locals: {object: object, f: f}
 
             -if object.respond_to?(:title)
               .section.row
@@ -61,7 +62,7 @@
                         %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
                     .row
                       .col-xs-7.pr5
-                        %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Img Keywords", :type => "text"}
+                        %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Основная картинка", :type => "text"}
                           %label.field-icon{:for => "name2"}
                       .col-xs-5
                         %span.button.btn-system.btn-file.btn-block
@@ -69,6 +70,26 @@
                           %span.fileupload-exists Поменять
                           =f.file_field :logo, id: 'fileupload'
                           / %input{:type => "file", name: 'picture'}
+
+            -if object.respond_to?(:preview_pic)
+              .section.row.mbn
+                .col-sm-12
+                  .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
+                    .fileupload-preview.thumbnail.mb20
+                      -if object.preview_pic
+                        =image_tag object.preview_pic.url
+                      -else
+                        %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+                    .row
+                      .col-xs-7.pr5
+                        %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "preview_pic", :placeholder => "Картинка для превью", :type => "text"}
+                          %label.field-icon{:for => "preview_pic"}
+                      .col-xs-5
+                        %span.button.btn-system.btn-file.btn-block
+                          %span.fileupload-new Выбрать картинку для превью
+                          %span.fileupload-exists Поменять
+                          =f.file_field :preview_pic, id: 'fileupload'
+
 
           -if object.respond_to?(:seo_keywords)
             #seo_tab.tab-pane

@@ -18,7 +18,12 @@
                 %th Текст
               -if object.has_attribute?(:description)
                 %th Описание
-              
+              -if object.has_attribute?(:email)
+                %th.text-left Email
+              -if object.has_attribute?(:post_referer)
+                %th.text-left С какого поста пришел
+              -if object.has_attribute?(:created_at)
+                %th.text-left Дата создания  
               %th.text-right Статус
           %tbody
             -object.each do |obj|
@@ -32,6 +37,15 @@
                 -if obj.has_attribute?(:description)
                   %td
                     =truncate(obj.description, length: 50)
+                -if obj.has_attribute?(:email)
+                  %td.text-left
+                    =obj.email
+                -if obj.has_attribute?(:post_referer)
+                  %td
+                    =obj.post_referer
+                -if obj.has_attribute?(:created_at)
+                  %td
+                    =obj.created_at.strftime("%d.%m.%Y - %H:%M")
                 %td.text-right
                   .btn-group.text-right
                     %button.btn.btn-success.br2.btn-xs.fs12.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}

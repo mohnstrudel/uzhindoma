@@ -49,12 +49,14 @@
             Хотите получать новые рецепты на почту?
             %span.g-subscribe__title-bold Подпишитесь!
           =image_tag "blog/subscribe_icon.png", class: "g-subscribe__img"
-          / %img.g-subscribe__img{:src => "img/subscribe_icon.png"}/
-          %form.g-form
+          
+          =form_for Subscriber.new, class: "g-form", id: "new_subscriber", remote: true do |f|
             %fieldset.g-fieldset
-              %input.g-input{:name => "email", :placeholder => "Ваш e-mail", :type => "text"}/
+              =f.text_field :email, placeholder: "Ваш e-mail", class: 'g-input'
+              
             %fieldset.g-fieldset
-              %input.g-btn.g-btn_red{:type => "submit", :value => "Подписаться"}/
+              =f.submit "Подписаться", class: 'g-btn g-btn_red'
+              
       .g-similar
         %h2.g-similar__title Похожие записи
         %ul.g-similar__list

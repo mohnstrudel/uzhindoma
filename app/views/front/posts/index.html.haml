@@ -1,5 +1,5 @@
-%section.g-section.g-section_blog.g-mobile-hide
-  %h1.g-blog-title Рецепты, которые нас вдохновляют
+%section.g-section.g-section_blog.g-mobile-hide{style: "background-image: url(#{asset_path @blog.blog_header_pic.hd.url})"}
+  %h1.g-blog-title=@blog.blog_main_text
   
 %section.g-section.g-blog
   .g-wrapper

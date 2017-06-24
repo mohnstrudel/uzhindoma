@@ -1,0 +1,17 @@
+-if object.respond_to?(:email)
+  .section.row
+    .col-sm-12.pl15
+      .section.mb10
+        %label.field.prepend-icon{:for => "email"}
+          =f.text_field :email, class: "event-name gui-input br-light light", placeholder: 'Email'
+          %label.field-icon{:for => "email"}
+            %i.fa.fa-envelope-o
+
+-if object.respond_to?(:post_referer)
+  .section.row
+    .col-sm-12.pl15
+      .section.mb10
+        %label.field.prepend-icon{:for => "post_referer"}
+          =f.text_field :post_referer, class: "event-name gui-input br-light light", placeholder: 'Адрес поста, с которого пользователь подписался'
+          %label.field-icon{:for => "post_referer"}
+            %i.fa.fa-external-link

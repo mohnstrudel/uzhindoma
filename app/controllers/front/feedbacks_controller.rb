@@ -1,4 +1,4 @@
-class Front::FeedbacksController < ApplicationController
+class Front::FeedbacksController < FrontController
   
   def create
     @feedback = Feedback.new(feedback_params)

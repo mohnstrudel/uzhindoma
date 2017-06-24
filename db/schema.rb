@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607074524) do
+ActiveRecord::Schema.define(version: 20170624102807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -337,6 +337,7 @@ ActiveRecord::Schema.define(version: 20170607074524) do
     t.string "logo"
     t.text "seo_description"
     t.string "seo_keywords"
+    t.string "preview_pic"
     t.index "lower((title)::text) varchar_pattern_ops", name: "posts_lower_title"
     t.index "lower(body) text_pattern_ops", name: "posts_lower_body"
     t.index ["blog_category_id"], name: "index_posts_on_blog_category_id"
@@ -374,6 +375,15 @@ ActiveRecord::Schema.define(version: 20170607074524) do
     t.string "seo_title"
     t.text "seo_description"
     t.string "seo_keywords"
+    t.string "blog_header_pic"
+    t.string "blog_main_text"
+  end
+
+  create_table "subscribers", force: :cascade do |t|
+    t.string "email"
+    t.string "post_referer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

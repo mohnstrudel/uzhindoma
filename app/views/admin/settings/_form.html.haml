@@ -14,7 +14,10 @@
             .col-md-4
               .fileupload.fileupload-new.admin-form{"data-provides" => "fileupload"}
                 .fileupload-preview.thumbnail.mb20
-                  %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
+                  -if @setting.blog_header_pic?
+                    =image_tag @setting.blog_header_pic.horizontal.url
+                  -else
+                    %img{:alt => "holder", "data-src" => "holder.js/100%x140"}
                 .row
                   .col-xs-7.pr5
                     %input#name2.text-center.event-name.gui-input.br-light.bg-light{:name => "name2", :placeholder => "Выбрать картинку для блога", :type => "text"}
@@ -23,7 +26,7 @@
                     %span.button.btn-system.btn-file.btn-block
                       %span.fileupload-new Выбрать
                       %span.fileupload-exists Поменять
-                      / =f.file_field :image, name: "pictures[]", id: 'fileupload', type: :file, multiple: true
+                      =f.file_field :blog_header_pic, id: 'fileupload'
                       / %input{:type => "file", name: 'picture'}
             .col-md-8.pl15
               .section.mb10
@@ -76,6 +79,15 @@
                 =f.text_field :out_of_order_end, id: "datetimepicker_end", class: "gui-input", placeholder: "Закрытие списков (конец)"
                 %label.field-icon
                   %i.fa.fa-calendar-o
+
+          .section.row
+            .col-md-12.pl15
+              .section.mb10
+                %label.field.prepend-icon{:for => "blog_main_text"}
+                  =f.text_field :blog_main_text, id: "blog_main_text", class: "event-name gui-input br-light light", placeholder: 'Заглавный тайтл для всего блога'
+                  %label.field-icon{:for => "blog_main_text"}
+                    %i.fa.fa-tag
+
         #seo_fields.tab-pane
           .row
             .section.mb10

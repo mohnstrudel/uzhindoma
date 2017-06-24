@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   include Bootsy::Container
 
   mount_uploader :logo, BlogUploader
+  mount_uploader :preview_pic, BlogUploader
   
   belongs_to :blog_category
 

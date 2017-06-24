@@ -1,0 +1,1 @@
+$("#success-subscriber").fadeIn(200);

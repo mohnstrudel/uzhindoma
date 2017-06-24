@@ -1,6 +1,7 @@
 class Front::PostsController < FrontController
 
   def index
+    @blog = Setting.first
     
 
     post_amount = Post.all.count
