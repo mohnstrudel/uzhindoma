@@ -9,7 +9,7 @@
       нас вдохновляют
     .g-blog__top
       .g-blog__categories.g-categories.g-mobile-hide
-        =link_to "Все", posts_path, class: "g-categories__item g-categories__item_active"
+        =link_to "Все", posts_path, class: "g-categories__item g-categories__item_active", method: :get
         -@categories.each do |category|
           =link_to category.title, blog_category_posts_path(category), class: "g-categories__item", method: :get
       .g-blog__categories.g-categories-select.g-mobile
@@ -25,10 +25,7 @@
     .g-blog__posts
       -if @result_text
         %h2=@result_text
-      / -@posts.in_groups_of(10).each_with_index do |group, index|
-      /   =render partial: 'front/posts/listing', locals: {group: group, index: index}
 
-      -@posts.each_with_index do |post, index|
-        -next if get_second_blog_element(index)
-        =render partial: 'front/posts/listing_new', locals: {post: post, index: index}
+      -@posts.in_groups_of(3).each do |group|
+        =render partial: 'front/posts/listing', locals: { group: group }
     =render partial: "pager", locals: { keywords: @keywords, page: @page }

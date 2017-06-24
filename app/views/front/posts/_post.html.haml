@@ -1,0 +1,9 @@
+=image_or_default_tag(post, 'nil', 'logo', class: 'g-post__img')
+=link_to post_path(post), method: :get do
+  .g-post__desc
+    %h3.g-post__title=post.title
+    %p.g-post__categories=post.blog_category.title
+    %p.g-post__meta
+      =article_description(post.body, 100)
+    %span.g-post__more
+      Читать далее
