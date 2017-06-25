@@ -1,0 +1,6 @@
+var $errors_container = $("#review-errors");
+
+// Обнуляем предыдущие ошибки
+$errors_container.html("");
+      
+$errors_container.append("<%= j render partial: 'front/feedbacks/errors' %>");

@@ -40,7 +40,7 @@
         %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
         
         / ФОРМА ДЛЯ ОБРАТНОЙ СВЯЗИ
-        =form_for Feedback.new, id: "review-form", class: "g-form", remote: true do |f|
+        =form_for Feedback.new, html: { class: "g-form", id: "review-form" }, remote: true do |f|
           / %form#review-form.g-form{:action => "#", :method => "post"}
           %fieldset.g-form__rating
             =f.radio_button :rating, 5, id: "star5"
@@ -76,6 +76,7 @@
           =f.text_field :name, class: "g-input g-form__input", placeholder: "Имя", value: current_user ? current_user.first_name : nil
           =f.text_field :email, class: "g-input g-form__input", placeholder: "Почта", value: current_user ? current_user.email : nil
           =f.text_area :body, class: "g-input g-form__input g-form__input_textarea", placeholder: "Ваш отзыв"
+          #review-errors
           
           =f.submit "Отправить",  class: "g-btn g-btn_blue g-form__submit"
 

@@ -21,3 +21,22 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        feedback:
+          attributes:
+            email:
+              blank: "должна быть указана"
+            body:
+              blank: "должен быть заполнен"
+            rating:
+              blank: "должна быть выбрана"
+            name:
+              blank: "должно быть заполнено"
+    attributes:
+      feedback:
+        email: "Электронная почта"
+        body: "Текст отзыва"
+        rating: "Оценка"
+        name: Имя

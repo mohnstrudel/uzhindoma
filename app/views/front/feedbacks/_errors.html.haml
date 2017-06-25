@@ -1,0 +1,3 @@
+-if @feedback.errors.any?
+  -@feedback.errors.full_messages.each do |message|
+    %p=message

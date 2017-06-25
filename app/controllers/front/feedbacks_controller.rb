@@ -9,7 +9,9 @@ class Front::FeedbacksController < FrontController
 
         ApplicationMailer.delay(queue: "feedbacks").notify_feedback(@feedback)
       else
-        format.html { render 'new'} ## Specify the format in which you are rendering "new" page
+        format.js { 
+          render partial: 'fail'
+        }
         format.json { render json: @feedback.errors } ## You might want to specify a json format as well
       end
     end
