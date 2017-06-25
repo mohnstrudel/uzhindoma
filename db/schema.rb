@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170624204136) do
+ActiveRecord::Schema.define(version: 20170625144406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(version: 20170624204136) do
     t.string "change_to"
     t.text "description"
     t.boolean "has_dessert"
+    t.boolean "has_breakfast"
     t.index ["category_id"], name: "index_menus_on_category_id"
   end
 
@@ -306,6 +307,7 @@ ActiveRecord::Schema.define(version: 20170624204136) do
     t.boolean "cloudpayment"
     t.string "delivery_day"
     t.string "delivery_time"
+    t.boolean "add_breakfast"
     t.index "lower((first_name)::text) varchar_pattern_ops", name: "orders_lower_first_name"
     t.index "lower((phone)::text) varchar_pattern_ops", name: "orders_lower_phone"
     t.index "lower((second_name)::text) varchar_pattern_ops", name: "orders_lower_second_name"

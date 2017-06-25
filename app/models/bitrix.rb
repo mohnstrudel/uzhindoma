@@ -150,7 +150,7 @@ class Bitrix < ActiveRecord::Base
   def self.write_to_crm(url, order, type)
 
     logger.debug "+_+_+_+___+__+_+_+_+_+"
-    logger.debug "Writing to crm with params: #{url}, order: #{order.inspect}, type: #{type}"
+    logger.debug "Writing to crm with params: #{URI.decode(url)}, order: #{order.inspect}, type: #{type}"
     doc = Nokogiri::HTML(open(url))
 
     response = JSON.parse(doc)
@@ -178,6 +178,8 @@ class Bitrix < ActiveRecord::Base
   end
 
   def self.find_product_for_order(order)
+    # В данном методе мы определяем, какой товар добавлять в лид/сделку
+
     if order[:order_type] == "fast"
       menu_type = order[:menu_type]
       person_amount = 2
@@ -194,10 +196,26 @@ class Bitrix < ActiveRecord::Base
 
     logger.debug "\n"
     logger.debug order
-    logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}"
+    logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}, dessert - #{order[:add_dessert]}, breakfast - #{order[:add_breakfast]}"
     logger.debug "\n"
 
-    name_to_search = URI.escape("#{menu_type} #{menu_amount}х#{person_amount}")
+    # Если в заказе стоит галка "добавить завтрак", то ищем следующие наборы
+    # Стандарт+завтрак 5х2
+    # Стандарт+завтрак 3х2
+    # Лайф+завтрак 5х2
+    # Лайф+завтрак 3х2
+
+    # Стандарт+завтрак 5х4
+    # Стандарт+завтрак 3х4
+    # Лайф+завтрак 5х4
+    # Лайф+завтрак 3х4
+
+    if order[:add_breakfast]
+      name_to_search = URI.encode("#{menu_type}+завтрак #{menu_amount}х#{person_amount}")
+    else
+      # Например: Стандарт 4х5
+      name_to_search = URI.encode("#{menu_type} #{menu_amount}х#{person_amount}")
+    end
 
     url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name_to_search}"
     doc = Nokogiri::HTML(open(url))
@@ -207,8 +225,8 @@ class Bitrix < ActiveRecord::Base
       product_id = response["result"][0]["ID"]
       product_price = response["result"][0]["PRICE"]
     rescue Exception => e
-      logger.fatal "No product with name - #{URI.encode(name_to_search)} inside Bitrix found!"
-      flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
+      logger.fatal "No product with name - #{URI.decode(name_to_search)} inside Bitrix found!"
+      # flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
       # redirect_to dinner_index_path
     end
 

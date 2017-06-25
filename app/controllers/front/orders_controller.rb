@@ -20,6 +20,10 @@ class Front::OrdersController < FrontController
     	session[:dessert] = true
     end
 
+    if params['breakfast'] == 'on'
+    	session[:breakfast] = true
+    end
+
     # Метод находится в классе user.rb
     User.password_recovery_via_sms(phone)
 	end
@@ -127,6 +131,7 @@ class Front::OrdersController < FrontController
 		session.delete(:people)
 		session.delete(:quantity)
 		session.delete(:dessert)
+		session.delete(:breakfast)
 	end
 
 	def show
@@ -251,9 +256,10 @@ class Front::OrdersController < FrontController
 		params.require(:order).permit(:first_name, :second_name, :street, :phone, :email,
 			:delivery_region, :city, :additional_address, :pcode, :address,
 			:korpus, :flat_number, :house_number, :comment, :pay_type, :payed_online,
-			:person_amount, :menu_amount, :add_dessert, :user_id, :change, :menu_id,
+			:person_amount, :menu_amount, :user_id, :change, :menu_id,
 			:order_type, :menu_type, :order_price, :delivery_timeframe, :promocode_id,
-			:bitrix_order_id, :cloudpayment, :delivery_day, :delivery_time)
+			:bitrix_order_id, :cloudpayment, :delivery_day, :delivery_time,
+			:add_dessert, :add_breakfast)
 	end
 
 	def find_order

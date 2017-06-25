@@ -35,6 +35,12 @@
         =f.hidden_field :add_dessert, value: true
       -else
         =f.hidden_field :add_dessert, value: false
+      
+      -if (params[:breakfast] == "on" || session[:breakfast] == true)
+        =f.hidden_field :add_breakfast, value: true
+      -else
+        =f.hidden_field :add_breakfast, value: false
+
       =f.hidden_field :change, value: params[:change]
       
       / для существующего пользователя

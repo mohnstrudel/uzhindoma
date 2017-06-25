@@ -73,6 +73,12 @@
                 К набору можно добавить десерт?
                 %em.small-text.text-muted - если отмечено, то у пользователя будет опция добавить десерт к набору
 
+            .section.row
+              %label.field.option.mt10
+                =f.check_box :has_breakfast
+                %span.checkbox>
+                К набору можно добавить завтрак?
+                %em.small-text.text-muted - если отмечено, то у пользователя будет опция добавить завтрак к набору
 
             .section.row
               %label.field.prepend-icon{:for => "product-price"}
