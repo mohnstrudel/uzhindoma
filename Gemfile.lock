@@ -51,10 +51,6 @@ GEM
     arel (8.0.0)
     babosa (1.0.2)
     bcrypt (3.1.11)
-    better_errors (2.1.1)
-      coderay (>= 1.0.0)
-      erubis (>= 2.6.6)
-      rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-glyphicons (0.0.1)
@@ -95,7 +91,6 @@ GEM
       mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
-    coderay (1.1.1)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -318,7 +313,6 @@ DEPENDENCIES
   active_model_otp
   active_model_serializers
   babosa
-  better_errors
   bootstrap-glyphicons
   bootsy
   byebug

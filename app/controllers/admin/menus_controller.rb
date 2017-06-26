@@ -15,13 +15,18 @@ class Admin::MenusController < AdminController
 	end
 
 	def destroy
-		if @menu.destroy
-      		redirect_to admin_menus_path, method: :get
-      		flash[:success] = 'Удалено успешно'
-    	else
-      		render 'index'
-      		flash[:danger] = 'Что-то пошло не так'
-    	end
+    begin 
+  		if @menu.destroy
+    		redirect_to admin_menus_path, method: :get
+    		flash[:success] = 'Удалено успешно'
+      else
+    		render 'index'
+    		flash[:danger] = 'Что-то пошло не так'
+      end
+    rescue ActiveRecord::InvalidForeignKey => e
+      redirect_to admin_menus_path
+      flash[:danger] = "Удалить не получилось, так как уже существует заказ, в котором данное меню. Полный текст ошибки: #{e.message}"
+    end
 	end
 
 	def update

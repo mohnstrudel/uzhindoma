@@ -104,7 +104,7 @@ gem 'httpclient'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'better_errors'
+  # gem 'better_errors'
 
   # Lets test the shit out of this app
   gem 'rspec-rails'
