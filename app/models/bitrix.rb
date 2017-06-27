@@ -54,7 +54,7 @@ class Bitrix < ActiveRecord::Base
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		
-		logger.debug "Calling url: #{url}"
+		logger.debug "Calling url: #{URI.decode(url)}"
 
 		return url
 	end
@@ -163,81 +163,83 @@ class Bitrix < ActiveRecord::Base
     response = JSON.parse(doc)
     deal_or_lead_id = response["result"]
 
-    found_product = Bitrix.find_product_for_order(order)
-
-    # Если промокод указан верно, то discount будет true
-    logger.debug "Creating deal with promocode: #{order[:promocode]}"
-    discount = Bitrix.apply_promocode(order[:promocode])
     
-    answer = Bitrix.format_id_and_prices(found_product, order[:add_dessert], discount)
-    product_id = answer[0]
-    product_price = answer[1]
-    dessert_id = answer[2]
-    dessert_price = answer[3]
-    # Скидка
-    discount_id = answer[4]
-    discount_price = answer[5]
+    # Если промокод указан верно, то discount будет true
+    # logger.debug "Creating deal with promocode: #{order[:promocode]}"
+    # discount = Bitrix.apply_promocode(order[:promocode])
+    # На данный момент отключаем, так как ребята добавляют скидку через бизнес-процесс, а не через сайт
 
-    # Добавляем все товары из Битрикса в битриксовую сделку
-    Bitrix.add_products_to_order(type, deal_or_lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+    # Ищем все наборы на основе данных заказа
+    # Например: Стандарт 4х5 и Промо Завтрак 4х5
+    # found_products представляет собой хэщ с двумя значенимяи
+    # айди каждого набора в Битриксе и его цену
+    # Например {main_menu => {12, 5600}, breakfast => {14, 3200}, dessert => {22, 1200}}
+    found_products = Bitrix.find_products_for_order(order)
+
+    # Добавляем все товары из Битрикса в битриксовую сделку или лид (на данный момент только в лид)
+    Bitrix.add_products_to_order(type, deal_or_lead_id, found_products)
     
     return deal_or_lead_id
   end
 
-  def self.find_product_for_order(order)
+  def self.find_products_for_order(order, discount=nil)
     # В данном методе мы определяем, какой товар добавлять в лид/сделку
+    menu_amount = order[:menu_amount]
+    person_amount = order[:person_amount]
+    menu_type = order[:menu_type]
 
-    if order[:order_type] == "fast"
-      menu_type = order[:menu_type]
-      person_amount = 2
-      menu_amount = 5
-    else
-      menu_id = order[:menu_id]
-      menu_type = Menu.find(menu_id).category.name
-
-      person_amount = order[:person_amount]
-      menu_amount = order[:menu_amount]
-    end
-    
     bitrix = first
 
     logger.debug "\n"
-    logger.debug order
     logger.debug "Working with: menu_type - #{menu_type}, person_amount - #{person_amount}, menu_amount - #{menu_amount}, dessert - #{order[:add_dessert]}, breakfast - #{order[:add_breakfast]}"
     logger.debug "\n"
 
-    # Если в заказе стоит галка "добавить завтрак", то ищем следующие наборы
-    # Стандарт+завтрак 5х2
-    # Стандарт+завтрак 3х2
-    # Лайф+завтрак 5х2
-    # Лайф+завтрак 3х2
+    
+    found_products = Hash.new
+    names_to_search = Array.new
+    # Что бы названия в хэше found_products были более понятными, для
+    # каждого набора сохраняем какое-то более человеческое название
+    hash_names = Array.new
+    
+    # По-любому добавляем обычный набор
+    # Например: Стандарт 4х5
+    names_to_search << URI.encode("#{menu_type} #{menu_amount}х#{person_amount}")
+    hash_names << "main_menu"
 
-    # Стандарт+завтрак 5х4
-    # Стандарт+завтрак 3х4
-    # Лайф+завтрак 5х4
-    # Лайф+завтрак 3х4
-
+    # Если в заказе стоит галка "добавить завтрак", то ищем промо наборы
+    # Промо-Завтраки 3х2
+    # Промо-Завтраки 3х4
+    # Промо-Завтраки 5х2
+    # Промо-Завтраки 5х4
     if order[:add_breakfast]
-      name_to_search = URI.encode("#{menu_type}+завтрак #{menu_amount}х#{person_amount}")
-    else
-      # Например: Стандарт 4х5
-      name_to_search = URI.encode("#{menu_type} #{menu_amount}х#{person_amount}")
+      names_to_search << URI.encode("Промо-Завтраки #{menu_amount}х#{person_amount}")
+      hash_names << "breakfast"
     end
 
-    url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name_to_search}"
-    doc = Nokogiri::HTML(open(url))
-    response = JSON.parse(doc)
-
-    begin
-      product_id = response["result"][0]["ID"]
-      product_price = response["result"][0]["PRICE"]
-    rescue Exception => e
-      logger.fatal "No product with name - #{URI.decode(name_to_search)} inside Bitrix found!"
-      # flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
-      # redirect_to dinner_index_path
+    if order[:add_dessert]
+      names_to_search << URI.encode("Десерт")
+      hash_names << "dessert"
     end
 
-    return product_id, product_price
+    if discount
+      names_to_search << URI.encode("Скидка")
+      hash_names << "discount"
+    end
+
+    names_to_search.each_with_index do |name_to_search, index|
+      url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name_to_search}"
+      doc = Nokogiri::HTML(open(url))
+      response = JSON.parse(doc)
+      begin
+        found_products[hash_names[index]] = Hash["product_id", response["result"][0]["ID"], "product_price", response["result"][0]["PRICE"]]
+      rescue Exception => e
+        logger.fatal "No product with name - #{URI.decode(name_to_search)} inside Bitrix found!"
+        # flash[:danger] = "К сожалению, данная опция набора не доступна для заказа, пожалуйста, свяжитесь с нашими менеджерами для уточнения."
+        # redirect_to dinner_index_path
+      end
+    end
+
+    return found_products
   end
 
   def self.apply_promocode(code)
@@ -247,67 +249,30 @@ class Bitrix < ActiveRecord::Base
     return promocode_valid
   end
 
-  def self.format_id_and_prices(found_product, dessert, discount)
-    logger.debug "INSPECTING FORMAT ID AND PRICES PARAMS"
-    logger.debug "found_product - #{found_product}, dessert - #{dessert}, discount - #{discount}"
-    # Добавить десерт, если в заказе выбрано
-    dessert_id = nil
-    dessert_price = nil
 
-    # Дефолтные nil-значения для скидки
-    discount_id = nil
-    discount_price = nil
-
-    if dessert
-      p "0000000000"
-      logger.debug "DESSERT FOUND! ADDING!"
-      dessert_name = Menu.current_dessert[0].recipes[0][:name]
-      found_dessert = find_product("Десерт")
-      dessert_id = found_dessert[0]
-      dessert_price = found_dessert[1]
-    end
-
-    if discount
-      found_discount = find_product("Скидка")
-      discount_id = found_discount[0]
-      discount_price = found_discount[1]
-    end
-    product_id = found_product[0]
-    product_price = found_product[1]
-
-    return product_id, product_price, dessert_id, dessert_price, discount_id, discount_price
-  end
-
-  def self.find_product(name)
-    bitrix = first
-    # Меняем с вариабельного имени на "Десерт", потому что ребята всегда добавляют один и тот же битриксовый товар.
-    name = URI.escape(name)
-    url = "https://uzhin-doma.bitrix24.ru/rest/crm.product.list.json?&auth=#{bitrix.access_token}&filter[NAME]=#{name}"
-    doc = Nokogiri::HTML(open(url))
-    response = JSON.parse(doc)
-
-    return response["result"][0]["ID"], response["result"][0]["PRICE"]
-  end
-
-  def self.add_products_to_order(order_type, deal_or_lead_id, product_id, product_price, dessert_id, dessert_price, discount_id, discount_price)
+  def self.add_products_to_order(order_type, deal_or_lead_id, found_products)
     # С новых пор это всегда лид
     order_type = "lead"
     # Лид
 
     bitrix = first
-    fields_string = "&id=#{deal_or_lead_id}&&rows[0][PRODUCT_ID]=#{product_id}&rows[0][PRICE]=#{product_price}&rows[0][QUANTITY]=1"
-    dessert_string = ""
-    discount_string = ""
-    if dessert_id
-      dessert_string = "&rows[1][PRODUCT_ID]=#{dessert_id}&rows[1][PRICE]=#{dessert_price}&rows[1][QUANTITY]=1"
-      if discount_id
-        discount_string = "&rows[2][PRODUCT_ID]=#{discount_id}&rows[2][PRICE]=#{discount_price}&rows[2][QUANTITY]=1"
-      end
-    elsif !dessert_id && discount_id
-      discount_string = "&rows[1][PRODUCT_ID]=#{discount_id}&rows[1][PRICE]=#{discount_price}&rows[1][QUANTITY]=1"
+
+    puts "...."
+    puts found_products.inspect
+    puts "...."
+
+    init_fields = "&id=#{deal_or_lead_id}&"
+
+    product_fields = ""
+    # found_products выглядит примерно так - 
+    # Например {main_menu => {12, 5600}, breakfast => {14, 3200}, dessert => {22, 1200}}
+    # Т.е. в value первым значением идет айди, вторым - цена
+    found_products.each_with_index do | (key,value),index |
+      product_fields << "&rows[#{index}][PRODUCT_ID]=#{value['product_id']}&rows[#{index}][PRICE]=#{value['product_price']}&rows[0][QUANTITY]=1"
     end
 
-    url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{fields_string}#{dessert_string}#{discount_string}"
+
+    url = "https://uzhin-doma.bitrix24.ru/rest/crm.#{order_type}.productrows.set.json?&auth=#{bitrix.access_token}#{init_fields}#{product_fields}"
     logger.debug("Adding products to order with url: #{url}")
     doc = Nokogiri::HTML(open(url))
   end
