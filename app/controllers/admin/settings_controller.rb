@@ -18,8 +18,6 @@ class Admin::SettingsController < AdminController
 	private
 
 	def settings_params
-		params.require(:setting).permit(:vkontakte, :facebook, :instagram, :phone, :order_mail, 
-			:out_of_order_begin, :out_of_order_end, :seo_title, :seo_keywords, :seo_description,
-			:blog_header_pic, :blog_main_text)
+		params.require(:setting).permit(Setting.attribute_names.map(&:to_sym))
 	end
 end

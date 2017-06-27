@@ -286,6 +286,9 @@ class Front::OrdersController < FrontController
 		# Комментарий также для всех присутствует
 		commentary = URI.escape(order[:comment])
 
+		# Получаем код roistat из кук. Это число, но тип - стринг
+		roistat_visit = cookies[:roistat_visit]
+
 		# Ставим тип продаж = сайт
 		type_id = URI.escape("Сайт")
 		
@@ -457,7 +460,7 @@ class Front::OrdersController < FrontController
 			# Предыдущее пока комментирую, мбе понадобится. Суть в том, что с 11/03/2017
 			# нужно и сделку передавать в лид с разницой в одно только поле "Существующий клиент"
 
-			url = Bitrix.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id)
+			url = Bitrix.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id, roistat_visit)
 
 			logger.info "Benchmarking Bitrix.write_to_crm"
 			Benchmark.bm do |x|
@@ -469,7 +472,7 @@ class Front::OrdersController < FrontController
 
 		when "lead"
 
-			url = Bitrix.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id)
+			url = Bitrix.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id, roistat_visit)
 
 			# long url example
 			# auth=bo00krlcimz2k3fggnzzxfusg2rhk3d3&&fields[TITLE]=%D0%98%D0%9F%20%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[NAME]=%D0%93%D0%BB%D0%B5%D0%B1&fields[SECOND_NAME]=%D0%95%D0%B3%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87&fields[LAST_NAME]=%D0%A2%D0%B8%D1%82%D0%BE%D0%B2&fields[STATUS_ID]=NEW&fields[OPENED]=Y&fields[ASSIGNED_BY_ID]=1&fields[CURRENCY_ID]=USD&fields[OPPORTUNITY]=12500&&fields[PHONE][0][VALUE]=555888&fields[PHONE][0][VALUE_TYPE]=WORK&params[REGISTER_SONET_EVENT]=Y

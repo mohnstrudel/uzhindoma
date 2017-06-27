@@ -15,6 +15,10 @@
         %a.g-footer__phone{:href => "tel:#{Setting.first.phone}"}=Setting.first.phone
       -else
         %a.g-footer__phone{:href => "tel:"} Нет телефона
+
+      -if Setting.first.address.present?
+        %p.g-footer__text
+          =Setting.first.address
     .g-footer__links
       %a.g-footer__link{:href => "/uznat-bolshe"} Вопрос-ответ
       %br/

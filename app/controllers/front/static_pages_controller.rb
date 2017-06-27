@@ -10,6 +10,10 @@ class Front::StaticPagesController < FrontController
   	@current_menus = Menu.no_dessert.current.sort_by { |menu| menu.category.sortable }
 
   	@setting = Setting.first
+
+    @roistat = cookies[:roistat_visit]
+    puts "Testing cookies"
+    puts @roistat.inspect
   end
 
   def learn_more

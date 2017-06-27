@@ -87,6 +87,13 @@
                   =f.text_field :blog_main_text, id: "blog_main_text", class: "event-name gui-input br-light light", placeholder: 'Заглавный тайтл для всего блога'
                   %label.field-icon{:for => "blog_main_text"}
                     %i.fa.fa-tag
+          .row
+            .form-group
+              %label.col-sm-2.control-label
+                Адрес офиса
+              .col-sm-10
+                =f.text_area :address, class: 'form-control', rows: 4
+                %span.help-block.m-b-none Например: г. Москва, ул. Булгакова 7
 
         #seo_fields.tab-pane
           .row
@@ -117,6 +124,7 @@
               .alert.alert-micro.alert-border-left.alert-info
                 %i.fa.fa-info.pr10
                 Описание сайта, которое будет отображаться на всех страницах (в дополнении к описанию индивидуальных страниц)
+
 
 
 

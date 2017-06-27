@@ -11,7 +11,7 @@ class Bitrix < ActiveRecord::Base
 	require 'open-uri'
 	# require 'curb'
 
-	def self.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id)
+	def self.get_fields_string(type, address, add_address, timeframe, name, phone, title, type_id, commentary, email, payment_fields, user_id, roistat_visit)
 		
 		bitrix = first
 
@@ -21,6 +21,13 @@ class Bitrix < ActiveRecord::Base
 		when "lead"
 			lead_specific_fields = "&fields[UF_CRM_1488879411]=0"
 		end
+
+    # Передаем код roistat
+    roistat_fields = ""
+    if roistat_visit.present?
+      roistat_fields = "&fields[UF_CRM_1498505509]=#{roistat_visit}"
+    end
+
 
 		address_fields = "&fields[UF_CRM_1454918385]=#{address}"
 		add_address_fields = "&fields[UF_CRM_1454918441]=#{add_address}"
@@ -43,7 +50,7 @@ class Bitrix < ActiveRecord::Base
     phone_fields = "&fields[PHONE][0][VALUE]=#{phone}&fields[PHONE][0][VALUE_TYPE]=WORK&fields[UF_CRM_1456818304]=#{phone}"
 
 		logger.info "Creating a new lead with params: name - #{name}, phone - #{phone}, title - #{title}"
-		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}#{phone_fields}&fields[EMAIL][0][VALUE]=#{email}&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}#{complete_order_fields}"
+		fields_string = "fields[SOURCE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[NAME]=#{name}&fields[SECOND_NAME]=#{phone}&fields[UF_CRM_1482065300]=#{commentary}#{phone_fields}&fields[EMAIL][0][VALUE]=#{email}&fields[ADDRESS]=#{address}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}#{deal_specific_fields}#{lead_specific_fields}#{complete_order_fields}#{roistat_fields}"
 		
 		url = "https://uzhin-doma.bitrix24.ru/rest/crm.lead.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 		

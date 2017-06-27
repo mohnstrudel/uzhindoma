@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625144406) do
+ActiveRecord::Schema.define(version: 20170627201814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -405,6 +405,7 @@ ActiveRecord::Schema.define(version: 20170625144406) do
     t.string "seo_keywords"
     t.string "blog_header_pic"
     t.string "blog_main_text"
+    t.text "address"
   end
 
   create_table "subscribers", force: :cascade do |t|
