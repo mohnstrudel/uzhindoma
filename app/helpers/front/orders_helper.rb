@@ -13,6 +13,10 @@ module Front::OrdersHelper
       result << pm_string
     end
 
-    return result.join("|")
+    joined_result = result.join("|")
+    puts "..."
+    puts "price matrix is:"
+    puts joined_result.inspect
+    return joined_result
   end
 end

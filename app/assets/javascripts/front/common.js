@@ -577,7 +577,8 @@
             function calculate(menu_toggle){
               var current_type = $menu_node.data("show"),
                     $current_list = $menu_node.find(".m-menu-items__list[data-type='" + current_type + "']");
-                var price_changes = [];
+                var price_changes = [],
+                    breakfast_price_changes = [];
                 $current_list.data("price-changes").split("|").forEach(function(e,i){
                     var reg = new RegExp(/^(\d*)\{([\d\:\,]*)\}/),
                         res = e.match(reg),
@@ -592,6 +593,22 @@
                     });
                     price_changes.push(object);
                 });
+              // Menu toggle remove. New code inserted
+              $current_list.data("breakfast-price-changes").split("|").forEach(function(e,i){
+                    var reg = new RegExp(/^(\d*)\{([\d\:\,]*)\}/),
+                        res = e.match(reg),
+                        object = {
+                            person: res[1],
+                            changes: [],
+                            counts: []
+                        };
+                    res[2].split(",").forEach(function(num,i){
+                        object.changes.push(parseInt(num.split(":")[1]));
+                        object.counts.push(num.split(":")[0]);
+                    });
+                    breakfast_price_changes.push(object);
+                });
+              // Menu toggle reentered
               if(menu_toggle){
                         $menu_node.find("#menu-id").val(current_type);
                 var $counts_node = $menu_node.find("#dinner_counts").html(""),
@@ -667,6 +684,7 @@
                     quantity_index,
                     person = $menu_node.find("input[name=people]:checked").val(),
                     dessert = $menu_node.find("input[name=dessert]:checked").val(),
+                    breakfast = $menu_node.find("input[name=breakfast]:checked").val(),
                     total_price = 0,
                     current_person;
                 price_changes.forEach(function(el,i){
@@ -685,6 +703,10 @@
                     $dessert.addClass("m-menu-items__item_disabled");
                 else
                     total_price += parseInt($dessert.data("price"));
+
+                if(typeof breakfast !== 'undefined')
+                    total_price += parseInt($current_list.data("breakfast-price")) + breakfast_price_changes[current_person].changes[quantity_index]; 
+
                 total_price += parseInt($current_list.data("price")) + price_changes[current_person].changes[quantity_index];
                 $menu_node.find("#total_price").text(total_price);
             }

@@ -4,6 +4,8 @@ class Front::DinnerController < FrontController
 		@current_menus = Menu.no_dessert.current.includes(:menurecipes).sort_by { |menu| menu.category.sortable }
 		@dessert = Menu.current_dessert[0]
 
+		@breakfast = Menu.current_breakfast[0]
+
 		if @dessert.nil?
 			@col_value = 6
 		else

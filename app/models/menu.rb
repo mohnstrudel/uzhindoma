@@ -5,6 +5,7 @@ class Menu < ActiveRecord::Base
   scope :no_dessert, lambda { where("category_id != ?", Category.dessert[0].id)}
   scope :dessert, lambda { where("category_id =?", Category.dessert[0].id)}
   scope :current_dessert, lambda { where("start_time <= ? AND end_time >= ? AND category_id = ?", Time.zone.now, Time.zone.now, Category.dessert[0].id)}
+  scope :current_breakfast, lambda { where("start_time <= ? AND end_time >= ? AND category_id = ?", Time.zone.now, Time.zone.now, Category.breakfast[0].id)}
   # scope :ordered, -> { order('category.sortable') }
 
   after_save :get_date
