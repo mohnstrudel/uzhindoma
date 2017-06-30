@@ -18,15 +18,15 @@
             %p{:style => "margin: 0;padding-top: 31px;"} Пожалуйста, проверьте данные по вашему заказу:
             %p{:style => "margin: 0;"}
               %i 
-                ="Набор #{@type} #{@order.menu_amount}х#{@order.person_amount}#{@order.add_dessert ? "+ Десерт" : ""}"
+                ="Набор #{@type} #{@order.menu_amount}х#{@order.person_amount}#{@order.add_dessert ? " + Десерт" : ""}#{@order.add_breakfast ? " + Завтраки" : ""}"
             %p{:style => "margin: 0;padding-top: 34px;"}
               %b 
                 ="Номер вашего заказа: #{@order.id}"
             %p{:style => "margin: 0;padding-top: 33px;"} Дата и время доставки:
             / %p{:style => "margin: 0;"} 15.05.2017 добавить дату доставки!
             %p{:style => "margin: 0;"}=@delivery_date
-            %p{:style => "margin: 0;"} 
-              =@order.delivery_timeframe
+            / %p{:style => "margin: 0;"} 
+              / =@order.delivery_timeframe
         %tr
           %td{:colspan => "2", :style => "padding-left: 20px;padding-top: 8px;"}
             %p{:style => "margin: 0;"}

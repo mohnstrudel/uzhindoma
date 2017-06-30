@@ -3,49 +3,71 @@ var widget = new cp.CloudPayments();
 var email = $("#email").val();
 var order_id = $("#order_id").val();
 var amount = parseFloat($("#order_price").val());
+var order = $('form').data('order');
+var breakfast = $('form').data('breakfast');
+var dessert = $('form').data('dessert');
+var menu = $('form').data('current-menu');
+
+var items_array = [];
+
+items_array.push(
+    {
+      label: menu.name, //наименование товара
+      price: menu.price, //цена
+      quantity: 1.00, //количество 
+      amount: menu.price, //сумма
+      vat: null, //ставка НДС
+      ean13: null //штрих-код
+    }
+  );
+
+if (typeof breakfast !== 'undefined' && breakfast !== null) {
+  items_array.push(
+    {
+      label: breakfast.name, //наименование товара
+      price: breakfast.price, //цена
+      quantity: 1.00, //количество 
+      amount: breakfast.price, //сумма
+      vat: null, //ставка НДС
+      ean13: null //штрих-код
+    }
+  );
+}
+
+if (typeof dessert !== 'undefined' && dessert !== null) {
+  items_array.push(
+    {
+      label: dessert.name, //наименование товара
+      price: dessert.price, //цена
+      quantity: 1.00, //количество 
+      amount: dessert.price, //сумма
+      vat: null, //ставка НДС
+      ean13: null //штрих-код
+    }
+  );
+}
+
+
+
+
 widget.charge({ // options
-        publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
-        // publicId: 'pk_8dc065172902e15e2e75fb43d2015', // ДЕВЕЛОПМЕНТ
+        // publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
+        publicId: 'pk_8dc065172902e15e2e75fb43d2015', // ДЕВЕЛОПМЕНТ
         description: 'Оплата заказа Ужин Дома', //назначение
         amount: amount, //сумма
         currency: 'RUB', //валюта
         invoiceId: order_id, //номер заказа  (необязательно)
         accountId: email, //идентификатор плательщика (необязательно)
-        // data: {
-        //     cloudPayments: {
-        //         customerReceipt: {
-        //             Items: [ //товарные позициии
-        //                 {
-        //                     label: 'Наименование товара 1', //наименование товара
-        //                     price: 100.00, //цена
-        //                     quantity: 1.00, //количество 
-        //                     amount: 100.00, //сумма
-        //                     vat: 10, //ставка НДС
-        //                     ean13: '0123456789' //штрих-код
-        //                 },
-        //                 {
-        //                     label: 'Наименование товара 2', //наименование товара
-        //                     price: 200.00, //цена
-        //                     quantity: 2.00, //количество 
-        //                     amount: 200.00, //сумма со скидкой 50%
-        //                     vat: 18, //ставка НДС
-        //                     ean13: null //штрих-код
-        //                 },
-        //                 {
-        //                     label: 'Наименование товара 3', //наименование товара
-        //                     price: 300.00, //цена
-        //                     quantity: 3.00, //количество 
-        //                     amount: 900.00, //сумма
-        //                     vat: 18, //ставка НДС
-        //                     ean13: null //штрих-код
-        //                 }
-        //             ],
-        //             taxationSystem: 1, //система налогообложения
-        //             email: '', //e-mail покупателя или
-        //             phone: '' //телефон покупателя в любом формате
-        //         }
-        //     }
-        // }
+        data: {
+            cloudPayments: {
+                customerReceipt: {
+                    Items: items_array,
+                    taxationSystem: 1, //система налогообложения
+                    email: order.email, //e-mail покупателя или
+                    phone: order.phone //телефон покупателя в любом формате
+                }
+            }
+        }
     },
     function (options) { // success
         console.log("Payment successful!");

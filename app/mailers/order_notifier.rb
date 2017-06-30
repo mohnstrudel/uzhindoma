@@ -26,6 +26,8 @@ class OrderNotifier < ApplicationMailer
       @delivery_date = "Ближайшее воскресенье - #{order.delivery_timeframe}"
     elsif order.delivery_day && order.delivery_time
       @delivery_date = "#{order.delivery_day} - #{order.delivery_time}"
+    else
+      @delivery_date = "Ближайшее воскресенье"
     end
 
     begin

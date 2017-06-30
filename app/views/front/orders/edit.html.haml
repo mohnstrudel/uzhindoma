@@ -10,10 +10,11 @@
       %p.g-price.g-rub
         =@order.order_price
       %h3.g-price-title Тип оплаты
-      =form_for @order, html: { class: "g-form g-form_checkout" } do |f|
+      =form_for @order, html: { class: "g-form g-form_checkout" }, data: {order: @order.to_json, dessert: @dessert.to_json, breakfast: @breakfast.to_json, current_menu: @current_menu.to_json} do |f|
         =f.hidden_field :payed_online, value: false, id: "order_payed_online"
         =hidden_field_tag "order_price", @order.order_price
         =hidden_field_tag "order_id", @order.id
+        / =hidden_field_tag "whole_order", @order.inspect.to_json
         %fieldset.g-fieldset
           =f.radio_button :pay_type, "Наличными курьеру", id: "cash", class: "g-input_hide"
           %label.g-input-radio{:for => "cash"} Наличными курьеру

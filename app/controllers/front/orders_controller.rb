@@ -57,9 +57,10 @@ class Front::OrdersController < FrontController
 				persons = params[:people] || session[:people]
 				quantity = params[:quantity] || session[:quantity]
 				dessert = params[:dessert] || session[:dessert]
+				breakfast = params[:breakfast] || session[:breakfast]
 				
 				@menu = Menu.find(menu_param)
-				@menu_price = @menu.calculate_price(@menu, persons, quantity, dessert)
+				@menu_price = @menu.calculate_price(@menu, persons, quantity, dessert, breakfast)
 
 				@delivery = @menu.deliveries.to_json(only: [:id, :name], include: { intervals: {only: [:id, :value]}})
 				puts "Delivery:"
@@ -138,6 +139,45 @@ class Front::OrdersController < FrontController
 	end
 
 	def edit
+		# Расчитываем цену для печати чека. Пока такой костыль до внедрения корзины
+
+		menu_amount = @order[:menu_amount]
+		person_amount = @order[:person_amount]
+		menu_type = @order[:menu_type]
+		category_id = Category.find_by(name: menu_type)
+		menu = Menu.current.find_by(category_id: category_id)
+		menu_personamount = menu.personamounts.find_by(value: person_amount)
+		menu_dinner_amount_options = menu_personamount.dinner_amount_options.find_by(day_number: menu_amount)
+
+		menu_price = menu.price + menu_dinner_amount_options.pricechange
+
+		@current_menu = {
+			name: "#{menu_type} #{menu_amount}x#{person_amount}",
+			price: menu_price
+		}
+
+		if @order[:add_dessert]
+			dessert_price = Menu.current_dessert[0].price
+
+			@dessert = {
+				name: "Десерт",
+				price: dessert_price
+			}
+		else
+			@dessert = nil
+		end
+
+		if @order[:add_breakfast]
+
+			breakfast_data = Menu.breakfast_data(menu_amount, person_amount)
+
+			@breakfast = {
+				name: breakfast_data[0],
+				price: breakfast_data[1]
+			}
+		else
+			@breakfast = nil
+		end
 	end
 
 	def out_of_order

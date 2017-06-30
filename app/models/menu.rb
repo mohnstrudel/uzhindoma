@@ -41,7 +41,34 @@ class Menu < ActiveRecord::Base
     daterange.split(" - ")
   end
 
-  def calculate_price(menu, persons, quantity, dessert)
+  def self.breakfast_data(menu_amount, person_amount)
+    # Преобразовываем инпут в числа
+    menu_amount = menu_amount.to_i
+    person_amount = person_amount.to_i
+    if (menu_amount == 4 and person_amount == 4)
+      # если выбираю 4 на 4 давать завтрак 5 на 4
+      days = 5
+    elsif (menu_amount == 4 and person_amount == 2)
+      # если 4 на 2 завтрак 3 на 2!
+      days = 3
+    else
+      days = menu_amount
+    end
+
+    people = person_amount
+    breakfast = Menu.current_breakfast[0]
+    puts "Settings: breakfast #{days}x#{people}"
+    puts "Menu_amount: #{days}, Person_amount: #{people}"
+    p breakfast_personamount = breakfast.personamounts.find_by(value: people)
+    p breakfast_dinner_amount_options = breakfast_personamount.dinner_amount_options.find_by(day_number: days)
+      
+    breakfast_price = breakfast.price + breakfast_dinner_amount_options.pricechange
+    breakfast_name = "Завтрак #{days}x#{people}"
+
+    return breakfast_name, breakfast_price
+  end
+
+  def calculate_price(menu, persons, quantity, dessert, breakfast)
     # Получаем базовую цену
     price = menu.price
     pricechange = 0
@@ -51,6 +78,9 @@ class Menu < ActiveRecord::Base
     # Получаем значение кол-ва человек и ужинов
     person_amount = persons
     menu_amount = quantity
+
+    # Данные завтрака
+    breakfast_data = Menu.breakfast_data(menu_amount, person_amount)
 
 
     # Сначала получаем "столбец", т.е. ту запись, которая отвечает за
@@ -65,6 +95,10 @@ class Menu < ActiveRecord::Base
 
     if (dessert == "on" || dessert == true)
       price += dessert_price
+    end
+
+    if (breakfast == "on" || breakfast == true)
+      price += breakfast_data[1]
     end
 
     price += pricechange.to_i
