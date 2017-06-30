@@ -82,6 +82,11 @@ ActiveRecord::Schema.define(version: 20170630144635) do
     t.index ["post_id"], name: "index_blog_categories_on_post_id"
   end
 
+  create_table "bonus_personamounts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "bootsy_image_galleries", id: :serial, force: :cascade do |t|
     t.string "bootsy_resource_type"
     t.integer "bootsy_resource_id"
