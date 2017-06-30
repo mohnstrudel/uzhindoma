@@ -51,8 +51,8 @@ if (typeof dessert !== 'undefined' && dessert !== null) {
 
 
 widget.charge({ // options
-        // publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
-        publicId: 'pk_8dc065172902e15e2e75fb43d2015', // ДЕВЕЛОПМЕНТ
+        publicId: 'pk_6bbb5742d0140cdd4d7d1432de848',  //id из личного кабинета ПРОДАКШН
+        // publicId: 'pk_8dc065172902e15e2e75fb43d2015', // ДЕВЕЛОПМЕНТ
         description: 'Оплата заказа Ужин Дома', //назначение
         amount: amount, //сумма
         currency: 'RUB', //валюта
