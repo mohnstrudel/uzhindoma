@@ -15,6 +15,11 @@ $('menus').ready(function(){
     allowClear: true
   });
 
+  $('.select-bonus-personamount').select2({
+    placeholder: 'Выбрать кол-во ПРОМО персон для данного набора',
+    allowClear: true
+  });
+
   $('.select-deliveries').select2({
     placeholder: 'Выбрать доступные дни доставки',
     allowClear: true
