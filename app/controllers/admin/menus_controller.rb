@@ -34,7 +34,8 @@ class Admin::MenusController < AdminController
 			redirect_to edit_admin_menu_path(@menu), method: :get
 			flash[:success] = "Успешно обновлено"
 		else
-			render "edit"
+			render :edit
+      flash[:danger] = "Что-то пошло не так"
 		end
 	end
 
@@ -42,9 +43,11 @@ class Admin::MenusController < AdminController
 		@menu = Menu.new(menu_params)
 		if @menu.save
   			redirect_to admin_menus_path, method: :get
-      		flash[:success] = "Успешно создано"
+      	flash[:success] = "Успешно создано"
   		else
-  			render 'new'
+  			
+        flash[:danger] = "Что-то пошло не так"
+        render :new
   		end
 	end
 

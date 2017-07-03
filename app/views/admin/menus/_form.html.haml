@@ -1,3 +1,14 @@
+-if @menu.errors.any?
+  .panel.panel-warning
+    .panel-heading
+      %i.fa.fa-warning
+      Ошибки
+    .panel-body
+      %ul
+        -@menu.errors.full_messages.each do |message| 
+          %li
+            =message
+
 =form_for [:admin, @menu] do |f|
   .panel.mb25.mt5
     .panel-heading

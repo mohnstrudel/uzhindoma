@@ -34,9 +34,21 @@ en:
               blank: "должна быть выбрана"
             name:
               blank: "должно быть заполнено"
+        menurecipe:
+          attributes:
+            sortable:
+              blank: должна быть заполнена
+        menu:
+          attributes:
+            daterange:
+              blank: должна быть заполнена
     attributes:
       feedback:
         email: "Электронная почта"
         body: "Текст отзыва"
         rating: "Оценка"
-        name: Имя
+        name: "Имя"
+      menu/menurecipes:
+        sortable: "Цифра для сортировки блюд в наборе"
+      menu:
+        daterange: Дата действия наборов

@@ -1,5 +1,6 @@
-class AdminController < ApplicationController
 
+class AdminController < ApplicationController
+  
   before_action :authenticate_admin!, :verify_has_access
 	layout "admin"
 
