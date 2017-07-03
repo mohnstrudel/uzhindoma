@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170630144635) do
+ActiveRecord::Schema.define(version: 20170703191413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,26 @@ ActiveRecord::Schema.define(version: 20170630144635) do
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["jobtitle_id"], name: "index_admins_on_jobtitle_id"
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "b_menupersonamounts", force: :cascade do |t|
+    t.bigint "menu_id"
+    t.bigint "b_personamount_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["b_personamount_id"], name: "index_b_menupersonamounts_on_b_personamount_id"
+    t.index ["menu_id"], name: "index_b_menupersonamounts_on_menu_id"
+  end
+
+  create_table "b_personamounts", force: :cascade do |t|
+    t.integer "value"
+    t.string "wordvalue"
+    t.integer "pricechange"
+    t.string "title"
+    t.integer "pricechange_life"
+    t.integer "sortable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "bitrixes", id: :serial, force: :cascade do |t|
@@ -155,6 +175,8 @@ ActiveRecord::Schema.define(version: 20170630144635) do
     t.integer "personamount_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "b_personamount_id"
+    t.index ["b_personamount_id"], name: "index_dinner_amount_options_on_b_personamount_id"
     t.index ["personamount_id"], name: "index_dinner_amount_options_on_personamount_id"
   end
 
@@ -461,7 +483,10 @@ ActiveRecord::Schema.define(version: 20170630144635) do
 
   add_foreign_key "accounts", "users"
   add_foreign_key "addresses", "users"
+  add_foreign_key "b_menupersonamounts", "b_personamounts"
+  add_foreign_key "b_menupersonamounts", "menus"
   add_foreign_key "blog_categories", "posts"
+  add_foreign_key "dinner_amount_options", "b_personamounts"
   add_foreign_key "dinner_amount_options", "personamounts"
   add_foreign_key "employees", "jobtitles"
   add_foreign_key "intervals", "deliveries"

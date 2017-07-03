@@ -5,6 +5,11 @@ class Front::DinnerController < FrontController
 		@dessert = Menu.current_dessert[0]
 
 		@breakfast = Menu.current_breakfast[0]
+		if @breakfast
+			@breakfast_price = @breakfast.price
+		else
+			@breakfast_price = ""
+		end
 
 		if @dessert.nil?
 			@col_value = 6

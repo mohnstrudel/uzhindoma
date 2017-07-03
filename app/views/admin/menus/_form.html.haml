@@ -75,7 +75,7 @@
                 .section.row
                   %label.field.prepend-field
                     / =select_tag "menu[bonus_personamount_ids][]", options_for_select(Personamount.all{ |u| [u.id, u.title] })
-                    =f.collection_select(:bonuspersonamount_ids, Personamount.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.bonuspersonamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-bonus-personamount', :multiple => true})
+                    =f.collection_select(:b_personamount_ids, BPersonamount.all, :id, :title, {include_blank: false, :include_hidden => false, :selected => @menu.b_personamounts.map(&:id)}, { class: 'select2-multiple form-control select-info select-bonus-personamount', :multiple => true})
                     %span.help-block.m-b-none Например, для завтраков можно добавить новую комбинацию людей ужинов и цен для какой-то промо-акции.
 
 

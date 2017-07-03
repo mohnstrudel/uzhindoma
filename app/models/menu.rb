@@ -24,14 +24,10 @@ class Menu < ActiveRecord::Base
   accepts_nested_attributes_for :menurecipes, allow_destroy: true
 
   has_many :menupersonamounts, dependent: :destroy
-  has_many :bonusmenupersonamounts, dependent: :destroy, class_name: "Menupersonamount", foreign_key: :bonuspersonamount_id
-  
   has_many :personamounts, through: :menupersonamounts
-  has_many :bonuspersonamounts, through: :bonusmenupersonamounts
-  # has_many :bonusmenupersonamounts, dependent: :destroy
 
-  # has_many :personamounts, :class_name => 'Menupersonamount', :foreign_key => :personamount
-  # has_many :bonuspersonamounts, :class_name => 'Menupersonamount', :foreign_key => :bonuspersonamount
+  has_many :b_menupersonamounts, dependent: :destroy
+  has_many :b_personamounts, through: :b_menupersonamounts
 
   has_many :menudeliveries, dependent: :destroy
   has_many :deliveries, through: :menudeliveries

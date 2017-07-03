@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     resources :partners
     resources :igrams
     resources :personamounts
+    resources :b_personamounts
     resources :days
     resources :promocodes
     resources :feedbacks, only: [:show, :index]
