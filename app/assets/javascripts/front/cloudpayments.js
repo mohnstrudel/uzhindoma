@@ -62,7 +62,7 @@ widget.charge({ // options
             cloudPayments: {
                 customerReceipt: {
                     Items: items_array,
-                    taxationSystem: 1, //система налогообложения
+                    taxationSystem: 2, //система налогообложения
                     email: order.email, //e-mail покупателя или
                     phone: order.phone //телефон покупателя в любом формате
                 }
