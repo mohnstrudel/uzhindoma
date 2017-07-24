@@ -41,7 +41,7 @@
                 %p.m-menu-items__description
                   =@dessert.recipes.first.name
             -else
-              %a.m-menu-items__item{"data-lightbox" => "menu_#{index+1}", "data-price" => @dessert.price, "data-product" => "dessert", "data-title" => @dessert.recipes.first.description, :href => @dessert.recipes.first.pictures.first.image.url}
+              %a.m-menu-items__item{"data-lightbox" => "menu_#{index+1}", "data-price" => @dessert.price, "data-product" => "dessert", "data-title" => @dessert.recipes.first.name, :href => @dessert.recipes.first.pictures.first.image.url}
                 .m-menu-items__img-wrapper
                   %img.m-menu-items__img{:src => @dessert.recipes.first.pictures.first.image.url, :srcset => "#{@dessert.recipes.first.pictures.first.image.url} 1x, #{@dessert.recipes.first.pictures.first.image.medium_thumb.url} 2x"}/
                 %p.m-menu-items__description
