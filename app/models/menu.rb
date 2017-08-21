@@ -9,6 +9,8 @@ class Menu < ActiveRecord::Base
   # scope :ordered, -> { order('category.sortable') }
 
   validates :daterange, presence: true
+
+  validate :presence_of_dessert
   # validates :sortable, presence:  true, :if => "menurecipes.present?"
 
   after_save :get_date
@@ -42,6 +44,12 @@ class Menu < ActiveRecord::Base
   before_destroy :ensure_not_referenced_by_any_line_item
 
   has_many :orders
+
+  def presence_of_dessert
+    if Menu.current.dessert.empty? && self.has_dessert
+      errors.add(:menu, "Нельзя сохранить набор с опцией 'можно добавить десерт', когда десерта нет. Либо уберите опцию, либо создайте десерт.")
+    end
+  end
 
   def date
     daterange.split(" - ")
@@ -79,7 +87,12 @@ class Menu < ActiveRecord::Base
     price = menu.price
     pricechange = 0
 
-    dessert_price = Menu.current.dessert[0].price
+    begin
+      dessert_price = Menu.current.dessert[0].price
+    rescue NoMethodError=>e
+      dessert_price = 0
+      p "Error encountered: #{e.message}"
+    end
 
     # Получаем значение кол-ва человек и ужинов
     person_amount = persons

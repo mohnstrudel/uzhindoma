@@ -68,11 +68,11 @@ Rails.application.configure do
   # Specify what domain to use for mailer URLs 
 
   ActionMailer::Base.smtp_settings = {
-    :user_name => Figaro.env.sendgrid_user,
-    :password => Figaro.env.sendgrid_password,
-    :domain => 'uzhindoma.eve-trader.net',
-    :address => 'smtp.sendgrid.net',
-    :port => 25,
+    :user_name => Figaro.env.mailer_user,
+    :password => Figaro.env.mailer_password,
+    :domain => 'uzhindoma.ru',
+    :address => 'smtp.sparkpostmail.com',
+    :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true
   }
