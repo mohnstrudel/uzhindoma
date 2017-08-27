@@ -97,7 +97,7 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => Figaro.env.mailer_user,
     :password => Figaro.env.mailer_password,
-    :domain => Figar.env.hostname,
+    :domain => Figaro.env.hostname,
     :address => 'smtp.mandrillapp.com',
     :port => 587,
     :authentication => :plain,
