@@ -43,8 +43,8 @@ class Front::OrdersController < FrontController
 				
 				redirect_to out_of_order_path
 				# Оповещаем админа сайта, что есть заказ в день, когда списки закрыты
-				# OrderNotifier.out_of_order(session[:phone]).deliver_now
-				OrderNotifier.delay(queue: "no_orders").out_of_order(session[:phone])
+				OrderNotifier.out_of_order(session[:phone]).deliver_now
+				# OrderNotifier.delay(queue: "no_orders").out_of_order(session[:phone])
 			else	
 				# Если набор открыт, то следуем дальше логике приложения
 				if (@cu.delivery_region == "true" || @cu.delivery_region == "Московская область")
@@ -194,14 +194,16 @@ class Front::OrdersController < FrontController
 			end
 
 			begin
-				OrderNotifier.delay(queue: "orders", priority: 0).received(@order)
+				OrderNotifier.received(@order).deliver_now
+				# OrderNotifier.delay(queue: "orders", priority: 0).received(@order)
 				logger.info "Client notification for #{@order.phone} sent."
 			rescue => e
 				logger.critical "Client notification for #{@order.phone} failed. Error(s): #{e.message}"
 			end
 
 			begin
-				OrderNotifier.delay(queue: "orders", priority: 20).notifyShop(@order)
+				OrderNotifier.notifyShop(@order).deliver_now
+				# OrderNotifier.delay(queue: "orders", priority: 20).notifyShop(@order)
 				logger.info "Shop notification for #{@order.phone} sent."
 			rescue => e
 				logger.critical "Shop notification for #{@order.phone} failed. Error(s): #{e.message}"

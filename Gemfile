@@ -71,7 +71,7 @@ gem 'active_model_serializers'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
-gem 'puma', '~> 3.8.2'
+gem 'puma'
 
 # Use HAML for a nice html markup
 gem "haml-rails"
@@ -99,6 +99,9 @@ gem 'nokogiri'
 gem 'httpclient'
 # gem 'curb'
 
+# Send mails via mandrill
+gem 'mandrill-api'
+gem 'sendgrid-ruby'
 
 
 group :development, :test do

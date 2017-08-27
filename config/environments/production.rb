@@ -85,7 +85,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Mailer config for devise
-  config.action_mailer.default_url_options = { host: 'http://uzhindoma.ru' }
+  config.action_mailer.default_url_options = { host: Figaro.env.hostname }
   
   config.action_mailer.raise_delivery_errors = true
   # config.action_mailer.perform_deliveries = true 
@@ -97,8 +97,8 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => Figaro.env.mailer_user,
     :password => Figaro.env.mailer_password,
-    :domain => 'uzhindoma.ru',
-    :address => 'smtp.sendgrid.net',
+    :domain => Figar.env.hostname,
+    :address => 'smtp.mandrillapp.com',
     :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true
