@@ -86,3 +86,12 @@ _tmr.push({id: "2910667", type: "pageView", start: (new Date()).getTime()});
 })(document, window, "topmailru-code");
 
 //Rating@Mail.ru counter
+
+
+// Google Remarketing
+
+/* <![CDATA[ */
+var google_conversion_id = 875449528;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */

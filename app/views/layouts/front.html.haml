@@ -32,6 +32,7 @@
   = javascript_include_tag "https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js"
   = javascript_include_tag 'front'
   = javascript_include_tag "https://widget.cloudpayments.ru/bundles/cloudpayments"
+  = javascript_include_tag "//www.googleadservices.com/pagead/conversion.js"
 
   /Facebook Pixel Code
   %noscript
@@ -47,4 +48,7 @@
   %noscript
     %img{:alt => "", :src => "//top-fwz1.mail.ru/counter?id=2910667;js=na", :style => "border:0;position:absolute;left:-9999px;"}/
 
-
+  / Google Remarketing
+  %noscript
+    %div{:style => "display:inline;"}
+      %img{:alt => "", :height => "1", :src => "//googleads.g.doubleclick.net/pagead/viewthroughconversion/875449528/?guid=ON&script=0", :style => "border-style:none;", :width => "1"}/
