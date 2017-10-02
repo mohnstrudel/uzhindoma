@@ -25,6 +25,9 @@ class Front::StaticPagesController < FrontController
   def contacts
   end
 
+  def confidentiality
+  end
+
   private
 
   # Legacy code for learning purpose only

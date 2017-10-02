@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     get 'uznat-bolshe', to: 'static_pages#learn_more'
     get 'policy', to: 'static_pages#policy'
     get 'contacts', to: 'static_pages#contacts'
+    get 'confidentiality', to: 'static_pages#confidentiality'
     get 'out_of_order', to: 'orders#out_of_order'
 
     get 'process_order', to: 'orders#process_order'
