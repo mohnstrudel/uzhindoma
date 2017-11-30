@@ -10,10 +10,10 @@
 
       -@current_menus.each_with_index do |current_menu, index|
 
-        / ПЕРЕКЛЮЧАТЕЛЬ МЕЖДУ НАЗВАНИЯМИ НАБОРОВ 
+        / ПЕРЕКЛЮЧАТЕЛЬ МЕЖДУ НАЗВАНИЯМИ НАБОРОВ
         %a{"data-var" => current_menu.id, :href => "javascript:void(0)", class: "g-menu-toggle__var js-main-menu #{'g-menu-toggle__var_active' if index == 0}"}
           %span.g-menu-toggle__var-text=current_menu.category.name
-    
+
     #menu-items.m-menu-items
       -@current_menus.each_with_index do |current_menu, index|
 
@@ -47,13 +47,13 @@
                 %p.m-menu-items__description
                   =@dessert.recipes.first.name
           / DESSERT END
-    
+
     / Форма для НЕЗАЛОГИНИНОГО ПОЛЬЗОВАТЕЛЯ
     -if not user_signed_in?
       =form_tag process_order_path, method: :get, class: "m-menu-form g-form", id: "menu-form", remote: true do
         %fieldset.m-menu-form__fieldset.m-menu-form__fieldset_type
           %input#menu-id.m-menu-form__type{:name => "type", :type => "text"}/
-        
+
         / КОЛИЧЕСТВО УЖИНОВ
         %h3.m-menu-form__field-desc Сколько блюд?
         %fieldset#dinner_counts.m-menu-form__fieldset
@@ -72,7 +72,7 @@
 
         / Комментарий к завтраку
         %h3.m-menu-form__field-desc#add-breakfast
-        
+
         / НОМЕР ТЕЛЕФОНА
         %fieldset.m-menu-form__fieldset
           %input#phone-input.g-input.m-menu-form__input{:name => "phone", :placeholder => "Ваш номер телефона", :type => "tel"}/
@@ -90,7 +90,7 @@
 
         %fieldset.m-menu-form__fieldset.m-menu-form__fieldset_type
           %input#menu-id.m-menu-form__type{:name => "type", :type => "text"}/
-        
+
         / КОЛИЧЕСТВО УЖИНОВ
         %h3.m-menu-form__field-desc Сколько блюд?
         %fieldset#dinner_counts.m-menu-form__fieldset
@@ -108,7 +108,7 @@
 
         / Комментарий к завтраку
         %h3.m-menu-form__field-desc#add-breakfast
-        
+
         .m-menu-form__result
           %span.m-menu-form__result-desc Доставка
           %span.m-menu-form__result-val#date 21.02.2017

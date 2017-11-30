@@ -3,21 +3,34 @@
     .col-md-4
       %h5.zero-letter-spacing.text-left.margin-top-30.extra-small{:for => "standard_order_phone"} Москва или область?
       .margin-top-15
-      #region_input
-        .col-md-6.no-left-padding-margin.text-left
-          .radio-wrapper
-            .uzhin_rb_menus
-              =f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_1"
-              %label{id: "delivery_region_1", :for => "delivery_region_1"} Москва
-        .col-md-6.no-right-padding-margin.text-right
-          .radio-wrapper
-            .uzhin_rb_menus
-              =f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_2"
-              %label{id: "delivery_region_2", :for => "delivery_region_2"} Московская область
-  
+        - if peterburg
+          #region_input
+            .col-md-6.no-left-padding-margin.text-left
+              .radio-wrapper
+                .uzhin_rb_menus
+                  =f.radio_button :delivery_region, "С-Петербург", hidden: true, id: "delivery_region_1"
+                  %label{id: "delivery_region_1", :for => "delivery_region_1"} С-Петербург
+            .col-md-6.no-right-padding-margin.text-right
+              .radio-wrapper
+                .uzhin_rb_menus
+                  =f.radio_button :delivery_region, "Ленинградская область", hidden: true, id: "delivery_region_2"
+                  %label{id: "delivery_region_2", :for => "delivery_region_2"} Ленинградская область
+        - else
+          #region_input
+            .col-md-6.no-left-padding-margin.text-left
+              .radio-wrapper
+                .uzhin_rb_menus
+                  =f.radio_button :delivery_region, "Москва", hidden: true, id: "delivery_region_1"
+                  %label{id: "delivery_region_1", :for => "delivery_region_1"} Москва
+            .col-md-6.no-right-padding-margin.text-right
+              .radio-wrapper
+                .uzhin_rb_menus
+                  =f.radio_button :delivery_region, "Московская область", hidden: true, id: "delivery_region_2"
+                  %label{id: "delivery_region_2", :for => "delivery_region_2"} Московская область
+
   .row
     .col-md-6
-      #city_input      
+      #city_input
         .text-wrapper
           %label.h5.zero-letter-spacing.text-left.extra-small{:for => "city"} Город
           .uzhindoma-input
@@ -36,7 +49,7 @@
           %label.h5.zero-letter-spacing.text-left.extra-small{:for => "house_number"} Дом
           .uzhindoma-input
             =f.text_field :house_number, data: { constraints: "@NotEmpty"}, id: "house_number"
-  .row  
+  .row
     .col-md-6
       #flat_input
         .text-wrapper
@@ -44,7 +57,7 @@
           .uzhindoma-input
             =f.text_field :flat_number, data: { constraints: "@NotEmpty"}, id: "flat_number"
 
-  .row  
+  .row
     .col-md-6
       #add_address_input
         .text-wrapper
