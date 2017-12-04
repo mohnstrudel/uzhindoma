@@ -116,8 +116,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  # web-console - Since Rails 5.0, Mime::HTML is removed. Mime[:html] return the same value
-  gem 'web-console', '3.5.1'
+  gem 'web-console', '~> 2.0'
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
@@ -129,3 +128,4 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+
