@@ -10,3 +10,4 @@
 //= require_self
 //= require_tree ../../../app/assets/javascripts/front/.
 //= require turbolinks
+

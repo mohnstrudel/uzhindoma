@@ -64,12 +64,4 @@ module FrontHelper
     end
   end
 
-	def city_msk_render
-		root_url(city: 'Москва', subdomain: false, action: "set_city")
-	end
-
-	def city_spb_render
-		root_url(city: 'С-Петербург', subdomain: 'spb', action: "set_city")
-	end
-
 end
