@@ -3,17 +3,18 @@
 #
 # Examples:
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 p "Setting database up, please hold on"
+
+cities = City.create([{ id: 1, name: 'Москва' }, {id: 2, name: 'С-Петербург' }])
 
 categories = Category.create([{ name: 'Суперздоровый', purchasable: true, display_vital: true},
 {name: 'Много холестерина', purchasable: true, display_vital: false}])
 
 recipes = Recipe.create([{name: 'Свинина на углях', description: 'Жирная свининка на углях. Ушки подаются отдельно', fat: 1200},
 	{name: 'Рулька кабана', description: 'Мощнейшая рулька молодого кабанчика.', fat: 5000, calories: 15000},
-	{name: 'Тушеные овощи', description: 'Нет ни жира, ни вкуса, вообще ничего'}, 
+	{name: 'Тушеные овощи', description: 'Нет ни жира, ни вкуса, вообще ничего'},
 	{name: 'Вода дестилированная', description: 'Водичка', fat: 1, calories: 1, carbohydrates: 200}])
 
 p '35% done'

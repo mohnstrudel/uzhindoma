@@ -20,6 +20,7 @@ class Menu < ActiveRecord::Base
 
 
   belongs_to :category
+  belongs_to :city
 
   has_many :menurecipes, dependent: :destroy
   has_many :recipes, through: :menurecipes
