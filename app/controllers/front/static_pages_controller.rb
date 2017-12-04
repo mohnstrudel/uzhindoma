@@ -1,25 +1,13 @@
 class Front::StaticPagesController < FrontController
   def home
-
+    
     instagram_result = InstagramHelper.new
     @instagram = Igram.all
     # debug
 
     # @instagram = client.tag_recent_media(tags[0].name)
-    #debug
-    
-    if session[:city] == "Москва"
-      @current_menus = Menu.no_dessert.current
-                            .where(city_id: 1)
-                            .sort_by { |menu| menu.category.sortable }
-
-    else
-      @current_menus = Menu.no_dessert.current
-                            .where(city_id: 2)
-                            .sort_by { |menu| menu.category.sortable }
-
-    end
-
+    # debug
+  	@current_menus = Menu.no_dessert.current.sort_by { |menu| menu.category.sortable }
 
   	@setting = Setting.first
 

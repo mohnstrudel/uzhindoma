@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028112442) do
+ActiveRecord::Schema.define(version: 20170703191413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,12 +134,6 @@ ActiveRecord::Schema.define(version: 20171028112442) do
     t.boolean "display_vital"
     t.integer "sortable"
     t.text "description"
-  end
-
-  create_table "cities", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "days", id: :serial, force: :cascade do |t|
@@ -303,9 +297,7 @@ ActiveRecord::Schema.define(version: 20171028112442) do
     t.text "description"
     t.boolean "has_dessert"
     t.boolean "has_breakfast"
-    t.bigint "city_id"
     t.index ["category_id"], name: "index_menus_on_category_id"
-    t.index ["city_id"], name: "index_menus_on_city_id"
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
@@ -510,7 +502,6 @@ ActiveRecord::Schema.define(version: 20171028112442) do
   add_foreign_key "menurecipes", "menus"
   add_foreign_key "menurecipes", "recipes"
   add_foreign_key "menus", "categories"
-  add_foreign_key "menus", "cities"
   add_foreign_key "orders", "categories"
   add_foreign_key "orders", "menus"
   add_foreign_key "orders", "promocodes"

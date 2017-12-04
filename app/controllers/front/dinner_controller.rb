@@ -1,21 +1,7 @@
 class Front::DinnerController < FrontController
 	def index
 		@categories = Category.all
-
-		if session[:city] == "Москва"
-			@current_menus = Menu.no_dessert.current
-				                     .where(city_id: 1)
-				                     .includes(:menurecipes)
-														 .sort_by { |menu| menu.category.sortable }
-
-		else
-			@current_menus = Menu.no_dessert.current
-			                     .where(city_id: 2)
-			                     .includes(:menurecipes)
-													 .sort_by { |menu| menu.category.sortable }
-
-		end
-
+		@current_menus = Menu.no_dessert.current.includes(:menurecipes).sort_by { |menu| menu.category.sortable }
 		@dessert = Menu.current_dessert[0]
 
 		@breakfast = Menu.current_breakfast[0]
@@ -39,7 +25,7 @@ class Front::DinnerController < FrontController
 				@dessert_price ||= Menu.dessert[0].price
 			end
 		end
-
+		
 	end
 
 	def new
