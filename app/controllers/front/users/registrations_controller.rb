@@ -18,33 +18,35 @@ before_action :configure_account_update_params, only: [:update]
   # end
 
   def edit
-    @text = Bitrix.get_refresh_token
-    # If a user is existant inside Bitrix, we save his bitrix id to database, 
-    # to query faster next times
-    
-    if current_user.bitrix_id.nil?
-      unless current_user.phone.nil?
-        bitrix_id = Bitrix.check_if_user_exists(current_user.phone)
-      end
+    if Rails.env.production?
+      @text = Bitrix.get_refresh_token
+      # If a user is existant inside Bitrix, we save his bitrix id to database,
+      # to query faster next times
 
-      # We simply do nothing if there is no phone number and user is new
-      
-      unless bitrix_id.nil?
-        current_user.update(bitrix_id: bitrix_id)
-      end
+      if current_user.bitrix_id.nil?
+        unless current_user.phone.nil?
+          bitrix_id = Bitrix.check_if_user_exists(current_user.phone)
+        end
 
-    elsif current_user.orders_updated == false
-      current_user.update_orders_from_bitrix(current_user.bitrix_id)
-      @orders = current_user.orders.order('created_at DESC')
+        # We simply do nothing if there is no phone number and user is new
 
-    else
-      # orders = Bitrix.get_users_orders(current_user.bitrix_id)
-      begin
+        unless bitrix_id.nil?
+          current_user.update(bitrix_id: bitrix_id)
+        end
+
+      elsif current_user.orders_updated == false
+        current_user.update_orders_from_bitrix(current_user.bitrix_id)
         @orders = current_user.orders.order('created_at DESC')
-      rescue => e
-        @orders = nil
-        logger.info "Error for user orders"
-        logger.info "User - #{current_user}, error: #{e.message}"
+
+      else
+        # orders = Bitrix.get_users_orders(current_user.bitrix_id)
+        begin
+          @orders = current_user.orders.order('created_at DESC')
+        rescue => e
+          @orders = nil
+          logger.info "Error for user orders"
+          logger.info "User - #{current_user}, error: #{e.message}"
+        end
       end
     end
       # @address = current_user.addresses.build

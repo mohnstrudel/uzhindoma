@@ -60,6 +60,9 @@ class Bitrix < ActiveRecord::Base
 	end
 
 	def initialize
+    # Для мануального ввода
+    # Первый урл - https://uzhin-doma.bitrix24.ru/oauth/authorize/?response_type=code&client_id=local.57a61102d0b562.81576057&redirect_uri=http://uzhindoma.eve-trader.net
+    # Второй урл - https://uzhin-doma.bitrix24.ru/oauth/token/?grant_type=authorization_code&client_id=local.57a61102d0b562.81576057&client_secret=0yuHxQBOufkvZzOMTAtpIXOajQop3HLpECeIy2HQ0rXE3OnFfq&redirect_uri=http://uzhindoma.eve-trader.net&scope=crm&code=#{code}
 		# Метод деприкейтед
 
 		# @client_id = "local.57a61102d0b562.81576057"

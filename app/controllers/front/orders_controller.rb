@@ -38,19 +38,27 @@ class Front::OrdersController < FrontController
 				# У нас всегда есть пользователь, потому что мы всегда попадаем
 				# на страницу new через авторизацию
 				session[:phone] = @cu.phone
-				
+
 				logger.debug "Out of order called with phone: #{session[:phone]}"
-				
+
 				redirect_to out_of_order_path
 				# Оповещаем админа сайта, что есть заказ в день, когда списки закрыты
 				OrderNotifier.out_of_order(session[:phone]).deliver_now
 				# OrderNotifier.delay(queue: "no_orders").out_of_order(session[:phone])
-			else	
+			else
 				# Если набор открыт, то следуем дальше логике приложения
-				if (@cu.delivery_region == "true" || @cu.delivery_region == "Московская область")
-					region = "Московская область, #{@cu.city}"
+				if peterburg
+					if (@cu.delivery_region == "true" || @cu.delivery_region == "Московская область")
+						region = "Ленинградская область, #{@cu.city}"
+					else
+						region = "С-Петербург"
+					end
 				else
-					region = "Москва"
+					if (@cu.delivery_region == "true" || @cu.delivery_region == "Московская область")
+						region = "Московская область, #{@cu.city}"
+					else
+						region = "Москва"
+					end
 				end
 				@order = Order.new phone: @cu.phone, address: "#{region}, улица #{@cu.street} #{@cu.house_number}/#{@cu.flat_number}"
 				menu_param = params[:type] || session[:menu_id]
@@ -58,7 +66,7 @@ class Front::OrdersController < FrontController
 				quantity = params[:quantity] || session[:quantity]
 				dessert = params[:dessert] || session[:dessert]
 				breakfast = params[:breakfast] || session[:breakfast]
-				
+
 				@menu = Menu.find(menu_param)
 				@menu_price = @menu.calculate_price(@menu, persons, quantity, dessert, breakfast)
 
@@ -66,7 +74,7 @@ class Front::OrdersController < FrontController
 				puts "Delivery:"
 				puts @delivery.inspect
 
-			
+
 			end
 	end
 
@@ -84,7 +92,7 @@ class Front::OrdersController < FrontController
 		end
 
 		logger.debug "Calling create method with following address type: #{params[:delivery_address]}"
-		
+
 		# Here happens some Bitrix magic (see methods below)
 
 		if current_user.orders.count == 0
@@ -95,7 +103,7 @@ class Front::OrdersController < FrontController
 				end
 			end
 		end
-		
+
 		logger.debug "Benchmarking 'action_upon_order_creation' - creating lead or deal inside Bitrix"
 		Benchmark.bm do |x|
 			x.report do
@@ -119,7 +127,7 @@ class Front::OrdersController < FrontController
 				@order.apply_promocode(promocode_object)
 			end
 			# закончили добавлять промокод
-			
+
 			respond_to do |format|
 				format.html { redirect_to edit_order_path(@order) }
 			end
@@ -188,7 +196,7 @@ class Front::OrdersController < FrontController
 		if @order.update(order_params)
 			# Обновляем данные лида
 			@order.update_bitrix_lead
-			
+
 			respond_to do |format|
 				format.html { redirect_to order_path(@order) }
 			end
@@ -223,7 +231,7 @@ class Front::OrdersController < FrontController
 		phone = params[:order][:phone]
 		city = params[:order][:city] || ""
 		logger.info "Inside updating fresh user with user params: #{phone}"
-		
+
 		first_name = params[:order][:first_name] || ""
 		second_name = params[:order][:second_name] || ""
 		phone = params[:order][:phone] || ""
@@ -236,11 +244,11 @@ class Front::OrdersController < FrontController
 		house_number = params[:order][:house_number]
 		flat_number = params[:order][:flat_number]
 		additional_address = params[:order][:additional_address]
-	
+
 		user.update(phone: phone, first_name: first_name, second_name: second_name, email: email, street: street, delivery_region: delivery_region, city: city, house_number: house_number, flat_number: flat_number, additional_address: additional_address)
 		logger.info "After creating order a fresh user #{first_name} with phone: #{phone} was updated!"
 		# message = URI.escape("Вы успешно зарегестрированы! Ваш пароль на сайте http://uzhin-doma.ru - #{password}")
-			
+
 	end
 
 	def find_promocode(code)
@@ -265,7 +273,7 @@ class Front::OrdersController < FrontController
 		Benchmark.bm do |x|
 			x.report { @user = Bitrix.check_if_user_exists(phone) }
 		end
-		
+
 		logger.debug "User returned with params: #{@user}"
 		# Here we either create a new deal for existing user or create new lead
 		# with given data
@@ -287,7 +295,7 @@ class Front::OrdersController < FrontController
 	def check_token
 		if @refresh_token.nil?
 			init(false)
-		elsif (Time.now - @bitrix.updated_at) > 3600	
+		elsif (Time.now - @bitrix.updated_at) > 3600
 			init(true)
 		else
 			# nothing
@@ -333,13 +341,13 @@ class Front::OrdersController < FrontController
 
 		# Ставим тип продаж = сайт
 		type_id = URI.escape("Сайт")
-		
+
 		# Проверяем сначала, нам данные из профиля пользователя брать или из формы
 		# Т.е. пользователь должен быть старым и совершить хотя бы один заказ
 		if current_user.orders.count > 0
 
 			# Логика под пользователя, у которого уже есть профиль
-			
+
 			email = current_user.email || ""
 			name = URI.escape("#{current_user.first_name} #{current_user.second_name}")
 			phone = current_user.phone
@@ -347,24 +355,32 @@ class Front::OrdersController < FrontController
 			# Проверяем, ввел ли он новый адрес или использовал старый
 			if params[:delivery_address] == "new"
 				# Тут логика для опции "Добавить новый адрес"
-				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
-				if (order[:delivery_region] == "true" || order[:delivery_region] == "Московская область")
-					city = "Московская область, #{order[:city]}"
+				if peterburg
+					if (order[:delivery_region] == "true" || order[:delivery_region] == "Ленинградская область")
+						city = "С-Петербург, #{order[:city]}"
+					else
+						city = "С-Петербург"
+					end
 				else
-					city = "Москва"
+					# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
+					if (order[:delivery_region] == "true" || order[:delivery_region] == "Московская область")
+						city = "Московская область, #{order[:city]}"
+					else
+						city = "Москва"
+					end
 				end
 
 				# Получаем поля адреса из параметров
 				address = URI.escape("#{city}, #{order[:street]}, дом #{order[:house_number]}")
-				
+
 				# В поле "дополнительная часть" прописываем:
 				# номер дома, квартиру, подъезд, этаж
 				add_address_fields = ""
 				unless order[:flat_number].blank?
 					add_address = URI.escape("кв. #{order[:flat_number]}")
-					
+
 					unless order[:additional_address].blank?
-						rest_address = URI.escape(order[:additional_address]) 
+						rest_address = URI.escape(order[:additional_address])
 						add_address = "#{add_address}, #{rest_address}"
 					end
 				end
@@ -377,11 +393,11 @@ class Front::OrdersController < FrontController
 
 				# Делаем проверку на Москву, иначе в адресе будет Москва, Москва. Это не есть гут
 				logger.debug("DDDDDDD======= CURRENT MIDDLE ADDRESS ==========DDDDDD")
-				
-				city = Order.check_delivery_region(current_user)
-				
 
-				
+				city = Order.check_delivery_region(current_user)
+
+
+
 
 				# Получаем поля адреса из параметров
 				address = URI.escape("#{city}, #{current_user.street}, дом #{current_user.house_number}")
@@ -390,10 +406,10 @@ class Front::OrdersController < FrontController
 				# В поле "дополнительная часть" прописываем:
 				# номер дома, квартиру, подъезд, этаж
 				add_address_fields = ""
-				
+
 				unless current_user.flat_number.blank?
 					add_address = URI.escape("кв. #{current_user.flat_number}")
-					
+
 					unless current_user.additional_address.blank?
 						rest_address = URI.escape(current_user.additional_address)
 						add_address = "#{add_address}, #{rest_address}"
@@ -419,10 +435,10 @@ class Front::OrdersController < FrontController
 				# В поле "дополнительная часть" прописываем:
 				# номер дома, квартиру, подъезд, этаж
 				add_address_fields = ""
-				
+
 				unless found_address.flat_number.blank?
 					add_address = URI.escape("кв. #{found_address.flat_number}")
-					
+
 					unless found_address.additional_address.blank?
 						rest_address = URI.escape(found_address.additional_address)
 						add_address = "#{add_address}, #{rest_address}"
@@ -455,15 +471,15 @@ class Front::OrdersController < FrontController
 
 			# Получаем поля адреса из параметров
 			address = URI.escape("#{city}, #{order[:street]}, дом #{order[:house_number]}")
-			
+
 			# В поле "дополнительная часть" прописываем:
 			# номер дома, квартиру, подъезд, этаж
 			add_address_fields = ""
 			unless order[:flat_number].blank?
 				add_address = URI.escape("кв. #{order[:flat_number]}")
-				
+
 				unless order[:additional_address].blank?
-					rest_address = URI.escape(order[:additional_address]) 
+					rest_address = URI.escape(order[:additional_address])
 					add_address = "#{add_address}, #{rest_address}"
 				end
 			end
@@ -496,7 +512,7 @@ class Front::OrdersController < FrontController
 
 			# logger.info "Creating a new DEAL with params: user_id - #{user_id}, comment - #{commentary}, title - #{title}"
 			# fields_string = "fields[TYPE_ID]=#{type_id}&fields[TITLE]=#{title}&fields[STAGE_ID]=#{stage_id}&fields[CONTACT_ID]=#{user_id}&fields[UF_CRM_1468262077]=#{commentary}&fields[UF_CRM_1467999345]=#{user_id}&fields[OPPORTUNITY]=#{opportunity}#{payment_fields}#{address_fields}#{add_address_fields}#{timeframe_fields}"
-			
+
 			# url = "https://uzhin-doma.bitrix24.ru/rest/crm.deal.add.json?&auth=#{bitrix.access_token}&#{fields_string}"
 
 			# Предыдущее пока комментирую, мбе понадобится. Суть в том, что с 11/03/2017
@@ -506,8 +522,8 @@ class Front::OrdersController < FrontController
 
 			logger.info "Benchmarking Bitrix.write_to_crm"
 			Benchmark.bm do |x|
-				x.report { 
-					@id = Bitrix.write_to_crm(url, order, type) 
+				x.report {
+					@id = Bitrix.write_to_crm(url, order, type)
 				}
 			end
 			# ------------
@@ -521,8 +537,8 @@ class Front::OrdersController < FrontController
 
 			logger.info "Benchmarking Bitrix.write_to_crm"
 			Benchmark.bm do |x|
-				x.report { 
-					@id = Bitrix.write_to_crm(url, order, type) 
+				x.report {
+					@id = Bitrix.write_to_crm(url, order, type)
 				}
 			end
 			# ------------

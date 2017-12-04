@@ -5,8 +5,8 @@
       %li
         =link_to 'Дашборд', admin_path
       %li.active
-        =link_to get_route(params[:controller]), params[:controller].split("/")[1]
-
+        -# =link_to get_route(params[:controller]), params[:controller].split("/")[1]
+        =link_to get_route(params[:controller]), params[:controller].split("/")
   .topbar-right.hidden-xs.hidden-sm
     =link_to new_admin_menu_path, class: "btn btn-default btn-sm fw600 ml10" do
       %span.fa.fa-plus.pr5
