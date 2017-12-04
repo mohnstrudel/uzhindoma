@@ -3,15 +3,23 @@
 
   / для существующего пользователя
   %fieldset.g-fieldset.js-add-adress
-    =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
-    %label.g-input-radio{:for => "region_true"} Москва
+    - if peterburg
+      =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
+      %label.g-input-radio{:for => "region_true"} С-Петербург
 
-    =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
-    %label.g-input-radio{:for => "region_false"} Московская область
+      =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
+      %label.g-input-radio{:for => "region_false"} Ленинградская область
+    - else
+      =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
+      %label.g-input-radio{:for => "region_true"} Москва
+
+      =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
+      %label.g-input-radio{:for => "region_false"} Московская область
+
 
   %fieldset#region.g-fieldset.g-fieldset_hidden
     =f.text_field :city, class: "g-input", placeholder: "Город"
-  
+
   %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
     =f.text_field :street, class: "g-input g-input_half", placeholder: "Улица"
     =f.text_field :house_number, class: "g-input g-input_small", placeholder: "Дом"
@@ -26,18 +34,35 @@
     =select_tag :delivery_address, options_for_select([[@order.address, "current"]] + Order.get_addresses(current_user) + [["Добавить новый адрес", "new"]]), class: 'g-select', id: "adress_select"
 
   / для существующего пользователя
-  %fieldset.g-fieldset.js-add-adress
-    =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
-    %label.g-input-radio{:for => "region_true"} Москва
+  - if peterburg
+    %fieldset.g-fieldset.js-add-adress
+      =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
+      %label.g-input-radio{:for => "region_true"} С-Петербург
 
-    =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
-    %label.g-input-radio{:for => "region_false"} Московская область
+      =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
+      %label.g-input-radio{:for => "region_false"} Ленинградская область
 
-  %fieldset#region.g-fieldset.g-fieldset_hidden
-    =f.text_field :city, class: "g-input", placeholder: "Город"
-  
-  %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
-    =f.text_field :street, class: "g-input g-input_half", placeholder: "Улица"
-    =f.text_field :house_number, class: "g-input g-input_small", placeholder: "Дом"
-    =f.text_field :flat_number, class: "g-input g-input_small g-input_small_nomargin js-input_number", placeholder: "Кв."
-    =f.text_field :additional_address, class: "g-input", placeholder: "Подъезд, этаж, код домофона"
+    %fieldset#region.g-fieldset.g-fieldset_hidden
+      =f.text_field :city, class: "g-input", placeholder: "Город"
+
+    %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
+      =f.text_field :street, class: "g-input g-input_half", placeholder: "Улица"
+      =f.text_field :house_number, class: "g-input g-input_small", placeholder: "Дом"
+      =f.text_field :flat_number, class: "g-input g-input_small g-input_small_nomargin js-input_number", placeholder: "Кв."
+      =f.text_field :additional_address, class: "g-input", placeholder: "Подъезд, этаж, код домофона"
+  - else
+    %fieldset.g-fieldset.js-add-adress
+      =f.radio_button :delivery_region, "false", id: "region_true", class: "g-input_hide js-show-region", checked: true
+      %label.g-input-radio{:for => "region_true"} Москва
+
+      =f.radio_button :delivery_region, "true", id: "region_false", class: "g-input_hide js-show-region"
+      %label.g-input-radio{:for => "region_false"} Московская область
+
+    %fieldset#region.g-fieldset.g-fieldset_hidden
+      =f.text_field :city, class: "g-input", placeholder: "Город"
+
+    %fieldset.g-fieldset.g-fieldset_nowrap.js-add-adress
+      =f.text_field :street, class: "g-input g-input_half", placeholder: "Улица"
+      =f.text_field :house_number, class: "g-input g-input_small", placeholder: "Дом"
+      =f.text_field :flat_number, class: "g-input g-input_small g-input_small_nomargin js-input_number", placeholder: "Кв."
+      =f.text_field :additional_address, class: "g-input", placeholder: "Подъезд, этаж, код домофона"
