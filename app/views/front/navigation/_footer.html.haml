@@ -34,9 +34,6 @@
       =link_to "Информация для клиента", policy_path, class: "g-footer__link"
       %br/
       =link_to "Контакты", contacts_path, class: "g-footer__link"
-      %br/
-      =link_to "Политика конфиденциальности", confidentiality_path, class: "g-footer__link"
-
       .g-footer__social
         %a.g-footer__social-link{:href => Setting.first ? Setting.first.instagram : ''}
           %i.g-icon.g-icon_inst
