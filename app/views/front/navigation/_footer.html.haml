@@ -12,13 +12,13 @@
         %br>/
         Мы на связи с 10 до 22
       -  # Временно, исправить передавать city, add sity_id to settings
-      -if moskva_no_subd && Setting.first
+      -if session[:city] == "Москва" && Setting.first
         %a.g-footer__phone{:href => "tel:#{Setting.first.phone}"}=Setting.first.phone
         -if Setting.first.address.present?
           %p.g-footer__text
             =Setting.first.address
       -else
-        -if peterburg && Setting.last
+        -if session[:city] == "С-Петербург" && Setting.last
           %a.g-footer__phone{:href => "tel:#{Setting.last.phone}"}=Setting.last.phone
           -if Setting.last.address.present?
             %p.g-footer__text
