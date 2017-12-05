@@ -1,5 +1,5 @@
 module ApplicationHelper
-
+	
 	def image_or_default_tag(object, image_model_title, image_field_title, options = {})
 	    thumb = options[:thumb]
 	    order = options[:order] || 'first'

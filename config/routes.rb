@@ -64,10 +64,7 @@ Rails.application.routes.draw do
 
 
   scope module: :front do
-    constraints(subdomain: 'spb') do
-      get '/', to: 'static_pages#home'
-    end
-    root to: "static_pages#home"
+    root 'static_pages#home'
     get 'uznat-bolshe', to: 'static_pages#learn_more'
     get 'policy', to: 'static_pages#policy'
     get 'contacts', to: 'static_pages#contacts'

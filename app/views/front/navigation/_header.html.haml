@@ -17,10 +17,8 @@
         %nav.g-menu.g-menu_social
           .g-menu__link
             -if City.name.present?
-              %select{:onchange => "window.open(this.options[this.selectedIndex].value,'_top')", :include_blank => session[:city]}
-                %option{:value => session[:city], :style => "display:none;"} #{session[:city]}
-                %option{:value => "#{city_msk_render}"} Москва
-                %option{:value => "#{city_spb_render}"} С-Петербург
+              =form_tag(root_url, :method => :get) do
+                =select_tag :city, options_for_select(City.all.map{|c| c.name}, session[:city]), :onchange => "this.form.submit();"
 
           =link_to Setting.first.instagram, target: "_blank", class: "g-menu__link" do
             %i.g-icon.g-icon_inst
