@@ -4,7 +4,7 @@
   0% {
     top: 5px;
     opacity: 0; }
-
+  
   100% {
     top: 23px;
     opacity: 1; } }
@@ -317,7 +317,7 @@ body {
   color: #3c7eb6;
   font-size: 3.1rem;
   font-weight: 400; }
-
+  
 .g-blog__top {
   border-bottom: 1px dashed #c6d3e3;
   display: flex;
@@ -392,7 +392,7 @@ body {
     text-transform: uppercase;
     text-decoration: none;
     color: #333;
-
+    
     font-size: 1.32rem;
     line-height: 1.9rem;
     display: inline-block;
@@ -692,7 +692,7 @@ body {
     font-size: 1.5rem; }
   .g-text-page p {
     font-size: 1.3rem; }
-
+    
 
 .g-section_video .g-wrapper {
   background-color: #f5f7f9;
@@ -986,7 +986,7 @@ body {
     .g-week-menu__item:hover .g-week-menu__item-wrapper {
       cursor: pointer;
       background-color: rgba(0, 0, 0, 0.68); }
-
+  
   .g-week-menu__day {
     position: absolute;
     bottom: 10%;
@@ -2091,7 +2091,7 @@ body {
     transition: background-image 250ms linear; }
     .g-popup__close:hover {
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWBAMAAAA2mnEIAAAAElBMVEUAAAAkS2weP1szapkjSmo8frYy/RzIAAAABXRSTlMAkCT2f8IzI78AAABfSURBVBjTTY/NDYAwFILRCerBu4lOYOICJg7QWPZfpXlwoYdX8tEfAC54vcD6NMnlP3CyS++88ZGtMDlq9MJCmibaDGxvwjYobMPYhnHqPJN38838KzNktsycXbJjdp9ZYB+/GFeubQAAAABJRU5ErkJggg=="); }
-
+  
     .g-popup__close_text {
       position: static;
       text-decoration: none;
@@ -2706,7 +2706,7 @@ body {
     padding: 9.7rem 0 0; }
 
   .g-pagination {
-
+  
     margin: 1.3rem 0;
     width: calc(100% + 30px);
     margin-left: -15px; }
@@ -3083,129 +3083,3 @@ body {
     .g-post-wrapper:nth-child(3n) {
       margin-right: 0; } }
 /*# sourceMappingURL=style.css.map */
-
-$color:#3694d7 ;
-$timing:.3s;
-
-.dropdown-el {
-  min-width: 9em;
-  position: absolute;
-  display: inline-block;
-  // right: 11em;
-  min-height: 2em;
-  max-height:2em;
-  overflow:hidden;
-  top: .9em;
- cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-  color: #444;
-  z-index: 1;
-
- outline: none;
-  border: .06em solid $color;
-  border-radius: 1em;
-  background-color: #fff;
-
- transition: $timing all ease-in-out;
- input {
-    display:none;
-  }
-  label {
-    border-top: .06em solid #d9d9d9 ;
-    display:block;
-    height: 2em;
-
-   line-height: 2em;
-    padding-left: 1em;
-    padding-right: 3em;
-    cursor: pointer;
-    position: relative;
-    transition: $timing color ease-in-out;
-   &:nth-child(2) {
-      margin-top: 2em;
-      border-top: .06em solid #d9d9d9 ;
-    }
-  }
-  input:checked + label, a#sort-relevance_E, a#sort-bestl {
-    display:block;
-    border-top: none;
-    position: relative;
-    top: 0;
-    text-align: center;
-    text-decoration: none;
-    color: #3c7eb6 ;
-    padding: 0;
-    left: -4px;
-
-   &:nth-child(2) {
-      margin-top: 0;
-      position: relative;
-      text-align: center;
-    }
-  }
-
- &::after {
-    content:"\005e";
-    position: absolute;
-    right: .8em;
-    top: -0.7em;
-    zoom: 1.2;
-    color: #3c7eb6 ;
-    transition: .4s all ease-in-out;
-  }
-  &.expanded {
-    border: .06em solid $color;
-    background: #fff;
-    border-radius: 1.25em;
-    padding: 0;
-    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
-    max-height:15em;
-
-   label {
-      border-top: .06em solid #3c7eb6 ;
-      margin-right: 5px;
-      margin-left: 5px;
-      padding: 0;
-      &:hover, a#sort-relevance, a#sort-bestl {
-        color:$color;
-      }
-    }
-    input:checked + label, a#sort-relevance_E, a#sort-bestl {
-      color:$color;
-      text-decoration: none;
-    }
-
-   &::after {
-      transform: rotate(-180deg);
-    }
-  }
-}
-@media screen and (max-width: 650px) and (orientation: portrait) {
-.dropdown-el {
-  right: 4em;
-  input:checked + label, a#sort-relevance_E, a#sort-bestl {
-  }
-
- &::after {
-    right: .8em;
-    top: -0.1em;
-  }
-
-}
-
-}
-@media screen and (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
-.dropdown-el {
-  right: 11em;
-  min-width: 8em;
-  input:checked + label, a#sort-relevance_E, a#sort-bestl {
-  }
-
- &::after {
-    right: .4em;
-    top: -0.6em;
-  }
-}
-
-}

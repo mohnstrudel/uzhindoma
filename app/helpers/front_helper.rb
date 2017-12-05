@@ -64,24 +64,12 @@ module FrontHelper
     end
   end
 
-	def city_msk
+	def city_msk_render
 		root_url(city: 'Москва', subdomain: false, action: "set_city")
 	end
 
-	def city_spb
+	def city_spb_render
 		root_url(city: 'С-Петербург', subdomain: 'spb', action: "set_city")
-	end
-
-	def user_out
-		destroy_user_session_url(city: 'Москва', subdomain: false, action: "set_city")
-	end
-
-	def peterburg
-		session[:city] == "С-Петербург" or request.subdomain == 'spb'
-	end
-
-	def moskva_no_subd
-	  session[:city] == "Москва" && request.subdomain != 'spb'
 	end
 
 end
