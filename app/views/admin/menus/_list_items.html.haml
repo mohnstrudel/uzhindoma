@@ -38,7 +38,6 @@
             %th.text-center Select
             %th Фото
             %th Категория
-            %th Город
             %th Цена
             %th Наименование
             %th Начало
@@ -62,12 +61,10 @@
               %td
                 =menu.category.name
               %td
-                =menu.city.try(:name)
-              %td
                 =menu.price
               %td
                 =link_to "Меню недели #{menu.date[0]} до #{menu.date[1]}", edit_admin_menu_path(menu), method: :get
-
+              
               %td
                 =menu.date[0]
               %td
@@ -83,3 +80,4 @@
                     %li.divider
                     %li
                       =link_to 'Удалить', admin_menu_path(menu.id), method: :delete, data: {confirm: 'Действительно удалить?'}
+          

@@ -43,9 +43,6 @@
           .col-md-8.pl15
             .section.row
               %label.field.prepend-field
-                =f.collection_select(:city_id, City.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @menu.city_id}, { class: 'select2-single form-control select-info'})
-            .section.row
-              %label.field.prepend-field
                 =f.collection_select(:category_id, Category.all, :id, :name, {include_blank: false, :include_hidden => false, :selected => @menu.category_id}, { class: 'select2-single form-control select-info'})
                   
             .section.row

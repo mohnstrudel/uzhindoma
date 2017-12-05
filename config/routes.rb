@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     mount Delayed::Web::Engine, at: '/jobs'
   end
   # mount Delayed::Web::Engine, at: '/jobs'
-  devise_for :admins,
+  devise_for :admins, 
         controllers: {
           sessions: 'front/admins/sessions',
           registrations: 'front/admins/registrations'
@@ -26,16 +26,16 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
         sessions: 'front/users/sessions',
         registrations: 'front/users/registrations'
-      }, path: '', path_names: {
-        sign_in: 'signin',
-        sign_out: 'signout',
-        sign_up: 'register',
+      }, path: '', path_names: { 
+        sign_in: 'signin', 
+        sign_out: 'signout', 
+        sign_up: 'register', 
         edit: 'profile' }
-
+  
   get 'reset_password', to: 'front/profile#change_password'
   get 'check_promocode', to: 'admin/promocodes#check_promocode'
   get 'process_sms', to: 'front/sms#process_sms'
-
+  
   namespace :admin do
     get '', to: 'dashboard#index', as: '/'
     resources :recipes
@@ -86,7 +86,7 @@ Rails.application.routes.draw do
     resources :blog_categories, only: [:index, :show], path: '/category' do
       resources :posts, only: [:index, :show]
     end
-
+    
     get 'bitrix', to: 'bitrix#index'
     get 'bitrix/new' => 'bitrix#create_new_order', :as => :new_bitrix_order
   end

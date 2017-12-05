@@ -11,21 +11,14 @@
         Напишите нам в WhatsApp!
         %br>/
         Мы на связи с 10 до 22
-      -  # Временно, исправить передавать city, add sity_id to settings
-      -if session[:city] == "Москва" && Setting.first
+      -if Setting.first
         %a.g-footer__phone{:href => "tel:#{Setting.first.phone}"}=Setting.first.phone
-        -if Setting.first.address.present?
-          %p.g-footer__text
-            =Setting.first.address
       -else
-        -if session[:city] == "С-Петербург" && Setting.last
-          %a.g-footer__phone{:href => "tel:#{Setting.last.phone}"}=Setting.last.phone
-          -if Setting.last.address.present?
-            %p.g-footer__text
-              =Setting.last.address
-        -else
-          %a.g-footer__phone{:href => "tel:"} Нет телефона
+        %a.g-footer__phone{:href => "tel:"} Нет телефона
 
+      -if Setting.first.address.present?
+        %p.g-footer__text
+          =Setting.first.address
     .g-footer__links
       %a.g-footer__link{:href => "/uznat-bolshe"} Вопрос-ответ
       %br/
@@ -49,7 +42,7 @@
         %span.g-footer__title-style Хотите оставить отзыв?
       #footer-form-wrapper.g-footer__form-wrapper
         %p.g-footer__text.g-footer__text_form Напишите своё мнение создателям сервиса
-
+        
         / ФОРМА ДЛЯ ОБРАТНОЙ СВЯЗИ
         =form_for Feedback.new, html: { class: "g-form", id: "review-form" }, remote: true do |f|
           / %form#review-form.g-form{:action => "#", :method => "post"}
@@ -83,12 +76,12 @@
 
             =f.radio_button :rating, 0.5, id: "starhalf"
             %label.half{:for => "starhalf", :title => "Sucks big time - 0.5 stars"}
-
+          
           =f.text_field :name, class: "g-input g-form__input", placeholder: "Имя", value: current_user ? current_user.first_name : nil
           =f.text_field :email, class: "g-input g-form__input", placeholder: "Почта", value: current_user ? current_user.email : nil
           =f.text_area :body, class: "g-input g-form__input g-form__input_textarea", placeholder: "Ваш отзыв"
           #review-errors
-
+          
           =f.submit "Отправить",  class: "g-btn g-btn_blue g-form__submit"
 
 
@@ -107,7 +100,7 @@
           %span#comments.g-popup-reviews__count
         #comment-list.g-popup-reviews__comments
     #img-block.g-popup-reviews__img-wrapper
-
+    
 #send-popup.g-popup-wrapper
   .g-popup
     %a.g-popup__close{:href => "javascript:void(0)"}
@@ -137,3 +130,5 @@
     %a.g-popup__close{:href => "javascript:void(0)"}
     .g-popup__content
       %h2.g-popup__title К сожалению, оплата не прошла!
+
+      

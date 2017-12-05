@@ -10,21 +10,15 @@
           .g-menu-button__line
       #menu.g-menu-wrapper.g-mobile-hide
         %nav.g-menu
-          =nav_link "Главная", root_path
+          =nav_link "Главная", root_path 
           =nav_link "Узнать больше", uznat_bolshe_path
-          =nav_link "Новое меню", dinner_index_path
+          =nav_link "Новое меню", dinner_index_path 
 
         %nav.g-menu.g-menu_social
-          .g-menu__link
-            -if City.name.present?
-              =form_tag(root_url, :method => :get) do
-                =select_tag :city, options_for_select(City.all.map{|c| c.name}, session[:city]), :onchange => "this.form.submit();"
-
           =link_to Setting.first.instagram, target: "_blank", class: "g-menu__link" do
             %i.g-icon.g-icon_inst
           -if user_signed_in?
             =link_to navi_user_link_words(current_user), edit_user_registration_path, method: :get, class: "g-menu__link g-menu__link_text g-menu__link_personal"
-            =link_to "Выйти", destroy_user_session_path, class: "g-menu__link g-menu__link_text", method: :delete
           -else
             =link_to edit_user_registration_path, method: :get, class: "g-menu__link" do
-              %i.g-icon.g-icon_login
+              %i.g-icon.g-icon_login            
