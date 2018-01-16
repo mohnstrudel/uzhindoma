@@ -20,7 +20,7 @@
 
         / ОДНО МЕНЮ
         / тут нужен перечень дней для конкретного меню (current_menu.days.order(:sortable))
-        .m-menu-items__list{"data-price-changes" => get_price_matrix(current_menu), "data-date" => get_delivery_date(current_menu).html_safe, "data-hasdessert" => current_menu.has_dessert.to_s, "data-hasbreakfast" => current_menu.has_breakfast.to_s, "data-type" => current_menu.id, "data-price" => current_menu.price, "data-breakfast" => add_breakfast_text(current_menu.category.name), "data-breakfast-price" => @breakfast_price, "data-breakfast-price-changes" => get_price_matrix(@breakfast, bonus: true) }
+        .m-menu-items__list{"data-price-changes" => get_price_matrix(current_menu), "data-date" => get_delivery_date(current_menu).html_safe, "data-hasdessert" => current_menu.has_dessert.to_s, "data-hasbreakfast" => current_menu.has_breakfast.to_s, "data-type" => current_menu.id, "data-price" => current_menu.price, "data-breakfast" => (current_menu.category.description), "data-breakfast-price" => @breakfast_price, "data-breakfast-price-changes" => get_price_matrix(@breakfast, bonus: true), "data-purchasable" => current_menu.category.purchasable.to_s }
 
           / -current_menu.recipes.each_with_index do |recipe, rec_index|
           -current_menu.menurecipes.sort_by{|item| item.sortable}.each_with_index do |menu_recipe, rec_index|
@@ -54,28 +54,30 @@
         %fieldset.m-menu-form__fieldset.m-menu-form__fieldset_type
           %input#menu-id.m-menu-form__type{:name => "type", :type => "text"}/
         
-        / КОЛИЧЕСТВО УЖИНОВ
-        %h3.m-menu-form__field-desc Сколько блюд?
-        %fieldset#dinner_counts.m-menu-form__fieldset
+        .hide_purchase
+          / КОЛИЧЕСТВО УЖИНОВ
+          %h3.m-menu-form__field-desc Сколько блюд?
+          %fieldset#dinner_counts.m-menu-form__fieldset
 
 
-        / КОЛЧИЧЕСТВО ПЕРСОН
-        %h3.m-menu-form__field-desc На сколько персон?
-        %fieldset#persons_count.m-menu-form__fieldset
+          / КОЛЧИЧЕСТВО ПЕРСОН
+          %h3.m-menu-form__field-desc На сколько персон?
+          %fieldset#persons_count.m-menu-form__fieldset
 
 
-        / ДОБАВИТЬ ДЕСЕРТ?
-        %fieldset.m-menu-form__fieldset#has-dessert
+          / ДОБАВИТЬ ДЕСЕРТ?
+          %fieldset.m-menu-form__fieldset#has-dessert
 
-        / ДОБАВИТЬ ЗАВТРАК?
-        %fieldset.m-menu-form__fieldset#has-breakfast
+          / ДОБАВИТЬ ЗАВТРАК?
+          %fieldset.m-menu-form__fieldset#has-breakfast
 
         / Комментарий к завтраку
         %h3.m-menu-form__field-desc#add-breakfast
         
-        / НОМЕР ТЕЛЕФОНА
-        %fieldset.m-menu-form__fieldset
-          %input#phone-input.g-input.m-menu-form__input{:name => "phone", :placeholder => "Ваш номер телефона", :type => "tel"}/
+        .hide_purchase
+          / НОМЕР ТЕЛЕФОНА
+          %fieldset.m-menu-form__fieldset
+            %input#phone-input.g-input.m-menu-form__input{:name => "phone", :placeholder => "Ваш номер телефона", :type => "tel"}/
 
           / =telephone_field_tag "phone", placeholder: "Ваш номер телефона", class: "g-input m-menu-form__input", id: "#phone-input"
         .m-menu-form__result
@@ -84,7 +86,9 @@
         .m-menu-form__result
           %span.m-menu-form__result-desc Сумма к оплате
           %span#total_price.m-menu-form__result-val.m-menu-form__result-val_price.g-rub
-        =submit_tag "Заказать набор", class: "g-btn g-btn_blue m-menu-form__submit"
+        
+        .hide_purchase
+          =submit_tag "Заказать набор", class: "g-btn g-btn_blue m-menu-form__submit"
     -else
       =form_tag new_order_path, method: 'get', class: "m-menu-form g-form", id: "menu-form-logged-in" do
 
