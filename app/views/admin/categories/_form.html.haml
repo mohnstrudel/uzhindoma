@@ -34,9 +34,30 @@
           .col-md-12.pl15
             .section.mb10
               %label.field.option.mt10
+                =f.check_box :display_persons
+                %span.checkbox>
+                Показывать кол-во персон?
+                %em.small-text.text-muted - Отметить, если для данного набора нужно показывать, на сколько персон можно купить набор
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.option.mt10
+                =f.check_box :display_days
+                %span.checkbox>
+                Показывать кол-во дней?
+                %em.small-text.text-muted - Отметить, если для данного набора нужно показывать, на сколько дней можно купить набор
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.option.mt10
+                =f.check_box :display_description
+                %span.checkbox>
+                Показывать описание?
+                %em.small-text.text-muted - Отметить, если для данного набора нужно показывать описание выше
+          .col-md-12.pl15
+            .section.mb10
+              %label.field.option.mt10
                 =f.check_box :purchasable
                 %span.checkbox>
-                Можно купить?
+                Показывать кнопку "купить"?
                 %em.small-text.text-muted - Отметье, если наборы данной категории можно купить
           .col-md-12.pl15
             .section.mb10

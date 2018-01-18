@@ -12,6 +12,24 @@ $(document).ready(function(){
       $(".hide_purchase").show();  
     }
 
+    if($current_list.data('display-persons') == false){
+      $(".hide_persons").hide();  
+    } else {
+      $(".hide_persons").show();  
+    }
+
+    if($current_list.data('display-days') == false){
+      $(".hide_days").hide();  
+    } else {
+      $(".hide_days").show();  
+    }
+
+    if($current_list.data('display-description') == false){
+      $(".hide_description").hide();  
+    } else {
+      $(".hide_description").show();  
+    }
+
   // Click behaviour
   $(".js-main-menu").on("click", function(e){
     e.preventDefault();
@@ -23,13 +41,31 @@ $(document).ready(function(){
     // Скрываем опции для заказа, если категория недоступна для заказа
 
     // console.log($current_list.data('purchasable'));
-   if($current_list.data('purchasable') == false){
+    if($current_list.data('purchasable') == false){
     // console.log('purchasable is false');
     $(".hide_purchase").hide();  
-   }
-   else {
-    $(".hide_purchase").show();      
-   }
+    }
+    else {
+      $(".hide_purchase").show();      
+    }
+
+    if($current_list.data('display-persons') == false){
+      $(".hide_persons").hide();  
+    } else {
+      $(".hide_persons").show();  
+    }
+
+    if($current_list.data('display-days') == false){
+      $(".hide_days").hide();  
+    } else {
+      $(".hide_days").show();  
+    }
+
+    if($current_list.data('display-description') == false){
+      $(".hide_description").hide();  
+    } else {
+      $(".hide_description").show();  
+    }
 
   });
 

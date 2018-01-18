@@ -656,7 +656,7 @@
                             $("<label/>",{
                                 for: "dessert",
                                 class: "g-checkbox-label m-menu-form__checkbox",
-                                text: "Добавить десерт"
+                                text: "Добавить большой десерт"
                             }).appendTo($breakfast_node);
                         }
                         // Конец десерта
