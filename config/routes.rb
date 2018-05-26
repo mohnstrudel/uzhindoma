@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  mount Bootsy::Engine => '/bootsy', as: 'bootsy'
+  # mount Bootsy::Engine => '/bootsy', as: 'bootsy'
 
   authenticated :admin, -> admin { admin.has_rights? } do
     mount Delayed::Web::Engine, at: '/jobs'

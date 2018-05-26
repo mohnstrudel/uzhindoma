@@ -43,7 +43,7 @@
                 .col-md-12.pl15
                   .section.mb10
                     %label.field.prepend-icon{:for => "body"}
-                      =f.bootsy_area :body, class: "event-name gui-textarea br-light light", placeholder: 'Текст'
+                      =f.text_area :body, class: "event-name gui-textarea br-light light", placeholder: 'Текст'
 
             -if object.respond_to?(:description)
               .section.row

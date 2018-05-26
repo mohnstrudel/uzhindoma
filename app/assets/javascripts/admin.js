@@ -11,7 +11,7 @@
 
 //= require admin/jquery/jquery-1.11.1.min
 //= require admin/jquery_ui/jquery-ui.min
-//= require bootsy
+
 
 
 

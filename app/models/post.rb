@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  include Bootsy::Container
+  # include Bootsy::Container
 
   mount_uploader :logo, BlogUploader
   mount_uploader :preview_pic, BlogUploader
