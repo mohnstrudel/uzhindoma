@@ -36,7 +36,7 @@ gem 'newrelic_rpm'
 gem 'placeholdit'
 
 # WYSIWYG Editor bootsy
-gem 'bootsy'
+# gem 'bootsy'
 
 # Pagination
 gem 'will_paginate'
