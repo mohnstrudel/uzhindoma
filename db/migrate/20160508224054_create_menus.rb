@@ -1,4 +1,4 @@
-class CreateMenus < ActiveRecord::Migration
+class CreateMenus < ActiveRecord::Migration[4.2]
   def change
     create_table :menus do |t|
       t.references :category, index: true, foreign_key: true

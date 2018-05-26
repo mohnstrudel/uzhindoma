@@ -1,4 +1,4 @@
-class CreateBitrixes < ActiveRecord::Migration
+class CreateBitrixes < ActiveRecord::Migration[4.2]
   def change
     create_table :bitrixes do |t|
       t.string :access_token

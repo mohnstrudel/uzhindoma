@@ -1,4 +1,4 @@
-class CreateMenurecipes < ActiveRecord::Migration
+class CreateMenurecipes < ActiveRecord::Migration[4.2]
   def change
     create_table :menurecipes do |t|
       t.references :menu, index: true, foreign_key: true
