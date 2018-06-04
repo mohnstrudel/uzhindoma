@@ -52,7 +52,7 @@
                     %span.checkbox.mn
               %td.w100
                 -if menu.hotpic?
-                  =image_tag menu.hotpic, class: 'img-responsive mw40 ib mr10', title: menu.daterange
+                  =image_tag menu.hotpic.url, class: 'img-responsive mw40 ib mr10', title: menu.daterange
                 -elsif menu.recipes.any?
                   -if menu.recipes.first.pictures.any?
                     =image_tag menu.recipes.first.pictures.first.image.url, class: 'img-responsive mw40 ib mr10'
