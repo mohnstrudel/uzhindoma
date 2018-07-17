@@ -16,6 +16,11 @@
     = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700", :rel => "stylesheet"
     = csrf_meta_tags
 
+    = javascript_include_tag "https://widget.cloudpayments.ru/bundles/cloudpayments"
+    = javascript_include_tag "//www.googleadservices.com/pagead/conversion.js"
+    = javascript_include_tag "https://www.googletagmanager.com/gtag/js?id=UA-122153150-1"
+    = javascript_include_tag 'social/social_scripts'
+
     =metamagic site: site_title, title: [:site, :title], separator: " — ", keywords: [:keywords, main_keywords].flatten, description: [:description, main_description].flatten
 
   %body{class: "#{controller_name} #{action_name} g-body"}
@@ -31,8 +36,7 @@
 
   = javascript_include_tag "https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js"
   = javascript_include_tag 'front'
-  = javascript_include_tag "https://widget.cloudpayments.ru/bundles/cloudpayments"
-  = javascript_include_tag "//www.googleadservices.com/pagead/conversion.js"
+
 
   /Facebook Pixel Code
   %noscript
@@ -42,7 +46,7 @@
 
   / Yandex
   %noscript
-    =image_tag "https://mc.yandex.ru/watch/45018916", style: "position: absolute; left:-9999px;", alt: ""
+    =image_tag "https://mc.yandex.ru/watch/49229887", style: "position: absolute; left:-9999px;", alt: ""
 
   / Mail.ru rating
   %noscript
