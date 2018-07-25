@@ -169,7 +169,7 @@ class Front::OrdersController < FrontController
 
 		if @order[:add_breakfast]
 
-			breakfast_data = Menu.breakfast_data(menu_amount, person_amount)
+			breakfast_data = Menu.breakfast_data(menu_amount, person_amount, true)
 
 			@breakfast = {
 				name: breakfast_data[0],

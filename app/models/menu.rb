@@ -55,7 +55,7 @@ class Menu < ActiveRecord::Base
     daterange.split(" - ")
   end
 
-  def self.breakfast_data(menu_amount, person_amount)
+  def self.breakfast_data(menu_amount, person_amount, is_additional)
     # Преобразовываем инпут в числа
     menu_amount = menu_amount.to_i
     person_amount = person_amount.to_i
@@ -73,7 +73,11 @@ class Menu < ActiveRecord::Base
     breakfast = Menu.current_breakfast[0]
     puts "Settings: breakfast #{days}x#{people}"
     puts "Menu_amount: #{days}, Person_amount: #{people}"
-    p breakfast_personamount = breakfast.personamounts.find_by(value: people)
+    if is_additional
+      p breakfast_personamount = breakfast.b_personamounts.find_by(value: people)
+    else
+      p breakfast_personamount = breakfast.personamounts.find_by(value: people)
+    end
     p breakfast_dinner_amount_options = breakfast_personamount.dinner_amount_options.find_by(day_number: days)
       
     breakfast_price = breakfast.price + breakfast_dinner_amount_options.pricechange
@@ -84,8 +88,12 @@ class Menu < ActiveRecord::Base
 
   def calculate_price(menu, persons, quantity, dessert, breakfast)
     # Получаем базовую цену
+    logger.info "----- Calculating menu price -----"
     price = menu.price
     pricechange = 0
+
+    logger.info "Current price is: #{price} rubles."
+
 
     begin
       dessert_price = Menu.current.dessert[0].price
@@ -98,19 +106,33 @@ class Menu < ActiveRecord::Base
     person_amount = persons
     menu_amount = quantity
 
+    logger.info "Current person_amount is: #{person_amount}, current menu_amount is: #{menu_amount}."
     # Данные завтрака
-    breakfast_data = Menu.breakfast_data(menu_amount, person_amount)
+    if (breakfast == "on" || breakfast == true)
+      # Вызываем is_additional? == true, т.е. даем понять, что завтрак идет как дополнение
+      # а не как отдельное меню
+      breakfast_data = Menu.breakfast_data(menu_amount, person_amount, true)
+    else
+      breakfast_data = Menu.breakfast_data(menu_amount, person_amount, false)
+    end
+    logger.info "Current breakfast data is: #{breakfast_data}"
 
 
     # Сначала получаем "столбец", т.е. ту запись, которая отвечает за
     # кол-во персон из параметров
     p_amount_id = menu.personamounts.where(value: person_amount)[0].id
 
+    logger.info "Current p_amount_id is: #{p_amount_id}."
+
     # Тут получаем "строку", т.е. для заданного кол-ва людей получаем
     # кол-во ужинов
     result = Personamount.find(p_amount_id).dinner_amount_options.where(day_number: menu_amount)[0]
 
+    logger.info "Current result is: #{result}."
+
     pricechange = result.pricechange
+
+    logger.info "Current pricechange is: #{pricechange}."
 
     if (dessert == "on" || dessert == true)
       price += dessert_price
@@ -121,7 +143,8 @@ class Menu < ActiveRecord::Base
     end
 
     price += pricechange.to_i
-
+    
+    logger.info "#{price} rubles."
     return price
 
   end
