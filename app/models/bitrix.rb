@@ -203,19 +203,26 @@ class Bitrix < ActiveRecord::Base
     # Что бы названия в хэше found_products были более понятными, для
     # каждого набора сохраняем какое-то более человеческое название
     hash_names = Array.new
-    
-    # По-любому добавляем обычный набор
-    # Например: Стандарт 4х5
-    names_to_search << URI.encode("#{menu_type} #{menu_amount}х#{person_amount}")
-    hash_names << "main_menu"
 
     # Если в заказе стоит галка "добавить завтрак", то ищем промо наборы
     # Промо-Завтраки 3х2
     # Промо-Завтраки 3х4
     # Промо-Завтраки 5х2
     # Промо-Завтраки 5х4
+    # Но так как завтраков на четыре дня (4х2 или 4х4) нет, то нужен определённый хак
+    breakfast_menu_amount = Menu.get_breakfast_days(menu_amount, person_amount)
+    # По-любому добавляем обычный набор
+    # Например: Стандарт 4х5
+    if Menu.current_breakfast[0].category.name == menu_type
+      # Для завтраков проверяем на всякий случай на 4 дня
+      names_to_search << URI.encode("#{menu_type} #{breakfast_menu_amount}х#{person_amount}")
+    else
+      names_to_search << URI.encode("#{menu_type} #{menu_amount}х#{person_amount}")
+    end
+    hash_names << "main_menu"
+
     if order[:add_breakfast]
-      names_to_search << URI.encode("Промо-Завтраки #{menu_amount}х#{person_amount}")
+      names_to_search << URI.encode("Промо-Завтраки #{breakfast_menu_amount}х#{person_amount}")
       hash_names << "breakfast"
     end
 

@@ -55,10 +55,7 @@ class Menu < ActiveRecord::Base
     daterange.split(" - ")
   end
 
-  def self.breakfast_data(menu_amount, person_amount, is_additional)
-    # Преобразовываем инпут в числа
-    menu_amount = menu_amount.to_i
-    person_amount = person_amount.to_i
+  def self.get_breakfast_days(menu_amount, person_amount)
     if (menu_amount == 4 and person_amount == 4)
       # если выбираю 4 на 4 давать завтрак 5 на 4
       days = 5
@@ -69,13 +66,26 @@ class Menu < ActiveRecord::Base
       days = menu_amount
     end
 
+    return days
+  end
+
+  def self.breakfast_data(menu_amount, person_amount, is_additional)
+    # Преобразовываем инпут в числа
+    menu_amount = menu_amount.to_i
+    person_amount = person_amount.to_i
+ 
+    days = Menu.get_breakfast_days(menu_amount, person_amount)
+
     people = person_amount
     breakfast = Menu.current_breakfast[0]
     puts "Settings: breakfast #{days}x#{people}"
     puts "Menu_amount: #{days}, Person_amount: #{people}"
     if is_additional
+      p "Breakfast is, when added to menu: #{breakfast.inspect}"
       p breakfast_personamount = breakfast.b_personamounts.find_by(value: people)
+
     else
+      p "Breakfast is, when separate: #{breakfast.inspect}"
       p breakfast_personamount = breakfast.personamounts.find_by(value: people)
     end
     p breakfast_dinner_amount_options = breakfast_personamount.dinner_amount_options.find_by(day_number: days)
