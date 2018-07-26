@@ -1,3 +1,8 @@
 =render partial: "front/orders/new_sections/header"
 
+/ Rendering errors
+%section.display_errors
+  -flash.each do |name, msg|
+    =content_tag(:div, msg, class: "alert alert-#{name}")
+
 =render partial: "front/orders/new_sections/main"

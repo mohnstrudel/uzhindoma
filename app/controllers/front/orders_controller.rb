@@ -30,6 +30,7 @@ class Front::OrdersController < FrontController
 
 	def new
 			logger.debug "Нажато на создание нового заказа"
+			# logger.debug "Ошибки предыдущего сохранения: @order"
 			@cu = current_user
 
 			# Тут проверяем, какой день сегодня - (например) с четверга по воскресенье отключаем
@@ -123,8 +124,11 @@ class Front::OrdersController < FrontController
 			respond_to do |format|
 				format.html { redirect_to edit_order_path(@order) }
 			end
+
 		else
-			render "new"
+			logger.debug "Working with order: #{@order.inspect}"
+			flash[:error] = "Пожалуйста, заполните все поля заказа."
+			redirect_to new_order_path(type: @order.menu_id, quantity: @order.menu_amount, people: @order.person_amount)
 		end
 
 		# Удаляем сессии, что бы они не перезаписали что-нибудь
@@ -198,7 +202,7 @@ class Front::OrdersController < FrontController
 				# OrderNotifier.delay(queue: "orders", priority: 0).received(@order)
 				logger.info "Client notification for #{@order.phone} sent."
 			rescue => e
-				logger.critical "Client notification for #{@order.phone} failed. Error(s): #{e.message}"
+				logger.fatal "Client notification for #{@order.phone} failed. Error(s): #{e.message}"
 			end
 
 			begin
@@ -206,7 +210,7 @@ class Front::OrdersController < FrontController
 				# OrderNotifier.delay(queue: "orders", priority: 20).notifyShop(@order)
 				logger.info "Shop notification for #{@order.phone} sent."
 			rescue => e
-				logger.critical "Shop notification for #{@order.phone} failed. Error(s): #{e.message}"
+				logger.fatal "Shop notification for #{@order.phone} failed. Error(s): #{e.message}"
 			end
 		else
 			render "new"
