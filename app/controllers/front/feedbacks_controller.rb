@@ -7,7 +7,7 @@ class Front::FeedbacksController < FrontController
         format.js
         format.json { render json: @feedback.to_json }
 
-        ApplicationMailer.delay(queue: "feedbacks").notify_feedback(@feedback)
+        ApplicationMailer.notify_feedback(@feedback).deliver_now
       else
         format.js { 
           render partial: 'fail'
