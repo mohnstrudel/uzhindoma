@@ -10,11 +10,11 @@ class ApplicationMailer < ActionMailer::Base
 
   def notify_feedback(feedback)
     @feedback = feedback
-    if Rails.env.production?
-      to_mail = "lena@uzhindoma.ru"
-    else
-      to_mail = Setting.first.order_mail
-    end
+    # if Rails.env.production?
+      # to_mail = "lena@uzhindoma.ru"
+    # else
+    to_mail = Setting.first.order_mail
+    # end
     mail to: to_mail, subject: "Новый отзыв на сайте"
   end
 end
