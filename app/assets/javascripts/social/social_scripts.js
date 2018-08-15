@@ -1,3 +1,10 @@
+// VK Pixel
+!function(){
+  var t=document.createElement("script");
+  t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?159",t.onload=function(){
+    VK.Retargeting.Init("VK-RTRG-273138-cpiZa"),VK.Retargeting.Hit()
+  },document.head.appendChild(t)}();
+
 
 // Yandex Metrika Counter
 
