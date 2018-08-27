@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180117173542) do
+ActiveRecord::Schema.define(version: 2018_01_17_173542) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "plpgsql"
 
   create_table "accounts", id: :serial, force: :cascade do |t|
     t.string "card_first_six"
@@ -102,25 +102,6 @@ ActiveRecord::Schema.define(version: 20180117173542) do
     t.index ["post_id"], name: "index_blog_categories_on_post_id"
   end
 
-  create_table "bonus_personamounts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "bootsy_image_galleries", id: :serial, force: :cascade do |t|
-    t.string "bootsy_resource_type"
-    t.integer "bootsy_resource_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "bootsy_images", id: :serial, force: :cascade do |t|
-    t.string "image_file"
-    t.integer "image_gallery_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "carts", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -137,12 +118,6 @@ ActiveRecord::Schema.define(version: 20180117173542) do
     t.boolean "display_persons"
     t.boolean "display_days"
     t.boolean "display_description"
-  end
-
-  create_table "cities", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "days", id: :serial, force: :cascade do |t|
@@ -306,9 +281,7 @@ ActiveRecord::Schema.define(version: 20180117173542) do
     t.text "description"
     t.boolean "has_dessert"
     t.boolean "has_breakfast"
-    t.bigint "city_id"
     t.index ["category_id"], name: "index_menus_on_category_id"
-    t.index ["city_id"], name: "index_menus_on_city_id"
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
@@ -513,7 +486,6 @@ ActiveRecord::Schema.define(version: 20180117173542) do
   add_foreign_key "menurecipes", "menus"
   add_foreign_key "menurecipes", "recipes"
   add_foreign_key "menus", "categories"
-  add_foreign_key "menus", "cities"
   add_foreign_key "orders", "categories"
   add_foreign_key "orders", "menus"
   add_foreign_key "orders", "promocodes"
